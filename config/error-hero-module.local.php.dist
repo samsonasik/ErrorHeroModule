@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'error-hero-module' => [
+        'enable' => true,
+        'options' => [
+            'exclude-php-errors' => [
+                E_USER_DEPRECATED
+            ],
+            'display_errors'  => 0,
+        ],
+        'logging' => [
+            'adapters' => [
+                'stream' => [
+                    'path' => '/var/log'
+                ],
+                'db' => [
+                    'zend-db-adapter' => 'Zend\Db\Adapter\Adapter',
+                    'table'           => 'log'
+                ],
+            ],
+        ],
+        'email-notification' => [
+            'developer1@foo.com',
+            'developer2@foo.com',
+        ],
+    ],
+];
