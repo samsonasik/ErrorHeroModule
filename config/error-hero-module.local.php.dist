@@ -4,10 +4,16 @@ return [
     'error-hero-module' => [
         'enable' => true,
         'options' => [
+            // excluded php errors
             'exclude-php-errors' => [
                 E_USER_DEPRECATED
             ],
+
+            // show or not error
             'display_errors'  => 0,
+
+            // if enable and display_errors = 0
+            'view_errors' => 'error-hero-module/error-default'
         ],
         'logging' => [
             'adapters' => [
