@@ -1,6 +1,28 @@
 <?php
 
 return [
+
+    'log' => [
+        'ErrorHeroModuleLogger' => [
+            'writers' => [
+
+                [
+                    'name' => 'db',
+                    'options' => [
+                        'db'     => 'Zend\Db\Adapter\Adapter',
+                        'table'  => 'log',
+                        'column' => [
+                            'timestamp' => 'date',
+                            'priority'  => 'type',
+                            'message'   => 'event',
+                        ],
+                    ],
+                ],
+
+            ],
+        ],
+    ],
+
     'error-hero-module' => [
         'enable' => true,
         'display-settings' => [

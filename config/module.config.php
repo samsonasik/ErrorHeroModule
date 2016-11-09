@@ -5,28 +5,6 @@ namespace ErrorHeroModule;
 use Zend\Log;
 
 return [
-
-    'log' => [
-        'ErrorHeroModuleLogger' => [
-            'writers' => [
-
-                [
-                    'name' => 'db',
-                    'options' => [
-                        'db'     => 'Zend\Db\Adapter\Adapter',
-                        'table'  => 'log',
-                        'column' => [
-                            'timestamp' => 'date',
-                            'priority'  => 'type',
-                            'message'   => 'event',
-                        ],
-                    ],
-                ],
-
-            ],
-        ],
-    ],
-
     'service_manager' => [
         'abstract_factories' => [
             Log\LoggerAbstractServiceFactory::class,
