@@ -17,6 +17,7 @@ return [
             'view_errors' => 'error-hero-module/error-default'
         ],
         'logging' => [
+            'range-same-error' => 86400, // 1 day 1 same error will be logged
             'adapters' => [
                 'stream' => [
                     'path' => '/var/log'
