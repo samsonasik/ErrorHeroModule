@@ -34,8 +34,9 @@ class Mvc extends AbstractListenerAggregate
     /**
      * @param array $errorHeroModuleConfig
      */
-    public function __construct(array $errorHeroModuleConfig)
-    {
+    public function __construct(
+        array $errorHeroModuleConfig
+    ) {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
     }
 

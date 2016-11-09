@@ -2,11 +2,28 @@
 
 namespace ErrorHeroModule;
 
+use Zend\Log;
+
 return [
 
+    'log' => [
+        'ErrorHeroModuleLogger' => [
+            'writers' => [
+                [
+                    'name' => 'db',
+                    'options' => [],
+                ],
+            ],
+        ],
+    ],
+
     'service_manager' => [
+        'abstract_factories' => [
+            Log\LoggerAbstractServiceFactory::class,
+        ],
         'factories' => [
-            Listner\Mvc::class => Listener\MvcFactory::class,
+            Listener\Mvc::class => Listener\MvcFactory::class,
+            Handler\Logging::class => Handler\LoggingFactory::class,
         ],
     ],
 

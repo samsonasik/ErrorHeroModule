@@ -7,29 +7,43 @@ class MvcFactory
     public function __invoke($container)
     {
         $config = $container->get('config');
-        $errorHeroModuleConfig = isset($config['error-hero-module'])
-            ? $config['error-hero-module']
-            : [
+        $defaultHeroConfig = [
+            'error-hero-module' => [
                 'enable' => true,
-                'options' => [
-                    'exclude-php-errors' => [],
-                    'display_errors'  => 0,
+                'display-settings' => [
+
+                    // excluded php errors
+                    'exclude-php-errors' => [
+                        E_USER_DEPRECATED
+                    ],
+
+                    // show or not error
+                    'display_errors'  => 1,
+
+                    // if enable and display_errors = 0
                     'view_errors' => 'error-hero-module/error-default'
                 ],
-                'logging' => [
-                    'range-same-error' => 86400,
-                    'adapters' => [
-                        'stream' => [
-                            'path' => '/var/log'
-                        ],
-                        'db' => [
-                            'zend-db-adapter' => 'Zend\Db\Adapter\Adapter',
-                            'table'           => 'log'
-                        ],
+                'logging-settings' => [
+                    'same-error' => 86400,
+                ],
+                'email-notification-settings' => [
+                    // set to true to activate email notification on log error
+                    'enable' => false,
+
+                    'mail-service'   => 'YourMailService', // Zend\Mail\Message instance registered at service manager
+                    'mail-transport' => 'YourMailTransport', // Zend\Mail\Transport\TransportInterface instance registered at service manager
+
+                    'email-to-send' => [
+                        'developer1@foo.com',
+                        'developer2@foo.com',
                     ],
                 ],
-                'email-notification' => [],
-            ];
+            ],
+        ];
+
+        $errorHeroModuleConfig = isset($config['error-hero-module'])
+            ? $config['error-hero-module']
+            : $defaultHeroConfig;
 
         return new Mvc($errorHeroModuleConfig);
     }
