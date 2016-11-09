@@ -17,12 +17,13 @@
         "php": "^5.6|^7.0",
         "zendframework/zend-json": "^2.5|^3.0",
         "zendframework/zend-log": "^2.5",
-        "zendframework/zend-mvc": "^2.5|^3.0"
+        "zendframework/zend-mvc": "^2.5|^3.0",
+        "acelaya/zf2-acmailer": "^5.0|^6.0"
     },
     "require-dev": {
         "kahlan/kahlan": "^3.0.0",
         "satooshi/php-coveralls": "^1.0",
-        "zendframework/zend-servicemanager": "^2.7|^3.0"
+        "zendframework/zend-servicemanager": "^2.5|^3.0"
     },
     "autoload": {
         "psr-4": {
