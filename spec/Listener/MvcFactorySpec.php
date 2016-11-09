@@ -5,7 +5,7 @@ namespace ErrorHeroModule\Spec\Listener;
 use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
 use Kahlan\Plugin\Double;
-use Zend\ServiceManager\ServiceManager;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 describe('MvcFactory', function () {
 
@@ -52,7 +52,7 @@ describe('MvcFactory', function () {
                 ],
             ];
 
-            $container = Double::instance(['extends' => ServiceManager::class]);
+            $container = Double::instance(['implements' => ServiceLocatorInterface::class]);
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
