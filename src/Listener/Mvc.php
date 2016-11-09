@@ -55,7 +55,10 @@ class Mvc extends AbstractListenerAggregate
 
     private function handleException($e)
     {
-
+        $exception = $e->getParam('exception');
+        if (! $exception) {
+            return;
+        }
     }
 
     public function renderError($e)
@@ -82,7 +85,7 @@ class Mvc extends AbstractListenerAggregate
     public function execOnShutdown()
     {
         $error = error_get_last();
-        if ($error && ($error['type'] & E_FATAL)) {
+        if ($error && $error['type']) {
             $this->phpErrorHandler($error['type'], $error['message'], $error['file'], $error['line']);
         }
     }
@@ -102,6 +105,6 @@ class Mvc extends AbstractListenerAggregate
             return;
         }
 
-        
+
     }
 }
