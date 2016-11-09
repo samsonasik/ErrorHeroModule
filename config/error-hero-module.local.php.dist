@@ -4,6 +4,7 @@ return [
     'error-hero-module' => [
         'enable' => true,
         'options' => [
+
             // excluded php errors
             'exclude-php-errors' => [
                 E_USER_DEPRECATED
