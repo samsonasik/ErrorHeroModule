@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS `log`;
+
+CREATE TABLE `log` (
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `type` int(11) NOT NULL,
+  `event` text NOT NULL,
+  PRIMARY KEY (`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

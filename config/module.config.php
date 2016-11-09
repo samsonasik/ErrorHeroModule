@@ -9,10 +9,20 @@ return [
     'log' => [
         'ErrorHeroModuleLogger' => [
             'writers' => [
+
                 [
                     'name' => 'db',
-                    'options' => [],
+                    'options' => [
+                        'db'     => 'Zend\Db\Adapter\Adapter',
+                        'table'  => 'log',
+                        'column' => [
+                            'timestamp' => 'date',
+                            'priority'  => 'type',
+                            'message'   => 'event',
+                        ],
+                    ],
                 ],
+
             ],
         ],
     ],
