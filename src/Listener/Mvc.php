@@ -13,6 +13,24 @@ class Mvc extends AbstractListenerAggregate
      */
     private $errorHeroModuleConfig;
 
+    private $errorType = [
+        E_ERROR,
+        E_WARNING,
+        E_PARSE,
+        E_NOTICE,
+        E_CORE_ERROR,
+        E_CORE_WARNING,
+        E_COMPILE_ERROR,
+        E_CORE_WARNING,
+        E_USER_ERROR,
+        E_USER_WARNING,
+        E_USER_NOTICE,
+        E_STRICT,
+        E_RECOVERABLE_ERROR,
+        E_DEPRECATED,
+        E_USER_DEPRECATED,
+    ];
+
     /**
      * @param array $errorHeroModuleConfig
      */
@@ -35,14 +53,19 @@ class Mvc extends AbstractListenerAggregate
         $this->listeners[] = $events->attach('*', [$this, 'phpError']);
     }
 
-    public function renderError($e)
+    private function handleException($e)
     {
 
     }
 
+    public function renderError($e)
+    {
+        $this->handleException($e);
+    }
+
     public function dispatchError($e)
     {
-
+        $this->handleException($e);
     }
 
     public function phpError($e)
@@ -52,6 +75,20 @@ class Mvc extends AbstractListenerAggregate
             ini_set('display_errors',0);
         }
 
+        register_shutdown_function([$this, 'execOnShutdown']);
+        set_error_handler([$this, 'phpErrorHandler']);
+    }
+
+    public function execOnShutdown()
+    {
+        $error = error_get_last();
+        if ($error && ($error['type'] & E_FATAL)) {
+            $this->phpErrorHandler($error['type'], $error['message'], $error['file'], $error['line']);
+        }
+    }
+
+    public function phpErrorHandler()
+    {
 
     }
 }
