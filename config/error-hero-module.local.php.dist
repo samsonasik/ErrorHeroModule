@@ -11,7 +11,7 @@ return [
             ],
 
             // show or not error
-            'display_errors'  => 0,
+            'display_errors'  => 1,
 
             // if enable and display_errors = 0
             'view_errors' => 'error-hero-module/error-default'

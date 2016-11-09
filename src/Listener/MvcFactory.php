@@ -6,6 +6,8 @@ class MvcFactory
 {
     public function __invoke($container)
     {
-        return new Mvc();
+        return new Mvc(
+            $container->get('config')['error-hero-module']
+        );
     }
 }
