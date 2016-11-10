@@ -70,7 +70,7 @@ class Mvc extends AbstractListenerAggregate
         }
 
         $this->logging->handleException(
-            $e
+            $exception
         );
     }
 
@@ -86,7 +86,7 @@ class Mvc extends AbstractListenerAggregate
 
     public function phpError($e)
     {
-        if ($this->errorHeroModuleConfig['options']['display_errors'] === 0) {
+        if ($this->errorHeroModuleConfig['display-settings']['display_errors'] === 0) {
             error_reporting(E_ALL | E_STRICT);
             ini_set('display_errors',0);
         }
@@ -113,7 +113,7 @@ class Mvc extends AbstractListenerAggregate
     {
         $errorTypeString = $this->errorType[$errorType];
         if(! $errorLine   ||
-            in_array($this->errorHeroModuleConfig['options']['exclude-php-errors'], array_keys($this->errorType))
+            in_array($this->errorHeroModuleConfig['display-settings']['exclude-php-errors'], array_keys($this->errorType))
         )  {
             return;
         }

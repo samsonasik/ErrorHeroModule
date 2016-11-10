@@ -19,15 +19,22 @@ class Logging
     /**
      * @var string
      */
+    private $serverUrl;
+
+    /**
+     * @var string
+     */
     private $requestUri;
 
     /**
      * @param Logger $logger
+     * @param string $serverUrl
      * @param string $requestUri
      */
-    public function __construct(Logger $logger, $requestUri)
+    public function __construct(Logger $logger, $serverUrl, $requestUri)
     {
         $this->logger     = $logger;
+        $this->serverUrl  = $serverUrl;
         $this->requestUri = $requestUri;
     }
 
@@ -36,10 +43,12 @@ class Logging
      */
     public function handleException($e)
     {
-        $priority = Logger::$errorPriorityMap[Logger::ERR];
+        $priority = Logger::ERR;
         if ($e instanceof ErrorException && isset(Logger::$errorPriorityMap[$e->getSeverity()])) {
             $priority = Logger::$errorPriorityMap[$e->getSeverity()];
         }
+
+        $exceptionClass = get_class($e);
 
         $errorFile = $e->getFile();
         $errorLine = $e->getLine();
@@ -52,10 +61,10 @@ class Logging
         $implodeMessages = implode("\r\n", $messages);
 
         $extra = [
-            'url'        => $this->requestUri,
+            'url'        => $this->serverUrl . $this->requestUri,
             'file'       => $errorFile,
             'line'       => $errorLine,
-            'error_type' => get_class($e),
+            'error_type' => $exceptionClass,
         ];
         $this->logger->log($priority, $implodeMessages, $extra);
     }
@@ -77,7 +86,7 @@ class Logging
         $priority = Logger::$errorPriorityMap[$errorType];
 
         $extra = [
-            'url'        => $this->requestUri,
+            'url'        => $this->serverUrl . $this->requestUri,
             'file'       => $errorFile,
             'line'       => $errorLine,
             'error_type' => $errorTypeString,
