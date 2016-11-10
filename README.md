@@ -68,7 +68,10 @@ return [
             'display_errors'  => 1,
 
             // if enable and display_errors = 0
-            'view_errors' => 'error-hero-module/error-default'
+            'template' => [
+                'layout' => 'layout/layout',
+                'view'   => 'error-hero-module/error-default'
+            ],
         ],
         'logging-settings' => [
             'same-error' => 86400,
