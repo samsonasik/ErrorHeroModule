@@ -112,8 +112,11 @@ class Mvc extends AbstractListenerAggregate
     public function phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine)
     {
         $errorTypeString = $this->errorType[$errorType];
-        if(! $errorLine   ||
-            in_array($this->errorHeroModuleConfig['display-settings']['exclude-php-errors'], array_keys($this->errorType))
+        if (! $errorLine   ||
+            in_array(
+                $this->errorHeroModuleConfig['display-settings']['exclude-php-errors'],
+                array_keys($this->errorType)
+            )
         )  {
             return;
         }

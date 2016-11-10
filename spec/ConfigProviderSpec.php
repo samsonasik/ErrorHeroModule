@@ -10,7 +10,7 @@ describe('ConfigProvider', function () {
         $this->configProvider = new ConfigProvider();
     });
 
-    describe('->__invoke', function () {
+    describe('->__invoke()', function () {
 
         it('return "config" array with "dependencies" key', function () {
 

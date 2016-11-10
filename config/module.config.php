@@ -5,6 +5,7 @@ namespace ErrorHeroModule;
 use Zend\Log;
 
 return [
+
     'service_manager' => [
         'abstract_factories' => [
             Log\LoggerAbstractServiceFactory::class,
