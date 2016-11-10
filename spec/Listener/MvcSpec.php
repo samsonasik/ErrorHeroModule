@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Spec\Listener;
 
+use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
 use Kahlan\Plugin\Double;
 use Zend\EventManager\EventManagerInterface;
@@ -44,8 +45,13 @@ describe('Mvc', function () {
                 ],
             ],
         ];
+        $this->logging = Double::instance(['extends' => Logging::class]);
 
-        $this->listener = new Mvc($config);
+        $this->listener = new Mvc(
+            $config,
+            $this->logging
+        );
+        
     });
 
     describe('->attach()', function () {

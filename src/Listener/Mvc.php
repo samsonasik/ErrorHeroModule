@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Listener;
 
+use ErrorHeroModule\Handler\Logging;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\MvcEvent;
@@ -12,6 +13,11 @@ class Mvc extends AbstractListenerAggregate
      * @var array
      */
     private $errorHeroModuleConfig;
+
+    /**
+     * @var Logging
+     */
+    private $logging;
 
     private $errorType = [
         E_ERROR              => 'E_ERROR',
@@ -35,9 +41,11 @@ class Mvc extends AbstractListenerAggregate
      * @param array $errorHeroModuleConfig
      */
     public function __construct(
-        array $errorHeroModuleConfig
+        array $errorHeroModuleConfig,
+        Logging $logging
     ) {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
+        $this->logging               = $logging;
     }
 
     /**
@@ -106,6 +114,6 @@ class Mvc extends AbstractListenerAggregate
             return;
         }
 
-        
+
     }
 }

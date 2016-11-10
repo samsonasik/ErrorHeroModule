@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Spec\Listener;
 
+use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
 use Kahlan\Plugin\Double;
@@ -55,6 +56,10 @@ describe('MvcFactory', function () {
             $container = Double::instance(['implements' => ServiceLocatorInterface::class]);
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
+
+            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
+            allow($container)->toReceive('get')->with(Logging::class)
+                                               ->andReturn($logging);
 
             $actual = $this->factory->__invoke($container);
             expect($actual)->toBeAnInstanceOf(Mvc::class);

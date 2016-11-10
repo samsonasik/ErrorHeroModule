@@ -2,6 +2,8 @@
 
 namespace ErrorHeroModule\Listener;
 
+use ErrorHeroModule\Handler\Logging;
+
 class MvcFactory
 {
     public function __invoke($container)
@@ -43,6 +45,9 @@ class MvcFactory
             ? $config['error-hero-module']
             : $defaultHeroConfig;
 
-        return new Mvc($errorHeroModuleConfig);
+        return new Mvc(
+            $errorHeroModuleConfig,
+            $container->get(Logging::class)
+        );
     }
 }
