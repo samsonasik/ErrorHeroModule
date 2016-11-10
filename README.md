@@ -9,7 +9,7 @@ ErrorHeroModule
 Installation
 ------------
 
-Installation of this module uses [getcomposer.org](composer).
+Installation of this module uses [composer](https://getcomposer.org/).
 
 ```sh
 composer require samsonasik/error-hero-module:dev-master
