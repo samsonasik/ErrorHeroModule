@@ -3,6 +3,7 @@
 namespace ErrorHeroModule\Listener;
 
 use ErrorHeroModule\Handler\Logging;
+use Zend\Console\Console;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\MvcEvent;
@@ -74,6 +75,8 @@ class Mvc extends AbstractListenerAggregate
         $this->logging->handleException(
             $exception
         );
+
+        $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
     }
 
     public function phpError($e)
@@ -120,5 +123,39 @@ class Mvc extends AbstractListenerAggregate
             $errorLine,
             $errorTypeString
         );
+        
+        $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
+    }
+
+    /**
+     * It show default view if display_errors setting = 0
+     */
+    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
+    {
+        $displayErrors = $this->errorHeroModuleConfig['display-settings']['display_errors'];
+
+        if ($displayErrors === 0) {
+
+            if (! Console::isConsole()) {
+                $view = new ViewModel();
+                $view->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['view']);
+
+                $layout = new ViewModel();
+                $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
+                $layout->setVariable('content', $this->renderer->render($viewModel));
+
+                echo $this->renderer->render($layout);
+            } else {
+                $table = new Table\Table([
+                    'columnWidths' => [150]
+                ]);
+                $table->setDecorator('ascii');
+                $table->appendRow(['We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.']);
+
+                echo $table->render();
+            }
+
+            exit(0);
+        }
     }
 }
