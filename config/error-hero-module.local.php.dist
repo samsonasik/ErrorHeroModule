@@ -15,6 +15,11 @@ return [
                             'timestamp' => 'date',
                             'priority'  => 'type',
                             'message'   => 'event',
+                            'extra'     => [
+                                'url'  => 'url',
+                                'file' => 'file',
+                                'line' => 'line',
+                            ],
                         ],
                     ],
                 ],

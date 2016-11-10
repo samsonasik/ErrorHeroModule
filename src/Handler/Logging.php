@@ -4,6 +4,7 @@ namespace ErrorHeroModule\Handler;
 
 use Error;
 use Exception;
+use ErrorException;
 use Zend\Log\Logger;
 
 class Logging
@@ -26,7 +27,12 @@ class Logging
      */
     public function handleException($e)
     {
+        $priority = Logger::$errorPriorityMap[Logger::ERR];
+        if ($e instanceof ErrorException && isset(Logger::$errorPriorityMap[$e->getSeverity()])) {
+            $priority = Logger::$errorPriorityMap[$e->getSeverity()];
+        }
 
+        
     }
 
     /**
@@ -41,6 +47,7 @@ class Logging
         $errorFile,
         $errorLine
     ) {
+        $priority = Logger::$errorPriorityMap[$errorType];
 
     }
 }
