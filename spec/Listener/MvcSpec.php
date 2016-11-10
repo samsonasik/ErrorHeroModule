@@ -10,7 +10,7 @@ use Zend\Mvc\MvcEvent;
 
 describe('Mvc', function () {
 
-    beforeAll(function () {
+    given('listener', function () {
         $config = [
             'error-hero-module' => [
                 'enable' => true,
@@ -45,13 +45,13 @@ describe('Mvc', function () {
                 ],
             ],
         ];
-        $this->logging = Double::instance(['extends' => Logging::class]);
+        $this->logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
 
-        $this->listener = new Mvc(
+        return new Mvc(
             $config,
             $this->logging
         );
-        
+
     });
 
     describe('->attach()', function () {

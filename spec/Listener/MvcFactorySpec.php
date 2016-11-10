@@ -10,8 +10,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 describe('MvcFactory', function () {
 
-    beforeAll(function () {
-        $this->factory = new MvcFactory();
+    given('factory', function () {
+        return new MvcFactory();
     });
 
     describe('->__invoke()', function () {
