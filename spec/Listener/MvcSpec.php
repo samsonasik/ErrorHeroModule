@@ -12,37 +12,35 @@ describe('Mvc', function () {
 
     given('listener', function () {
         $config = [
-            'error-hero-module' => [
-                'enable' => true,
-                'options' => [
+            'enable' => true,
+            'options' => [
 
-                    // excluded php errors
-                    'exclude-php-errors' => [
-                        E_USER_DEPRECATED
-                    ],
-
-                    // show or not error
-                    'display_errors'  => 1,
-
-                    // if enable and display_errors = 0
-                    'view_errors' => 'error-hero-module/error-default'
+                // excluded php errors
+                'exclude-php-errors' => [
+                    E_USER_DEPRECATED
                 ],
-                'logging' => [
-                    'range-same-error' => 86400, // 1 day 1 same error will be logged
-                    'adapters' => [
-                        'stream' => [
-                            'path' => '/var/log'
-                        ],
-                        'db' => [
-                            'zend-db-adapter' => 'Zend\Db\Adapter\Adapter',
-                            'table'           => 'log'
-                        ],
+
+                // show or not error
+                'display_errors'  => 1,
+
+                // if enable and display_errors = 0
+                'view_errors' => 'error-hero-module/error-default'
+            ],
+            'logging' => [
+                'range-same-error' => 86400, // 1 day 1 same error will be logged
+                'adapters' => [
+                    'stream' => [
+                        'path' => '/var/log'
+                    ],
+                    'db' => [
+                        'zend-db-adapter' => 'Zend\Db\Adapter\Adapter',
+                        'table'           => 'log'
                     ],
                 ],
-                'email-notification' => [
-                    'developer1@foo.com',
-                    'developer2@foo.com',
-                ],
+            ],
+            'email-notification' => [
+                'developer1@foo.com',
+                'developer2@foo.com',
             ],
         ];
 
