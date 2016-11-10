@@ -15,7 +15,7 @@ return [
 
     'router' => [
         'routes' => [
-            'newsletter' => [
+            'error-preview' => [
                 'type' => 'Segment',
                 'options' => [
                     'route' => '/error-preview[/:action]',
