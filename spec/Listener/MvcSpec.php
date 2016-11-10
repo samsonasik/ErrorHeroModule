@@ -71,8 +71,8 @@ describe('Mvc', function () {
             );
 
             $eventManager = Double::instance(['implements' => EventManagerInterface::class]);
-            expect($eventManager)->not->toReceive('attach')->with(MvcEvent::EVENT_RENDER_ERROR, [$this->listener, 'renderError']);
-            expect($eventManager)->not->toReceive('attach')->with(MvcEvent::EVENT_DISPATCH_ERROR, [$this->listener, 'dispatchError'], 100);
+            expect($eventManager)->not->toReceive('attach')->with(MvcEvent::EVENT_RENDER_ERROR, [$this->listener, 'exceptionError']);
+            expect($eventManager)->not->toReceive('attach')->with(MvcEvent::EVENT_DISPATCH_ERROR, [$this->listener, 'exceptionError'], 100);
             expect($eventManager)->not->toReceive('attach')->with('*', [$this->listener, 'phpError']);
 
             $listener->attach($eventManager);
@@ -82,8 +82,8 @@ describe('Mvc', function () {
         it('attach dispatch.error, render.error, and *', function () {
 
             $eventManager = Double::instance(['implements' => EventManagerInterface::class]);
-            expect($eventManager)->toReceive('attach')->with(MvcEvent::EVENT_RENDER_ERROR, [$this->listener, 'renderError']);
-            expect($eventManager)->toReceive('attach')->with(MvcEvent::EVENT_DISPATCH_ERROR, [$this->listener, 'dispatchError'], 100);
+            expect($eventManager)->toReceive('attach')->with(MvcEvent::EVENT_RENDER_ERROR, [$this->listener, 'exceptionError']);
+            expect($eventManager)->toReceive('attach')->with(MvcEvent::EVENT_DISPATCH_ERROR, [$this->listener, 'exceptionError'], 100);
             expect($eventManager)->toReceive('attach')->with('*', [$this->listener, 'phpError']);
 
             $this->listener->attach($eventManager);

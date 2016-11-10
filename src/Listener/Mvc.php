@@ -56,15 +56,15 @@ class Mvc extends AbstractListenerAggregate
     {
         if ($this->errorHeroModuleConfig['enable'] === true) {
             // exceptions
-            $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'renderError']);
-            $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'dispatchError'], 100);
+            $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'exceptionError']);
+            $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'exceptionError'], 100);
 
             // php errors
             $this->listeners[] = $events->attach('*', [$this, 'phpError']);
         }
     }
 
-    private function handleException($e)
+    public function exceptionError($e)
     {
         $exception = $e->getParam('exception');
         if (! $exception) {
@@ -74,16 +74,6 @@ class Mvc extends AbstractListenerAggregate
         $this->logging->handleException(
             $exception
         );
-    }
-
-    public function renderError($e)
-    {
-        $this->handleException($e);
-    }
-
-    public function dispatchError($e)
-    {
-        $this->handleException($e);
     }
 
     public function phpError($e)
