@@ -16,17 +16,31 @@ class Logging
     /**
      * @param Logger $logger
      */
-    public function __construct(
-        Logger $logger
-    ) {
+    public function __construct(Logger $logger)
+    {
         $this->logger = $logger;
     }
 
     /**
-     * @param  Exception|Error $e
+     * @param $e
      */
-    public function handle($e)
+    public function handleException($e)
     {
+
+    }
+
+    /**
+     * @param  int      $errorType
+     * @param  string   $errorMessage
+     * @param  string   $errorFile
+     * @param  int      $errorLine
+     */
+    public function handleError(
+        $errorType,
+        $errorMessage,
+        $errorFile,
+        $errorLine
+    ) {
 
     }
 }

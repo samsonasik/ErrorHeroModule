@@ -68,6 +68,10 @@ class Mvc extends AbstractListenerAggregate
         if (! $exception) {
             return;
         }
+
+        $this->logging->handleException(
+            $e
+        );
     }
 
     public function renderError($e)
@@ -114,6 +118,11 @@ class Mvc extends AbstractListenerAggregate
             return;
         }
 
-
+        $this->logging->handleError(
+            $errorType,
+            $errorMessage,
+            $errorFile,
+            $errorLine
+        );
     }
 }
