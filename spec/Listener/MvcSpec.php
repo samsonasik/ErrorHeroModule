@@ -58,6 +58,27 @@ describe('Mvc', function () {
 
     describe('->attach()', function () {
 
+        it('does not attach dispatch.error, render.error, and * if config[enable] = false', function () {
+
+            $this->logging = Double::instance([
+                'extends' => Logging::class,
+                'methods' => '__construct'
+            ]);
+
+            $listener =  new Mvc(
+                ['enable' => false],
+                $this->logging
+            );
+
+            $eventManager = Double::instance(['implements' => EventManagerInterface::class]);
+            expect($eventManager)->not->toReceive('attach')->with(MvcEvent::EVENT_RENDER_ERROR, [$this->listener, 'renderError']);
+            expect($eventManager)->not->toReceive('attach')->with(MvcEvent::EVENT_DISPATCH_ERROR, [$this->listener, 'dispatchError'], 100);
+            expect($eventManager)->not->toReceive('attach')->with('*', [$this->listener, 'phpError']);
+
+            $listener->attach($eventManager);
+
+        });
+
         it('attach dispatch.error, render.error, and *', function () {
 
             $eventManager = Double::instance(['implements' => EventManagerInterface::class]);
