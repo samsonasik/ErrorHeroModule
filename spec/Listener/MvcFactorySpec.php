@@ -7,6 +7,7 @@ use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
 use Kahlan\Plugin\Double;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\View\Renderer\PhpRenderer;
 
 describe('MvcFactory', function () {
 
@@ -60,6 +61,10 @@ describe('MvcFactory', function () {
             $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
             allow($container)->toReceive('get')->with(Logging::class)
                                                ->andReturn($logging);
+
+            $renderer = Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
+            allow($container)->toReceive('get')->with('ViewRenderer')
+                                               ->andReturn($renderer);
 
             $actual = $this->factory->__invoke($container);
             expect($actual)->toBeAnInstanceOf(Mvc::class);

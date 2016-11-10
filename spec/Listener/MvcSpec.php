@@ -7,6 +7,7 @@ use ErrorHeroModule\Listener\Mvc;
 use Kahlan\Plugin\Double;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\MvcEvent;
+use Zend\View\Renderer\PhpRenderer;
 
 describe('Mvc', function () {
 
@@ -49,9 +50,12 @@ describe('Mvc', function () {
             'methods' => '__construct'
         ]);
 
+        $this->renderer = Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
+
         return new Mvc(
             $config,
-            $this->logging
+            $this->logging,
+            $this->renderer
         );
 
     });
@@ -60,14 +64,17 @@ describe('Mvc', function () {
 
         it('does not attach dispatch.error, render.error, and * if config[enable] = false', function () {
 
-            $this->logging = Double::instance([
+            $logging = Double::instance([
                 'extends' => Logging::class,
                 'methods' => '__construct'
             ]);
 
+            $renderer = Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
+
             $listener =  new Mvc(
                 ['enable' => false],
-                $this->logging
+                $logging,
+                $renderer
             );
 
             $eventManager = Double::instance(['implements' => EventManagerInterface::class]);

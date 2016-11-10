@@ -9,10 +9,11 @@ class MvcFactory
     public function __invoke($container)
     {
         $config = $container->get('config');
-        
+
         return new Mvc(
             $config['error-hero-module'],
-            $container->get(Logging::class)
+            $container->get(Logging::class),
+            $container->get('ViewRenderer')
         );
     }
 }

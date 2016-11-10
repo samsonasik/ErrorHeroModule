@@ -8,6 +8,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
+use Zend\View\Renderer\PhpRenderer;
 
 class Mvc extends AbstractListenerAggregate
 {
@@ -20,6 +21,11 @@ class Mvc extends AbstractListenerAggregate
      * @var Logging
      */
     private $logging;
+
+    /**
+     * @var PhpRenderer
+     */
+    private $renderer;
 
     private $errorType = [
         E_ERROR              => 'E_ERROR',
@@ -40,14 +46,18 @@ class Mvc extends AbstractListenerAggregate
     ];
 
     /**
-     * @param array $errorHeroModuleConfig
+     * @param  array       $errorHeroModuleConfig
+     * @param  Logging     $logging
+     * @param  PhpRenderer    $renderer
      */
     public function __construct(
-        array $errorHeroModuleConfig,
-        Logging $logging
+        array       $errorHeroModuleConfig,
+        Logging     $logging,
+        PhpRenderer $renderer
     ) {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
         $this->logging               = $logging;
+        $this->renderer              = $renderer;
     }
 
     /**

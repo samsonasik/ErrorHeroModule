@@ -109,7 +109,7 @@ TODO
 
 - [x] Save to DB with Db Writer Adapter
 - [x] Log Exception (dispatch.error and render.error) and PHP Errors in all events process
-- [x] Support excludes php error (eg: E_USER_DEPRECATED) in config settings
+- [x] Support excludes php error (eg: exclude E_USER_DEPRECATED) in config settings
 - [ ] Handle only once log error for same error per configured time range
 - [x] Show default page for error if configured 'display_errors' = 0
 - [ ] Send Mail to listed configured email.
