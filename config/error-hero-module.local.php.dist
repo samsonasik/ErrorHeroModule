@@ -19,6 +19,7 @@ return [
                                 'url'  => 'url',
                                 'file' => 'file',
                                 'line' => 'line',
+                                'error_type' => 'error_type',
                             ],
                         ],
                     ],
