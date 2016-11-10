@@ -161,7 +161,7 @@ class Mvc extends AbstractListenerAggregate
                     'columnWidths' => [150]
                 ]);
                 $table->setDecorator('ascii');
-                $table->appendRow(['We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.']);
+                $table->appendRow([$this->errorHeroModuleConfig['display-settings']['console']['message']]);
 
                 echo $table->render();
             }

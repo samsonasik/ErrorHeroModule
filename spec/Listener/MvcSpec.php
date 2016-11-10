@@ -14,7 +14,7 @@ describe('Mvc', function () {
     given('listener', function () {
         $config = [
             'enable' => true,
-            'options' => [
+            'display-settings' => [
 
                 // excluded php errors
                 'exclude-php-errors' => [
@@ -24,24 +24,32 @@ describe('Mvc', function () {
                 // show or not error
                 'display_errors'  => 1,
 
-                // if enable and display_errors = 0
-                'view_errors' => 'error-hero-module/error-default'
-            ],
-            'logging' => [
-                'range-same-error' => 86400, // 1 day 1 same error will be logged
-                'adapters' => [
-                    'stream' => [
-                        'path' => '/var/log'
-                    ],
-                    'db' => [
-                        'zend-db-adapter' => 'Zend\Db\Adapter\Adapter',
-                        'table'           => 'log'
-                    ],
+                // if enable and display_errors = 0, the page will bring layout and view
+                'template' => [
+                    'layout' => 'layout/layout',
+                    'view'   => 'error-hero-module/error-default'
                 ],
+
+                // if enable and display_errors = 0, the console will bring message
+                'console' => [
+                    'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
+                ],
+
             ],
-            'email-notification' => [
-                'developer1@foo.com',
-                'developer2@foo.com',
+            'logging-settings' => [
+                'same-error' => 86400,
+            ],
+            'email-notification-settings' => [
+                // set to true to activate email notification on log error
+                'enable' => false,
+
+                'mail-service'   => 'YourMailService', // Zend\Mail\Message instance registered at service manager
+                'mail-transport' => 'YourMailTransport', // Zend\Mail\Transport\TransportInterface instance registered at service manager
+
+                'email-to-send' => [
+                    'developer1@foo.com',
+                    'developer2@foo.com',
+                ],
             ],
         ];
 
