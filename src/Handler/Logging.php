@@ -2,10 +2,12 @@
 
 namespace ErrorHeroModule\Handler;
 
+use ErrorHeroModule\Listener\Mvc;
 use Error;
 use Exception;
 use ErrorException;
 use Zend\Log\Logger;
+use Zend\Log\Writer\Db;
 
 class Logging
 {
@@ -15,11 +17,18 @@ class Logging
     private $logger;
 
     /**
-     * @param Logger $logger
+     * @var string
      */
-    public function __construct(Logger $logger)
+    private $requestUri;
+
+    /**
+     * @param Logger $logger
+     * @param string $requestUri
+     */
+    public function __construct(Logger $logger, $requestUri)
     {
-        $this->logger = $logger;
+        $this->logger     = $logger;
+        $this->requestUri = $requestUri;
     }
 
     /**
@@ -43,9 +52,10 @@ class Logging
         $implodeMessages = implode("\r\n", $messages);
 
         $extra = [
-            'url'  => 'url',
-            'file' => $errorFile,
-            'line' => $errorLine,
+            'url'        => $this->requestUri,
+            'file'       => $errorFile,
+            'line'       => $errorLine,
+            'error_type' => get_class($e),
         ];
         $this->logger->log($priority, $implodeMessages, $extra);
     }
@@ -55,19 +65,22 @@ class Logging
      * @param  string   $errorMessage
      * @param  string   $errorFile
      * @param  int      $errorLine
+     * @param  string   $errorTypeString
      */
     public function handleError(
         $errorType,
         $errorMessage,
         $errorFile,
-        $errorLine
+        $errorLine,
+        $errorTypeString
     ) {
         $priority = Logger::$errorPriorityMap[$errorType];
 
         $extra = [
-            'url'  => 'url',
-            'file' => $errorFile,
-            'line' => $errorLine,
+            'url'        => $this->requestUri,
+            'file'       => $errorFile,
+            'line'       => $errorLine,
+            'error_type' => $errorTypeString,
         ];
         $this->logger->log($priority, $errorMessage, $extra);
     }

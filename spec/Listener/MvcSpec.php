@@ -45,7 +45,11 @@ describe('Mvc', function () {
                 ],
             ],
         ];
-        $this->logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
+
+        $this->logging = Double::instance([
+            'extends' => Logging::class,
+            'methods' => '__construct'
+        ]);
 
         return new Mvc(
             $config,

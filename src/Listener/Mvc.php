@@ -122,7 +122,8 @@ class Mvc extends AbstractListenerAggregate
             $errorType,
             $errorMessage,
             $errorFile,
-            $errorLine
+            $errorLine,
+            $errorTypeString
         );
     }
 }
