@@ -38,6 +38,11 @@ class Logging
         $this->requestUri = $requestUri;
     }
 
+    private function checkExists($message)
+    {
+        
+    }
+
     /**
      * @param $e
      */
