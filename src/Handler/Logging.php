@@ -32,7 +32,22 @@ class Logging
             $priority = Logger::$errorPriorityMap[$e->getSeverity()];
         }
 
-        
+        $errorFile = $e->getFile();
+        $errorLine = $e->getLine();
+
+        $trace = $e->getTraceAsString();
+        $i = 1;
+        do {
+            $messages[] = $i++ . ": " . $e->getMessage();
+        } while ($e = $e->getPrevious());
+        $implodeMessages = implode("\r\n", $messages);
+
+        $extra = [
+            'url'  => 'url',
+            'file' => $errorFile,
+            'line' => $errorLine,
+        ];
+        $this->logger->log($priority, $implodeMessages, $extra);
     }
 
     /**
@@ -49,5 +64,11 @@ class Logging
     ) {
         $priority = Logger::$errorPriorityMap[$errorType];
 
+        $extra = [
+            'url'  => 'url',
+            'file' => $errorFile,
+            'line' => $errorLine,
+        ];
+        $this->logger->log($priority, $errorMessage, $extra);
     }
 }
