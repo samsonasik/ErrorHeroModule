@@ -7,6 +7,7 @@ use Zend\Console\Console;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\MvcEvent;
+use Zend\View\Model\ViewModel;
 
 class Mvc extends AbstractListenerAggregate
 {
@@ -123,7 +124,7 @@ class Mvc extends AbstractListenerAggregate
             $errorLine,
             $errorTypeString
         );
-        
+
         $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
     }
 

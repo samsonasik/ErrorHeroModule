@@ -2,9 +2,31 @@
 
 namespace ErrorHeroModule;
 
+use Zend\ServiceManager\Factory\InvokableFactory;
 use Zend\Log;
 
 return [
+
+    'controllers' => [
+        'factories' => [
+            Controller\ErrorPreviewController::class => InvokableFactory::class,
+        ],
+    ],
+
+    'router' => [
+        'routes' => [
+            'newsletter' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/error-preview[/:action]',
+                    'defaults' => [
+                        'controller' => Controller\ErrorPreviewController::class,
+                        'action' => 'exception',
+                    ],
+                ],
+            ],
+        ],
+    ],
 
     'service_manager' => [
         'abstract_factories' => [
