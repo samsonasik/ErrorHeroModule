@@ -9,9 +9,6 @@ ErrorHeroModule
 Installation
 ------------
 
-Installation
-------------
-
 Installation of this module uses [getcomposer.org](composer).
 
 ```sh
