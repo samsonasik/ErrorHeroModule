@@ -65,13 +65,13 @@ class Db
                     $url     => $errorUrl
                 ]);
                 $select->order($timestamp . ' DESC');
-                $select->limit(2);
+                $select->limit(1);
 
                 $result = $tableGateway->selectWith($select);
-                if ($result->count() === 2) {
+                if ($result->count() === 1) {
                     $resultArray = $result->toArray();
-                    $last  = $resultArray[0][$timestamp];
-                    $first = $resultArray[1][$timestamp];
+                    $last  = date('Y-m-d H:i:s');
+                    $first = $resultArray[0][$timestamp];
 
                     $diff = strtotime($last) - strtotime($first);
                     if ($diff <= $timeRange) {
