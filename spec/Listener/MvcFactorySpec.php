@@ -51,8 +51,10 @@ describe('MvcFactory', function () {
                         // set to true to activate email notification on log error
                         'enable' => false,
 
-                        'mail-service'   => 'YourMailService', // Zend\Mail\Message instance registered at service manager
-                        'mail-transport' => 'YourMailTransport', // Zend\Mail\Transport\TransportInterface instance registered at service manager
+                        // Zend\Mail\Message instance registered at service manager
+                        'mail-message'   => 'YourMailMessageService',
+                        // Zend\Mail\Transport\TransportInterface instance registered at service manager
+                        'mail-transport' => 'YourMailTransportService',
 
                         'email-to-send' => [
                             'developer1@foo.com',
