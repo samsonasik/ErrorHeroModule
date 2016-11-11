@@ -158,6 +158,8 @@ class Logging
 
             foreach ($this->emailReceivers as $key => $email) {
 
+                $logger = clone $this->logger;
+
                 $this->mailMessageService->setFrom($this->emailSender);
                 $this->mailMessageService->setTo($email);
                 $this->mailMessageService->setSubject($subject);
@@ -172,9 +174,9 @@ class Logging
                 // use setWriters() to clean up existing writers
                 $splPriorityQueue = new SplPriorityQueue();
                 $splPriorityQueue->insert($writer, 1);
-                $this->logger->setWriters($splPriorityQueue);
+                $logger->setWriters($splPriorityQueue);
 
-                $this->logger->log($priority, $errorMessage, $extra);
+                $logger->log($priority, $errorMessage, $extra);
             }
         }
     }
