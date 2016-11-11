@@ -2,10 +2,22 @@
 
 namespace ErrorHeroModule\Mailer;
 
+use Zend\Mail\Message;
+
 class Sender
 {
-    public function __construct()
-    {
+    private $message;
+    private $transport;
 
+    public function __construct(
+        Message $message,
+        Transport $transpost
+    ) {
+        
+    }
+
+    public function send()
+    {
+        $this->transport->send($message);
     }
 }

@@ -118,7 +118,7 @@ class Logging
             ];
         }
 
-        return Json::encode($request_data);
+        return Json::prettyPrint(Json::encode($request_data));
     }
 
     /**

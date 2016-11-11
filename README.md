@@ -119,8 +119,8 @@ TODO
 - [x] Support excludes php error (eg: exclude E_USER_DEPRECATED) in config settings
 - [x] Handle only once log error for same error per configured time range
 - [x] Set default page (web access) or default message (console access) for error if configured 'display_errors' = 0
-- [ ] Send Mail to listed configured email.
 - [x] Request Information ( http method, raw data, query data, files data )
+- [ ] Send Mail to listed configured email.
 
 Contributing
 ------------
