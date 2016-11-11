@@ -9,7 +9,7 @@ ErrorHeroModule
 Introduction
 ------------
 
-ErrorHeroModule is a module for Error Logging your exception of 'dispatch.error', 'error.render', and PHP Errors ( E_NOTICE, E_USER_DEPRECATED, etc).
+ErrorHeroModule is a module for Error Logging your ZF2/ZF3 Mvc Application for Exceptions of 'dispatch.error', 'error.render', and PHP Errors ( E_NOTICE, E_USER_DEPRECATED, etc).
 
 Features
 --------
