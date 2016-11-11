@@ -25,21 +25,19 @@ Features
 Installation
 ------------
 
-Installation of this module uses [composer](https://getcomposer.org/).
+- Require this module uses [composer](https://getcomposer.org/).
 
 ```sh
-composer require samsonasik/error-hero-module:dev-master
+composer require samsonasik/error-hero-module
 ```
 
-> As it is still in active development, make sure your composer.json have this:
+- For its configuration, copy `vendor/samsonasik/error-hero-module/config/error-hero-module.local.php.dist` to `config/autoload/error-hero-module.local.php`.
 
-```javascript
-// composer.json
-"minimum-stability": "dev",
-"prefer-stable": true,
+```sh
+cp vendor/samsonasik/error-hero-module/config/error-hero-module.local.php.dist config/autoload/error-hero-module.local.php
 ```
 
-For its configuration, copy `vendor/samsonasik/error-hero-module/config/error-hero-module.local.php.dist` to `config/autoload/error-hero-module.local.php` and configure with your logger named `ErrorHeroModuleLogger` and `error-hero-module` config:
+And configure with logger service named `ErrorHeroModuleLogger` and `error-hero-module` config:
 
 ```php
 return [
@@ -113,9 +111,13 @@ return [
 ];
 ```
 
-If you want to use 'db' writer with existing configuration, make sure to import `data/db.mysql.sql` to your DB.
+The "db" writer need a `log` table, make sure to import `data/db.mysql.sql` to your DB.
+```
+mysql -u root yourDB < vendor/samsonasik/error-hero-module/data/db.mysql.sql
+```
+If you use other RDBMS, you may follow the `log` table structure.
 
-Then, enable it :
+Lastly, enable it :
 ```php
 // config/modules.config.php or config/application.config.php
 return [
