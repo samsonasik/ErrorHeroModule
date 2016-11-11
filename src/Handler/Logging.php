@@ -10,6 +10,7 @@ use Zend\Http\PhpEnvironment\Request;
 use Zend\Json\Json;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db;
+use Zend\Log\Writer\Mail;
 
 class Logging
 {
@@ -39,26 +40,49 @@ class Logging
     private $logWritersConfig;
 
     /**
-     * @param Logger $logger
-     * @param string $serverUrl
-     * @param string $requestUri
-     * @param mixed  $request
-     * @param array  $configLoggingSettings
+     * @var \Zend\Mail\Message|null
+     */
+    private $mailMessageService;
+
+    /**
+     * @var \Zend\Mail\Transport\TransportInterface|null
+     */
+    private $mailMessageTransport;
+
+    /**
+     * @var array
+     */
+    private $emailReceivers;
+
+    /**
+     * @param Logger                                       $logger
+     * @param string                                       $serverUrl
+     * @param string                                       $requestUri
+     * @param mixed                                        $request
+     * @param array                                        $errorHeroModuleLocalConfig
+     * @param array                                        $logWritersConfig
+     * @param \Zend\Mail\Message|null                      $mailMessageService
+     * @param \Zend\Mail\Transport\TransportInterface|null $mailMessageTransport
      */
     public function __construct(
         Logger $logger,
         $serverUrl,
         $request,
         $requestUri,
-        array $configLoggingSettings,
-        array $logWritersConfig
+        array $errorHeroModuleLocalConfig,
+        array $logWritersConfig,
+        $mailMessageService = null,
+        $mailMessageTransport = null
     ) {
         $this->logger                = $logger;
         $this->serverUrl             = $serverUrl;
         $this->request               = $request;
         $this->requestUri            = $requestUri;
-        $this->configLoggingSettings = $configLoggingSettings;
+        $this->configLoggingSettings = $errorHeroModuleLocalConfig['logging-settings'];
         $this->logWritersConfig      = $logWritersConfig;
+        $this->mailMessageService    = $mailMessageService;
+        $this->mailMessageTransport  = $mailMessageTransport;
+        $this->emailReceivers        = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
     }
 
     /**
@@ -135,9 +159,9 @@ class Logging
         do {
             $messages[] = $i++ . ": " . $e->getMessage();
         } while ($e = $e->getPrevious());
-        $implodeMessages = implode("\r\n", $messages);
+        $errorMessage = implode("\r\n", $messages);
 
-        if ($this->isExists($errorFile, $errorLine, $implodeMessages, $this->serverUrl . $this->requestUri)) {
+        if ($this->isExists($errorFile, $errorLine, $errorMessage, $this->serverUrl . $this->requestUri)) {
             return;
         }
 
@@ -149,7 +173,8 @@ class Logging
             'trace'      => $trace,
             'request_data' => $this->getRequestData(),
         ];
-        $this->logger->log($priority, $implodeMessages, $extra);
+        $this->logger->log($priority, $errorMessage, $extra);
+        $this->sendMail($priority, $errorMessage, $extra);
     }
 
     /**
@@ -180,5 +205,25 @@ class Logging
             'request_data' => $this->getRequestData(),
         ];
         $this->logger->log($priority, $errorMessage, $extra);
+        $this->sendMail($priority, $errorMessage, $extra);
+    }
+
+    private function sendMail($priority, $errorMessage, $extra)
+    {
+        if ($this->mailMessageService !== null && $this->mailMessageTransport !== null) {
+            $writers = $this->logger->getWriters();
+            $writers->next();
+
+            foreach ($this->emailReceivers as $key => $email) {
+
+                $this->mailMessageService->setTo($email);
+                $writer = new Mail($this->mailMessageService, $this->mailMessageTransport);
+                $this->logger->addWriter($writer);
+
+                $this->logger->log($priority, $errorMessage, $extra);
+                $writers->next();
+
+            }
+        }
     }
 }

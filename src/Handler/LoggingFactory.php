@@ -18,17 +18,27 @@ class LoggingFactory
             $requestUri =  $request->getRequestUri();
         }
 
-        $config                = $container->get('config');
-        $configLoggingSettings = $config['error-hero-module']['logging-settings'];
-        $logWritersConfig      = $config['log']['ErrorHeroModuleLogger']['writers'];
+        $config                     = $container->get('config');
+        $errorHeroModuleLocalConfig = $config['error-hero-module'];
+        $logWritersConfig           = $config['log']['ErrorHeroModuleLogger']['writers'];
+
+        $mailConfig           = $errorHeroModuleLocalConfig['email-notification-settings'];
+        $mailMessageService   = null;
+        $mailMessageTransport = null;
+        if ($mailConfig['enable'] === true) {
+            $mailMessageService   = $container->get($mailConfig['mail-message']);
+            $mailMessageTransport = $container->get($mailConfig['mail-transport']);
+        }
 
         return new Logging(
             $container->get('ErrorHeroModuleLogger'),
             $serverUrl,
             $request,
             $requestUri,
-            $configLoggingSettings,
-            $logWritersConfig
+            $errorHeroModuleLocalConfig,
+            $logWritersConfig,
+            $mailMessageService,
+            $mailMessageTransport
         );
     }
 }
