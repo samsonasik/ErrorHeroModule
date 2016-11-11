@@ -6,6 +6,22 @@ ErrorHeroModule
 [![Coverage Status](https://coveralls.io/repos/github/samsonasik/ErrorHeroModule/badge.svg?branch=master)](https://coveralls.io/github/samsonasik/ErrorHeroModule?branch=master)
 [![Downloads](https://img.shields.io/packagist/dt/samsonasik/error-hero-module.svg?style=flat-square)](https://packagist.org/packages/samsonasik/error-hero-module)
 
+Introduction
+------------
+
+ErrorHeroModule is a module for Error Logging your exception of 'dispatch.error', 'error.render', and PHP Errors ( E_NOTICE, E_USER_DEPRECATED, etc).
+
+Features
+--------
+
+- [x] Save to DB with Db Writer Adapter
+- [x] Log Exception (dispatch.error and render.error) and PHP Errors in all events process
+- [x] Support excludes php error (eg: exclude E_USER_DEPRECATED) in config settings
+- [x] Handle only once log error for same error per configured time range
+- [x] Set default page (web access) or default message (console access) for error if configured 'display_errors' = 0
+- [x] Request Information ( http method, raw data, query data, files data )
+- [x] Send Mail to listed configured email.
+
 Installation
 ------------
 
@@ -113,17 +129,6 @@ Give it a try!
 
 - http://yourzfapp/error-preview             : Exception
 - http://yourzfapp/error-preview/error       : Error
-
-TODO
-----
-
-- [x] Save to DB with Db Writer Adapter
-- [x] Log Exception (dispatch.error and render.error) and PHP Errors in all events process
-- [x] Support excludes php error (eg: exclude E_USER_DEPRECATED) in config settings
-- [x] Handle only once log error for same error per configured time range
-- [x] Set default page (web access) or default message (console access) for error if configured 'display_errors' = 0
-- [x] Request Information ( http method, raw data, query data, files data )
-- [x] Send Mail to listed configured email.
 
 Contributing
 ------------
