@@ -18,7 +18,7 @@ return [
             'error-preview' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/error-preview[/:action]',
+                    'route' => '/error-preview[/][:action]',
                     'defaults' => [
                         'controller' => Controller\ErrorPreviewController::class,
                         'action' => 'exception',
@@ -34,6 +34,7 @@ return [
         ],
         'factories' => [
             Listener\Mvc::class => Listener\MvcFactory::class,
+            Handler\Writer\Db::class => Handler\Writer\DbFactory::class,
             Handler\Logging::class => Handler\LoggingFactory::class,
         ],
     ],

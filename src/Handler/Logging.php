@@ -40,7 +40,7 @@ class Logging
 
     private function checkExists($message)
     {
-        
+
     }
 
     /**
