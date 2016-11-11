@@ -16,10 +16,16 @@ class LoggingFactory
             $requestUri =  $container->get('Request')->getRequestUri();
         }
 
+        $config                = $container->get('config');
+        $configLoggingSettings = $config['error-hero-module']['logging-settings'];
+        $logWritersConfig      = $config['log']['ErrorHeroModuleLogger']['writers'];
+
         return new Logging(
             $container->get('ErrorHeroModuleLogger'),
             $serverUrl,
-            $requestUri
+            $requestUri,
+            $configLoggingSettings,
+            $logWritersConfig
         );
     }
 }

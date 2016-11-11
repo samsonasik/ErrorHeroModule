@@ -76,7 +76,7 @@ return [
             ],
         ],
         'logging-settings' => [
-            'same-error' => 86400,
+            'same-error-log-time-range' => 86400,
         ],
         'email-notification-settings' => [
             // set to true to activate email notification on log error
@@ -117,7 +117,7 @@ TODO
 - [x] Save to DB with Db Writer Adapter
 - [x] Log Exception (dispatch.error and render.error) and PHP Errors in all events process
 - [x] Support excludes php error (eg: exclude E_USER_DEPRECATED) in config settings
-- [ ] Handle only once log error for same error per configured time range
+- [x] Handle only once log error for same error per configured time range
 - [x] Set default page (web access) or default message (console access) for error if configured 'display_errors' = 0
 - [ ] Send Mail to listed configured email.
 - [ ] Request Information ( http method, raw data, query data, files data )

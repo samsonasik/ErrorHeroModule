@@ -27,20 +27,55 @@ class Logging
     private $requestUri;
 
     /**
+     * @var array
+     */
+    private $configLoggingSettings;
+
+    /**
+     * @var array
+     */
+    private $logWritersConfig;
+
+    /**
      * @param Logger $logger
      * @param string $serverUrl
      * @param string $requestUri
+     * @param array $configLoggingSettings
      */
-    public function __construct(Logger $logger, $serverUrl, $requestUri)
-    {
-        $this->logger     = $logger;
-        $this->serverUrl  = $serverUrl;
-        $this->requestUri = $requestUri;
+    public function __construct(
+        Logger $logger,
+        $serverUrl,
+        $requestUri,
+        array $configLoggingSettings,
+        array $logWritersConfig
+    ) {
+        $this->logger                = $logger;
+        $this->serverUrl             = $serverUrl;
+        $this->requestUri            = $requestUri;
+        $this->configLoggingSettings = $configLoggingSettings;
+        $this->logWritersConfig      = $logWritersConfig;
     }
 
-    private function checkExists($message)
+    /**
+     * @param  string      $errorFile
+     * @param  int         $errorLine
+     * @param  string      $errorMessage
+     * @param  string      $url
+     * @return bool
+     */
+    private function isExists($errorFile, $errorLine, $errorMessage, $url)
     {
+        $writers = $this->logger->getWriters()->toArray();
+        foreach ($writers as $writer) {
+            if ($writer instanceof Db) {
+                $handlerWriterDb = new Writer\Db($writer, $this->configLoggingSettings, $this->logWritersConfig);
+                if ($handlerWriterDb->isExists($errorFile, $errorLine, $errorMessage, $url)) {
+                    return true;
+                }
+            }
+        }
 
+        return false;
     }
 
     /**
@@ -64,6 +99,10 @@ class Logging
             $messages[] = $i++ . ": " . $e->getMessage();
         } while ($e = $e->getPrevious());
         $implodeMessages = implode("\r\n", $messages);
+
+        if ($this->isExists($errorFile, $errorLine, $implodeMessages, $this->serverUrl . $this->requestUri)) {
+            return;
+        }
 
         $extra = [
             'url'        => $this->serverUrl . $this->requestUri,
@@ -89,6 +128,10 @@ class Logging
         $errorLine,
         $errorTypeString
     ) {
+        if ($this->isExists($errorFile, $errorLine, $errorMessage, $this->serverUrl . $this->requestUri)) {
+            return;
+        }
+
         $priority = Logger::$errorPriorityMap[$errorType];
 
         $extra = [

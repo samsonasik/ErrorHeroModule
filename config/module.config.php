@@ -34,7 +34,6 @@ return [
         ],
         'factories' => [
             Listener\Mvc::class => Listener\MvcFactory::class,
-            Handler\Writer\Db::class => Handler\Writer\DbFactory::class,
             Handler\Logging::class => Handler\LoggingFactory::class,
         ],
     ],
