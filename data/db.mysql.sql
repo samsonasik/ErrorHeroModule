@@ -10,5 +10,6 @@ CREATE TABLE `log` (
   `line` int(11) NOT NULL,
   `error_type` varchar(255) NOT NULL,
   `trace` text NULL,
+  `request_data` text NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

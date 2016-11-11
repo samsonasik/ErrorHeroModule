@@ -9,11 +9,13 @@ class LoggingFactory
     public function __invoke($container)
     {
         $serverUrl  = '';
+        $request    = '';
         $requestUri = '';
 
         if (! Console::isConsole()) {
             $serverUrl  =  $container->get('ViewHelperManager')->get('ServerUrl')->__invoke();
-            $requestUri =  $container->get('Request')->getRequestUri();
+            $request    =  $container->get('Request');
+            $requestUri =  $request->getRequestUri();
         }
 
         $config                = $container->get('config');
@@ -23,6 +25,7 @@ class LoggingFactory
         return new Logging(
             $container->get('ErrorHeroModuleLogger'),
             $serverUrl,
+            $request,
             $requestUri,
             $configLoggingSettings,
             $logWritersConfig

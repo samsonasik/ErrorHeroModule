@@ -10,8 +10,19 @@ use Zend\Log\Writer\Db as DbWriter;
 
 class Db
 {
+    /**
+     * @var DbWriter
+     */
     private $dbWriter;
+
+    /**
+     * @var array
+     */
     private $configLoggingSettings;
+
+    /**
+     * @var array
+     */
     private $logWritersConfig;
 
     /**
