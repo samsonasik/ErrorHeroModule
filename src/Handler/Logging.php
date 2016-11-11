@@ -99,11 +99,6 @@ class Logging
                 ? $this->request->getPost()->toArray()
                 : [];
 
-            $referer =  $this->request->getHeader('Referer');
-            if ($referer instanceof Referer) {
-                $referer->getUri();
-            }
-
             $raw_data   = $this->request->getContent();
             $raw_data   = str_replace("\r\n", "", $raw_data);
             $files_data = $this->request->getFiles()->toArray();
@@ -112,7 +107,6 @@ class Logging
                 'query'          => $query,
                 'request_method' => $request_method,
                 'body_data'      => $body_data,
-                'referer'        => $referer,
                 'raw_data'       => $raw_data,
                 'files_data'     => $files_data
             ];
