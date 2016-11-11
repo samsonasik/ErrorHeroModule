@@ -11,6 +11,8 @@ use Zend\Json\Json;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db;
 use Zend\Log\Writer\Mail;
+use Zend\Log\Formatter\Xml;
+use Zend\Stdlib\SplPriorityQueue;
 
 class Logging
 {
@@ -55,6 +57,11 @@ class Logging
     private $emailReceivers;
 
     /**
+     * @var string
+     */
+    private $emailSender;
+
+    /**
      * @param Logger                                       $logger
      * @param string                                       $serverUrl
      * @param string                                       $requestUri
@@ -83,6 +90,7 @@ class Logging
         $this->mailMessageService    = $mailMessageService;
         $this->mailMessageTransport  = $mailMessageTransport;
         $this->emailReceivers        = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
+        $this->emailSender           = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
     }
 
     /**
@@ -140,6 +148,38 @@ class Logging
     }
 
     /**
+     * @param  int      $priority
+     * @param  string   $errorMessage
+     * @param  array    $extra
+     */
+    private function sendMail($priority, $errorMessage, $extra, $subject)
+    {
+        if ($this->mailMessageService !== null && $this->mailMessageTransport !== null) {
+
+            foreach ($this->emailReceivers as $key => $email) {
+
+                $this->mailMessageService->setFrom($this->emailSender);
+                $this->mailMessageService->setTo($email);
+                $this->mailMessageService->setSubject($subject);
+
+                $writer = new Mail(
+                    $this->mailMessageService,
+                    $this->mailMessageTransport
+                );
+                $formatter = new Xml();
+                $writer->setFormatter($formatter);
+
+                // use setWriters() to clean up existing writers
+                $splPriorityQueue = new SplPriorityQueue();
+                $splPriorityQueue->insert($writer, 1);
+                $this->logger->setWriters($splPriorityQueue);
+
+                $this->logger->log($priority, $errorMessage, $extra);
+            }
+        }
+    }
+
+    /**
      * @param $e
      */
     public function handleException($e)
@@ -174,7 +214,7 @@ class Logging
             'request_data' => $this->getRequestData(),
         ];
         $this->logger->log($priority, $errorMessage, $extra);
-        $this->sendMail($priority, $errorMessage, $extra);
+        $this->sendMail($priority, $errorMessage, $extra, '[' . $this->serverUrl . '] ' . $exceptionClass . ' has thrown');
     }
 
     /**
@@ -205,25 +245,6 @@ class Logging
             'request_data' => $this->getRequestData(),
         ];
         $this->logger->log($priority, $errorMessage, $extra);
-        $this->sendMail($priority, $errorMessage, $extra);
-    }
-
-    private function sendMail($priority, $errorMessage, $extra)
-    {
-        if ($this->mailMessageService !== null && $this->mailMessageTransport !== null) {
-            $writers = $this->logger->getWriters();
-            $writers->next();
-
-            foreach ($this->emailReceivers as $key => $email) {
-
-                $this->mailMessageService->setTo($email);
-                $writer = new Mail($this->mailMessageService, $this->mailMessageTransport);
-                $this->logger->addWriter($writer);
-
-                $this->logger->log($priority, $errorMessage, $extra);
-                $writers->next();
-
-            }
-        }
+        $this->sendMail($priority, $errorMessage, $extra, '[' . $this->serverUrl . '] ' . $errorTypeString. ' PHP Error');
     }
 }
