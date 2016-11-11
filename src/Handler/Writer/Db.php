@@ -24,6 +24,5 @@ class Db
     public function checkMessageExists($message)
     {
         $currentDateTime = date('Y-m-d H:i:s');
-
     }
 }

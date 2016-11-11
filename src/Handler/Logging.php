@@ -70,6 +70,7 @@ class Logging
             'file'       => $errorFile,
             'line'       => $errorLine,
             'error_type' => $exceptionClass,
+            'trace'      => $trace,
         ];
         $this->logger->log($priority, $implodeMessages, $extra);
     }
