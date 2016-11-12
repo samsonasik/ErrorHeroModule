@@ -22,7 +22,7 @@ describe('Mvc', function () {
                 ],
 
                 // show or not error
-                'display_errors'  => 1,
+                'display_errors'  => 0,
 
                 // if enable and display_errors = 0, the page will bring layout and view
                 'template' => [
@@ -37,7 +37,7 @@ describe('Mvc', function () {
 
             ],
             'logging-settings' => [
-                'same-error' => 86400,
+                'same-error-log-time-range' => 86400,
             ],
             'email-notification-settings' => [
                 // set to true to activate email notification on log error
@@ -48,7 +48,10 @@ describe('Mvc', function () {
 
                 // Zend\Mail\Transport\TransportInterface instance registered at service manager
                 'mail-transport' => 'YourMailTransportService',
-                
+
+                // email sender
+                'email-from'    => 'Sender Name <sender@host.com>',
+
                 'email-to-send' => [
                     'developer1@foo.com',
                     'developer2@foo.com',
