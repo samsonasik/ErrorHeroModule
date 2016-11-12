@@ -25,7 +25,7 @@ Features
 Installation
 ------------
 
-*1.* Import the following SQL for Mysql
+**1. Import the following SQL for Mysql**
 ```
 DROP TABLE IF EXISTS `log`;
 
@@ -45,7 +45,7 @@ CREATE TABLE `log` (
 ```
 If you use other RDBMS, you may follow the `log` table structure above.
 
-*2.* Setup your Zend\Db\Adapter\Adapter service
+**2. Setup your Zend\Db\Adapter\Adapter service**
 
 This module uses `Zend\Log\Writer\Db` so, we need `Zend\Db\Adapter\Adapter` service.
 
@@ -64,13 +64,13 @@ return [
 ];
 ```
 
-*3.* Require this module uses [composer](https://getcomposer.org/).
+**3. Require this module uses [composer](https://getcomposer.org/).**
 
 ```sh
 composer require samsonasik/error-hero-module
 ```
 
-*4.* Copy `error-hero-module.local.php.dist` config to your local's autoload
+**4. Copy `error-hero-module.local.php.dist` config to your local's autoload and configure it**
 
 | source                                                                       | destination                                 |
 |------------------------------------------------------------------------------|---------------------------------------------|
@@ -165,7 +165,7 @@ return [
 ];
 ```
 
-Lastly, enable it :
+**5. Lastly, enable it**
 ```php
 // config/modules.config.php or config/application.config.php
 return [
