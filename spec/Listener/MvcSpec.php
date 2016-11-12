@@ -138,11 +138,13 @@ describe('Mvc', function () {
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
             allow($this->logging)->toReceive('handleException')->with($exception);
 
+            ob_start();
             $closure = function () use ($mvcEvent) {
                 $this->listener->exceptionError($mvcEvent);
             };
             expect($closure)->toThrow(new QuitException());
-
+            ob_get_clean();
+            
         });
 
     });
