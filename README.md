@@ -121,10 +121,9 @@ return [
         'enable' => true, // it's for the enable/disable the logger functionality
         'display-settings' => [
 
-            // excluded php errors
+            // excluded php errors ( http://www.php.net/manual/en/errorfunc.constants.php )
             'exclude-php-errors' => [
                 E_USER_DEPRECATED,
-                E_NOTICE,   
             ],
 
             // show or not error
