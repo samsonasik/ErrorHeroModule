@@ -70,7 +70,7 @@ return [
 composer require samsonasik/error-hero-module
 ```
 
-- Copy `error-hero-module.local.php.dist` config to your local's autoload
+*4.* Copy `error-hero-module.local.php.dist` config to your local's autoload
 
 | source                                                                       | destination                                 |
 |------------------------------------------------------------------------------|---------------------------------------------|
