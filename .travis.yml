@@ -7,7 +7,7 @@ php:
 
 matrix:
   fast_finish: true
-  
+
 before_script:
   - composer self-update
   - composer install --prefer-source --no-interaction
@@ -16,7 +16,7 @@ before_script:
 
 script:
   - bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml
-  - bin/coveralls -v --exclude-no-stmt
+  - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then bin/coveralls -v --exclude-no-stmt; fi
 
 notifications:
     email: false
