@@ -89,8 +89,6 @@ class Db
                         return true;
                     }
                 }
-
-                return false;
             }
         }
 

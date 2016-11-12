@@ -47,12 +47,24 @@ describe('Db', function () {
             ],
 
         ];
+    });
 
-        $this->writerHandler =  new Db(
+    given('writerHandler', function () {
+        return new Db(
             $this->dbWriter,
             $this->configLoggingSettings,
             $this->logWritersConfig
         );
+    });
+
+    describe('__construct', function () {
+
+        it('instanceof '. Db::class, function () {
+
+            $actual = $this->writerHandler;
+            expect($actual)->toBeAnInstanceOf(Db::class);
+
+        });
 
     });
 
