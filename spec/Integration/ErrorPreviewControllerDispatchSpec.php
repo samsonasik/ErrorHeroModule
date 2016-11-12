@@ -61,6 +61,25 @@ describe('ErrorPreviewController Dispatch', function () {
 
         });
 
+        it('show error page, idempotent for error exist check in DB', function() {
+
+            skipIf(PHP_MAJOR_VERSION < 7);
+
+            Quit::disable();
+
+            $request     = $this->application->getRequest();
+            $request->setMethod('GET');
+            $request->setUri('/error-preview/error');
+
+            ob_start();
+            $closure = function () {
+                $this->application->run();
+            };
+            expect($closure)->toThrow(new QuitException());
+            ob_get_clean();
+
+        });
+
     });
 
 });
