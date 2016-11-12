@@ -147,6 +147,34 @@ describe('LoggingSpec', function () {
 
         });
 
+        it('not log if exists and exception instanceof ErrorException', function ()  {
+
+            $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
+            allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
+
+            $select = Double::instance(['extends' => Select::class, 'methods' => '__construct']);
+            allow($select)->toReceive('where');
+            allow($select)->toReceive('order');
+            allow($select)->toReceive('limit');
+            allow($sql)->toReceive('select')->andReturn($select);
+
+            $resultSet = Double::instance(['extends' => HydratingResultSet::class, 'methods' => '__construct']);
+
+            allow($resultSet)->toReceive('toArray')->andReturn([
+                0 => [
+                    'date' => date('Y-m-d H:i:s'),
+                ],
+            ]);
+            allow($resultSet)->toReceive('count')->andReturn(1);
+            allow(TableGateway::class)->toReceive('selectWith')->with($select)->andReturn($resultSet);
+
+            expect($this->logger)->not->toReceive('log');
+
+            $exception = new \ErrorException();
+            $this->logging->handleException($exception);
+
+        });
+
     });
 
 });

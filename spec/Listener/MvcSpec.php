@@ -12,6 +12,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\Log\Logger;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Renderer\PhpRenderer;
+use Zend\View\Resolver;
 
 describe('Mvc', function () {
 
@@ -26,8 +27,8 @@ describe('Mvc', function () {
         return Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
     });
 
-    given('listener', function () {
-        $config = [
+    given('config', function () {
+        return [
             'enable' => true,
             'display-settings' => [
 
@@ -73,9 +74,11 @@ describe('Mvc', function () {
                 ],
             ],
         ];
+    });
 
+    given('listener', function () {
         return new Mvc(
-            $config,
+            $this->config,
             $this->logging,
             $this->renderer
         );
@@ -214,12 +217,30 @@ describe('Mvc', function () {
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
             allow($this->logging)->toReceive('handleException')->with($exception);
 
-            ob_start();
-            $closure = function () use ($mvcEvent) {
-                $this->listener->exceptionError($mvcEvent);
-            };
-            ob_get_clean();
+            $renderer = new PhpRenderer();
+            $resolver = new Resolver\AggregateResolver();
 
+            $map = new Resolver\TemplateMapResolver([
+                'layout/layout'                   => __DIR__ . '/../Fixture/view/layout/layout.phtml',
+                'error-hero-module/error-default' => __DIR__ . '/../Fixture/view/error-hero-module/error-default.phtml',
+            ]);
+            $resolver->attach($map);
+            $renderer->setResolver($resolver);
+
+            $listener =  new Mvc(
+                $this->config,
+                $this->logging,
+                $renderer
+            );
+
+            ob_start();
+            $closure = function () use ($listener, $mvcEvent) {
+                $listener->exceptionError($mvcEvent);
+            };
+            expect($closure)->toThrow(new QuitException());
+            $content = ob_get_clean();
+
+            expect($content)->toContain('We have encountered a problem');
         });
 
         it('call logger->handleException() with default view error if $e->getParam("exception") and display_errors = 0 and not a console', function () {
@@ -238,7 +259,9 @@ describe('Mvc', function () {
                 $this->listener->exceptionError($mvcEvent);
             };
             expect($closure)->toThrow(new QuitException());
-            ob_get_clean();
+            $content = ob_get_clean();
+
+            expect($content)->toContain('We have encountered a problem');
 
         });
 

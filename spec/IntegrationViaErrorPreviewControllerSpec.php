@@ -11,7 +11,7 @@ use Zend\Mvc\Application;
 use Zend\ServiceManager\Factory\InvokableFactory;
 use Zend\Log;
 
-describe('ErrorPreviewController Dispatch', function () {
+describe('Integration via ErrorPreviewController', function () {
 
     given('application', function () {
 
@@ -25,7 +25,7 @@ describe('ErrorPreviewController Dispatch', function () {
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    realpath(__DIR__).'/autoload/{{,*.}global,{,*.}local}.php',
+                    realpath(__DIR__).'/Fixture/autoload/{{,*.}global,{,*.}local}.php',
                 ],
             ],
         ]);
@@ -39,7 +39,48 @@ describe('ErrorPreviewController Dispatch', function () {
 
     });
 
-    // dispatch '/' page tests
+    describe('/error-preview', function() {
+
+        it('show error page', function() {
+
+            skipIf(PHP_MAJOR_VERSION < 7);
+
+            Quit::disable();
+
+            $request     = $this->application->getRequest();
+            $request->setMethod('GET');
+            $request->setUri('/error-preview');
+
+            ob_start();
+            $closure = function () {
+                $this->application->run();
+            };
+            expect($closure)->toThrow(new QuitException());
+            ob_get_clean();
+
+        });
+
+        it('show error page, idempotent for error exist check in DB', function() {
+
+            skipIf(PHP_MAJOR_VERSION < 7);
+
+            Quit::disable();
+
+            $request     = $this->application->getRequest();
+            $request->setMethod('GET');
+            $request->setUri('/error-preview');
+
+            ob_start();
+            $closure = function () {
+                $this->application->run();
+            };
+            expect($closure)->toThrow(new QuitException());
+            ob_get_clean();
+
+        });
+
+    });
+
     describe('/error-preview/error', function() {
 
         it('show error page', function() {
