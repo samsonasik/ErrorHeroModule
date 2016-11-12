@@ -9,14 +9,14 @@ ErrorHeroModule
 Introduction
 ------------
 
-ErrorHeroModule is a module for Error Logging (DB and Mail) your ZF2/ZF3 Mvc Application for Exceptions of 'dispatch.error', 'error.render', and PHP Errors ( E_NOTICE, E_USER_DEPRECATED, etc).
+ErrorHeroModule is a module for Error Logging (DB and Mail) your ZF2/ZF3 Mvc Application for Exceptions of 'dispatch.error', 'error.render', and [PHP E_* Error](http://www.php.net/manual/en/errorfunc.constants.php).
 
 Features
 --------
 
 - [x] Save to DB with Db Writer Adapter
 - [x] Log Exception (dispatch.error and render.error) and PHP Errors in all events process
-- [x] Support excludes [php error](http://www.php.net/manual/en/errorfunc.constants.php) (eg: exclude E_USER_DEPRECATED) in config settings
+- [x] Support excludes [PHP E_* Error](http://www.php.net/manual/en/errorfunc.constants.php) (eg: exclude E_USER_DEPRECATED) in config settings
 - [x] Handle only once log error for same error per configured time range
 - [x] Set default page (web access) or default message (console access) for error if configured 'display_errors' = 0
 - [x] Request Information ( http method, raw data, query data, files data )
