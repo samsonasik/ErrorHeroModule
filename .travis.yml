@@ -9,6 +9,8 @@ matrix:
   fast_finish: true
 
 before_script:
+  - mysql -e 'create database IF NOT EXISTS errorheromodule;' -uroot
+  - mysql -u root errorheromodule < data/sql.sql
   - composer self-update
   - composer install --prefer-source --no-interaction
   - composer dump-autoload -o

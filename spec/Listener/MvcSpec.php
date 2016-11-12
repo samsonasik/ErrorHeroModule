@@ -15,7 +15,18 @@ use Zend\View\Renderer\PhpRenderer;
 
 describe('Mvc', function () {
 
-    beforeAll(function () {
+    given('logging', function () {
+        return Double::instance([
+            'extends' => Logging::class,
+            'methods' => '__construct'
+        ]);
+    });
+
+    given('renderer', function () {
+        return Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
+    });
+
+    given('listener', function () {
         $config = [
             'enable' => true,
             'display-settings' => [
@@ -63,14 +74,7 @@ describe('Mvc', function () {
             ],
         ];
 
-        $this->logging = Double::instance([
-            'extends' => Logging::class,
-            'methods' => '__construct'
-        ]);
-
-        $this->renderer = Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
-
-        $this->listener =  new Mvc(
+        return new Mvc(
             $config,
             $this->logging,
             $this->renderer
@@ -214,7 +218,6 @@ describe('Mvc', function () {
             $closure = function () use ($mvcEvent) {
                 $this->listener->exceptionError($mvcEvent);
             };
-            expect($closure)->toThrow(new QuitException());
             ob_get_clean();
 
         });
@@ -331,7 +334,7 @@ describe('Mvc', function () {
 
             allow('error_get_last')->toBeCalled();
             expect('error_get_last')->toBeCalled();
-            
+
             $this->listener->execOnShutdown();
 
         });
