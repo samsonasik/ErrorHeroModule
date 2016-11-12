@@ -43,7 +43,7 @@ CREATE TABLE `log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 ```
-If you use other RDBMS, you may follow the `log` table structure above.
+> If you use other RDBMS, you may follow the `log` table structure above.
 
 **2. Setup your Zend\Db\Adapter\Adapter service**
 
@@ -63,6 +63,7 @@ return [
     ],      
 ];
 ```
+> If you use other RDBMS, you may configure your own `db` config.
 
 **3. Require this module uses [composer](https://getcomposer.org/).**
 
