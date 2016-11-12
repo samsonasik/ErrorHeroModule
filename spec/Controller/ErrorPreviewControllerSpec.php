@@ -27,4 +27,19 @@ describe('ErrorPreviewController', function () {
 
     });
 
+    describe('->errorAction()', function() {
+
+        it('Error', function() {
+
+            try {
+                $controller = $this->controller;
+                $controller->errorAction();
+            } catch (\Throwable $error) {
+                expect($error)->toBeAnInstanceOf(\Throwable::class);
+            }
+
+        });
+
+    });
+
 });
