@@ -22,6 +22,8 @@ class LoggingFactory
         }
 
         $config                     = $container->get('config');
+        $errorHeroModuleLogger      = $container->get('ErrorHeroModuleLogger');
+
         $errorHeroModuleLocalConfig = $config['error-hero-module'];
         $logWritersConfig           = $config['log']['ErrorHeroModuleLogger']['writers'];
 
@@ -41,7 +43,7 @@ class LoggingFactory
         }
 
         return new Logging(
-            $container->get('ErrorHeroModuleLogger'),
+            $errorHeroModuleLogger,
             $serverUrl,
             $request,
             $requestUri,
