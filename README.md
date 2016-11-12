@@ -26,7 +26,7 @@ Installation
 ------------
 
 **1. Import the following SQL for Mysql**
-```
+```sql
 DROP TABLE IF EXISTS `log`;
 
 CREATE TABLE `log` (
@@ -49,7 +49,7 @@ CREATE TABLE `log` (
 
 This module uses `Zend\Log\Writer\Db` so, we need `Zend\Db\Adapter\Adapter` service.
 
-```
+```php
 // config/autoload/local.php
 return [
     'db' => [
