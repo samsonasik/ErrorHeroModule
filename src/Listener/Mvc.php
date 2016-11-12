@@ -29,27 +29,27 @@ class Mvc extends AbstractListenerAggregate
     private $renderer;
 
     private $errorType = [
-        E_ERROR              => 'E_ERROR',
-        E_WARNING            => 'E_WARNING',
-        E_PARSE              => 'E_PARSE',
-        E_NOTICE             => 'E_NOTICE',
-        E_CORE_ERROR         => 'E_CORE_ERROR',
-        E_CORE_WARNING       => 'E_CORE_WARNING',
-        E_COMPILE_ERROR      => 'E_COMPILE_ERROR',
-        E_CORE_WARNING       => 'E_CORE_WARNING',
-        E_USER_ERROR         => 'E_USER_ERROR',
-        E_USER_WARNING       => 'E_USER_WARNING',
-        E_USER_NOTICE        => 'E_USER_NOTICE',
-        E_STRICT             => 'E_STRICT',
-        E_RECOVERABLE_ERROR  => 'E_RECOVERABLE_ERROR',
-        E_DEPRECATED         => 'E_DEPRECATED',
-        E_USER_DEPRECATED    => 'E_USER_DEPRECATED',
+        E_ERROR => 'E_ERROR',
+        E_WARNING => 'E_WARNING',
+        E_PARSE => 'E_PARSE',
+        E_NOTICE => 'E_NOTICE',
+        E_CORE_ERROR => 'E_CORE_ERROR',
+        E_CORE_WARNING => 'E_CORE_WARNING',
+        E_COMPILE_ERROR => 'E_COMPILE_ERROR',
+        E_CORE_WARNING => 'E_CORE_WARNING',
+        E_USER_ERROR => 'E_USER_ERROR',
+        E_USER_WARNING => 'E_USER_WARNING',
+        E_USER_NOTICE => 'E_USER_NOTICE',
+        E_STRICT => 'E_STRICT',
+        E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
+        E_DEPRECATED => 'E_DEPRECATED',
+        E_USER_DEPRECATED => 'E_USER_DEPRECATED',
     ];
 
     /**
-     * @param  array          $errorHeroModuleConfig
-     * @param  Logging        $logging
-     * @param  PhpRenderer    $renderer
+     * @param array       $errorHeroModuleConfig
+     * @param Logging     $logging
+     * @param PhpRenderer $renderer
      */
     public function __construct(
         array       $errorHeroModuleConfig,
@@ -57,13 +57,13 @@ class Mvc extends AbstractListenerAggregate
         PhpRenderer $renderer
     ) {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
-        $this->logging               = $logging;
-        $this->renderer              = $renderer;
+        $this->logging = $logging;
+        $this->renderer = $renderer;
     }
 
     /**
-     * @param  EventManagerInterface $events
-     * @param  int                   $priority
+     * @param EventManagerInterface $events
+     * @param int                   $priority
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
@@ -80,7 +80,7 @@ class Mvc extends AbstractListenerAggregate
     public function exceptionError($e)
     {
         $exception = $e->getParam('exception');
-        if (! $exception) {
+        if (!$exception) {
             return;
         }
 
@@ -111,21 +111,21 @@ class Mvc extends AbstractListenerAggregate
     }
 
     /**
-     * @param  int    $errorType
-     * @param  string $errorMessage
-     * @param  string $errorFile
-     * @param  int    $errorLine
+     * @param int    $errorType
+     * @param string $errorMessage
+     * @param string $errorFile
+     * @param int    $errorLine
      */
     public function phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine)
     {
         $errorTypeString = $this->errorType[$errorType];
 
         if ($errorLine &&
-            ! in_array(
+            !in_array(
                 $errorType,
                 $this->errorHeroModuleConfig['display-settings']['exclude-php-errors']
             )
-        )  {
+        ) {
             $this->logging->handleError(
                 $errorType,
                 $errorMessage,
@@ -139,15 +139,14 @@ class Mvc extends AbstractListenerAggregate
     }
 
     /**
-     * It show default view if display_errors setting = 0
+     * It show default view if display_errors setting = 0.
      */
     private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
     {
         $displayErrors = $this->errorHeroModuleConfig['display-settings']['display_errors'];
 
         if ($displayErrors === 0) {
-
-            if (! Console::isConsole()) {
+            if (!Console::isConsole()) {
                 $view = new ViewModel();
                 $view->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['view']);
 
@@ -158,7 +157,7 @@ class Mvc extends AbstractListenerAggregate
                 echo $this->renderer->render($layout);
             } else {
                 $table = new Table\Table([
-                    'columnWidths' => [150]
+                    'columnWidths' => [150],
                 ]);
                 $table->setDecorator('ascii');
                 $table->appendRow([$this->errorHeroModuleConfig['display-settings']['console']['message']]);

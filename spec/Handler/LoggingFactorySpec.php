@@ -2,8 +2,8 @@
 
 namespace ErrorHeroModule\Spec\Handler;
 
-use ErrorHeroModule\Handler\LoggingFactory;
 use ErrorHeroModule\Handler\Logging;
+use ErrorHeroModule\Handler\LoggingFactory;
 use Kahlan\Plugin\Double;
 use Zend\Log\Logger;
 use Zend\Mail\Message;

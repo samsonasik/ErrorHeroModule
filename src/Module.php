@@ -8,9 +8,9 @@ class Module
 {
     public function onBootstrap(MvcEvent $e)
     {
-        $app           = $e->getApplication();
-        $services      = $app->getServiceManager();
-        $eventManager  = $app->getEventManager();
+        $app = $e->getApplication();
+        $services = $app->getServiceManager();
+        $eventManager = $app->getEventManager();
 
         $mvcListenerAggregate = $services->get(Listener\Mvc::class);
         $mvcListenerAggregate->attach($eventManager);

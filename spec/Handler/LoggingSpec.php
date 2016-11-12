@@ -5,16 +5,15 @@ namespace ErrorHeroModule\Spec\Handler;
 use ErrorHeroModule\Handler\Logging;
 use Kahlan\Plugin\Double;
 use ReflectionProperty;
-use Zend\Http\PhpEnvironment\Request;
-use Zend\Log\Logger;
-use Zend\Mail\Message;
-use Zend\Mail\Transport\TransportInterface;
-use Zend\Stdlib\SplPriorityQueue;
-use Zend\Log\Writer\Db as DbWriter;
-use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
-use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Db\TableGateway\TableGateway;
+use Zend\Http\PhpEnvironment\Request;
+use Zend\Log\Logger;
+use Zend\Log\Writer\Db as DbWriter;
+use Zend\Mail\Message;
+use Zend\Stdlib\SplPriorityQueue;
 
 describe('LoggingSpec', function () {
 

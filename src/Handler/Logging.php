@@ -2,9 +2,7 @@
 
 namespace ErrorHeroModule\Handler;
 
-use ErrorHeroModule\Listener\Mvc;
 use Error;
-use Exception;
 use ErrorException;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Json\Json;
@@ -83,23 +81,24 @@ class Logging
         $mailMessageService = null,
         $mailMessageTransport = null
     ) {
-        $this->logger                = $logger;
-        $this->serverUrl             = $serverUrl;
-        $this->request               = $request;
-        $this->requestUri            = $requestUri;
+        $this->logger = $logger;
+        $this->serverUrl = $serverUrl;
+        $this->request = $request;
+        $this->requestUri = $requestUri;
         $this->configLoggingSettings = $errorHeroModuleLocalConfig['logging-settings'];
-        $this->logWritersConfig      = $logWritersConfig;
-        $this->mailMessageService    = $mailMessageService;
-        $this->mailMessageTransport  = $mailMessageTransport;
-        $this->emailReceivers        = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
-        $this->emailSender           = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
+        $this->logWritersConfig = $logWritersConfig;
+        $this->mailMessageService = $mailMessageService;
+        $this->mailMessageTransport = $mailMessageTransport;
+        $this->emailReceivers = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
+        $this->emailSender = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
     }
 
     /**
-     * @param  string      $errorFile
-     * @param  int         $errorLine
-     * @param  string      $errorMessage
-     * @param  string      $url
+     * @param string $errorFile
+     * @param int    $errorLine
+     * @param string $errorMessage
+     * @param string $url
+     *
      * @return bool
      */
     private function isExists($errorFile, $errorLine, $errorMessage, $url)
@@ -118,7 +117,7 @@ class Logging
     }
 
     /**
-     * Get Request Data
+     * Get Request Data.
      *
      * @return array
      */
@@ -126,23 +125,22 @@ class Logging
     {
         $request_data = [];
         if ($this->request instanceof Request) {
-
-            $query          = $this->request->getQuery()->toArray();
+            $query = $this->request->getQuery()->toArray();
             $request_method = $this->request->getServer('REQUEST_METHOD');
             $body_data = ($this->request->isPost())
                 ? $this->request->getPost()->toArray()
                 : [];
 
-            $raw_data   = $this->request->getContent();
-            $raw_data   = str_replace("\r\n", "", $raw_data);
+            $raw_data = $this->request->getContent();
+            $raw_data = str_replace("\r\n", '', $raw_data);
             $files_data = $this->request->getFiles()->toArray();
 
             $request_data = [
-                'query'          => $query,
+                'query' => $query,
                 'request_method' => $request_method,
-                'body_data'      => $body_data,
-                'raw_data'       => $raw_data,
-                'files_data'     => $files_data
+                'body_data' => $body_data,
+                'raw_data' => $raw_data,
+                'files_data' => $files_data,
             ];
         }
 
@@ -150,16 +148,14 @@ class Logging
     }
 
     /**
-     * @param  int      $priority
-     * @param  string   $errorMessage
-     * @param  array    $extra
+     * @param int    $priority
+     * @param string $errorMessage
+     * @param array  $extra
      */
     private function sendMail($priority, $errorMessage, $extra, $subject)
     {
         if ($this->mailMessageService !== null && $this->mailMessageTransport !== null) {
-
             foreach ($this->emailReceivers as $key => $email) {
-
                 $logger = clone $this->logger;
 
                 $this->mailMessageService->setFrom($this->emailSender);
@@ -201,32 +197,32 @@ class Logging
         $trace = $e->getTraceAsString();
         $i = 1;
         do {
-            $messages[] = $i++ . ": " . $e->getMessage();
+            $messages[] = $i++.': '.$e->getMessage();
         } while ($e = $e->getPrevious());
         $errorMessage = implode("\r\n", $messages);
 
-        if ($this->isExists($errorFile, $errorLine, $errorMessage, $this->serverUrl . $this->requestUri)) {
+        if ($this->isExists($errorFile, $errorLine, $errorMessage, $this->serverUrl.$this->requestUri)) {
             return;
         }
 
         $extra = [
-            'url'        => $this->serverUrl . $this->requestUri,
-            'file'       => $errorFile,
-            'line'       => $errorLine,
+            'url' => $this->serverUrl.$this->requestUri,
+            'file' => $errorFile,
+            'line' => $errorLine,
             'error_type' => $exceptionClass,
-            'trace'      => $trace,
+            'trace' => $trace,
             'request_data' => $this->getRequestData(),
         ];
         $this->logger->log($priority, $errorMessage, $extra);
-        $this->sendMail($priority, $errorMessage, $extra, '[' . $this->serverUrl . '] ' . $exceptionClass . ' has thrown');
+        $this->sendMail($priority, $errorMessage, $extra, '['.$this->serverUrl.'] '.$exceptionClass.' has thrown');
     }
 
     /**
-     * @param  int      $errorType
-     * @param  string   $errorMessage
-     * @param  string   $errorFile
-     * @param  int      $errorLine
-     * @param  string   $errorTypeString
+     * @param int    $errorType
+     * @param string $errorMessage
+     * @param string $errorFile
+     * @param int    $errorLine
+     * @param string $errorTypeString
      */
     public function handleError(
         $errorType,
@@ -235,20 +231,20 @@ class Logging
         $errorLine,
         $errorTypeString
     ) {
-        if ($this->isExists($errorFile, $errorLine, $errorMessage, $this->serverUrl . $this->requestUri)) {
+        if ($this->isExists($errorFile, $errorLine, $errorMessage, $this->serverUrl.$this->requestUri)) {
             return;
         }
 
         $priority = Logger::$errorPriorityMap[$errorType];
 
         $extra = [
-            'url'        => $this->serverUrl . $this->requestUri,
-            'file'       => $errorFile,
-            'line'       => $errorLine,
+            'url' => $this->serverUrl.$this->requestUri,
+            'file' => $errorFile,
+            'line' => $errorLine,
             'error_type' => $errorTypeString,
             'request_data' => $this->getRequestData(),
         ];
         $this->logger->log($priority, $errorMessage, $extra);
-        $this->sendMail($priority, $errorMessage, $extra, '[' . $this->serverUrl . '] ' . $errorTypeString. ' PHP Error');
+        $this->sendMail($priority, $errorMessage, $extra, '['.$this->serverUrl.'] '.$errorTypeString.' PHP Error');
     }
 }

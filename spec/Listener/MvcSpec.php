@@ -9,11 +9,9 @@ use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
 use Zend\EventManager\EventManagerInterface;
+use Zend\Log\Logger;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Renderer\PhpRenderer;
-use Zend\Stdlib\SplPriorityQueue;
-use Zend\Log\Writer\Db as DbWriter;
-use Zend\Log\Logger;
 
 describe('Mvc', function () {
 
@@ -322,6 +320,19 @@ describe('Mvc', function () {
 
                 $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
                 $listener->phpError($mvcEvent);
+
+        });
+
+    });
+
+    describe('->execOnShutdown()', function ()  {
+
+        it('call error_get_last() and return nothing', function () {
+
+            allow('error_get_last')->toBeCalled();
+            expect('error_get_last')->toBeCalled();
+            
+            $this->listener->execOnShutdown();
 
         });
 

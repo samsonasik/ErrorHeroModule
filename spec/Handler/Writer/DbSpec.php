@@ -2,14 +2,14 @@
 
 namespace ErrorHeroModule\Spec\Handler\Writer;
 
-use ReflectionProperty;
-use Zend\Log\Writer\Db as DbWriter;
 use ErrorHeroModule\Handler\Writer\Db;
 use Kahlan\Plugin\Double;
-use Zend\Db\TableGateway\TableGateway;
+use ReflectionProperty;
+use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
-use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Db\TableGateway\TableGateway;
+use Zend\Log\Writer\Db as DbWriter;
 
 describe('Db', function () {
 

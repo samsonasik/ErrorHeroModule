@@ -3,7 +3,6 @@
 namespace ErrorHeroModule\Spec;
 
 use ErrorHeroModule\Controller\ErrorPreviewController;
-use Zend\View\Model\ViewModel;
 
 describe('ErrorPreviewController', function () {
 
