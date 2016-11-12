@@ -94,7 +94,7 @@ class Mvc extends AbstractListenerAggregate
     {
         if ($this->errorHeroModuleConfig['display-settings']['display_errors'] === 0) {
             error_reporting(E_ALL | E_STRICT);
-            ini_set('display_errors',0);
+            ini_set('display_errors', 0);
         }
 
         register_shutdown_function([$this, 'execOnShutdown']);

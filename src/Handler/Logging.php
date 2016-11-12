@@ -12,6 +12,8 @@ use Zend\Log\Logger;
 use Zend\Log\Writer\Db;
 use Zend\Log\Writer\Mail;
 use Zend\Log\Formatter\Xml;
+use Zend\Mail\Message;
+use Zend\Mail\Transport\TransportInterface;
 use Zend\Stdlib\SplPriorityQueue;
 
 class Logging
@@ -42,12 +44,12 @@ class Logging
     private $logWritersConfig;
 
     /**
-     * @var \Zend\Mail\Message|null
+     * @var Message|null
      */
     private $mailMessageService;
 
     /**
-     * @var \Zend\Mail\Transport\TransportInterface|null
+     * @var TransportInterface|null
      */
     private $mailMessageTransport;
 
@@ -62,14 +64,14 @@ class Logging
     private $emailSender;
 
     /**
-     * @param Logger                                       $logger
-     * @param string                                       $serverUrl
-     * @param string                                       $requestUri
-     * @param mixed                                        $request
-     * @param array                                        $errorHeroModuleLocalConfig
-     * @param array                                        $logWritersConfig
-     * @param \Zend\Mail\Message|null                      $mailMessageService
-     * @param \Zend\Mail\Transport\TransportInterface|null $mailMessageTransport
+     * @param Logger                  $logger
+     * @param string                  $serverUrl
+     * @param string                  $requestUri
+     * @param mixed                   $request
+     * @param array                   $errorHeroModuleLocalConfig
+     * @param array                   $logWritersConfig
+     * @param Message|null            $mailMessageService
+     * @param TransportInterface|null $mailMessageTransport
      */
     public function __construct(
         Logger $logger,

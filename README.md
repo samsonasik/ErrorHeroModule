@@ -157,6 +157,9 @@ return [
             // Zend\Mail\Transport\TransportInterface instance registered at service manager
             'mail-transport' => 'YourMailTransportService',
 
+            // email sender
+            'email-from'    => 'Sender Name <sender@host.com>',
+
             'email-to-send' => [
                 'developer1@foo.com',
                 'developer2@foo.com',
