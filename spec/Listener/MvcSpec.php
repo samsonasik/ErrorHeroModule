@@ -7,6 +7,7 @@ use ErrorHeroModule\Listener\Mvc;
 use Kahlan\Plugin\Double;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
+use Zend\Console\Console;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Renderer\PhpRenderer;
@@ -199,7 +200,7 @@ describe('Mvc', function () {
 
             $actual = $listener->exceptionError($mvcEvent);
             expect($actual)->toBeNull(); // void
-            
+
         });
 
         it('call logger->handleException() with default console error message if $e->getParam("exception") and display_errors = 0', function () {
@@ -212,6 +213,26 @@ describe('Mvc', function () {
             allow($this->logging)->toReceive('handleException')->with($exception);
 
             ob_start();
+            $closure = function () use ($mvcEvent) {
+                $this->listener->exceptionError($mvcEvent);
+            };
+            expect($closure)->toThrow(new QuitException());
+            ob_get_clean();
+
+        });
+
+        it('call logger->handleException() with default view error if $e->getParam("exception") and display_errors = 0 and not a console', function () {
+
+            Console::overrideIsConsole(false);
+            Quit::disable();
+            $exception = new \Exception();
+
+            $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
+            allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
+            allow($this->logging)->toReceive('handleException')->with($exception);
+
+            ob_start();
+            allow($this->renderer)->toReceive('render')->andReturn(include __DIR__ . '/../../view/error-hero-module/error-default.phtml');
             $closure = function () use ($mvcEvent) {
                 $this->listener->exceptionError($mvcEvent);
             };
