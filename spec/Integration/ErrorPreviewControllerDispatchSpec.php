@@ -44,6 +44,8 @@ describe('ErrorPreviewController Dispatch', function () {
 
         it('show error page', function() {
 
+            skipIf(PHP_MAJOR_VERSION < 7);
+
             Quit::disable();
 
             $request     = $this->application->getRequest();
@@ -56,7 +58,7 @@ describe('ErrorPreviewController Dispatch', function () {
             };
             expect($closure)->toThrow(new QuitException());
             ob_get_clean();
-            
+
         });
 
     });
