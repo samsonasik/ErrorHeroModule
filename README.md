@@ -180,8 +180,10 @@ return [
 Give it a try!
 --------------
 
-- http://yourzfapp/error-preview             : Exception
-- http://yourzfapp/error-preview/error       : Error
+| URl                                  | Preview For  |
+|--------------------------------------|--------------|
+| http://yourzfapp/error-preview       | Exception    |
+| http://yourzfapp/error-preview/error | Error        |
 
 Contributing
 ------------
