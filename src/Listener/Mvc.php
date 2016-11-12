@@ -9,6 +9,7 @@ use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
 use Zend\View\Renderer\PhpRenderer;
+use Zend\Text\Table;
 
 class Mvc extends AbstractListenerAggregate
 {

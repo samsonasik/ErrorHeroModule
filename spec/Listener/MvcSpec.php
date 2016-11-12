@@ -5,13 +5,18 @@ namespace ErrorHeroModule\Spec\Listener;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
 use Kahlan\Plugin\Double;
+use Kahlan\Plugin\Quit;
+use Kahlan\QuitException;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Renderer\PhpRenderer;
+use Zend\Stdlib\SplPriorityQueue;
+use Zend\Log\Writer\Db as DbWriter;
+use Zend\Log\Logger;
 
 describe('Mvc', function () {
 
-    given('listener', function () {
+    beforeAll(function () {
         $config = [
             'enable' => true,
             'display-settings' => [
@@ -66,12 +71,11 @@ describe('Mvc', function () {
 
         $this->renderer = Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
 
-        return new Mvc(
+        $this->listener =  new Mvc(
             $config,
             $this->logging,
             $this->renderer
         );
-
     });
 
     describe('->attach()', function () {
@@ -108,6 +112,36 @@ describe('Mvc', function () {
             expect($eventManager)->toReceive('attach')->with('*', [$this->listener, 'phpError']);
 
             $this->listener->attach($eventManager);
+
+        });
+
+    });
+
+    describe('->exceptionError()', function () {
+
+        it('return null for !$e->getParam("exception")', function () {
+
+            $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
+            allow($mvcEvent)->toReceive('getParam')->andReturn(null);
+
+            $actual = $this->listener->exceptionError($mvcEvent);
+            expect($actual)->toBeNull();
+
+        });
+
+        it('call logger->handleException() if $e->getParam("exception")', function () {
+
+            Quit::disable();
+            $exception = new \Exception();
+
+            $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
+            allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
+            allow($this->logging)->toReceive('handleException')->with($exception);
+
+            $closure = function () use ($mvcEvent) {
+                $this->listener->exceptionError($mvcEvent);
+            };
+            expect($closure)->toThrow(new QuitException());
 
         });
 
