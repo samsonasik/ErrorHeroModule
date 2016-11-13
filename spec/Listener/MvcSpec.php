@@ -8,16 +8,14 @@ use Kahlan\Plugin\Double;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
+use Zend\Db\Adapter\Adapter;
 use Zend\EventManager\EventManagerInterface;
+use Zend\Http\PhpEnvironment\Request;
 use Zend\Log\Logger;
+use Zend\Log\Writer\Db as DbWriter;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Renderer\PhpRenderer;
 use Zend\View\Resolver;
-use Zend\Log\Writer\Db as DbWriter;
-use ReflectionProperty;
-use Zend\Stdlib\SplPriorityQueue;
-use Zend\Http\PhpEnvironment\Request;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 describe('Mvc', function () {
 
@@ -369,8 +367,6 @@ describe('Mvc', function () {
 
         it('call error_get_last() and return error', function () {
 
-            skipIf(PHP_MAJOR_VERSION < 7);
-
             allow('error_get_last')->toBeCalled()->andReturn([
                 'type' => 8,
                 'message' => 'Undefined variable: a',
@@ -379,11 +375,112 @@ describe('Mvc', function () {
             ]);
             expect('error_get_last')->toBeCalled();
 
-            try {
-                $this->listener->execOnShutdown();
-            } catch (\Throwable $t) {
-                expect($t)->toBeAnInstanceOf(\Throwable::class);
-            }
+            $dbAdapter = new Adapter([
+                'username' => 'root',
+                'password' => '',
+                'driver' => 'Pdo',
+                'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
+                'driver_options' => [
+                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                ],
+            ]);
+
+            $writer = new DbWriter(
+                [
+                    'db' => $dbAdapter,
+                    'table' => 'log',
+                    'column' => [
+                        'timestamp' => 'date',
+                        'priority'  => 'type',
+                        'message'   => 'event',
+                        'extra'     => [
+                            'url'  => 'url',
+                            'file' => 'file',
+                            'line' => 'line',
+                            'error_type' => 'error_type',
+                            'trace'      => 'trace',
+                            'request_data' => 'request_data',
+                        ],
+                    ],
+                ]
+            );
+
+            $logger = new Logger();
+            $logger->addWriter($writer);
+            $logWritersConfig = [
+
+                [
+                    'name' => 'db',
+                    'options' => [
+                        'db'     => 'Zend\Db\Adapter\Adapter',
+                        'table'  => 'log',
+                        'column' => [
+                            'timestamp' => 'date',
+                            'priority'  => 'type',
+                            'message'   => 'event',
+                            'extra'     => [
+                                'url'  => 'url',
+                                'file' => 'file',
+                                'line' => 'line',
+                                'error_type' => 'error_type',
+                                'trace'      => 'trace',
+                                'request_data' => 'request_data',
+                            ],
+                        ],
+                    ],
+                ],
+
+            ];
+
+            $logging = new Logging(
+                $logger,
+                'http://serverUrl',
+                Double::instance(['extends' => Request::class, 'methods' => '__construct']),
+                '/',
+                $this->config,
+                $logWritersConfig,
+                null,
+                null
+            );
+
+            $errorHeroModuleLocalConfig  = [
+                'enable' => true,
+                'display-settings' => [
+                    'exclude-php-errors' => [
+                        E_USER_DEPRECATED
+                    ],
+                    'display_errors'  => 1,
+                    'template' => [
+                        'layout' => 'layout/layout',
+                        'view'   => 'error-hero-module/error-default'
+                    ],
+                    'console' => [
+                        'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
+                    ],
+
+                ],
+                'logging-settings' => [
+                    'same-error-log-time-range' => 86400,
+                ],
+                'email-notification-settings' => [
+                    'enable' => false,
+                    'mail-message'   => 'YourMailMessageService',
+                    'mail-transport' => 'YourMailTransportService',
+                    'email-from'    => 'Sender Name <sender@host.com>',
+                    'email-to-send' => [
+                        'developer1@foo.com',
+                        'developer2@foo.com',
+                    ],
+                ],
+            ];
+
+            $listener = new Mvc(
+                $errorHeroModuleLocalConfig,
+                $logging,
+                $this->renderer
+            );
+            $listener->execOnShutdown();
+
         });
 
 
