@@ -1,9 +1,8 @@
 <?php
 
 use Zend\Mail\Message;
-use Zend\ServiceManager\Factory\InvokableFactory;
-use Zend\Mail\Transport\TransportInterface;
 use Zend\Mail\Transport\InMemory;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
 
