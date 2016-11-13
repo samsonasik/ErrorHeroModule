@@ -369,6 +369,8 @@ describe('Mvc', function () {
 
         it('call error_get_last() and return error', function () {
 
+            skipIf(PHP_MAJOR_VERSION < 7);
+
             allow('error_get_last')->toBeCalled()->andReturn([
                 'type' => 8,
                 'message' => 'Undefined variable: a',
