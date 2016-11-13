@@ -11,7 +11,7 @@ use Zend\Mvc\Application;
 use Zend\ServiceManager\Factory\InvokableFactory;
 use Zend\Log;
 
-describe('Integration via ErrorPreviewController', function () {
+describe('Integration via ErrorPreviewController with enable send mail', function () {
 
     given('application', function () {
 
@@ -25,7 +25,7 @@ describe('Integration via ErrorPreviewController', function () {
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    realpath(__DIR__).'/Fixture/autoload/{{,*.}global,{,*.}local}.php',
+                    realpath(__DIR__).'/Fixture/autoload-with-enable-sendmail/{{,*.}global,{,*.}local}.php',
                 ],
             ],
         ]);
