@@ -67,27 +67,6 @@ describe('Integration via ErrorPreviewController', function () {
 
         });
 
-        it('show error page, idempotent for error exist check in DB', function() {
-
-            skipIf(PHP_MAJOR_VERSION < 7);
-
-            Quit::disable();
-
-            $request     = $this->application->getRequest();
-            $request->setMethod('GET');
-            $request->setUri('/error-preview');
-
-            ob_start();
-            $closure = function () {
-                $this->application->run();
-            };
-            expect($closure)->toThrow(new QuitException());
-            $content = ob_get_clean();
-
-            expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
-
-        });
-
         it('show error console message in console env', function() {
 
             Console::overrideIsConsole(true);
@@ -153,28 +132,6 @@ describe('Integration via ErrorPreviewController', function () {
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
 
         });
-
-        it('show error page, idempotent for error exist check in DB', function() {
-
-            skipIf(PHP_MAJOR_VERSION < 7);
-
-            Quit::disable();
-
-            $request     = $this->application->getRequest();
-            $request->setMethod('GET');
-            $request->setUri('/error-preview/error');
-
-            ob_start();
-            $closure = function () {
-                $this->application->run();
-            };
-            expect($closure)->toThrow(new QuitException());
-            $content = ob_get_clean();
-
-            expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
-
-        });
-
     });
 
 });
