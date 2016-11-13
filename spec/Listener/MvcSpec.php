@@ -13,6 +13,11 @@ use Zend\Log\Logger;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Renderer\PhpRenderer;
 use Zend\View\Resolver;
+use Zend\Log\Writer\Db as DbWriter;
+use ReflectionProperty;
+use Zend\Stdlib\SplPriorityQueue;
+use Zend\Http\PhpEnvironment\Request;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 describe('Mvc', function () {
 
@@ -361,6 +366,24 @@ describe('Mvc', function () {
             $this->listener->execOnShutdown();
 
         });
+
+        it('call error_get_last() and return error', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'type' => 8,
+                'message' => 'Undefined variable: a',
+                'file' => '/var/www/zf/module/Application/Module.php',
+                'line' => 2
+            ]);
+            expect('error_get_last')->toBeCalled();
+
+            try {
+                $this->listener->execOnShutdown();
+            } catch (\Throwable $t) {
+                expect($t)->toBeAnInstanceOf(\Throwable::class);
+            }
+        });
+
 
     });
 
