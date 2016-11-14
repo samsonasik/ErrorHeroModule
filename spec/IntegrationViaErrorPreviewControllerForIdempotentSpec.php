@@ -89,6 +89,8 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
 
             Quit::disable();
 
+            allow('php_uname')->toBeCalled()->andReturn('Apples-MacBook-Pro.local');
+
             $application = Application::init([
                 'modules' => [
                     'Zend\Router',

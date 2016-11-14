@@ -19,6 +19,8 @@ class LoggingFactory
             $serverUrl = $container->get('ViewHelperManager')->get('ServerUrl')->__invoke();
             $request = $container->get('Request');
             $requestUri = $request->getRequestUri();
+        } else {
+            $serverUrl = php_uname('n');
         }
 
         $config = $container->get('config');
