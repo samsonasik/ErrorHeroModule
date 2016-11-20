@@ -45,9 +45,9 @@ CREATE TABLE `log` (
 ```
 > If you use other RDBMS, you may follow the `log` table structure above.
 
-**2. Setup your Zend\Db\Adapter\Adapter service**
+**2. Setup your Zend\Db\Adapter\Adapter service or your DoctrineORMModule Config**
 
-This module uses `Zend\Log\Writer\Db` so, we need `Zend\Db\Adapter\Adapter` service.
+You can use 'db' (with _Zend\Db_) config or 'doctrine' (with _DoctrineORMModule_) config that will be converted to be usable with `Zend\Log\Writer\Db`.
 
 ```php
 // config/autoload/local.php
@@ -63,6 +63,29 @@ return [
     ],      
 ];
 ```
+
+OR
+
+```php
+// config/autoload/local.php
+return [
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
+                'driverClass' =>'Doctrine\DBAL\Driver\PDOMySql\Driver',
+                'params' => [
+                    'user'     => 'root',
+                    'password'     => '',
+                    'dbname'   => 'mysqldbname',
+                    'host'     => 'localhost',
+                    'port'     => '3306',
+                ],
+            ],
+        ],
+    ]
+];
+```
+
 > If you use other RDBMS, you may configure your own `db` config.
 
 **3. Require this module uses [composer](https://getcomposer.org/).**
