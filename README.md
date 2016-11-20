@@ -74,10 +74,10 @@ return [
             'orm_default' => [
                 'driverClass' =>'Doctrine\DBAL\Driver\PDOMySql\Driver',
                 'params' => [
-                    'user'     => 'root',
-                    'password'     => '',
+                    'user'     => 'mysqluser',
+                    'password' => 'mysqlpassword',
                     'dbname'   => 'mysqldbname',
-                    'host'     => 'localhost',
+                    'host'     => 'mysqlhost',
                     'port'     => '3306',
                 ],
             ],
@@ -86,7 +86,7 @@ return [
 ];
 ```
 
-> If you use other RDBMS, you may configure your own `db` config.
+> If you use other RDBMS, you may configure your own `db` or `doctrine` config.
 
 **3. Require this module uses [composer](https://getcomposer.org/).**
 
