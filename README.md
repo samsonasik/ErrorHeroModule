@@ -55,8 +55,9 @@ return [
     'db' => [
         'username' => 'mysqluser',
         'password' => 'mysqlpassword',
-        'driver' => 'Pdo',
-        'dsn' => 'mysql:dbname=mysqldbname;host=mysqlhost',
+        'driver'   => 'pdo_mysql',
+        'database' => 'mysqldbname',
+        'host'     => 'mysqlhost',
         'driver_options' => [
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
         ],
