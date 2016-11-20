@@ -89,7 +89,7 @@ describe('Module', function () {
 
         });
 
-        it('has EntityManager service but already does not has db config', function () {
+        it('has EntityManager service but already does not has db config not isset driverOptions', function () {
 
             $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
             $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
@@ -106,6 +106,44 @@ describe('Module', function () {
             $driver = Double::instance(['extends' => Driver::class, 'methods' => '__construct']);
             allow($driver)->toReceive('getName')->andReturn('pdo_mysql');
 
+            allow($connection)->toReceive('getParams')->andReturn([]);
+            allow($connection)->toReceive('getUsername')->andReturn('root');
+            allow($connection)->toReceive('getPassword')->andReturn('');
+            allow($connection)->toReceive('getDriver')->andReturn($driver);
+            allow($connection)->toReceive('getDatabase')->andReturn('mydb');
+            allow($connection)->toReceive('getHost')->andReturn('localhost');
+            allow($connection)->toReceive('getPort')->andReturn('3306');
+
+            allow($entityManager)->toReceive('getConnection')->andReturn($connection);
+            allow($serviceManager)->toReceive('get')->with(EntityManager::class)->andReturn($entityManager);
+
+            $this->module->convertDoctrineToZendDbConfig($moduleEvent);
+            expect($serviceManager)->toReceive('get')->with(EntityManager::class);
+
+        });
+
+        it('has EntityManager service but already does not has db config with isset driverOptions', function () {
+
+            $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
+            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
+            allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(true);
+
+            $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
+            allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);
+            allow($configListener)->toReceive('getMergedConfig')->andReturn([]);
+
+            $entityManager = Double::instance(['extends' => EntityManager::class, 'methods' => '__construct']);
+            $connection    = Double::instance(['extends' => Connection::class, 'methods' => '__construct']);
+
+            $driver = Double::instance(['extends' => Driver::class, 'methods' => '__construct']);
+            allow($driver)->toReceive('getName')->andReturn('pdo_mysql');
+
+            allow($connection)->toReceive('getParams')->andReturn([
+                'driverOptions' => [
+                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                ],
+            ]);
             allow($connection)->toReceive('getUsername')->andReturn('root');
             allow($connection)->toReceive('getPassword')->andReturn('');
             allow($connection)->toReceive('getDriver')->andReturn($driver);

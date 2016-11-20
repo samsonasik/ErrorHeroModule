@@ -40,13 +40,17 @@ class Module
         $entityManager          = $services->get(EntityManager::class);
         $doctrineDBALConnection = $entityManager->getConnection();
 
+        $params        = $doctrineDBALConnection->getParams();
+        $driverOptions = (isset($params['driverOptions'])) ? $params['driverOptions'] : [];
+
         $configuration['db'] = [
-            'username' => $doctrineDBALConnection->getUsername(),
-            'password' => $doctrineDBALConnection->getPassword(),
-            'driver'   => $doctrineDBALConnection->getDriver()->getName(),
-            'database' => $doctrineDBALConnection->getDatabase(),
-            'host'     => $doctrineDBALConnection->getHost(),
-            'port'     => $doctrineDBALConnection->getPort()
+            'username'       => $doctrineDBALConnection->getUsername(),
+            'password'       => $doctrineDBALConnection->getPassword(),
+            'driver'         => $doctrineDBALConnection->getDriver()->getName(),
+            'database'       => $doctrineDBALConnection->getDatabase(),
+            'host'           => $doctrineDBALConnection->getHost(),
+            'port'           => $doctrineDBALConnection->getPort(),
+            'driver_options' => $driverOptions,
         ];
 
         $configuration['service_manager']['factories']['Zend\Db\Adapter\Adapter'] = 'Zend\Db\Adapter\AdapterServiceFactory';
