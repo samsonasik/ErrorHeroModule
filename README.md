@@ -64,7 +64,7 @@ return [
 ];
 ```
 
-OR
+**OR**
 
 ```php
 // config/autoload/local.php
