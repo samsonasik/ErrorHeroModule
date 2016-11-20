@@ -45,7 +45,7 @@ CREATE TABLE `log` (
 ```
 > If you use other RDBMS, you may follow the `log` table structure above.
 
-**2. Setup your Zend\Db\Adapter\Adapter service or your DoctrineORMModule Config**
+**2. Setup your Zend\Db\Adapter\Adapter service or your Doctrine\ORM\EntityManager service config**
 
 You can use 'db' (with _Zend\Db_) config or 'doctrine' (with _DoctrineORMModule_) config that will be converted to be usable with `Zend\Log\Writer\Db`.
 
