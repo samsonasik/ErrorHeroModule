@@ -49,6 +49,8 @@ class Module
             'port'     => $doctrineDBALConnection->getPort()
         ];
 
+        $configuration['service_manager']['factories']['Zend\Db\Adapter\Adapter'] = 'Zend\Db\Adapter\AdapterServiceFactory';
+
         $configListener->setMergedConfig($configuration);
         $event->setConfigListener($configListener);
 
