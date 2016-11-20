@@ -3,9 +3,9 @@
 namespace ErrorHeroModule;
 
 use Doctrine\ORM\EntityManager;
-use Zend\Mvc\MvcEvent;
 use Zend\ModuleManager\ModuleEvent;
 use Zend\ModuleManager\ModuleManager;
+use Zend\Mvc\MvcEvent;
 
 class Module
 {

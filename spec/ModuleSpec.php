@@ -9,12 +9,12 @@ use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Module;
 use Kahlan\Plugin\Double;
 use Zend\EventManager\EventManagerInterface;
+use Zend\ModuleManager\Listener\ConfigListener;
+use Zend\ModuleManager\ModuleEvent;
+use Zend\ModuleManager\ModuleManager;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\ModuleManager\ModuleEvent;
-use Zend\ModuleManager\ModuleManager;
-use Zend\ModuleManager\Listener\ConfigListener;
 
 describe('Module', function () {
 

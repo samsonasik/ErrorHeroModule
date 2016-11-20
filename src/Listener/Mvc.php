@@ -4,12 +4,12 @@ namespace ErrorHeroModule\Listener;
 
 use ErrorHeroModule\Handler\Logging;
 use Zend\Console\Console;
-use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
+use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\MvcEvent;
+use Zend\Text\Table;
 use Zend\View\Model\ViewModel;
 use Zend\View\Renderer\PhpRenderer;
-use Zend\Text\Table;
 
 class Mvc extends AbstractListenerAggregate
 {
