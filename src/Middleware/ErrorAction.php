@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Middleware;
 
+use ErrorHeroModule\HeroTrait;
 use ErrorHeroModule\Handler\Logging;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -12,11 +13,11 @@ class ErrorAction
     /**
      * @param  array       $errorHeroModuleConfig
      * @param  Logging     $logging
-     * @param  PhpRenderer $renderer
+     * @param PhpRenderer $renderer
      */
     public function __construct(
-        array       $errorHeroModuleConfig,
-        Logging     $logging,
+        array                     $errorHeroModuleConfig,
+        Logging                   $logging,
         PhpRenderer $renderer
     ) {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
