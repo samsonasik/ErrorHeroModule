@@ -35,7 +35,7 @@ class ErrorAction
         set_error_handler([$this, 'phpErrorHandler']);
     }
 
-    public function __invoke($error, $request, $response, $next = null)
+    public function __invoke($request, $response, $next = null)
     {
         $this->phpError();
 
