@@ -1,14 +1,14 @@
 <?php
 
-namespace ErrorHeroModule\Listener;
+namespace ErrorHeroModule\Middleware;
 
 use ErrorHeroModule\Handler\Logging;
 
-class MvcFactory
+class ErrorActionFactory
 {
     public function __invoke($container)
     {
-        return new Mvc(
+        return new ErrorAction(
             $container->get('config')['error-hero-module'],
             $container->get(Logging::class),
             $container->get('ViewRenderer')

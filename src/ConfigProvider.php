@@ -9,7 +9,12 @@ class ConfigProvider
         $config = include __DIR__.'/../config/module.config.php';
 
         return [
-            'dependencies' => $config['service_manager'],
+            'dependencies' => [
+                'factories' => [
+                    Middleware\ErrorAction::class => Middleware\ErrorActionFactory::class,
+                    Middleware\ExceptionAction::class => Middleware\ExceptionActionFactory::class,
+                ],
+            ],
         ];
     }
 }
