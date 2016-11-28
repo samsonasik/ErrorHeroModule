@@ -1,0 +1,31 @@
+<?php
+
+$zendLogDependencyConfig = (new Zend\Log\ConfigProvider())->getDependencyConfig();
+$errorHeroModuleConfig   = [
+    'factories' => [
+        ErrorHeroModule\Middleware\ErrorAction::class => ErrorHeroModule\Middleware\ErrorActionFactory::class,
+        ErrorHeroModule\Middleware\ExceptionAction::class => ErrorHeroModule\Middleware\ExceptionActionFactory::class,
+    ],
+];
+
+return [
+
+    'dependencies' => array_merge($zendLogDependencyConfig, errorHeroModuleConfig),
+
+    'middleware_pipeline' => [
+        'error' => [
+            'middleware' => [
+                ErrorHeroModule\Middleware\ErrorAction::class
+            ],
+            'priority' => PHP_INT_MAX,
+        ],
+        'exception' => [
+           'middleware' => [
+               ErrorHeroModule\Middleware\ExceptionAction::class,
+           ],
+           'error'    => true,
+           'priority' => -10000,
+       ],
+    ],
+
+];

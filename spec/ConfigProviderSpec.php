@@ -14,9 +14,13 @@ describe('ConfigProvider', function () {
 
         it('return "config" array with "dependencies" key', function () {
 
-            $moduleConfig = include __DIR__.'/../config/module.config.php';
             $expected = [
-                'dependencies' => $moduleConfig['service_manager'],
+                'dependencies' => [
+                    'factories' => [
+                        \ErrorHeroModule\Middleware\ErrorAction::class => \ErrorHeroModule\Middleware\ErrorActionFactory::class,
+                        \ErrorHeroModule\Middleware\ExceptionAction::class => \ErrorHeroModule\Middleware\ExceptionActionFactory::class,
+                    ],
+                ],
             ];
 
             $actual = $this->configProvider->__invoke();
