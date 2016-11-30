@@ -75,6 +75,7 @@ class Db
                     $message => $errorMessage,
                     $line => $errorLine,
                     $url => $errorUrl,
+                    $file => $errorFile,
                 ]);
                 $select->order($timestamp.' DESC');
                 $select->limit(1);
