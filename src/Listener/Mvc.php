@@ -93,11 +93,6 @@ class Mvc extends AbstractListenerAggregate
 
     public function phpError($e)
     {
-        if ($this->errorHeroModuleConfig['display-settings']['display_errors'] === 0) {
-            error_reporting(E_ALL | E_STRICT);
-            ini_set('display_errors', 0);
-        }
-
         register_shutdown_function([$this, 'execOnShutdown']);
         set_error_handler([$this, 'phpErrorHandler']);
     }
@@ -119,23 +114,29 @@ class Mvc extends AbstractListenerAggregate
     public function phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine)
     {
         $errorTypeString = $this->errorType[$errorType];
-
-        if ($errorLine &&
-            !in_array(
-                $errorType,
-                $this->errorHeroModuleConfig['display-settings']['exclude-php-errors']
-            )
-        ) {
-            $this->logging->handleError(
-                $errorType,
-                $errorMessage,
-                $errorFile,
-                $errorLine,
-                $errorTypeString
-            );
+        $errorExcluded = false;
+        if ($errorLine) {
+            if (in_array($errorType, $this->errorHeroModuleConfig['display-settings']['exclude-php-errors'])) {
+                $errorExcluded = true;
+            } else {
+                $this->logging->handleError(
+                    $errorType,
+                    $errorMessage,
+                    $errorFile,
+                    $errorLine,
+                    $errorTypeString
+                );
+            }
         }
 
-        $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
+        if ($this->errorHeroModuleConfig['display-settings']['display_errors'] === 0 || $errorExcluded) {
+            error_reporting(E_ALL | E_STRICT);
+            ini_set('display_errors', 0);
+        }
+
+        if (! $errorExcluded) {
+            $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
+        }
     }
 
     /**
