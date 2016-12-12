@@ -7,7 +7,7 @@ use ErrorHeroModule\Controller\ErrorPreviewController;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
-use Zend\Http\Request;
+use Zend\Http\PhpEnvironment\Request;
 use Zend\Mvc\Application;
 
 describe('Integration via ErrorPreviewController for XmlHttpRequest', function () {

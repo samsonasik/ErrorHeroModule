@@ -6,7 +6,7 @@ use ErrorHeroModule\Handler\Logging;
 use Zend\Console\Console;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
-use Zend\Http\Request;
+use Zend\Http\PhpEnvironment\Request;
 use Zend\Mvc\MvcEvent;
 use Zend\Text\Table;
 use Zend\View\Model\ViewModel;
