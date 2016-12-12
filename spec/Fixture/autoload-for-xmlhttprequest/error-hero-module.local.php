@@ -2,6 +2,16 @@
 
 return [
 
+    'db' => [
+        'username' => 'root',
+        'password' => '',
+        'driver' => 'Pdo',
+        'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
+        'driver_options' => [
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+        ],
+    ],
+
     'log' => [
         'ErrorHeroModuleLogger' => [
             'writers' => [
@@ -49,13 +59,11 @@ return [
                 'view'   => 'error-hero-module/error-default'
             ],
 
-            // if enable and display_errors = 0, and on console env, the console will bring message
+            // if enable and display_errors = 0, the console will bring message
             'console' => [
                 'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
             ],
 
-            // if enable, display_errors = 0, and request XMLHttpRequest
-            // on this case, the "template" key will be ignored.
             'ajax' => [
                 'message' => <<<json
 {

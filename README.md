@@ -19,6 +19,7 @@ Features
 - [x] Support excludes [PHP E_* Error](http://www.php.net/manual/en/errorfunc.constants.php) (eg: exclude E_USER_DEPRECATED) in config settings
 - [x] Handle only once log error for same error per configured time range
 - [x] Set default page (web access) or default message (console access) for error if configured 'display_errors' = 0
+- [x] Set default content when request is XMLHttpRequest via 'ajax' configuration.
 - [x] Request Information ( http method, raw data, query data, files data )
 - [x] Send Mail to listed configured email.
 
@@ -165,6 +166,15 @@ return [
             // if enable and display_errors = 0, the console will bring message
             'console' => [
                 'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
+            ],
+            // if enable, display_errors = 0, and request XMLHttpRequest
+            // on this case, the "template" key will be ignored.
+            'ajax' => [
+                'message' => <<<json
+{
+    "error": "We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience."
+}
+json
             ],
         ],
 
