@@ -6,6 +6,7 @@ use ErrorHeroModule\Handler\Logging;
 use Zend\Console\Console;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
+use Zend\Http\Request;
 use Zend\Mvc\MvcEvent;
 use Zend\Text\Table;
 use Zend\View\Model\ViewModel;
@@ -148,14 +149,26 @@ class Mvc extends AbstractListenerAggregate
 
         if ($displayErrors === 0) {
             if (!Console::isConsole()) {
-                $view = new ViewModel();
-                $view->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['view']);
 
-                $layout = new ViewModel();
-                $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
-                $layout->setVariable('content', $this->renderer->render($view));
+                $isXmlHttpRequest = (new Request())->isXmlHttpRequest();
+                if ($isXmlHttpRequest === true &&
+                    isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
+                ) {
+                    echo $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
+                }
 
-                echo $this->renderer->render($layout);
+                if ($isXmlHttpRequest === false ||
+                    ! isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
+                ) {
+                    $view = new ViewModel();
+                    $view->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['view']);
+
+                    $layout = new ViewModel();
+                    $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
+                    $layout->setVariable('content', $this->renderer->render($view));
+
+                    echo $this->renderer->render($layout);
+                }
             } else {
                 $table = new Table\Table([
                     'columnWidths' => [150],
