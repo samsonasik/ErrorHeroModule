@@ -167,6 +167,15 @@ return [
             'console' => [
                 'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
             ],
+            // if enable, display_errors = 0, and request XMLHttpRequest
+            // on this case, the "template" key will be ignored.
+            'ajax' => [
+                'message' => <<<json
+{
+    "error": "We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience."
+}
+json
+            ],
         ],
 
         'logging-settings' => [
