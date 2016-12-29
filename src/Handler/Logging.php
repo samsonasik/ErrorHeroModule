@@ -5,8 +5,6 @@ namespace ErrorHeroModule\Handler;
 use Error;
 use ErrorException;
 use Zend\Http\PhpEnvironment\Request;
-use Zend\Json\Json;
-use Zend\Log\Formatter\Xml;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db;
 use Zend\Log\Writer\Mail;
@@ -144,7 +142,7 @@ class Logging
             ];
         }
 
-        return Json::prettyPrint(Json::encode($request_data));
+        return $request_data;
     }
 
     /**
@@ -166,7 +164,7 @@ class Logging
                     $this->mailMessageService,
                     $this->mailMessageTransport
                 );
-                $formatter = new Xml();
+                $formatter = new Formatter\Json();
                 $writer->setFormatter($formatter);
 
                 // use setWriters() to clean up existing writers
@@ -193,8 +191,8 @@ class Logging
 
         $errorFile = $e->getFile();
         $errorLine = $e->getLine();
+        $trace     = $e->getTraceAsString();
 
-        $trace = $e->getTraceAsString();
         $i = 1;
         do {
             $messages[] = $i++.': '.$e->getMessage();
