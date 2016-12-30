@@ -4,7 +4,6 @@ namespace ErrorHeroModule\Spec\Handler\Formatter;
 
 use DateTime;
 use ErrorHeroModule\Handler\Formatter\Json;
-use Kahlan\Plugin\Double;
 
 describe('Json', function () {
 
