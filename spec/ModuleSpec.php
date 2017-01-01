@@ -5,15 +5,12 @@ namespace ErrorHeroModule\Spec;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
-use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Module;
 use Kahlan\Plugin\Double;
 use Zend\EventManager\EventManagerInterface;
 use Zend\ModuleManager\Listener\ConfigListener;
 use Zend\ModuleManager\ModuleEvent;
 use Zend\ModuleManager\ModuleManager;
-use Zend\Mvc\Application;
-use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 describe('Module', function () {
@@ -156,29 +153,6 @@ describe('Module', function () {
 
             $this->module->convertDoctrineToZendDbConfig($moduleEvent);
             expect($serviceManager)->toReceive('get')->with(EntityManager::class);
-
-        });
-
-    });
-
-    describe('->onBootstrap()', function () {
-
-        it('pull Mvc Listener and use it to attach with EventManager', function () {
-
-            $application     = Double::instance(['extends' => Application::class, 'methods' => '__construct']);
-            $mvcListener     = Double::instance(['extends' => Mvc::class, 'methods' => '__construct']);
-            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
-            $eventManager    = Double::instance(['implements' => EventManagerInterface::class]);
-            $mvcEvent        = Double::instance(['extends' => MvcEvent::class]);
-
-            expect($mvcListener)->toReceive('attach')->with($eventManager);
-
-            allow($application)->toReceive('getServiceManager')->andReturn($serviceManager);
-            allow($application)->toReceive('getEventManager')->andReturn($eventManager);
-            allow($serviceManager)->toReceive('get')->with(Mvc::class)->andReturn($mvcListener);
-            allow($mvcEvent)->toReceive('getApplication')->andReturn($application);
-
-            $this->module->onBootstrap($mvcEvent);
 
         });
 

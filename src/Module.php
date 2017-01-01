@@ -5,7 +5,6 @@ namespace ErrorHeroModule;
 use Doctrine\ORM\EntityManager;
 use Zend\ModuleManager\ModuleEvent;
 use Zend\ModuleManager\ModuleManager;
-use Zend\Mvc\MvcEvent;
 
 class Module
 {
@@ -62,16 +61,6 @@ class Module
         $services->setAllowOverride(true);
         $services->setService('config', $configuration);
         $services->setAllowOverride($allowOverride);
-    }
-
-    public function onBootstrap(MvcEvent $e)
-    {
-        $app = $e->getApplication();
-        $services = $app->getServiceManager();
-        $eventManager = $app->getEventManager();
-
-        $mvcListenerAggregate = $services->get(Listener\Mvc::class);
-        $mvcListenerAggregate->attach($eventManager);
     }
 
     public function getConfig()

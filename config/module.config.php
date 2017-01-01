@@ -43,6 +43,10 @@ return [
         ],
     ],
 
+    'listeners' => [
+        Listener\Mvc::class,
+    ],
+
     'view_manager' => [
         'template_map' => [
            'error-hero-module/error-default' => __DIR__.'/../view/error-hero-module/error-default.phtml',
