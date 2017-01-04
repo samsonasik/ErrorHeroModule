@@ -240,7 +240,7 @@ describe('Mvc', function () {
             $closure = function () use ($listener, $mvcEvent) {
                 $listener->exceptionError($mvcEvent);
             };
-            expect($closure)->toThrow(new QuitException());
+            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
             expect($content)->toContain('We have encountered a problem');
@@ -261,7 +261,7 @@ describe('Mvc', function () {
             $closure = function () use ($mvcEvent) {
                 $this->listener->exceptionError($mvcEvent);
             };
-            expect($closure)->toThrow(new QuitException());
+            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
             expect($content)->toContain('We have encountered a problem');

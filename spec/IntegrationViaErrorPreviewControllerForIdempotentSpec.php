@@ -53,7 +53,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
             $closure = function () {
                 $this->application->run();
             };
-            expect($closure)->toThrow(new QuitException());
+            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
@@ -74,7 +74,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
             $closure = function () {
                 $this->application->run();
             };
-            expect($closure)->toThrow(new QuitException());
+            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
@@ -117,7 +117,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
             $closure = function () use ($application) {
                 $application->run();
             };
-            expect($closure)->toThrow(new QuitException());
+            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
             expect($content)->toContain('|We have encountered a problem and we can not fulfill your request');
@@ -142,7 +142,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
             $closure = function () {
                 $this->application->run();
             };
-            expect($closure)->toThrow(new QuitException());
+            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
@@ -163,7 +163,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
             $closure = function () {
                 $this->application->run();
             };
-            expect($closure)->toThrow(new QuitException());
+            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');

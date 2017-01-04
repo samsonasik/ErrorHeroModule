@@ -24,7 +24,7 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    realpath(__DIR__).'/Fixture/autoload-for-xmlhttprequest/{{,*.}global,{,*.}local}.php',
+                    realpath(__DIR__).'/Fixture/autoload-for-xmlhttprequest-with-non-json-message/{{,*.}global,{,*.}local}.php',
                 ],
             ],
         ]);
@@ -58,12 +58,7 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
             expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
-            expect($content)->toBe(<<<json
-{
-    "error": "We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience."
-}
-json
-            );
+            expect($content)->toBe('We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.');
 
         });
 
