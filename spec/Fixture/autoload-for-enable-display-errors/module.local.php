@@ -37,6 +37,10 @@ return [
             Handler\Logging::class => Handler\LoggingFactory::class,
         ],
     ],
+    
+    'listeners' => [
+        Listener\Mvc::class,
+    ],
 
     'view_manager' => [
        'template_path_stack' => [
