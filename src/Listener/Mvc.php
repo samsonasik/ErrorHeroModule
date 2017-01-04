@@ -166,6 +166,9 @@ class Mvc extends AbstractListenerAggregate
 
                     $response->getHeaders()->addHeaderLine('Content-type', $contentType);
                     $response->setContent($content);
+
+                    $response->send();
+                    exit(-1);
                 }
 
                 if ($isXmlHttpRequest === false ||
@@ -180,6 +183,9 @@ class Mvc extends AbstractListenerAggregate
 
                     $response->getHeaders()->addHeaderLine('Content-type', 'text/html');
                     $response->setContent($this->renderer->render($layout));
+
+                    $response->send();
+                    exit(-1);
                 }
             } else {
 
@@ -195,9 +201,6 @@ class Mvc extends AbstractListenerAggregate
                 $response->setContent($table->render());
                 $response->send();
             }
-
-            $response->send();
-            exit(-1);
         }
     }
 }
