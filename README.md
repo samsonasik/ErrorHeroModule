@@ -217,10 +217,27 @@ return [
 Give it a try!
 --------------
 
+*Web Access*
+
 | URl                                  | Preview For  |
 |--------------------------------------|--------------|
 | http://yourzfapp/error-preview       | Exception    |
 | http://yourzfapp/error-preview/error | Error        |
+
+You will get the following page if display_errors config is 0:
+
+![error preview in web](https://cloud.githubusercontent.com/assets/459648/21668589/d4fdadac-d335-11e6-95aa-5a8cfa3f8e4b.png)
+
+*Console Access*
+
+| Command                                  | Preview For  |
+|------------------------------------------|--------------|
+| php public/index.php error-preview       | Exception    |
+| php public/index.php error-preview error | Error        |
+
+You will get the following page if display_errors config is 0:
+
+[img]
 
 Contributing
 ------------
