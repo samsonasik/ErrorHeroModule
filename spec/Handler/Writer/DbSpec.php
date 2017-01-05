@@ -5,7 +5,7 @@ namespace ErrorHeroModule\Spec\Handler\Writer;
 use ErrorHeroModule\Handler\Writer\Db;
 use Kahlan\Plugin\Double;
 use ReflectionProperty;
-use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
 use Zend\Db\TableGateway\TableGateway;
@@ -81,7 +81,7 @@ describe('Db', function () {
             allow($select)->toReceive('limit');
             allow($sql)->toReceive('select')->andReturn($select);
 
-            $resultSet = Double::instance(['extends' => HydratingResultSet::class, 'methods' => '__construct']);
+            $resultSet = Double::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
             allow($resultSet)->toReceive('count')->andReturn(0);
             allow(TableGateway::class)->toReceive('selectWith')->with($select)->andReturn($resultSet);
 
@@ -101,19 +101,19 @@ describe('Db', function () {
             allow($select)->toReceive('limit');
             allow($sql)->toReceive('select')->andReturn($select);
 
-            $resultSet = Double::instance(['extends' => HydratingResultSet::class, 'methods' => '__construct']);
+            $resultSet = Double::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
 
             $current = date('Y-m-d');
             $date    = date_create($current);
             date_sub($date, date_interval_create_from_date_string("40 days"));
             $date =  date_format($date,"Y-m-d H:i:s");
 
-            allow($resultSet)->toReceive('toArray')->andReturn([
-                0 => [
-                    'date' => $date,
-                ],
-            ]);
             allow($resultSet)->toReceive('count')->andReturn(1);
+            allow($resultSet)->toReceive('current')->andReturn(
+                [
+                    'date' => $date,
+                ]
+            );
             allow(TableGateway::class)->toReceive('selectWith')->with($select)->andReturn($resultSet);
 
             $actual = $this->writerHandler->isExists('file', 1, 'Undefined offset: 1', 'http://serverUrl/uri');
@@ -132,14 +132,14 @@ describe('Db', function () {
             allow($select)->toReceive('limit');
             allow($sql)->toReceive('select')->andReturn($select);
 
-            $resultSet = Double::instance(['extends' => HydratingResultSet::class, 'methods' => '__construct']);
+            $resultSet = Double::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
 
-            allow($resultSet)->toReceive('toArray')->andReturn([
-                0 => [
-                    'date' => date('Y-m-d H:i:s'),
-                ],
-            ]);
             allow($resultSet)->toReceive('count')->andReturn(1);
+            allow($resultSet)->toReceive('current')->andReturn(
+                [
+                    'date' => date('Y-m-d H:i:s'),
+                ]
+            );
             allow(TableGateway::class)->toReceive('selectWith')->with($select)->andReturn($resultSet);
 
             $actual = $this->writerHandler->isExists('file', 1, 'Undefined offset: 1', 'http://serverUrl/uri');

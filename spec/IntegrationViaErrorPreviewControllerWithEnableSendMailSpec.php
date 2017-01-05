@@ -7,7 +7,7 @@ use ErrorHeroModule\Controller\ErrorPreviewController;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
-use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Log;
 use Zend\Mvc\Application;
@@ -37,7 +37,7 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
                        ->detach($events);
 
         $db  = $serviceManager->get('Zend\Db\Adapter\Adapter');
-        $tableGateway = new TableGateway('log', $db, null, new HydratingResultSet());
+        $tableGateway = new TableGateway('log', $db, null, new ResultSet());
         $tableGateway->delete([]);
 
         return $application;

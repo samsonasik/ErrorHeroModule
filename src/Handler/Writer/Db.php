@@ -3,7 +3,7 @@
 namespace ErrorHeroModule\Handler\Writer;
 
 use ReflectionProperty;
-use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Log\Writer\Db as DbWriter;
@@ -69,7 +69,7 @@ class Db
                 $line = $writerConfig['options']['column']['extra']['line'];
                 $url = $writerConfig['options']['column']['extra']['url'];
 
-                $tableGateway = new TableGateway($table, $db, null, new HydratingResultSet());
+                $tableGateway = new TableGateway($table, $db, null, new ResultSet());
                 $select = $tableGateway->getSql()->select();
                 $select->where([
                     $message => $errorMessage,
@@ -82,9 +82,8 @@ class Db
 
                 $result = $tableGateway->selectWith($select);
                 if ($result->count() === 1) {
-                    $resultArray = $result->toArray();
-                    $last = date('Y-m-d H:i:s');
-                    $first = $resultArray[0][$timestamp];
+                    $first = $result->current()[$timestamp];
+                    $last  = date('Y-m-d H:i:s');
 
                     $diff = strtotime($last) - strtotime($first);
                     if ($diff <= $timeRange) {

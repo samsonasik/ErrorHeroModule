@@ -5,7 +5,7 @@ namespace ErrorHeroModule\Spec\Handler;
 use ErrorHeroModule\Handler\Logging;
 use Kahlan\Plugin\Double;
 use ReflectionProperty;
-use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
 use Zend\Db\TableGateway\TableGateway;
@@ -130,14 +130,14 @@ describe('LoggingSpec', function () {
             allow($select)->toReceive('limit');
             allow($sql)->toReceive('select')->andReturn($select);
 
-            $resultSet = Double::instance(['extends' => HydratingResultSet::class, 'methods' => '__construct']);
+            $resultSet = Double::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
 
-            allow($resultSet)->toReceive('toArray')->andReturn([
-                0 => [
-                    'date' => date('Y-m-d H:i:s'),
-                ],
-            ]);
             allow($resultSet)->toReceive('count')->andReturn(1);
+            allow($resultSet)->toReceive('current')->andReturn(
+                [
+                    'date' => date('Y-m-d H:i:s'),
+                ]
+            );
             allow(TableGateway::class)->toReceive('selectWith')->with($select)->andReturn($resultSet);
 
             expect($this->logger)->not->toReceive('log');
@@ -158,13 +158,13 @@ describe('LoggingSpec', function () {
             allow($select)->toReceive('limit');
             allow($sql)->toReceive('select')->andReturn($select);
 
-            $resultSet = Double::instance(['extends' => HydratingResultSet::class, 'methods' => '__construct']);
+            $resultSet = Double::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
 
-            allow($resultSet)->toReceive('toArray')->andReturn([
-                0 => [
+            allow($resultSet)->toReceive('current')->andReturn(
+                [
                     'date' => date('Y-m-d H:i:s'),
-                ],
-            ]);
+                ]
+            );
             allow($resultSet)->toReceive('count')->andReturn(1);
             allow(TableGateway::class)->toReceive('selectWith')->with($select)->andReturn($resultSet);
 
