@@ -48,8 +48,6 @@ describe('Integration via ErrorPreviewController', function () {
 
         it('show error page', function() {
 
-            skipIf(PHP_MAJOR_VERSION < 7);
-
             Quit::disable();
 
             $request     = $this->application->getRequest();
@@ -72,8 +70,6 @@ describe('Integration via ErrorPreviewController', function () {
     describe('/error-preview/error', function() {
 
         it('show error page', function() {
-
-            skipIf(PHP_MAJOR_VERSION < 7);
 
             Quit::disable();
 

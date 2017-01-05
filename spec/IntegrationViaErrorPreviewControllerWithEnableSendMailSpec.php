@@ -48,8 +48,6 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
 
         it('show error page', function() {
 
-            skipIf(PHP_MAJOR_VERSION < 7);
-
             Quit::disable();
 
             $request     = $this->application->getRequest();
@@ -72,8 +70,6 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
     describe('/error-preview/error', function() {
 
         it('show error page', function() {
-
-            skipIf(PHP_MAJOR_VERSION < 7);
 
             Quit::disable();
 

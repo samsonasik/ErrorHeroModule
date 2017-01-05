@@ -41,8 +41,6 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
 
         it('show error page', function() {
 
-            skipIf(PHP_MAJOR_VERSION < 7);
-
             Quit::disable();
 
             $request     = $this->application->getRequest();
@@ -61,8 +59,6 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
         });
 
         it('show error page, idempotent for error exist check in DB', function() {
-
-            skipIf(PHP_MAJOR_VERSION < 7);
 
             Quit::disable();
 
@@ -87,8 +83,6 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
 
         it('show error page', function() {
 
-            skipIf(PHP_MAJOR_VERSION < 7);
-
             Quit::disable();
 
             $request     = $this->application->getRequest();
@@ -107,8 +101,6 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
         });
 
         it('show error page, idempotent for error exist check in DB', function() {
-
-            skipIf(PHP_MAJOR_VERSION < 7);
 
             Quit::disable();
 

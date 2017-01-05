@@ -42,7 +42,6 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
 
         it('show error page', function() {
 
-            skipIf(PHP_MAJOR_VERSION < 7);
             Quit::disable();
 
             $request     = $this->application->getRequest();

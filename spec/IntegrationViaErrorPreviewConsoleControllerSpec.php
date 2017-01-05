@@ -48,8 +48,6 @@ describe('Integration via ErrorPreviewConsoleController', function () {
 
         it('show error page', function() {
 
-            skipIf(PHP_MAJOR_VERSION < 7);
-
             Quit::disable();
 
             $_SERVER['argv'] = [
@@ -75,8 +73,6 @@ describe('Integration via ErrorPreviewConsoleController', function () {
     describe('error-preview error', function() {
 
         it('show error page', function() {
-
-            skipIf(PHP_MAJOR_VERSION < 7);
 
             Quit::disable();
 
