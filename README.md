@@ -232,9 +232,9 @@ You will get the following page if display_errors config is 0:
 
 > If you use zend-mvc v3, you need to have `zendframework/zend-mvc-console:^1.1` in your vendor, if you don't have, you can install it via command:
 
-```
-composer require zendframework/zend-mvc-console:^1.1
-```
+> ```
+> composer require zendframework/zend-mvc-console:^1.1
+> ```
 
 | Command                                  | Preview For  |
 |------------------------------------------|--------------|

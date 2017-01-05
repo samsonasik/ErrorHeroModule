@@ -47,7 +47,7 @@ return [
                     'options' => [
                         'route'    => 'error-preview [<action>]',
                         'defaults' => [
-                            'controller' => (class_exists(ZF2AbstractConsoleController::class) ? Controller\ErrorPreviewConsoleZF2Controller::class : Controller\ErrorPreviewConsoleZF3Controller::class,
+                            'controller' => class_exists(ZF2AbstractConsoleController::class) ? Controller\ErrorPreviewConsoleZF2Controller::class : Controller\ErrorPreviewConsoleZF3Controller::class,
                             'action'     => 'exception'
                         ],
                     ],
