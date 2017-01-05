@@ -76,8 +76,8 @@ class Logging
         $requestUri,
         array $errorHeroModuleLocalConfig,
         array $logWritersConfig,
-        $mailMessageService = null,
-        $mailMessageTransport = null
+        Message $mailMessageService = null,
+        TransportInterface $mailMessageTransport = null
     ) {
         $this->logger = $logger;
         $this->serverUrl = $serverUrl;
