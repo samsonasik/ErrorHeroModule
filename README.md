@@ -217,7 +217,7 @@ return [
 Give it a try!
 --------------
 
-*Web Access*
+_**Web Access**_
 
 | URl                                  | Preview For  |
 |--------------------------------------|--------------|
@@ -228,7 +228,7 @@ You will get the following page if display_errors config is 0:
 
 ![error preview in web](https://cloud.githubusercontent.com/assets/459648/21668589/d4fdadac-d335-11e6-95aa-5a8cfa3f8e4b.png)
 
-*Console Access*
+_**Console Access**_
 
 > If you use zend-mvc v3, you need to have `zendframework/zend-mvc-console` in your vendor, if you don't have, you can install it via command:
 
