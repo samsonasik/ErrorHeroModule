@@ -32,12 +32,12 @@ class Db
      */
     public function __construct(
         DbWriter $dbWriter,
-        array $configLoggingSettings,
-        array $logWritersConfig
+        array    $configLoggingSettings,
+        array    $logWritersConfig
     ) {
-        $this->dbWriter = $dbWriter;
+        $this->dbWriter              = $dbWriter;
         $this->configLoggingSettings = $configLoggingSettings;
-        $this->logWritersConfig = $logWritersConfig;
+        $this->logWritersConfig      = $logWritersConfig;
     }
 
     /**
@@ -64,18 +64,18 @@ class Db
 
                 // columns definition
                 $timestamp = $writerConfig['options']['column']['timestamp'];
-                $message = $writerConfig['options']['column']['message'];
-                $file = $writerConfig['options']['column']['extra']['file'];
-                $line = $writerConfig['options']['column']['extra']['line'];
-                $url = $writerConfig['options']['column']['extra']['url'];
+                $message   = $writerConfig['options']['column']['message'];
+                $file      = $writerConfig['options']['column']['extra']['file'];
+                $line      = $writerConfig['options']['column']['extra']['line'];
+                $url       = $writerConfig['options']['column']['extra']['url'];
 
                 $tableGateway = new TableGateway($table, $db, null, new ResultSet());
-                $select = $tableGateway->getSql()->select();
+                $select       = $tableGateway->getSql()->select();
                 $select->where([
                     $message => $errorMessage,
-                    $line => $errorLine,
-                    $url => $errorUrl,
-                    $file => $errorFile,
+                    $line    => $errorLine,
+                    $url     => $errorUrl,
+                    $file    => $errorFile,
                 ]);
                 $select->order($timestamp.' DESC');
                 $select->limit(1);

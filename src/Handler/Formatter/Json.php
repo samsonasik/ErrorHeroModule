@@ -19,7 +19,7 @@ class Json extends Base implements FormatterInterface
         }
 
         $formatted = json_encode($event, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        $newLine = <<<newLine
+        $newLine   = <<<newLine
 
 
 newLine;

@@ -79,16 +79,16 @@ class Logging
         Message $mailMessageService = null,
         TransportInterface $mailMessageTransport = null
     ) {
-        $this->logger = $logger;
-        $this->serverUrl = $serverUrl;
-        $this->request = $request;
-        $this->requestUri = $requestUri;
+        $this->logger                = $logger;
+        $this->serverUrl             = $serverUrl;
+        $this->request               = $request;
+        $this->requestUri            = $requestUri;
         $this->configLoggingSettings = $errorHeroModuleLocalConfig['logging-settings'];
-        $this->logWritersConfig = $logWritersConfig;
-        $this->mailMessageService = $mailMessageService;
-        $this->mailMessageTransport = $mailMessageTransport;
-        $this->emailReceivers = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
-        $this->emailSender = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
+        $this->logWritersConfig      = $logWritersConfig;
+        $this->mailMessageService    = $mailMessageService;
+        $this->mailMessageTransport  = $mailMessageTransport;
+        $this->emailReceivers        = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
+        $this->emailSender           = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
     }
 
     /**
@@ -123,22 +123,21 @@ class Logging
     {
         $request_data = [];
         if ($this->request instanceof Request) {
-            $query = $this->request->getQuery()->toArray();
+            $query          = $this->request->getQuery()->toArray();
             $request_method = $this->request->getServer('REQUEST_METHOD');
-            $body_data = ($this->request->isPost())
+            $body_data      = ($this->request->isPost())
                 ? $this->request->getPost()->toArray()
                 : [];
-
-            $raw_data = $this->request->getContent();
-            $raw_data = str_replace("\r\n", '', $raw_data);
-            $files_data = $this->request->getFiles()->toArray();
+            $raw_data       = $this->request->getContent();
+            $raw_data       = str_replace("\r\n", '', $raw_data);
+            $files_data     = $this->request->getFiles()->toArray();
 
             $request_data = [
-                'query' => $query,
+                'query'          => $query,
                 'request_method' => $request_method,
-                'body_data' => $body_data,
-                'raw_data' => $raw_data,
-                'files_data' => $files_data,
+                'body_data'      => $body_data,
+                'raw_data'       => $raw_data,
+                'files_data'     => $files_data,
             ];
         }
 
@@ -160,7 +159,7 @@ class Logging
                 $this->mailMessageService->setTo($email);
                 $this->mailMessageService->setSubject($subject);
 
-                $writer = new Mail(
+                $writer    = new Mail(
                     $this->mailMessageService,
                     $this->mailMessageTransport
                 );
@@ -204,11 +203,11 @@ class Logging
         }
 
         $extra = [
-            'url' => $this->serverUrl.$this->requestUri,
-            'file' => $errorFile,
-            'line' => $errorLine,
-            'error_type' => $exceptionClass,
-            'trace' => $trace,
+            'url'          => $this->serverUrl.$this->requestUri,
+            'file'         => $errorFile,
+            'line'         => $errorLine,
+            'error_type'   => $exceptionClass,
+            'trace'        => $trace,
             'request_data' => $this->getRequestData(),
         ];
         $this->logger->log($priority, $errorMessage, $extra);
@@ -236,10 +235,10 @@ class Logging
         $priority = Logger::$errorPriorityMap[$errorType];
 
         $extra = [
-            'url' => $this->serverUrl.$this->requestUri,
-            'file' => $errorFile,
-            'line' => $errorLine,
-            'error_type' => $errorTypeString,
+            'url'          => $this->serverUrl.$this->requestUri,
+            'file'         => $errorFile,
+            'line'         => $errorLine,
+            'error_type'   => $errorTypeString,
             'request_data' => $this->getRequestData(),
         ];
         $this->logger->log($priority, $errorMessage, $extra);

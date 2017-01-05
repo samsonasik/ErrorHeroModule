@@ -11,29 +11,30 @@ class LoggingFactory
 {
     public function __invoke($container)
     {
-        $serverUrl = '';
-        $request = '';
+        $serverUrl  = '';
+        $request    = '';
         $requestUri = '';
 
         if (!Console::isConsole()) {
-            $serverUrl = $container->get('ViewHelperManager')->get('ServerUrl')->__invoke();
-            $request = $container->get('Request');
+            $serverUrl  = $container->get('ViewHelperManager')->get('ServerUrl')->__invoke();
+            $request    = $container->get('Request');
             $requestUri = $request->getRequestUri();
         } else {
             $serverUrl = php_uname('n');
         }
 
-        $config = $container->get('config');
+        $config                = $container->get('config');
         $errorHeroModuleLogger = $container->get('ErrorHeroModuleLogger');
 
         $errorHeroModuleLocalConfig = $config['error-hero-module'];
-        $logWritersConfig = $config['log']['ErrorHeroModuleLogger']['writers'];
+        $logWritersConfig           = $config['log']['ErrorHeroModuleLogger']['writers'];
 
-        $mailConfig = $errorHeroModuleLocalConfig['email-notification-settings'];
-        $mailMessageService = null;
+        $mailConfig           = $errorHeroModuleLocalConfig['email-notification-settings'];
+        $mailMessageService   = null;
         $mailMessageTransport = null;
+
         if ($mailConfig['enable'] === true) {
-            $mailMessageService = $container->get($mailConfig['mail-message']);
+            $mailMessageService   = $container->get($mailConfig['mail-message']);
             if (!$mailMessageService instanceof Message) {
                 throw new RuntimeException('You are enabling email log writer, your "mail-message" config must be instanceof '.Message::class);
             }
