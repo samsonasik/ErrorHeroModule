@@ -3,7 +3,7 @@
 namespace ErrorHeroModule\Spec;
 
 use ErrorHeroModule;
-use ErrorHeroModule\Controller\ErrorPreviewController;
+use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
@@ -12,11 +12,11 @@ use Zend\Db\TableGateway\TableGateway;
 use Zend\Log;
 use Zend\Mvc\Application;
 
-describe('Integration via ErrorPreviewController with enable send mail', function () {
+describe('Integration via ErrorPreviewConsoleController', function () {
 
     given('application', function () {
 
-        Console::overrideIsConsole(false);
+        Console::overrideIsConsole(true);
 
         $application = Application::init([
             'modules' => [
@@ -26,7 +26,7 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    realpath(__DIR__).'/Fixture/autoload-with-enable-sendmail/{{,*.}global,{,*.}local}.php',
+                    realpath(__DIR__).'/Fixture/autoload/{{,*.}global,{,*.}local}.php',
                 ],
             ],
         ]);
@@ -52,9 +52,12 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
 
             Quit::disable();
 
-            $request     = $this->application->getRequest();
-            $request->setMethod('GET');
-            $request->setUri('/error-preview');
+            $_SERVER['argv'] = [
+                __FILE__,
+                'error-preview',
+                'controller' => ErrorPreviewConsoleController::class,
+                'action' => 'exception',
+            ];
 
             ob_start();
             $closure = function () {
@@ -63,7 +66,7 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
             expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
-            expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
+            expect($content)->toContain('|We have encountered a problem and we can not fulfill your request');
 
         });
 
@@ -77,9 +80,12 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
 
             Quit::disable();
 
-            $request     = $this->application->getRequest();
-            $request->setMethod('GET');
-            $request->setUri('/error-preview/error');
+            $_SERVER['argv'] = [
+                __FILE__,
+                'error-preview',
+                'controller' => ErrorPreviewConsoleController::class,
+                'action' => 'error',
+            ];
 
             ob_start();
             $closure = function () {
@@ -88,10 +94,9 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
             expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
-            expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
+            expect($content)->toContain('|We have encountered a problem and we can not fulfill your request');
 
         });
-
     });
 
 });

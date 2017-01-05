@@ -67,47 +67,6 @@ describe('Integration via ErrorPreviewController', function () {
 
         });
 
-        it('show error console message in console env', function() {
-
-            Console::overrideIsConsole(true);
-
-            skipIf(PHP_MAJOR_VERSION < 7);
-
-            Quit::disable();
-
-            $application = Application::init([
-                'modules' => [
-                    'Zend\Router',
-                    'Zend\Db',
-                    'ErrorHeroModule',
-                ],
-                'module_listener_options' => [
-                    'config_glob_paths' => [
-                        realpath(__DIR__).'/Fixture/autoload/{{,*.}global,{,*.}local}.php',
-                    ],
-                ],
-            ]);
-
-            $events         = $application->getEventManager();
-            $serviceManager = $application->getServiceManager();
-            $serviceManager->get('SendResponseListener')
-                           ->detach($events);
-
-            $request     = $application->getRequest();
-            $request->setMethod('GET');
-            $request->setUri('/error-preview');
-
-            ob_start();
-            $closure = function () use ($application) {
-                $application->run();
-            };
-            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
-            $content = ob_get_clean();
-
-            expect($content)->toContain('|We have encountered a problem and we can not fulfill your request');
-
-        });
-
     });
 
     describe('/error-preview/error', function() {

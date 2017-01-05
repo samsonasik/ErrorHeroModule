@@ -4,12 +4,13 @@ namespace ErrorHeroModule\Handler;
 
 use Error;
 use ErrorException;
-use Zend\Http\PhpEnvironment\Request;
+use Zend\Http\PhpEnvironment\Request as HttpRequest;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db;
 use Zend\Log\Writer\Mail;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
+use Zend\Stdlib\RequestInterface;
 use Zend\Stdlib\SplPriorityQueue;
 
 class Logging
@@ -63,20 +64,20 @@ class Logging
      * @param Logger                  $logger
      * @param string                  $serverUrl
      * @param string                  $requestUri
-     * @param mixed                   $request
+     * @param RequestInterface        $request
      * @param array                   $errorHeroModuleLocalConfig
      * @param array                   $logWritersConfig
      * @param Message|null            $mailMessageService
      * @param TransportInterface|null $mailMessageTransport
      */
     public function __construct(
-        Logger $logger,
+        Logger             $logger,
         $serverUrl,
-        $request,
+        RequestInterface   $request,
         $requestUri,
-        array $errorHeroModuleLocalConfig,
-        array $logWritersConfig,
-        Message $mailMessageService = null,
+        array              $errorHeroModuleLocalConfig,
+        array              $logWritersConfig,
+        Message            $mailMessageService = null,
         TransportInterface $mailMessageTransport = null
     ) {
         $this->logger                = $logger;
@@ -122,7 +123,7 @@ class Logging
     private function getRequestData()
     {
         $request_data = [];
-        if ($this->request instanceof Request) {
+        if ($this->request instanceof HttpRequest) {
             $query          = $this->request->getQuery()->toArray();
             $request_method = $this->request->getServer('REQUEST_METHOD');
             $body_data      = ($this->request->isPost())
