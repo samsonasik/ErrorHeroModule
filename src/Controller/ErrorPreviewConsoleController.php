@@ -3,6 +3,7 @@
 namespace ErrorHeroModule\Controller;
 
 use Zend\View\Model\ConsoleModel;
+use Zend\Mvc\Controller\AbstractConsoleController;
 
 if (! class_exists('Zend\Mvc\Controller\AbstractConsoleController')) {
     class_alias(
@@ -10,7 +11,6 @@ if (! class_exists('Zend\Mvc\Controller\AbstractConsoleController')) {
         'Zend\Mvc\Controller\AbstractConsoleController'
     );
 }
-use Zend\Mvc\Console\Controller\AbstractConsoleController;
 
 class ErrorPreviewConsoleController extends AbstractConsoleController
 {
