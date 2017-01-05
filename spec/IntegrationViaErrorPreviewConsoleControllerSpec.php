@@ -44,7 +44,7 @@ describe('Integration via ErrorPreviewConsoleController', function () {
 
     });
 
-    describe('/error-preview', function() {
+    describe('error-preview', function() {
 
         it('show error page', function() {
 
@@ -72,7 +72,7 @@ describe('Integration via ErrorPreviewConsoleController', function () {
 
     });
 
-    describe('/error-preview/error', function() {
+    describe('error-preview error', function() {
 
         it('show error page', function() {
 
