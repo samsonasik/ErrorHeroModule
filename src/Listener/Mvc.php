@@ -171,36 +171,33 @@ class Mvc extends AbstractListenerAggregate
                     exit(-1);
                 }
 
-                if ($isXmlHttpRequest === false ||
-                    ! isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
-                ) {
-                    $view = new ViewModel();
-                    $view->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['view']);
+                $view = new ViewModel();
+                $view->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['view']);
 
-                    $layout = new ViewModel();
-                    $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
-                    $layout->setVariable('content', $this->renderer->render($view));
+                $layout = new ViewModel();
+                $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
+                $layout->setVariable('content', $this->renderer->render($view));
 
-                    $response->getHeaders()->addHeaderLine('Content-type', 'text/html');
-                    $response->setContent($this->renderer->render($layout));
+                $response->getHeaders()->addHeaderLine('Content-type', 'text/html');
+                $response->setContent($this->renderer->render($layout));
 
-                    $response->send();
-                    exit(-1);
-                }
-            } else {
-
-                $response = new ConsoleResponse();
-                $response->setErrorLevel(-1);
-
-                $table = new Table\Table([
-                    'columnWidths' => [150],
-                ]);
-                $table->setDecorator('ascii');
-                $table->appendRow([$this->errorHeroModuleConfig['display-settings']['console']['message']]);
-
-                $response->setContent($table->render());
                 $response->send();
+                exit(-1);
+
             }
+
+            $response = new ConsoleResponse();
+            $response->setErrorLevel(-1);
+
+            $table = new Table\Table([
+                'columnWidths' => [150],
+            ]);
+            $table->setDecorator('ascii');
+            $table->appendRow([$this->errorHeroModuleConfig['display-settings']['console']['message']]);
+
+            $response->setContent($table->render());
+            $response->send();
+
         }
     }
 }
