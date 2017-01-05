@@ -19,7 +19,7 @@ class LoggingFactory
         } else {
             $serverUrl  = php_uname('n');
             $request    = new ConsoleRequest();
-            $requestUri = '$ ' . $request->getScriptName() . ' ' . $request->toString();
+            $requestUri = '$ php ' . $request->getScriptName() . ' ' . $request->toString();
         }
 
         $config                = $container->get('config');
