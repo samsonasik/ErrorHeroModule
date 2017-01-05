@@ -4,7 +4,6 @@ namespace ErrorHeroModule;
 
 use Zend\ServiceManager\Factory\InvokableFactory;
 use Zend\Log;
-use Zend\Mvc\Controller\AbstractConsoleController as ZF2AbstractConsoleController;
 
 return [
 
@@ -12,14 +11,12 @@ return [
         'invokables' => [
             // sm v2 compat
             Controller\ErrorPreviewController::class           => Controller\ErrorPreviewController::class,
-            Controller\ErrorPreviewConsoleZF2Controller::class => Controller\ErrorPreviewConsoleZF2Controller::class,
-            Controller\ErrorPreviewConsoleZF3Controller::class => Controller\ErrorPreviewConsoleZF3Controller::class,
+            Controller\ErrorPreviewConsoleController::class    => Controller\ErrorPreviewConsoleController::class,
         ],
         'factories' => [
             // sm v3
             Controller\ErrorPreviewController::class           => InvokableFactory::class,
-            Controller\ErrorPreviewConsoleZF2Controller::class => InvokableFactory::class,
-            Controller\ErrorPreviewConsoleZF3Controller::class => InvokableFactory::class,
+            Controller\ErrorPreviewConsoleController::class    => InvokableFactory::class,
         ],
     ],
 
@@ -47,7 +44,7 @@ return [
                     'options' => [
                         'route'    => 'error-preview [<action>]',
                         'defaults' => [
-                            'controller' => class_exists(ZF2AbstractConsoleController::class) ? Controller\ErrorPreviewConsoleZF2Controller::class : Controller\ErrorPreviewConsoleZF3Controller::class,
+                            'controller' => Controller\ErrorPreviewConsoleController::class,
                             'action'     => 'exception'
                         ],
                     ],
