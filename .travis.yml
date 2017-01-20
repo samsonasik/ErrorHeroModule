@@ -15,7 +15,6 @@ before_script:
   - composer install --prefer-source --no-interaction
   - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then composer global require --dev phpstan/phpstan; fi
   - composer dump-autoload -o
-  - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then ~/.composer/vendor/bin/phpstan analyse src/; fi
 
 script:
   - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then ~/.composer/vendor/bin/phpstan analyse src/; fi
