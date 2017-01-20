@@ -15,7 +15,7 @@ before_script:
   - composer install --prefer-source --no-interaction
   - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then composer global require --dev phpstan/phpstan; fi
   - composer dump-autoload -o
-  - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then ~/vendor/bin/phpstan analyse src/; fi
+  - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then ~/.composer/vendor/bin/phpstan analyse src/; fi
 
 script:
   - bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml
