@@ -16,6 +16,7 @@ before_script:
   - composer dump-autoload -o
 
 script:
+  - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then ~/.composer/vendor/bin/phpstan analyse src/; fi
   - bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml
   - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then bin/coveralls -v --exclude-no-stmt; fi
 
