@@ -80,6 +80,7 @@ class Db
                 $select->order($timestamp.' DESC');
                 $select->limit(1);
 
+                /** @var $result \Zend\Db\ResultSet\ResultSet */
                 $result = $tableGateway->selectWith($select);
                 if ($result->count() === 1) {
                     $first = $result->current()[$timestamp];
