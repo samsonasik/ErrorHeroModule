@@ -189,6 +189,10 @@ class Logging
         ];
     }
 
+    /**
+     * @param  array                     $collectedExceptionData
+     * @return array
+     */
     private function collectExceptionExtraData(array $collectedExceptionData)
     {
         return [
