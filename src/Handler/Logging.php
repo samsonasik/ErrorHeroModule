@@ -156,38 +156,6 @@ class Logging
     }
 
     /**
-     * @param int    $priority
-     * @param string $errorMessage
-     * @param array  $extra
-     */
-    private function sendMail($priority, $errorMessage, $extra, $subject)
-    {
-        if ($this->mailMessageService !== null && $this->mailMessageTransport !== null) {
-            foreach ($this->emailReceivers as $key => $email) {
-                $logger = clone $this->logger;
-
-                $this->mailMessageService->setFrom($this->emailSender);
-                $this->mailMessageService->setTo($email);
-                $this->mailMessageService->setSubject($subject);
-
-                $writer    = new Mail(
-                    $this->mailMessageService,
-                    $this->mailMessageTransport
-                );
-                $formatter = new Formatter\Json();
-                $writer->setFormatter($formatter);
-
-                // use setWriters() to clean up existing writers
-                $splPriorityQueue = new SplPriorityQueue();
-                $splPriorityQueue->insert($writer, 1);
-                $logger->setWriters($splPriorityQueue);
-
-                $logger->log($priority, $errorMessage, $extra);
-            }
-        }
-    }
-
-    /**
      * @param  $e
      *
      * @return array
@@ -231,6 +199,38 @@ class Logging
             'trace'        => $collectedExceptionData['trace'],
             'request_data' => $this->getRequestData(),
         ];
+    }
+
+    /**
+     * @param int    $priority
+     * @param string $errorMessage
+     * @param array  $extra
+     */
+    private function sendMail($priority, $errorMessage, $extra, $subject)
+    {
+        if ($this->mailMessageService !== null && $this->mailMessageTransport !== null) {
+            foreach ($this->emailReceivers as $key => $email) {
+                $logger = clone $this->logger;
+
+                $this->mailMessageService->setFrom($this->emailSender);
+                $this->mailMessageService->setTo($email);
+                $this->mailMessageService->setSubject($subject);
+
+                $writer    = new Mail(
+                    $this->mailMessageService,
+                    $this->mailMessageTransport
+                );
+                $formatter = new Formatter\Json();
+                $writer->setFormatter($formatter);
+
+                // use setWriters() to clean up existing writers
+                $splPriorityQueue = new SplPriorityQueue();
+                $splPriorityQueue->insert($writer, 1);
+                $logger->setWriters($splPriorityQueue);
+
+                $logger->log($priority, $errorMessage, $extra);
+            }
+        }
     }
 
     /**
