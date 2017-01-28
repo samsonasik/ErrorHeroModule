@@ -4,6 +4,7 @@ namespace ErrorHeroModule\Handler;
 
 use Error;
 use ErrorException;
+use RuntimeException;
 use Zend\Http\PhpEnvironment\Request as HttpRequest;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db;
@@ -110,9 +111,13 @@ class Logging
         $writers = $this->logger->getWriters()->toArray();
         foreach ($writers as $writer) {
             if ($writer instanceof Db) {
-                $handlerWriterDb = new Writer\Db($writer, $this->configLoggingSettings, $this->logWritersConfig);
-                if ($handlerWriterDb->isExists($errorFile, $errorLine, $errorMessage, $url)) {
-                    return true;
+                try {
+                    $handlerWriterDb = new Writer\Db($writer, $this->configLoggingSettings, $this->logWritersConfig);
+                    if ($handlerWriterDb->isExists($errorFile, $errorLine, $errorMessage, $url)) {
+                        return true;
+                    }
+                } catch (RuntimeException $e) {
+                    throw new RuntimeException($e->getMessage());
                 }
             }
         }
@@ -148,6 +153,56 @@ class Logging
         }
 
         return $request_data;
+    }
+
+    /**
+     * @param  $e
+     *
+     * @return array
+     */
+    private function collectExceptionData($e)
+    {
+        $priority = Logger::ERR;
+        if ($e instanceof ErrorException && isset(Logger::$errorPriorityMap[$e->getSeverity()])) {
+            $priority = Logger::$errorPriorityMap[$e->getSeverity()];
+        }
+
+        $exceptionClass = get_class($e);
+
+        $errorFile = $e->getFile();
+        $errorLine = $e->getLine();
+        $trace     = $e->getTraceAsString();
+
+        $i = 1;
+        do {
+            $messages[] = $i++.': '.$e->getMessage();
+        } while ($e = $e->getPrevious());
+        $errorMessage = implode("\r\n", $messages);
+
+        return [
+            'priority'       => $priority,
+            'exceptionClass' => $exceptionClass,
+            'errorFile'      => $errorFile,
+            'errorLine'      => $errorLine,
+            'trace'          => $trace,
+            'errorMessage'   => $errorMessage,
+        ];
+    }
+
+    /**
+     * @param  array                     $collectedExceptionData
+     * @return array
+     */
+    private function collectExceptionExtraData(array $collectedExceptionData)
+    {
+        return [
+            'url'          => $this->serverUrl.$this->requestUri,
+            'file'         => $collectedExceptionData['errorFile'],
+            'line'         => $collectedExceptionData['errorLine'],
+            'error_type'   => $collectedExceptionData['exceptionClass'],
+            'trace'        => $collectedExceptionData['trace'],
+            'request_data' => $this->getRequestData(),
+        ];
     }
 
     /**
@@ -187,37 +242,28 @@ class Logging
      */
     public function handleException($e)
     {
-        $priority = Logger::ERR;
-        if ($e instanceof ErrorException && isset(Logger::$errorPriorityMap[$e->getSeverity()])) {
-            $priority = Logger::$errorPriorityMap[$e->getSeverity()];
+        $collectedExceptionData = $this->collectExceptionData($e);
+
+        try {
+            if (
+                $this->isExists(
+                    $collectedExceptionData['errorFile'],
+                    $collectedExceptionData['errorLine'],
+                    $collectedExceptionData['errorMessage'],
+                    $this->serverUrl.$this->requestUri
+                )
+            ) {
+                return;
+            }
+
+            $extra = $this->collectExceptionExtraData($collectedExceptionData);
+            $this->logger->log($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra);
+        } catch (RuntimeException $e) {
+            $collectedExceptionData = $this->collectExceptionData($e);
+            $extra                  = $this->collectExceptionExtraData($collectedExceptionData);
         }
 
-        $exceptionClass = get_class($e);
-
-        $errorFile = $e->getFile();
-        $errorLine = $e->getLine();
-        $trace     = $e->getTraceAsString();
-
-        $i = 1;
-        do {
-            $messages[] = $i++.': '.$e->getMessage();
-        } while ($e = $e->getPrevious());
-        $errorMessage = implode("\r\n", $messages);
-
-        if ($this->isExists($errorFile, $errorLine, $errorMessage, $this->serverUrl.$this->requestUri)) {
-            return;
-        }
-
-        $extra = [
-            'url'          => $this->serverUrl.$this->requestUri,
-            'file'         => $errorFile,
-            'line'         => $errorLine,
-            'error_type'   => $exceptionClass,
-            'trace'        => $trace,
-            'request_data' => $this->getRequestData(),
-        ];
-        $this->logger->log($priority, $errorMessage, $extra);
-        $this->sendMail($priority, $errorMessage, $extra, '['.$this->serverUrl.'] '.$exceptionClass.' has thrown');
+        $this->sendMail($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra, '['.$this->serverUrl.'] '.$collectedExceptionData['exceptionClass'].' has thrown');
     }
 
     /**
