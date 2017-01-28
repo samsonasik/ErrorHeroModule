@@ -27,6 +27,11 @@ class Logging
     private $serverUrl;
 
     /**
+     * @var RequestInterface
+     */
+    private $request;
+
+    /**
      * @var string
      */
     private $requestUri;
