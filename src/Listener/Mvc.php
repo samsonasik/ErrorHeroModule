@@ -162,7 +162,7 @@ class Mvc extends AbstractListenerAggregate
                     isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
                 ) {
                     $content     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
-                    $contentType = ((new JsonParser())->lint($content) === null) ? 'application/json' : 'text/html';
+                    $contentType = ((new JsonParser())->lint($content) === null) ? 'application/problem+json' : 'text/html';
 
                     $response->getHeaders()->addHeaderLine('Content-type', $contentType);
                     $response->setContent($content);

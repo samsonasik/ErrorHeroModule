@@ -59,7 +59,10 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
 
             expect($content)->toBe(<<<json
 {
-    "error": "We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience."
+    "type": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html",
+    "title": "Internal Server Error",
+    "status": 500,
+    "detail": "We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience."
 }
 json
             );
