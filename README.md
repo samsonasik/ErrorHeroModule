@@ -241,6 +241,8 @@ You will get the following page if display_errors config is 0:
 
 ![error preview in web](https://cloud.githubusercontent.com/assets/459648/21668589/d4fdadac-d335-11e6-95aa-5a8cfa3f8e4b.png)
 
+> For production env, you can disable error-preview sample page with set `['error-hero-module']['enable-error-preview-page']` to false.
+
 _**Console Access**_
 
 > If you use zend-mvc v3, you need to have `zendframework/zend-mvc-console` in your vendor, if you don't have, you can install it via command:
@@ -257,6 +259,8 @@ _**Console Access**_
 You will get the following page if display_errors config is 0:
 
 ![error preview in console](https://cloud.githubusercontent.com/assets/459648/21669141/8e7690f0-d33b-11e6-99c7-eed4f1ab7edb.png)
+
+> For production env, you can disable error-preview sample page with set `['error-hero-module']['enable-error-preview-page']` to false.
 
 Contributing
 ------------
