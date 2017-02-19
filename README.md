@@ -148,6 +148,15 @@ return [
 
     'error-hero-module' => [
         'enable' => true, // it's for the enable/disable the logger functionality
+
+        // default to true, if set to true, then you can see sample:
+        // 1. /error-preview page ( ErrorHeroModule\Controller\ErrorPreviewController )
+        // 2. error-preview command (ErrorHeroModule\Controller\ErrorPreviewConsoleController) via
+        //       php public/index.php error-preview
+        //
+        // otherwise(false), you can't see them, eg: on production env.
+        'enable-error-preview-page' => true,
+
         'display-settings' => [
 
             // excluded php errors ( http://www.php.net/manual/en/errorfunc.constants.php )
