@@ -9,6 +9,7 @@ matrix:
   fast_finish: true
 
 before_script:
+  - mkdir -p build/logs
   - mysql -e 'create database IF NOT EXISTS errorheromodule;' -uroot
   - mysql -u root errorheromodule < spec/Fixture/data/sql.sql
   - composer self-update
