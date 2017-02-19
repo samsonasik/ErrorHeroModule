@@ -26,7 +26,7 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    realpath(__DIR__).'/../Fixture/config/autoload-with-enable-sendmail/{{,*.}global,{,*.}local}.php',
+                    realpath(__DIR__).'/../Fixture/config/autoload-with-enable-sendmail/error-hero-module.local.php',
                     realpath(__DIR__).'/../Fixture/config/module.local.php',
                 ],
             ],

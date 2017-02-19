@@ -26,7 +26,7 @@ describe('Integration via ErrorPreviewController for Cannot connect to DB', func
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    realpath(__DIR__).'/../Fixture/config/autoload-for-cannot-connect-to-db/{{,*.}global,{,*.}local}.php',
+                    realpath(__DIR__).'/../Fixture/config/autoload-for-cannot-connect-to-db/error-hero-module.local.php',
                     realpath(__DIR__).'/../Fixture/config/module.local.php',
                 ],
             ],

@@ -26,7 +26,7 @@ describe('Integration via ErrorPreviewController', function () {
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    realpath(__DIR__).'/../Fixture/config/autoload/{{,*.}global,{,*.}local}.php',
+                    realpath(__DIR__).'/../Fixture/config/autoload/error-hero-module.local.php',
                     realpath(__DIR__).'/../Fixture/config/module.local.php',
                 ],
             ],
