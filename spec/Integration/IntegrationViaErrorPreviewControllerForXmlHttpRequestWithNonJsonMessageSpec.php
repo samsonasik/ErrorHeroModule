@@ -24,7 +24,8 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    realpath(__DIR__).'/Fixture/autoload-for-xmlhttprequest-with-non-json-message/{{,*.}global,{,*.}local}.php',
+                    realpath(__DIR__).'/../Fixture/config/autoload-for-xmlhttprequest-with-non-json-message/{{,*.}global,{,*.}local}.php',
+                    realpath(__DIR__).'/../Fixture/config/module.local.php',
                 ],
             ],
         ]);

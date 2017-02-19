@@ -1,16 +1,18 @@
 <?php
 
-namespace ErrorHeroModule\Spec\Integration;
+namespace ErrorHeroModule\Spec;
 
 use ErrorHeroModule;
 use ErrorHeroModule\Controller\ErrorPreviewController;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
-use Zend\Http\PhpEnvironment\Request;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
+use Zend\Log;
 use Zend\Mvc\Application;
 
-describe('Integration via ErrorPreviewController for XmlHttpRequest', function () {
+describe('Integration via ErrorPreviewController', function () {
 
     given('application', function () {
 
@@ -24,7 +26,8 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    realpath(__DIR__).'/Fixture/autoload-for-xmlhttprequest/{{,*.}global,{,*.}local}.php',
+                    realpath(__DIR__).'/../Fixture/config/autoload/{{,*.}global,{,*.}local}.php',
+                    realpath(__DIR__).'/../Fixture/config/module.local.php',
                 ],
             ],
         ]);
@@ -33,6 +36,10 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
         $serviceManager = $application->getServiceManager();
         $serviceManager->get('SendResponseListener')
                        ->detach($events);
+
+        $db  = $serviceManager->get('Zend\Db\Adapter\Adapter');
+        $tableGateway = new TableGateway('log', $db, null, new ResultSet());
+        $tableGateway->delete([]);
 
         return $application;
 
@@ -48,7 +55,28 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
             $request->setMethod('GET');
             $request->setUri('/error-preview');
 
-            allow(Request::class)->toReceive('isXmlHttpRequest')->andReturn(true);
+            ob_start();
+            $closure = function () {
+                $this->application->run();
+            };
+            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
+            $content = ob_get_clean();
+
+            expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
+
+        });
+
+    });
+
+    describe('/error-preview/error', function() {
+
+        it('show error page', function() {
+
+            Quit::disable();
+
+            $request     = $this->application->getRequest();
+            $request->setMethod('GET');
+            $request->setUri('/error-preview/error');
 
             ob_start();
             $closure = function () {
@@ -57,18 +85,9 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
             expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
-            expect($content)->toBe(<<<json
-{
-    "type": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html",
-    "title": "Internal Server Error",
-    "status": 500,
-    "detail": "We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience."
-}
-json
-            );
+            expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
 
         });
-
     });
 
 });

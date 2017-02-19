@@ -3,7 +3,7 @@
 namespace ErrorHeroModule\Spec;
 
 use ErrorHeroModule;
-use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
+use ErrorHeroModule\Controller\ErrorPreviewController;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
@@ -12,11 +12,11 @@ use Zend\Db\TableGateway\TableGateway;
 use Zend\Log;
 use Zend\Mvc\Application;
 
-describe('Integration via ErrorPreviewConsoleController', function () {
+describe('Integration via ErrorPreviewController with enable send mail', function () {
 
     given('application', function () {
 
-        Console::overrideIsConsole(true);
+        Console::overrideIsConsole(false);
 
         $application = Application::init([
             'modules' => [
@@ -26,7 +26,8 @@ describe('Integration via ErrorPreviewConsoleController', function () {
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    realpath(__DIR__).'/Fixture/autoload/{{,*.}global,{,*.}local}.php',
+                    realpath(__DIR__).'/../Fixture/config/autoload-with-enable-sendmail/{{,*.}global,{,*.}local}.php',
+                    realpath(__DIR__).'/../Fixture/config/module.local.php',
                 ],
             ],
         ]);
@@ -44,18 +45,15 @@ describe('Integration via ErrorPreviewConsoleController', function () {
 
     });
 
-    describe('error-preview', function() {
+    describe('/error-preview', function() {
 
         it('show error page', function() {
 
             Quit::disable();
 
-            $_SERVER['argv'] = [
-                __FILE__,
-                'error-preview',
-                'controller' => ErrorPreviewConsoleController::class,
-                'action' => 'exception',
-            ];
+            $request     = $this->application->getRequest();
+            $request->setMethod('GET');
+            $request->setUri('/error-preview');
 
             ob_start();
             $closure = function () {
@@ -64,24 +62,21 @@ describe('Integration via ErrorPreviewConsoleController', function () {
             expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
-            expect($content)->toContain('|We have encountered a problem and we can not fulfill your request');
+            expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
 
         });
 
     });
 
-    describe('error-preview error', function() {
+    describe('/error-preview/error', function() {
 
         it('show error page', function() {
 
             Quit::disable();
 
-            $_SERVER['argv'] = [
-                __FILE__,
-                'error-preview',
-                'controller' => ErrorPreviewConsoleController::class,
-                'action' => 'error',
-            ];
+            $request     = $this->application->getRequest();
+            $request->setMethod('GET');
+            $request->setUri('/error-preview/error');
 
             ob_start();
             $closure = function () {
@@ -90,9 +85,10 @@ describe('Integration via ErrorPreviewConsoleController', function () {
             expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
-            expect($content)->toContain('|We have encountered a problem and we can not fulfill your request');
+            expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
 
         });
+
     });
 
 });
