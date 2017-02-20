@@ -148,6 +148,15 @@ return [
 
     'error-hero-module' => [
         'enable' => true, // it's for the enable/disable the logger functionality
+
+        // default to true, if set to true, then you can see sample:
+        // 1. /error-preview page ( ErrorHeroModule\Controller\ErrorPreviewController )
+        // 2. error-preview command (ErrorHeroModule\Controller\ErrorPreviewConsoleController) via
+        //       php public/index.php error-preview
+        //
+        // otherwise(false), you can't see them, eg: on production env.
+        'enable-error-preview-page' => true,
+
         'display-settings' => [
 
             // excluded php errors ( http://www.php.net/manual/en/errorfunc.constants.php )
@@ -232,6 +241,8 @@ You will get the following page if display_errors config is 0:
 
 ![error preview in web](https://cloud.githubusercontent.com/assets/459648/21668589/d4fdadac-d335-11e6-95aa-5a8cfa3f8e4b.png)
 
+> For production env, you can disable error-preview sample page with set `['error-hero-module']['enable-error-preview-page']` to false.
+
 _**Console Access**_
 
 > If you use zend-mvc v3, you need to have `zendframework/zend-mvc-console` in your vendor, if you don't have, you can install it via command:
@@ -248,6 +259,8 @@ _**Console Access**_
 You will get the following page if display_errors config is 0:
 
 ![error preview in console](https://cloud.githubusercontent.com/assets/459648/21669141/8e7690f0-d33b-11e6-99c7-eed4f1ab7edb.png)
+
+> For production env, you can disable error-preview sample page with set `['error-hero-module']['enable-error-preview-page']` to false.
 
 Contributing
 ------------

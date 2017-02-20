@@ -158,4 +158,67 @@ describe('Module', function () {
 
     });
 
+    describe('->errorPreviewPageHandler()', function () {
+
+        it('does not has enable-error-preview-page', function () {
+
+            $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
+            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
+
+            $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
+            allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);
+            allow($configListener)->toReceive('getMergedConfig')->andReturn([
+                'error-hero-module' => [
+                    'enable' => true,
+                ],
+            ]);
+
+            $this->module->errorPreviewPageHandler($moduleEvent);
+            expect($configListener)->not->toReceive('setMergedConfig');
+
+        });
+
+        it('has enable-error-preview-page and enabled', function () {
+
+            $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
+            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
+
+            $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
+            allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);
+            allow($configListener)->toReceive('getMergedConfig')->andReturn([
+                'error-hero-module' => [
+                    'enable' => true,
+                    'enable-error-preview-page' => true,
+                ],
+            ]);
+
+            $this->module->errorPreviewPageHandler($moduleEvent);
+            expect($configListener)->not->toReceive('setMergedConfig');
+
+        });
+
+        it('has enable-error-preview-page and disabled', function () {
+
+            $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
+            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
+
+            $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
+            allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);
+            allow($configListener)->toReceive('getMergedConfig')->andReturn([
+                'error-hero-module' => [
+                    'enable' => true,
+                    'enable-error-preview-page' => false,
+                ],
+            ]);
+
+            $this->module->errorPreviewPageHandler($moduleEvent);
+            expect($configListener)->toReceive('setMergedConfig');
+
+        });
+
+    });
+
 });
