@@ -10,7 +10,7 @@ use Zend\Console\Console;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Mvc\Application;
 
-describe('Integration via ErrorPreviewController for XmlHttpRequest', function () {
+describe('Integration via ErrorPreviewController for XmlHttpRequest with non-json message', function () {
 
     given('application', function () {
 
