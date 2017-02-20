@@ -15,8 +15,8 @@ class Module
     public function init(ModuleManager $moduleManager)
     {
         $eventManager = $moduleManager->getEventManager();
-        $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'convertDoctrineToZendDbConfig']);
-        $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'errorPreviewPageHandler']);
+        $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'convertDoctrineToZendDbConfig'], 100);
+        $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'errorPreviewPageHandler'], 101);
     }
 
     /**
@@ -86,7 +86,9 @@ class Module
             $configuration['controllers']['invokables'][Controller\ErrorPreviewController::class],
             $configuration['controllers']['invokables'][Controller\ErrorPreviewConsoleController::class],
             $configuration['controllers']['factories'][Controller\ErrorPreviewController::class],
-            $configuration['controllers']['factories'][Controller\ErrorPreviewConsoleController::class]
+            $configuration['controllers']['factories'][Controller\ErrorPreviewConsoleController::class],
+            $configuration['router']['routes']['error-preview'],
+            $configuration['console']['router']['routes']['error-preview-console']
         );
 
         $configListener->setMergedConfig($configuration);
