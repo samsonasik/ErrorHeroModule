@@ -3,6 +3,7 @@
 namespace ErrorHeroModule;
 
 use Doctrine\ORM\EntityManager;
+use Zend\Db\Adapter\Adapter;
 use Zend\ModuleManager\ModuleEvent;
 use Zend\ModuleManager\ModuleManager;
 
@@ -15,7 +16,7 @@ class Module
     public function init(ModuleManager $moduleManager)
     {
         $eventManager = $moduleManager->getEventManager();
-        $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'convertDoctrineToZendDbConfig'], 100);
+        $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'convertDoctrineToZendDbConfig']);
         $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'errorPreviewPageHandler'], 101);
     }
 
@@ -43,7 +44,7 @@ class Module
         $params        = $doctrineDBALConnection->getParams();
         $driverOptions = (isset($params['driverOptions'])) ? $params['driverOptions'] : [];
 
-        $configuration['db'] = [
+        $config = [
             'username'       => $doctrineDBALConnection->getUsername(),
             'password'       => $doctrineDBALConnection->getPassword(),
             'driver'         => $doctrineDBALConnection->getDriver()->getName(),
@@ -53,14 +54,9 @@ class Module
             'driver_options' => $driverOptions,
         ];
 
-        $configuration['service_manager']['factories']['Zend\Db\Adapter\Adapter'] = 'Zend\Db\Adapter\AdapterServiceFactory';
-
-        $configListener->setMergedConfig($configuration);
-        $event->setConfigListener($configListener);
-
         $allowOverride = $services->getAllowOverride();
         $services->setAllowOverride(true);
-        $services->setService('config', $configuration);
+        $services->setService('Zend\Db\Adapter\Adapter', new Adapter($config));
         $services->setAllowOverride($allowOverride);
     }
 
