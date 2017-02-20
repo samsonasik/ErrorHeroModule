@@ -104,6 +104,8 @@ class Logging
      * @param string $errorMessage
      * @param string $url
      *
+     * @throws RuntimeException when cannot connect to DB in the first place
+     *
      * @return bool
      */
     private function isExists($errorFile, $errorLine, $errorMessage, $url)
