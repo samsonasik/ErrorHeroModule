@@ -41,6 +41,7 @@ describe('Module', function () {
 
             allow($moduleManager)->toReceive('getEventManager')->andReturn($eventManager);
             expect($eventManager)->toReceive('attach')->with(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this->module, 'convertDoctrineToZendDbConfig']);
+            expect($eventManager)->toReceive('attach')->with(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this->module, 'errorPreviewPageHandler'], 101);
 
             $this->module->init($moduleManager);
 
