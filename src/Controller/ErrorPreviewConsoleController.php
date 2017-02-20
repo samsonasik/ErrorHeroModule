@@ -2,7 +2,6 @@
 
 namespace ErrorHeroModule\Controller;
 
-use Zend\View\Model\ConsoleModel;
 use Zend\Mvc\Controller\AbstractConsoleController;
 
 if (! class_exists('Zend\Mvc\Controller\AbstractConsoleController')) {

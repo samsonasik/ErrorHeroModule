@@ -7,9 +7,6 @@ use ErrorHeroModule\Controller\ErrorPreviewController;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\TableGateway\TableGateway;
-use Zend\Log;
 use Zend\Mvc\Application;
 
 describe('Integration via ErrorPreviewController for Cannot connect to DB', function () {
