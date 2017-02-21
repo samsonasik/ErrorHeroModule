@@ -81,7 +81,10 @@ class Mvc extends AbstractListenerAggregate
         }
     }
 
-    public function exceptionError($e)
+    /**
+     * @param MvcEvent $e
+     */
+    public function exceptionError(MvcEvent $e)
     {
         $exception = $e->getParam('exception');
         if (!$exception) {
@@ -95,7 +98,10 @@ class Mvc extends AbstractListenerAggregate
         $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
     }
 
-    public function phpError($e)
+    /**
+     * @param MvcEvent $e
+     */
+    public function phpError(MvcEvent $e)
     {
         register_shutdown_function([$this, 'execOnShutdown']);
         set_error_handler([$this, 'phpErrorHandler']);
