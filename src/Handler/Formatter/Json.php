@@ -10,6 +10,7 @@ class Json extends Base implements FormatterInterface
 {
     /**
      * @param array $event event data
+     *
      * @return string formatted line to write to the log
      */
     public function format($event)

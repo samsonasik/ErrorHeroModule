@@ -68,6 +68,8 @@ class Mvc extends AbstractListenerAggregate
     /**
      * @param EventManagerInterface $events
      * @param int                   $priority
+     *
+     * @return void
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
@@ -83,6 +85,8 @@ class Mvc extends AbstractListenerAggregate
 
     /**
      * @param MvcEvent $e
+     *
+     * @return void
      */
     public function exceptionError(MvcEvent $e)
     {
@@ -100,6 +104,8 @@ class Mvc extends AbstractListenerAggregate
 
     /**
      * @param MvcEvent $e
+     *
+     * @return void
      */
     public function phpError(MvcEvent $e)
     {
@@ -107,6 +113,9 @@ class Mvc extends AbstractListenerAggregate
         set_error_handler([$this, 'phpErrorHandler']);
     }
 
+    /**
+     * @return void
+     */
     public function execOnShutdown()
     {
         $error = error_get_last();
@@ -120,6 +129,8 @@ class Mvc extends AbstractListenerAggregate
      * @param string $errorMessage
      * @param string $errorFile
      * @param int    $errorLine
+     *
+     * @return void
      */
     public function phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine)
     {
@@ -151,6 +162,8 @@ class Mvc extends AbstractListenerAggregate
 
     /**
      * It show default view if display_errors setting = 0.
+     *
+     * @return void
      */
     private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
     {

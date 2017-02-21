@@ -11,6 +11,7 @@ class Module
 {
     /**
      * @param  ModuleManager $moduleManager
+     *
      * @return void
      */
     public function init(ModuleManager $moduleManager)
@@ -22,6 +23,7 @@ class Module
 
     /**
      * @param  ModuleEvent                   $event
+     *
      * @return void
      */
     public function convertDoctrineToZendDbConfig(ModuleEvent $event)
@@ -62,6 +64,7 @@ class Module
 
     /**
      * @param  ModuleEvent                   $event
+     *
      * @return void
      */
     public function errorPreviewPageHandler(ModuleEvent $event)
@@ -96,6 +99,9 @@ class Module
         $services->setAllowOverride($allowOverride);
     }
 
+    /**
+     * @return array
+     */
     public function getConfig()
     {
         return include __DIR__.'/../config/module.config.php';

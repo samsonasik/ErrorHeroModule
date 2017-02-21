@@ -195,6 +195,7 @@ class Logging
 
     /**
      * @param  array                     $collectedExceptionData
+     *
      * @return array
      */
     private function collectExceptionExtraData(array $collectedExceptionData)
@@ -214,6 +215,8 @@ class Logging
      * @param string $errorMessage
      * @param array  $extra
      * @param string $subject
+     *
+     * @return void
      */
     private function sendMail($priority, $errorMessage, $extra, $subject)
     {
@@ -244,6 +247,8 @@ class Logging
 
     /**
      * @param Error|Exception $e
+     *
+     * @return void
      */
     public function handleException($e)
     {
@@ -277,6 +282,8 @@ class Logging
      * @param string $errorFile
      * @param int    $errorLine
      * @param string $errorTypeString
+     *
+     * @return void
      */
     public function handleError(
         $errorType,
