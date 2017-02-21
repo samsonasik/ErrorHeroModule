@@ -119,6 +119,7 @@ class Logging
                         return true;
                     }
                 } catch (RuntimeException $e) {
+                    //new RuntimeException instance is on purpose to avoid long trace from \Zend\Db\Adapter\Exception\RuntimeException
                     throw new RuntimeException($e->getMessage());
                 }
             }
