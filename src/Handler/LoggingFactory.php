@@ -15,6 +15,9 @@ class LoggingFactory
     /**
      * @param ContainerInterface|ServiceLocatorInterface
      *
+     * @throws RuntimeException when mail config is enabled but mail-message config is not a service instance of Message
+     * @throws RuntimeException when mail config is enabled but mail-transport config is not a service instance of TransportInterface
+     *
      * @return Logging
      */
     public function __invoke($container)
