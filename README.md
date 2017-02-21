@@ -224,7 +224,7 @@ json
 return [
     'Zend\Log',        // to enable Zend\Log\LoggerAbstractServiceFactory
     'Application',
-    'ErrorHeroModule', // <-- register here
+    'ErrorHeroModule', // <-- register here to enable ErrorHeroModule module.
 ],
 ```
 
