@@ -212,6 +212,7 @@ class Logging
      * @param int    $priority
      * @param string $errorMessage
      * @param array  $extra
+     * @param string $subject
      */
     private function sendMail($priority, $errorMessage, $extra, $subject)
     {
