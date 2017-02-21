@@ -4,6 +4,7 @@ namespace ErrorHeroModule\Handler;
 
 use Error;
 use ErrorException;
+use Exception;
 use RuntimeException;
 use Zend\Http\PhpEnvironment\Request as HttpRequest;
 use Zend\Log\Logger;
@@ -159,7 +160,7 @@ class Logging
     }
 
     /**
-     * @param  $e
+     * @param  Error|Exception $e
      *
      * @return array
      */
@@ -242,7 +243,7 @@ class Logging
     }
 
     /**
-     * @param $e
+     * @param Error|Exception $e
      */
     public function handleException($e)
     {
