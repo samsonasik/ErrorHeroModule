@@ -247,7 +247,7 @@ _**Console Access**_
 
 > If you use zend-mvc v3, you need to have `zendframework/zend-mvc-console` in your vendor, if you don't have, you can install it via command:
 
-> ```
+> ```sh
 > composer require zendframework/zend-mvc-console --sort-packages
 > ```
 
