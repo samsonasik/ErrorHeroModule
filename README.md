@@ -193,7 +193,7 @@ json
 
         'logging-settings' => [
             // time range for same error, file, url, message to be re-logged
-	        // on seconds range, 86400 means 1 day
+	        // in seconds range, 86400 means 1 day
             'same-error-log-time-range' => 86400,
         ],
 
