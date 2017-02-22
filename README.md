@@ -222,9 +222,8 @@ json
 ```php
 // config/modules.config.php or config/application.config.php
 return [
-    'Zend\Log',        // to enable Zend\Log\LoggerAbstractServiceFactory
     'Application',
-    'ErrorHeroModule', // <-- register here to enable ErrorHeroModule module.
+    'ErrorHeroModule', // <-- register here
 ],
 ```
 
