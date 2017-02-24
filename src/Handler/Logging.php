@@ -9,7 +9,6 @@ use RuntimeException;
 use Zend\Http\PhpEnvironment\Request as HttpRequest;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db;
-use Zend\Log\Writer\Mail;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
 use Zend\Stdlib\RequestInterface;
@@ -228,9 +227,10 @@ class Logging
                 $this->mailMessageService->setTo($email);
                 $this->mailMessageService->setSubject($subject);
 
-                $writer    = new Mail(
+                $writer    = new Writer\Mail(
                     $this->mailMessageService,
-                    $this->mailMessageTransport
+                    $this->mailMessageTransport,
+                    $this->getRequestData()
                 );
                 $formatter = new Formatter\Json();
                 $writer->setFormatter($formatter);
