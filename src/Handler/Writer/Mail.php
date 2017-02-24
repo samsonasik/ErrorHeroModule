@@ -61,10 +61,10 @@ class Mail extends BaseMail
         if (! empty($this->requestData['files_data'])) {
             $requestDataFiles = $this->requestData['files_data'];
 
-            $mimePart = new MimePart();
+            $mimePart = new MimePart($body);
             $mimePart->type     = Mime::TYPE_TEXT;
             $mimePart->charset  = 'utf-8';
-            $mimePart->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
+            $mimePart->encoding = Mime::ENCODING_8BIT;
 
             $body = new MimeMessage();
             $body->addPart($mimePart);
