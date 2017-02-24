@@ -95,8 +95,11 @@ class Mail extends BaseMail
         }
 
         $this->mail->setBody($body);
-        $contentTypeHeader = $this->mail->getHeaders()->get('Content-Type');
-        $contentTypeHeader->setType('multipart/alternative');
+
+        if (! empty($requestDataFiles)) {
+            $contentTypeHeader = $this->mail->getHeaders()->get('Content-Type');
+            $contentTypeHeader->setType('multipart/alternative');
+        }
 
         // Finally, send the mail.  If an exception occurs, convert it into a
         // warning-level message so we can avoid an exception thrown without a
