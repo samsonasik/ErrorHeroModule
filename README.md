@@ -147,7 +147,8 @@ return [
     ],
 
     'error-hero-module' => [
-        'enable' => true, // it's for the enable/disable the logger functionality
+		 // it's for the enable/disable the logger functionality
+        'enable' => true,
 
         // default to true, if set to true, then you can see sample:
         // 1. /error-preview page ( ErrorHeroModule\Controller\ErrorPreviewController )
@@ -192,7 +193,7 @@ json
         ],
 
         'logging-settings' => [
-            // time range for same error, file, url, message to be re-logged
+            // time range for same error, file, line, url, message to be re-logged
 	        // in seconds range, 86400 means 1 day
             'same-error-log-time-range' => 86400,
         ],
