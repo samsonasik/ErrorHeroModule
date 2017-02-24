@@ -70,20 +70,33 @@ class Mail extends BaseMail
             $body->addPart($mimePart);
 
             foreach ($requestDataFiles as $key => $row) {
-                $mimePart              = new MimePart(fopen($row['tmp_name'], 'r'));
-                $mimePart->type        = $row['type'];
-                $mimePart->filename    = $row['name'];
-                $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
-                $mimePart->encoding    = Mime::ENCODING_BASE64;
+                if (key($row) === 'name') {
+                    // single upload
+                    $mimePart              = new MimePart(fopen($row['tmp_name'], 'r'));
+                    $mimePart->type        = $row['type'];
+                    $mimePart->filename    = $row['name'];
+                    $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
+                    $mimePart->encoding    = Mime::ENCODING_BASE64;
 
-                $body->addPart($mimePart);
+                    $body->addPart($mimePart);
+                } else {
+                    // collection upload
+                    foreach ($row as $multiple => $upload) {
+                        $mimePart              = new MimePart(fopen($upload['tmp_name'], 'r'));
+                        $mimePart->type        = $upload['type'];
+                        $mimePart->filename    = $upload['name'];
+                        $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
+                        $mimePart->encoding    = Mime::ENCODING_BASE64;
+
+                        $body->addPart($mimePart);
+                    }
+                }
             }
-
-            $contentTypeHeader = $this->mail->getHeaders()->get('Content-Type');
-            $contentTypeHeader->setType('multipart/alternative');
         }
 
         $this->mail->setBody($body);
+        $contentTypeHeader = $this->mail->getHeaders()->get('Content-Type');
+        $contentTypeHeader->setType('multipart/alternative');
 
         // Finally, send the mail.  If an exception occurs, convert it into a
         // warning-level message so we can avoid an exception thrown without a
