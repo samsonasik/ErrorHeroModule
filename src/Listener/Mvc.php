@@ -7,6 +7,7 @@ use Seld\JsonLint\JsonParser;
 use Zend\Console\Console;
 use Zend\Console\Response as ConsoleResponse;
 use Zend\EventManager\AbstractListenerAggregate;
+use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Http\PhpEnvironment\Response as HttpResponse;
@@ -84,11 +85,11 @@ class Mvc extends AbstractListenerAggregate
     }
 
     /**
-     * @param MvcEvent $e
+     * @param Event $e
      *
      * @return void
      */
-    public function exceptionError(MvcEvent $e)
+    public function exceptionError(Event $e)
     {
         $exception = $e->getParam('exception');
         if (!$exception) {
@@ -103,11 +104,11 @@ class Mvc extends AbstractListenerAggregate
     }
 
     /**
-     * @param MvcEvent $e
+     * @param Event $e
      *
      * @return void
      */
-    public function phpError(MvcEvent $e)
+    public function phpError(Event $e)
     {
         register_shutdown_function([$this, 'execOnShutdown']);
         set_error_handler([$this, 'phpErrorHandler']);
