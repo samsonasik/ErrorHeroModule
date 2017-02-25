@@ -59,8 +59,6 @@ class Mail extends BaseMail
         $body = implode(PHP_EOL, $this->eventsToMail);
 
         if (! empty($this->requestData['files_data'])) {
-            $requestDataFiles = $this->requestData['files_data'];
-
             $mimePart = new MimePart($body);
             $mimePart->type     = Mime::TYPE_TEXT;
             $mimePart->charset  = 'utf-8';
@@ -69,7 +67,7 @@ class Mail extends BaseMail
             $body = new MimeMessage();
             $body->addPart($mimePart);
 
-            foreach ($requestDataFiles as $key => $row) {
+            foreach ($this->requestData['files_data'] as $key => $row) {
                 if (key($row) === 'name') {
                     // single upload
                     $mimePart              = new MimePart(fopen($row['tmp_name'], 'r'));
@@ -96,7 +94,7 @@ class Mail extends BaseMail
 
         $this->mail->setBody($body);
 
-        if (! empty($requestDataFiles)) {
+        if (! empty($this->requestData['files_data'])) {
             $contentTypeHeader = $this->mail->getHeaders()->get('Content-Type');
             $contentTypeHeader->setType('multipart/alternative');
         }
