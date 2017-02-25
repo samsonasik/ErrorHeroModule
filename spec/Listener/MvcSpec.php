@@ -4,7 +4,7 @@ namespace ErrorHeroModule\Spec\Listener;
 
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
-use Kahlan\Plugin\Double;
+use Kahlan\Plugin\Double as DoublePlugin;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
@@ -20,14 +20,14 @@ use Zend\View\Resolver;
 describe('Mvc', function () {
 
     given('logging', function () {
-        return Double::instance([
+        return DoublePlugin::instance([
             'extends' => Logging::class,
             'methods' => '__construct'
         ]);
     });
 
     given('renderer', function () {
-        return Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
+        return DoublePlugin::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
     });
 
     given('config', function () {
@@ -91,12 +91,12 @@ describe('Mvc', function () {
 
         it('does not attach dispatch.error, render.error, and * if config[enable] = false', function () {
 
-            $logging = Double::instance([
+            $logging = DoublePlugin::instance([
                 'extends' => Logging::class,
                 'methods' => '__construct'
             ]);
 
-            $renderer = Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
+            $renderer = DoublePlugin::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
 
             $listener =  new Mvc(
                 ['enable' => false],
@@ -104,7 +104,7 @@ describe('Mvc', function () {
                 $renderer
             );
 
-            $eventManager = Double::instance(['implements' => EventManagerInterface::class]);
+            $eventManager = DoublePlugin::instance(['implements' => EventManagerInterface::class]);
             expect($eventManager)->not->toReceive('attach')->with(MvcEvent::EVENT_RENDER_ERROR, [$this->listener, 'exceptionError']);
             expect($eventManager)->not->toReceive('attach')->with(MvcEvent::EVENT_DISPATCH_ERROR, [$this->listener, 'exceptionError'], 100);
             expect($eventManager)->not->toReceive('attach')->with('*', [$this->listener, 'phpError']);
@@ -115,7 +115,7 @@ describe('Mvc', function () {
 
         it('attach dispatch.error, render.error, and *', function () {
 
-            $eventManager = Double::instance(['implements' => EventManagerInterface::class]);
+            $eventManager = DoublePlugin::instance(['implements' => EventManagerInterface::class]);
             expect($eventManager)->toReceive('attach')->with(MvcEvent::EVENT_RENDER_ERROR, [$this->listener, 'exceptionError']);
             expect($eventManager)->toReceive('attach')->with(MvcEvent::EVENT_DISPATCH_ERROR, [$this->listener, 'exceptionError'], 100);
             expect($eventManager)->toReceive('attach')->with('*', [$this->listener, 'phpError']);
@@ -130,7 +130,7 @@ describe('Mvc', function () {
 
         it('return null for !$e->getParam("exception")', function () {
 
-            $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
+            $mvcEvent = DoublePlugin::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn(null);
 
             $actual = $this->listener->exceptionError($mvcEvent);
@@ -187,12 +187,12 @@ describe('Mvc', function () {
                 ],
             ];
 
-            $logging = Double::instance([
+            $logging = DoublePlugin::instance([
                 'extends' => Logging::class,
                 'methods' => '__construct'
             ]);
 
-            $renderer = Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
+            $renderer = DoublePlugin::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
 
             $listener =  new Mvc(
                 $config,
@@ -202,7 +202,7 @@ describe('Mvc', function () {
 
             $exception = new \Exception();
 
-            $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
+            $mvcEvent = DoublePlugin::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
             allow($logging)->toReceive('handleException')->with($exception);
 
@@ -216,7 +216,7 @@ describe('Mvc', function () {
             Quit::disable();
             $exception = new \Exception();
 
-            $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
+            $mvcEvent = DoublePlugin::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
             allow($this->logging)->toReceive('handleException')->with($exception);
 
@@ -252,7 +252,7 @@ describe('Mvc', function () {
             Quit::disable();
             $exception = new \Exception();
 
-            $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
+            $mvcEvent = DoublePlugin::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
             allow($this->logging)->toReceive('handleException')->with($exception);
 
@@ -351,7 +351,7 @@ describe('Mvc', function () {
             $logging = new Logging(
                 $logger,
                 'http://serverUrl',
-                Double::instance(['extends' => Request::class, 'methods' => '__construct']),
+                DoublePlugin::instance(['extends' => Request::class, 'methods' => '__construct']),
                 '/',
                 $this->config,
                 $logWritersConfig,

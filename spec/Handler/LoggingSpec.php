@@ -3,7 +3,7 @@
 namespace ErrorHeroModule\Spec\Handler;
 
 use ErrorHeroModule\Handler\Logging;
-use Kahlan\Plugin\Double;
+use Kahlan\Plugin\Double as DoublePlugin;
 use ReflectionProperty;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
@@ -18,10 +18,10 @@ use Zend\Stdlib\SplPriorityQueue;
 describe('LoggingSpec', function () {
 
     beforeAll(function () {
-        $this->logger = Double::instance(['extends' => Logger::class]);
+        $this->logger = DoublePlugin::instance(['extends' => Logger::class]);
         $this->serverUrl = 'http://serverUrl';
         $this->requestUri = '/';
-        $this->request   = Double::instance(['extends' => Request::class, 'methods' => '__construct']);
+        $this->request   = DoublePlugin::instance(['extends' => Request::class, 'methods' => '__construct']);
         $this->errorHeroModuleLocalConfig = [
             'enable' => true,
             'display-settings' => [
@@ -93,10 +93,10 @@ describe('LoggingSpec', function () {
 
         ];
 
-        $this->dbWriter = Double::instance(['extends' => DbWriter::class, 'methods' => '__construct']);
+        $this->dbWriter = DoublePlugin::instance(['extends' => DbWriter::class, 'methods' => '__construct']);
         $reflectionProperty = new ReflectionProperty($this->dbWriter, 'db');
         $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($this->dbWriter, Double::instance(['extends' => 'Zend\Db\Adapter\Adapter', 'methods' => '__construct']));
+        $reflectionProperty->setValue($this->dbWriter, DoublePlugin::instance(['extends' => 'Zend\Db\Adapter\Adapter', 'methods' => '__construct']));
 
         $splPriorityQueue = new SplPriorityQueue();
         $splPriorityQueue->insert($this->dbWriter, 1);
@@ -121,16 +121,16 @@ describe('LoggingSpec', function () {
 
         it('not log if exists', function ()  {
 
-            $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
+            $sql = DoublePlugin::instance(['extends' => Sql::class, 'methods' => '__construct']);
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
 
-            $select = Double::instance(['extends' => Select::class, 'methods' => '__construct']);
+            $select = DoublePlugin::instance(['extends' => Select::class, 'methods' => '__construct']);
             allow($select)->toReceive('where');
             allow($select)->toReceive('order');
             allow($select)->toReceive('limit');
             allow($sql)->toReceive('select')->andReturn($select);
 
-            $resultSet = Double::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
+            $resultSet = DoublePlugin::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
 
             allow($resultSet)->toReceive('count')->andReturn(1);
             allow($resultSet)->toReceive('current')->andReturn(
@@ -149,16 +149,16 @@ describe('LoggingSpec', function () {
 
         it('not log if exists and exception instanceof ErrorException', function ()  {
 
-            $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
+            $sql = DoublePlugin::instance(['extends' => Sql::class, 'methods' => '__construct']);
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
 
-            $select = Double::instance(['extends' => Select::class, 'methods' => '__construct']);
+            $select = DoublePlugin::instance(['extends' => Select::class, 'methods' => '__construct']);
             allow($select)->toReceive('where');
             allow($select)->toReceive('order');
             allow($select)->toReceive('limit');
             allow($sql)->toReceive('select')->andReturn($select);
 
-            $resultSet = Double::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
+            $resultSet = DoublePlugin::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
 
             allow($resultSet)->toReceive('current')->andReturn(
                 [

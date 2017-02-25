@@ -4,7 +4,7 @@ namespace ErrorHeroModule\Spec\Handler;
 
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
-use Kahlan\Plugin\Double;
+use Kahlan\Plugin\Double as DoublePlugin;
 use Zend\Log\Logger;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
@@ -98,11 +98,11 @@ describe('LoggingFactorySpec', function () {
                 ],
             ];
 
-            $container = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $container = DoublePlugin::instance(['implements' => ServiceLocatorInterface::class]);
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
-            $logger = Double::instance(['extends' => Logger::class]);
+            $logger = DoublePlugin::instance(['extends' => Logger::class]);
             allow($container)->toReceive('get')->with('ErrorHeroModuleLogger')
                                                ->andReturn($logger);
 
@@ -191,11 +191,11 @@ describe('LoggingFactorySpec', function () {
                 ],
             ];
 
-            $container = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $container = DoublePlugin::instance(['implements' => ServiceLocatorInterface::class]);
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
-            $logger = Double::instance(['extends' => Logger::class]);
+            $logger = DoublePlugin::instance(['extends' => Logger::class]);
             allow($container)->toReceive('get')->with('ErrorHeroModuleLogger')
                                                ->andReturn($logger);
 
@@ -287,11 +287,11 @@ describe('LoggingFactorySpec', function () {
                 ],
             ];
 
-            $container = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $container = DoublePlugin::instance(['implements' => ServiceLocatorInterface::class]);
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
-            $logger = Double::instance(['extends' => Logger::class]);
+            $logger = DoublePlugin::instance(['extends' => Logger::class]);
             allow($container)->toReceive('get')->with('ErrorHeroModuleLogger')
                                                ->andReturn($logger);
 
@@ -386,11 +386,11 @@ describe('LoggingFactorySpec', function () {
                 ],
             ];
 
-            $container = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $container = DoublePlugin::instance(['implements' => ServiceLocatorInterface::class]);
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
-            $logger = Double::instance(['extends' => Logger::class]);
+            $logger = DoublePlugin::instance(['extends' => Logger::class]);
             allow($container)->toReceive('get')->with('ErrorHeroModuleLogger')
                                                ->andReturn($logger);
 
@@ -398,7 +398,7 @@ describe('LoggingFactorySpec', function () {
                                                ->andReturn(new Message());
 
             allow($container)->toReceive('get')->with('MailTransportService')
-                                               ->andReturn(Double::instance(['implements' => TransportInterface::class]));
+                                               ->andReturn(DoublePlugin::instance(['implements' => TransportInterface::class]));
 
             $actual = $this->factory->__invoke($container);
             expect($actual)->toBeAnInstanceOf(Logging::class);
