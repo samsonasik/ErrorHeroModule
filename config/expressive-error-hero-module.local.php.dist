@@ -1,5 +1,9 @@
 <?php
 
+namespace ErrorHeroModule;
+
+use Zend\ServiceManager\Factory\InvokableFactory;
+
 return [
 
     'log' => [
@@ -102,4 +106,20 @@ json
             ],
         ],
     ],
+
+    'dependencies' => [
+        'factories' => [
+            Middleware\Expressive::class => InvokableFactory::class,
+        ],
+    ],
+
+    'middleware_pipeline' => [
+        'always' => [
+            'middleware' => [
+                Middleware\ForceHttps::class
+            ],
+            'priority' => PHP_INT_MAX,
+        ],
+    ],
+
 ];
