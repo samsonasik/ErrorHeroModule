@@ -2,6 +2,9 @@
 
 namespace ErrorHeroModule;
 
+use ErrorHeroModule\Handler\Logging;
+use Zend\View\Renderer\PhpRenderer;
+
 trait HeroTrait
 {
     /**
