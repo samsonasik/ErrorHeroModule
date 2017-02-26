@@ -3,6 +3,7 @@
 namespace ErrorHeroModule\Listener;
 
 use ErrorHeroModule\Handler\Logging;
+use ErrorHeroModule\HeroTrait;
 use Seld\JsonLint\JsonParser;
 use Zend\Console\Console;
 use Zend\Console\Response as ConsoleResponse;
@@ -18,6 +19,8 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Mvc extends AbstractListenerAggregate
 {
+    use HeroTrait;
+
     /**
      * @var array
      */
@@ -89,6 +92,17 @@ class Mvc extends AbstractListenerAggregate
      *
      * @return void
      */
+    public function phpError(Event $e)
+    {
+        register_shutdown_function([$this, 'execOnShutdown']);
+        set_error_handler([$this, 'phpErrorHandler']);
+    }
+
+    /**
+     * @param Event $e
+     *
+     * @return void
+     */
     public function exceptionError(Event $e)
     {
         $exception = $e->getParam('exception');
@@ -101,64 +115,6 @@ class Mvc extends AbstractListenerAggregate
         );
 
         $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
-    }
-
-    /**
-     * @param Event $e
-     *
-     * @return void
-     */
-    public function phpError(Event $e)
-    {
-        register_shutdown_function([$this, 'execOnShutdown']);
-        set_error_handler([$this, 'phpErrorHandler']);
-    }
-
-    /**
-     * @return void
-     */
-    public function execOnShutdown()
-    {
-        $error = error_get_last();
-        if ($error && $error['type']) {
-            $this->phpErrorHandler($error['type'], $error['message'], $error['file'], $error['line']);
-        }
-    }
-
-    /**
-     * @param int    $errorType
-     * @param string $errorMessage
-     * @param string $errorFile
-     * @param int    $errorLine
-     *
-     * @return void
-     */
-    public function phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine)
-    {
-        $errorTypeString = $this->errorType[$errorType];
-        $errorExcluded = false;
-        if ($errorLine) {
-            if (in_array($errorType, $this->errorHeroModuleConfig['display-settings']['exclude-php-errors'])) {
-                $errorExcluded = true;
-            } else {
-                $this->logging->handleError(
-                    $errorType,
-                    $errorMessage,
-                    $errorFile,
-                    $errorLine,
-                    $errorTypeString
-                );
-            }
-        }
-
-        if ($this->errorHeroModuleConfig['display-settings']['display_errors'] === 0 || $errorExcluded) {
-            error_reporting(E_ALL | E_STRICT);
-            ini_set('display_errors', 0);
-        }
-
-        if (! $errorExcluded) {
-            $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
-        }
     }
 
     /**
