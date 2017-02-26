@@ -116,7 +116,7 @@ json
     'middleware_pipeline' => [
         'always' => [
             'middleware' => [
-                Middleware\ForceHttps::class
+                Middleware\Expressive::class
             ],
             'priority' => PHP_INT_MAX,
         ],
