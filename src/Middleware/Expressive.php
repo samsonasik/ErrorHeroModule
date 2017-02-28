@@ -9,6 +9,10 @@ class Expressive
 {
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
-        return $next($request, $response);
+        try {
+            return $next($request, $response);
+        } catch (\Throwable $t) {
+        } catch (\Exception $e) {
+        }
     }
 }
