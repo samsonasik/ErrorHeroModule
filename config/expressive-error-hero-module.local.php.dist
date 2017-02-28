@@ -2,8 +2,6 @@
 
 namespace ErrorHeroModule;
 
-use Zend\ServiceManager\Factory\InvokableFactory;
-
 return [
 
     'log' => [
@@ -109,7 +107,7 @@ json
 
     'dependencies' => [
         'factories' => [
-            Middleware\Expressive::class => InvokableFactory::class,
+            Middleware\Expressive::class => Middleware\ExpressiveFactory::class,
         ],
     ],
 
