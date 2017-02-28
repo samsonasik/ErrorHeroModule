@@ -2,21 +2,15 @@
 
 namespace ErrorHeroModule\Spec\Middleware;
 
+use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Expressive;
+use Kahlan\Plugin\Double;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response;
-use ErrorHeroModule\Handler\Logging;
-use Kahlan\Plugin\Double;
-use Kahlan\Plugin\Quit;
-use Kahlan\QuitException;
 use Zend\Console\Console;
-use Zend\Db\Adapter\Adapter;
+use Zend\Diactoros\Response;
 use Zend\Http\PhpEnvironment\Request;
-use Zend\Log\Logger;
-use Zend\Log\Writer\Db as DbWriter;
 use Zend\View\Renderer\PhpRenderer;
-use Zend\View\Resolver;
 
 describe('Expressive', function () {
 

@@ -6,7 +6,6 @@ use ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction;
 use Kahlan\Plugin\Double;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response;
 
 describe('ErrorPreviewAction', function () {
 
