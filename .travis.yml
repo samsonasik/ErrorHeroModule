@@ -27,7 +27,7 @@ before_script:
   - mysql -u root errorheromodule < spec/Fixture/data/sql.sql
   - composer self-update
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable --no-interaction ; fi
-  - if [[ $DEPS == 'latest' ]]; then travis_retry composer install --prefer-source --no-interaction ; fi
+  - if [[ $DEPS == 'latest' ]]; then travis_retry composer require --dev "zendframework/zend-mvc-console": "^1.1" && composer install --prefer-source --no-interaction ; fi
   - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then composer global require --dev phpstan/phpstan; fi
   - composer dump-autoload -o
 
