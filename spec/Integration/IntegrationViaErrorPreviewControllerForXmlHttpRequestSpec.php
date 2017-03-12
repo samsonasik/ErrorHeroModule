@@ -16,12 +16,21 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
 
         Console::overrideIsConsole(false);
 
-        $application = Application::init([
-            'modules' => [
+        $modules_add = [];
+        if (class_exists(\Zend\Router\Module::class)) {
+            $modules_add = [
                 'Zend\Router',
-                'Zend\Db',
-                'ErrorHeroModule',
-            ],
+                'Zend\Db'
+            ];
+        }
+
+        $application = Application::init([
+            'modules' => array_merge(
+                $modules_add,
+                [
+                    'ErrorHeroModule',
+                ]
+            ),
             'module_listener_options' => [
                 'config_glob_paths' => [
                     realpath(__DIR__).'/../Fixture/config/autoload-for-xmlhttprequest/error-hero-module.local.php',
