@@ -4,7 +4,7 @@ namespace ErrorHeroModule\Spec\Handler\Writer;
 
 use ErrorHeroModule\Handler\Writer\Mail;
 use Exception;
-use Kahlan\Plugin\Double;
+use Kahlan\Plugin\Double as DoublePlugin;
 use ReflectionProperty;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
@@ -12,8 +12,8 @@ use Zend\Mail\Transport\TransportInterface;
 describe('Mail', function () {
 
    beforeAll(function () {
-        $this->mailMessage   = Double::instance(['extends' => Message::class]);
-        $this->transport = Double::instance(['implements' => TransportInterface::class]);
+        $this->mailMessage   = DoublePlugin::instance(['extends' => Message::class]);
+        $this->transport = DoublePlugin::instance(['implements' => TransportInterface::class]);
 
         $this->writer = new Mail(
             $this->mailMessage,

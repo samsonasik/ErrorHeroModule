@@ -6,7 +6,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Module;
-use Kahlan\Plugin\Double;
+use Kahlan\Plugin\Double as DoublePlugin;
 use Zend\EventManager\EventManagerInterface;
 use Zend\ModuleManager\Listener\ConfigListener;
 use Zend\ModuleManager\ModuleEvent;
@@ -36,8 +36,8 @@ describe('Module', function () {
 
         it('receive ModuleManager that get Eventmanager that attach ModuleEvent::EVENT_LOAD_MODULES_POST', function () {
 
-            $moduleManager = Double::instance(['extends' => ModuleManager::class, 'methods' => '__construct']);
-            $eventManager    = Double::instance(['implements' => EventManagerInterface::class]);
+            $moduleManager = DoublePlugin::instance(['extends' => ModuleManager::class, 'methods' => '__construct']);
+            $eventManager    = DoublePlugin::instance(['implements' => EventManagerInterface::class]);
 
             allow($moduleManager)->toReceive('getEventManager')->andReturn($eventManager);
             expect($eventManager)->toReceive('attach')->with(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this->module, 'convertDoctrineToZendDbConfig']);
@@ -53,8 +53,8 @@ describe('Module', function () {
 
         it('does not has EntityManager service', function () {
 
-            $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
-            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $moduleEvent = DoublePlugin::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
+            $serviceManager  = DoublePlugin::instance(['implements' => ServiceLocatorInterface::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
             allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
@@ -65,12 +65,12 @@ describe('Module', function () {
 
         it('has EntityManager service but already has db config', function () {
 
-            $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
-            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $moduleEvent = DoublePlugin::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
+            $serviceManager  = DoublePlugin::instance(['implements' => ServiceLocatorInterface::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
             allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(true);
 
-            $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
+            $configListener = DoublePlugin::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
             allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);
             allow($configListener)->toReceive('getMergedConfig')->andReturn([
                 'db' => [
@@ -89,19 +89,19 @@ describe('Module', function () {
 
         it('has EntityManager service but already does not has db config not isset driverOptions', function () {
 
-            $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
-            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $moduleEvent = DoublePlugin::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
+            $serviceManager  = DoublePlugin::instance(['implements' => ServiceLocatorInterface::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
             allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(true);
 
-            $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
+            $configListener = DoublePlugin::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
             allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);
             allow($configListener)->toReceive('getMergedConfig')->andReturn([]);
 
-            $entityManager = Double::instance(['extends' => EntityManager::class, 'methods' => '__construct']);
-            $connection    = Double::instance(['extends' => Connection::class, 'methods' => '__construct']);
+            $entityManager = DoublePlugin::instance(['extends' => EntityManager::class, 'methods' => '__construct']);
+            $connection    = DoublePlugin::instance(['extends' => Connection::class, 'methods' => '__construct']);
 
-            $driver = Double::instance(['extends' => Driver::class, 'methods' => '__construct']);
+            $driver = DoublePlugin::instance(['extends' => Driver::class, 'methods' => '__construct']);
             allow($driver)->toReceive('getName')->andReturn('pdo_mysql');
 
             allow($connection)->toReceive('getParams')->andReturn([]);
@@ -122,19 +122,19 @@ describe('Module', function () {
 
         it('has EntityManager service but already does not has db config with isset driverOptions', function () {
 
-            $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
-            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $moduleEvent = DoublePlugin::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
+            $serviceManager  = DoublePlugin::instance(['implements' => ServiceLocatorInterface::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
             allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(true);
 
-            $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
+            $configListener = DoublePlugin::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
             allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);
             allow($configListener)->toReceive('getMergedConfig')->andReturn([]);
 
-            $entityManager = Double::instance(['extends' => EntityManager::class, 'methods' => '__construct']);
-            $connection    = Double::instance(['extends' => Connection::class, 'methods' => '__construct']);
+            $entityManager = DoublePlugin::instance(['extends' => EntityManager::class, 'methods' => '__construct']);
+            $connection    = DoublePlugin::instance(['extends' => Connection::class, 'methods' => '__construct']);
 
-            $driver = Double::instance(['extends' => Driver::class, 'methods' => '__construct']);
+            $driver = DoublePlugin::instance(['extends' => Driver::class, 'methods' => '__construct']);
             allow($driver)->toReceive('getName')->andReturn('pdo_mysql');
 
             allow($connection)->toReceive('getParams')->andReturn([
@@ -163,11 +163,11 @@ describe('Module', function () {
 
         it('does not has enable-error-preview-page', function () {
 
-            $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
-            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $moduleEvent = DoublePlugin::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
+            $serviceManager  = DoublePlugin::instance(['implements' => ServiceLocatorInterface::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
 
-            $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
+            $configListener = DoublePlugin::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
             allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);
             allow($configListener)->toReceive('getMergedConfig')->andReturn([
                 'error-hero-module' => [
@@ -182,11 +182,11 @@ describe('Module', function () {
 
         it('has enable-error-preview-page and enabled', function () {
 
-            $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
-            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $moduleEvent = DoublePlugin::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
+            $serviceManager  = DoublePlugin::instance(['implements' => ServiceLocatorInterface::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
 
-            $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
+            $configListener = DoublePlugin::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
             allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);
             allow($configListener)->toReceive('getMergedConfig')->andReturn([
                 'error-hero-module' => [
@@ -202,11 +202,11 @@ describe('Module', function () {
 
         it('has enable-error-preview-page and disabled', function () {
 
-            $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
-            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $moduleEvent = DoublePlugin::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
+            $serviceManager  = DoublePlugin::instance(['implements' => ServiceLocatorInterface::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
 
-            $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
+            $configListener = DoublePlugin::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
             allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);
             allow($configListener)->toReceive('getMergedConfig')->andReturn([
                 'error-hero-module' => [

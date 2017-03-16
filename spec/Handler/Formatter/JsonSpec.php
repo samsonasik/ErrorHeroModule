@@ -11,12 +11,10 @@ describe('Json', function () {
 
         it('format json', function () {
 
+            $dateTime = new DateTime('2016-12-30T00:42:49+07:00');
+
             $event = [
-              'timestamp' => DateTime::__set_state([
-                 'date' => '2016-12-30 00:42:49.558706',
-                 'timezone_type' => 3,
-                 'timezone' => 'Asia/Jakarta',
-              ]),
+              'timestamp' => $dateTime,
               'priority' => 3,
               'priorityName' => 'ERR',
               'message' => '1: a sample error preview',

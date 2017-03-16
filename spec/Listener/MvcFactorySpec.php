@@ -5,7 +5,7 @@ namespace ErrorHeroModule\Spec\Listener;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
-use Kahlan\Plugin\Double;
+use Kahlan\Plugin\Double as DoublePlugin;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -68,15 +68,15 @@ describe('MvcFactory', function () {
                 ],
             ];
 
-            $container = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $container = DoublePlugin::instance(['implements' => ServiceLocatorInterface::class]);
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
-            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
+            $logging = DoublePlugin::instance(['extends' => Logging::class, 'methods' => '__construct']);
             allow($container)->toReceive('get')->with(Logging::class)
                                                ->andReturn($logging);
 
-            $renderer = Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
+            $renderer = DoublePlugin::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
             allow($container)->toReceive('get')->with('ViewRenderer')
                                                ->andReturn($renderer);
 

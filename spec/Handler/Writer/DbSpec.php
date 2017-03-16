@@ -3,7 +3,7 @@
 namespace ErrorHeroModule\Spec\Handler\Writer;
 
 use ErrorHeroModule\Handler\Writer\Db;
-use Kahlan\Plugin\Double;
+use Kahlan\Plugin\Double as DoublePlugin;
 use ReflectionProperty;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
@@ -15,10 +15,10 @@ describe('Db', function () {
 
     beforeAll(function () {
 
-        $this->dbWriter = Double::instance(['extends' => DbWriter::class, 'methods' => '__construct']);
+        $this->dbWriter = DoublePlugin::instance(['extends' => DbWriter::class, 'methods' => '__construct']);
         $reflectionProperty = new ReflectionProperty($this->dbWriter, 'db');
         $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($this->dbWriter, Double::instance(['extends' => 'Zend\Db\Adapter\Adapter', 'methods' => '__construct']));
+        $reflectionProperty->setValue($this->dbWriter, DoublePlugin::instance(['extends' => 'Zend\Db\Adapter\Adapter', 'methods' => '__construct']));
 
         $this->configLoggingSettings =  [
             'same-error-log-time-range' => 86400,
@@ -72,16 +72,16 @@ describe('Db', function () {
 
         it('return false if count() === 0', function () {
 
-            $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
+            $sql = DoublePlugin::instance(['extends' => Sql::class, 'methods' => '__construct']);
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
 
-            $select = Double::instance(['extends' => Select::class, 'methods' => '__construct']);
+            $select = DoublePlugin::instance(['extends' => Select::class, 'methods' => '__construct']);
             allow($select)->toReceive('where');
             allow($select)->toReceive('order');
             allow($select)->toReceive('limit');
             allow($sql)->toReceive('select')->andReturn($select);
 
-            $resultSet = Double::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
+            $resultSet = DoublePlugin::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
             allow($resultSet)->toReceive('count')->andReturn(0);
             allow(TableGateway::class)->toReceive('selectWith')->with($select)->andReturn($resultSet);
 
@@ -92,16 +92,16 @@ describe('Db', function () {
 
         it('return false if count() === 1 but timestamp is expired', function () {
 
-            $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
+            $sql = DoublePlugin::instance(['extends' => Sql::class, 'methods' => '__construct']);
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
 
-            $select = Double::instance(['extends' => Select::class, 'methods' => '__construct']);
+            $select = DoublePlugin::instance(['extends' => Select::class, 'methods' => '__construct']);
             allow($select)->toReceive('where');
             allow($select)->toReceive('order');
             allow($select)->toReceive('limit');
             allow($sql)->toReceive('select')->andReturn($select);
 
-            $resultSet = Double::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
+            $resultSet = DoublePlugin::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
 
             $current = date('Y-m-d');
             $date    = date_create($current);
@@ -123,16 +123,16 @@ describe('Db', function () {
 
         it('return true if count() === 1 but timestamp === current time', function () {
 
-            $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
+            $sql = DoublePlugin::instance(['extends' => Sql::class, 'methods' => '__construct']);
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
 
-            $select = Double::instance(['extends' => Select::class, 'methods' => '__construct']);
+            $select = DoublePlugin::instance(['extends' => Select::class, 'methods' => '__construct']);
             allow($select)->toReceive('where');
             allow($select)->toReceive('order');
             allow($select)->toReceive('limit');
             allow($sql)->toReceive('select')->andReturn($select);
 
-            $resultSet = Double::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
+            $resultSet = DoublePlugin::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
 
             allow($resultSet)->toReceive('count')->andReturn(1);
             allow($resultSet)->toReceive('current')->andReturn(
