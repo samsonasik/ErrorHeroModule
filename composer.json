@@ -24,11 +24,10 @@
         "zendframework/zend-text": "^2.6"
     },
     "require-dev": {
-        "doctrine/doctrine-orm-module": "^0.8 || ^1.1",
+        "doctrine/doctrine-orm-module": "^1.1",
         "kahlan/kahlan": "^3.1",
         "satooshi/php-coveralls": "^1.0",
-        "zendframework/zend-mvc": "^2.7.10|^3.0",
-        "zendframework/zend-mvc-console": "^1.1"
+        "zendframework/zend-mvc": "^2.7.10|^3.0"
     },
     "suggest": {
         "zendframework/zend-mvc-console": "^1.1 for zend-mvc ^3.0 usage to be able to use Console Controller"
