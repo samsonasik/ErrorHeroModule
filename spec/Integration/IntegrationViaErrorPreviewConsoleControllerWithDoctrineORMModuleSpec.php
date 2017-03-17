@@ -17,13 +17,22 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
 
         Console::overrideIsConsole(true);
 
+        $modules_add = [];
+        if (class_exists(\Zend\Router\Module::class)) {
+            $modules_add = [
+                'Zend\Router'
+            ];
+        }
+
         $application = Application::init([
-            'modules' => [
-                'Zend\Router',
-                'DoctrineModule',
-                'DoctrineORMModule',
-                'ErrorHeroModule',
-            ],
+            'modules' => array_merge(
+                $modules_add,
+                [
+                    'DoctrineModule',
+                    'DoctrineORMModule',
+                    'ErrorHeroModule',
+                ]
+            ),
             'module_listener_options' => [
                 'config_glob_paths' => [
                     realpath(__DIR__).'/../Fixture/config/autoload-with-doctrine/error-hero-module.local.php',
