@@ -24,7 +24,8 @@
         "zendframework/zend-text": "^2.6"
     },
     "require-dev": {
-        "doctrine/doctrine-orm-module": "^1.1",
+        "doctrine/doctrine-module": "^1.2.0",
+        "doctrine/doctrine-orm-module": "^1.1.0",
         "kahlan/kahlan": "^3.1",
         "satooshi/php-coveralls": "^1.0",
         "zendframework/zend-mvc": "^2.7.10|^3.0"
