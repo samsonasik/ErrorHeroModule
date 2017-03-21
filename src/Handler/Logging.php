@@ -80,8 +80,8 @@ class Logging
     public function __construct(
         Logger             $logger,
         $serverUrl,
-        $request,
-        $requestUri,
+        $request = null,
+        $requestUri = '',
         array              $errorHeroModuleLocalConfig,
         array              $logWritersConfig,
         Message            $mailMessageService = null,
@@ -97,6 +97,17 @@ class Logging
         $this->mailMessageTransport  = $mailMessageTransport;
         $this->emailReceivers        = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
         $this->emailSender           = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
+    }
+
+    /**
+     * Set ServerRequest for expressive
+     *
+     * @param ServerRequest $request
+     */
+    public function setServerRequestandRequestUri(ServerRequest $request)
+    {
+        $this->request = $request;
+        $this->requestUri = $request->getUri()->getPath();
     }
 
     /**

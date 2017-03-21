@@ -23,14 +23,14 @@ class LoggingFactory
      */
     public function __invoke($container)
     {
+        $request    = null;
+        $requestUri = '';
+
         if (!Console::isConsole()) {
             $serverUrl  = $container->get('ViewHelperManager')->get('ServerUrl')->__invoke();
             if ($container->has('Request')) {
                 $request    = $container->get('Request');
                 $requestUri = $request->getRequestUri();
-            } else {
-                $request    = new ServerRequest();
-                $requestUri = $request->getUri()->getPath();
             }
         } else {
             $serverUrl  = php_uname('n');

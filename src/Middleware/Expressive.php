@@ -12,6 +12,7 @@ use Throwable;
 use Zend\Console\Response as ConsoleResponse;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
+use Zend\Diactoros\Uri;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\View\Model\ViewModel;
 use Seld\JsonLint\JsonParser;
@@ -44,14 +45,14 @@ class Expressive
             return $next($request, $response);
         }
 
-        $this->phpError();
+        $this->phpError($request);
 
         try {
             return $next($request, $response);
         } catch (Error $t) {
-            $this->exceptionError($t);
+            $this->exceptionError($t, $request);
         } catch (Exception $e) {
-            $this->exceptionError($e);
+            $this->exceptionError($e, $request);
         }
     }
 
@@ -59,7 +60,7 @@ class Expressive
      *
      * @return void
      */
-    public function phpError()
+    public function phpError($request)
     {
         register_shutdown_function([$this, 'execOnShutdown']);
         set_error_handler([$this, 'phpErrorHandler']);
@@ -70,13 +71,14 @@ class Expressive
      *
      * @return void
      */
-    public function exceptionError($e)
+    public function exceptionError($e, $request)
     {
+        $this->logging->setServerRequestandRequestUri($request);
         $this->logging->handleException(
             $e
         );
 
-        $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
+        $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled($request);
     }
 
     /**
@@ -84,7 +86,7 @@ class Expressive
      *
      * @return void
      */
-    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
+    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled($request)
     {
         $displayErrors = $this->errorHeroModuleConfig['display-settings']['display_errors'];
 
@@ -94,7 +96,6 @@ class Expressive
                 $response = new Response();
                 $response = $response->withStatus(500);
 
-                $request          = new ServerRequest();
                 $isXmlHttpRequest = $request->hasHeader('X_REQUESTED_WITH');
 
                 if ($isXmlHttpRequest === true &&
