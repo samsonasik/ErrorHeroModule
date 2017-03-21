@@ -57,11 +57,14 @@ class Expressive
     }
 
     /**
+     * @param ServerRequest $request
      *
      * @return void
      */
     public function phpError($request)
     {
+        $this->request = $request;
+
         register_shutdown_function([$this, 'execOnShutdown']);
         set_error_handler([$this, 'phpErrorHandler']);
     }
