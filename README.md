@@ -300,6 +300,7 @@ You will get the following page if display_errors config is 0:
 ![error preview in console](https://cloud.githubusercontent.com/assets/459648/21669141/8e7690f0-d33b-11e6-99c7-eed4f1ab7edb.png)
 
 > For production env, you can disable error-preview sample page with set `['error-hero-module']['enable-error-preview-page']` to false.
+> For ZF Expressive, there is no default console implementation, so, if you want to apply it in your console in ZF Expressive, you may need to custom implementation error handler that utilize `ErrorHeroModule\Handler\Logging` service (see detailed usage at `ErrorHeroModule\Middleware\Expressive` class)
 
 Contributing
 ------------

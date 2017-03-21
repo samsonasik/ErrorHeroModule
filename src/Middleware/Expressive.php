@@ -46,7 +46,7 @@ class Expressive
         }
 
         // set Zend\Db\Adapter\Adapter service from doctrine config if doctrine config found
-        
+
 
         try {
             $response =  $next($request, $response);
@@ -96,50 +96,34 @@ class Expressive
     private function showDefaultViewWhenDisplayErrorSetttingIsDisabled($request)
     {
         $displayErrors = $this->errorHeroModuleConfig['display-settings']['display_errors'];
-
-        if ($displayErrors === 0) {
-            if (!Console::isConsole()) {
-
-                $response = new Response();
-                $response = $response->withStatus(500);
-
-                $isXmlHttpRequest = $request->hasHeader('X_REQUESTED_WITH');
-
-                if ($isXmlHttpRequest === true &&
-                    isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
-                ) {
-                    $content     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
-                    $contentType = ((new JsonParser())->lint($content) === null) ? 'application/problem+json' : 'text/html';
-
-                    $response = $response->withHeader('Content-type', $contentType);
-                    $response->getBody()->write($content);
-
-                    echo $response->getBody()->__toString();
-
-                    exit(-1);
-                }
-
-                $response =  new HtmlResponse($this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view']));
-                $response = $response->withHeader('Content-type', 'text/html');
-
-                echo $response->getBody()->__toString();
-
-                exit(-1);
-
-            }
-
-            $response = new ConsoleResponse();
-            $response->setErrorLevel(-1);
-
-            $table = new Table\Table([
-                'columnWidths' => [150],
-            ]);
-            $table->setDecorator('ascii');
-            $table->appendRow([$this->errorHeroModuleConfig['display-settings']['console']['message']]);
-
-            $response->setContent($table->render());
-            $response->send();
-
+        if ($displayErrors) {
+            return;
         }
+
+        $response = new Response();
+        $response = $response->withStatus(500);
+
+        $isXmlHttpRequest = $request->hasHeader('X_REQUESTED_WITH');
+
+        if ($isXmlHttpRequest === true &&
+            isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
+        ) {
+            $content     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
+            $contentType = ((new JsonParser())->lint($content) === null) ? 'application/problem+json' : 'text/html';
+
+            $response = $response->withHeader('Content-type', $contentType);
+            $response->getBody()->write($content);
+
+            echo $response->getBody()->__toString();
+
+            exit(-1);
+        }
+
+        $response =  new HtmlResponse($this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view']));
+        $response = $response->withHeader('Content-type', 'text/html');
+
+        echo $response->getBody()->__toString();
+
+        exit(-1);
     }
 }

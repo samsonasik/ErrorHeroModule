@@ -96,55 +96,55 @@ class Mvc extends AbstractListenerAggregate
     private function showDefaultViewWhenDisplayErrorSetttingIsDisabled($request = null)
     {
         $displayErrors = $this->errorHeroModuleConfig['display-settings']['display_errors'];
+        if ($displayErrors) {
+            return;
+        }
 
-        if ($displayErrors === 0) {
-            if (!Console::isConsole()) {
+        if (!Console::isConsole()) {
 
-                $response = new HttpResponse();
-                $response->setStatusCode(500);
+            $response = new HttpResponse();
+            $response->setStatusCode(500);
 
-                $request          = new Request();
-                $isXmlHttpRequest = $request->isXmlHttpRequest();
-                if ($isXmlHttpRequest === true &&
-                    isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
-                ) {
-                    $content     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
-                    $contentType = ((new JsonParser())->lint($content) === null) ? 'application/problem+json' : 'text/html';
+            $request          = new Request();
+            $isXmlHttpRequest = $request->isXmlHttpRequest();
+            if ($isXmlHttpRequest === true &&
+                isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
+            ) {
+                $content     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
+                $contentType = ((new JsonParser())->lint($content) === null) ? 'application/problem+json' : 'text/html';
 
-                    $response->getHeaders()->addHeaderLine('Content-type', $contentType);
-                    $response->setContent($content);
-
-                    $response->send();
-                    exit(-1);
-                }
-
-                $view = new ViewModel();
-                $view->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['view']);
-
-                $layout = new ViewModel();
-                $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
-                $layout->setVariable('content', $this->renderer->render($view));
-
-                $response->getHeaders()->addHeaderLine('Content-type', 'text/html');
-                $response->setContent($this->renderer->render($layout));
+                $response->getHeaders()->addHeaderLine('Content-type', $contentType);
+                $response->setContent($content);
 
                 $response->send();
                 exit(-1);
-
             }
 
-            $response = new ConsoleResponse();
-            $response->setErrorLevel(-1);
+            $view = new ViewModel();
+            $view->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['view']);
 
-            $table = new Table\Table([
-                'columnWidths' => [150],
-            ]);
-            $table->setDecorator('ascii');
-            $table->appendRow([$this->errorHeroModuleConfig['display-settings']['console']['message']]);
+            $layout = new ViewModel();
+            $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
+            $layout->setVariable('content', $this->renderer->render($view));
 
-            $response->setContent($table->render());
+            $response->getHeaders()->addHeaderLine('Content-type', 'text/html');
+            $response->setContent($this->renderer->render($layout));
+
             $response->send();
+            exit(-1);
 
         }
+
+        $response = new ConsoleResponse();
+        $response->setErrorLevel(-1);
+
+        $table = new Table\Table([
+            'columnWidths' => [150],
+        ]);
+        $table->setDecorator('ascii');
+        $table->appendRow([$this->errorHeroModuleConfig['display-settings']['console']['message']]);
+
+        $response->setContent($table->render());
+        $response->send();
     }
 }
