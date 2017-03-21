@@ -13,6 +13,7 @@ use Zend\Console\Response as ConsoleResponse;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Uri;
+use Zend\Expressive\Application;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\View\Model\ViewModel;
 use Seld\JsonLint\JsonParser;
@@ -44,9 +45,6 @@ class Expressive
         if (! $this->errorHeroModuleConfig['enable']) {
             return $next($request, $response);
         }
-
-        // set Zend\Db\Adapter\Adapter service from doctrine config if doctrine config found
-
 
         try {
             $response =  $next($request, $response);
