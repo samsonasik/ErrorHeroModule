@@ -84,6 +84,22 @@ describe('Expressive', function () {
 
     describe('->__invoke()', function () {
 
+        it('returns next() when not enabled', function () {
+
+            $config['enable'] = false;
+
+            $request  = Double::instance(['implements' => ServerRequestInterface::class]);
+            $response = Double::instance(['implements' => ResponseInterface::class]);
+            $next     = function ($request, $response) {
+                return new Response();
+            };
+            $middleware = new Expressive($config, $this->logging, $this->renderer);
+
+            $actual = $middleware->__invoke($request, $response, $next);
+            expect($actual)->toBeAnInstanceOf(Response::class);
+
+        });
+
         it('returns next() when no error', function () {
 
             $request  = Double::instance(['implements' => ServerRequestInterface::class]);
