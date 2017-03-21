@@ -34,9 +34,9 @@ class Expressive
         try {
             return $next($request, $response);
         } catch (Throwable $t) {
-
+            die;
         } catch (Exception $e) {
-            
+            die;
         }
     }
 }

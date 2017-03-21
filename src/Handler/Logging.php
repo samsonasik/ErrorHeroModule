@@ -6,6 +6,7 @@ use Error;
 use ErrorException;
 use Exception;
 use RuntimeException;
+use Zend\Diactoros\ServerRequest;
 use Zend\Http\PhpEnvironment\Request as HttpRequest;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db;
@@ -27,7 +28,7 @@ class Logging
     private $serverUrl;
 
     /**
-     * @var RequestInterface
+     * @var RequestInterface|ServerRequest
      */
     private $request;
 
@@ -67,19 +68,19 @@ class Logging
     private $emailSender;
 
     /**
-     * @param Logger                  $logger
-     * @param string                  $serverUrl
-     * @param string                  $requestUri
-     * @param RequestInterface        $request
-     * @param array                   $errorHeroModuleLocalConfig
-     * @param array                   $logWritersConfig
-     * @param Message|null            $mailMessageService
-     * @param TransportInterface|null $mailMessageTransport
+     * @param Logger                         $logger
+     * @param string                         $serverUrl
+     * @param string                         $requestUri
+     * @param RequestInterface|ServerRequest $request
+     * @param array                          $errorHeroModuleLocalConfig
+     * @param array                          $logWritersConfig
+     * @param Message|null                   $mailMessageService
+     * @param TransportInterface|null        $mailMessageTransport
      */
     public function __construct(
         Logger             $logger,
         $serverUrl,
-        RequestInterface   $request,
+        $request,
         $requestUri,
         array              $errorHeroModuleLocalConfig,
         array              $logWritersConfig,
@@ -137,6 +138,25 @@ class Logging
     {
         $request_data = [];
         if ($this->request instanceof HttpRequest) {
+            $query          = $this->request->getQuery()->toArray();
+            $request_method = $this->request->getServer('REQUEST_METHOD');
+            $body_data      = ($this->request->isPost())
+                ? $this->request->getPost()->toArray()
+                : [];
+            $raw_data       = $this->request->getContent();
+            $raw_data       = str_replace("\r\n", '', $raw_data);
+            $files_data     = $this->request->getFiles()->toArray();
+
+            $request_data = [
+                'query'          => $query,
+                'request_method' => $request_method,
+                'body_data'      => $body_data,
+                'raw_data'       => $raw_data,
+                'files_data'     => $files_data,
+            ];
+        }
+
+        if ($this->request instanceof ServerRequest) {
             $query          = $this->request->getQuery()->toArray();
             $request_method = $this->request->getServer('REQUEST_METHOD');
             $body_data      = ($this->request->isPost())

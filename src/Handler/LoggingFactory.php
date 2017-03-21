@@ -6,6 +6,7 @@ use Interop\Container\ContainerInterface;
 use RuntimeException;
 use Zend\Console\Console;
 use Zend\Console\Request as ConsoleRequest;
+use Zend\Diactoros\ServerRequest;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -24,8 +25,13 @@ class LoggingFactory
     {
         if (!Console::isConsole()) {
             $serverUrl  = $container->get('ViewHelperManager')->get('ServerUrl')->__invoke();
-            $request    = $container->get('Request');
-            $requestUri = $request->getRequestUri();
+            if ($container->has('Request')) {
+                $request    = $container->get('Request');
+                $requestUri = $request->getRequestUri();
+            } else {
+                $request    = new ServerRequest();
+                $requestUri = $request->getUri()->getPath();
+            }
         } else {
             $serverUrl  = php_uname('n');
             $request    = new ConsoleRequest();
