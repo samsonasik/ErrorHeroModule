@@ -8,21 +8,21 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
-use Zend\View\Renderer\PhpRenderer;
+use Zend\Expressive\ZendView\ZendViewRenderer;
 
 class Expressive
 {
     use HeroTrait;
 
     /**
-     * @param array       $errorHeroModuleConfig
-     * @param Logging     $logging
-     * @param PhpRenderer $renderer
+     * @param array            $errorHeroModuleConfig
+     * @param Logging          $logging
+     * @param ZendViewRenderer $renderer
      */
     public function __construct(
-        array       $errorHeroModuleConfig,
-        Logging     $logging,
-        PhpRenderer $renderer
+        array            $errorHeroModuleConfig,
+        Logging          $logging,
+        ZendViewRenderer $renderer
     ) {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
         $this->logging               = $logging;

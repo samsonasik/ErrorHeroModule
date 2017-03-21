@@ -4,6 +4,7 @@ namespace ErrorHeroModule\Middleware;
 
 use ErrorHeroModule\Handler\Logging;
 use Interop\Container\ContainerInterface;
+use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ExpressiveFactory
@@ -20,7 +21,7 @@ class ExpressiveFactory
         return new Expressive(
             $config['error-hero-module'],
             $container->get(Logging::class),
-            $container->get('ViewRenderer')
+            $container->get(TemplateRendererInterface::class)
         );
     }
 }
