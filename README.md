@@ -10,7 +10,7 @@ ErrorHeroModule
 Introduction
 ------------
 
-ErrorHeroModule is a module for Error Logging (DB and Mail) your ZF2/ZF3 Mvc Application for Exceptions of 'dispatch.error', 'render.error', and [PHP E_* Error](http://www.php.net/manual/en/errorfunc.constants.php).
+ErrorHeroModule is a module for Error Logging (DB and Mail) your ZF2, ZF3 Mvc Application, and ZF Expressive for Exceptions of 'dispatch.error', 'render.error', and [PHP E_* Error](http://www.php.net/manual/en/errorfunc.constants.php).
 
 Features
 --------
@@ -250,7 +250,7 @@ return [
 
 ***b. For ZF Expressive application***
 
-> You need to use Zend\ServiceManager for service container and Zend\View for template engine. 
+> You need to use Zend\ServiceManager for service container and Zend\View for template engine.
 
 For [zend-expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton) ^1.0, It's should already just works!
 
