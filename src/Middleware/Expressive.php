@@ -45,10 +45,11 @@ class Expressive
             return $next($request, $response);
         }
 
-        $this->phpError($request);
-
         try {
-            return $next($request, $response);
+            $response =  $next($request, $response);
+            $this->phpError($request);
+
+            return $response;
         } catch (Error $t) {
             $this->exceptionError($t, $request);
         } catch (Exception $e) {
