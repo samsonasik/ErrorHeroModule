@@ -7,7 +7,7 @@ use ErrorHeroModule\Middleware\Expressive;
 use ErrorHeroModule\Middleware\ExpressiveFactory;
 use Kahlan\Plugin\Double;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Renderer\PhpRenderer;
+use Zend\Expressive\Template\TemplateRendererInterface;
 
 describe('ExpressiveFactory', function () {
 
@@ -76,8 +76,8 @@ describe('ExpressiveFactory', function () {
             allow($container)->toReceive('get')->with(Logging::class)
                                                ->andReturn($logging);
 
-            $renderer = Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
-            allow($container)->toReceive('get')->with('ViewRenderer')
+            $renderer = Double::implements(['extends' => TemplateRendererInterface::class]);
+            allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
                                                ->andReturn($renderer);
 
             $actual = $this->factory->__invoke($container);

@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Zend\Console\Console;
 use Zend\Diactoros\Response;
 use Zend\Http\PhpEnvironment\Request;
-use Zend\View\Renderer\PhpRenderer;
+use Zend\Expressive\Template\TemplateRendererInterface;
 
 describe('Expressive', function () {
 
@@ -22,7 +22,7 @@ describe('Expressive', function () {
     });
 
     given('renderer', function () {
-        return Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
+        return Double::instance(['implements' => TemplateRendererInterface::class]);
     });
 
     given('config', function () {
