@@ -3,6 +3,7 @@
 namespace ErrorHeroModule;
 
 use ErrorHeroModule\Handler\Logging;
+use Zend\Diactoros\ServerRequest;
 use Zend\View\Renderer\PhpRenderer;
 
 trait HeroTrait
@@ -39,6 +40,11 @@ trait HeroTrait
         E_DEPRECATED        => 'E_DEPRECATED',
         E_USER_DEPRECATED   => 'E_USER_DEPRECATED',
     ];
+
+    /**
+     * @var ServerRequest|null
+     */
+    private $request = null;
 
     /**
      * @return void
@@ -83,7 +89,7 @@ trait HeroTrait
         }
 
         if (! $errorExcluded) {
-            $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
+            $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled($this->request);
         }
     }
 }

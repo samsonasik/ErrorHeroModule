@@ -47,7 +47,7 @@ class Mvc extends AbstractListenerAggregate
         if (! $this->errorHeroModuleConfig['enable']) {
             return;
         }
-        
+
         // exceptions
         $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'exceptionError']);
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'exceptionError'], 100);
@@ -89,9 +89,11 @@ class Mvc extends AbstractListenerAggregate
     /**
      * It show default view if display_errors setting = 0.
      *
+     * @param mixed|null $request
+     *
      * @return void
      */
-    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
+    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled($request = null)
     {
         $displayErrors = $this->errorHeroModuleConfig['display-settings']['display_errors'];
 
