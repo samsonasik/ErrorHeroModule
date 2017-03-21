@@ -12,7 +12,7 @@ use Throwable;
 use Zend\Console\Response as ConsoleResponse;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
-use Zend\Expressive\ZendView\ZendViewRenderer;
+use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\View\Model\ViewModel;
 use Seld\JsonLint\JsonParser;
 use Zend\Console\Console;
@@ -22,14 +22,14 @@ class Expressive
     use HeroTrait;
 
     /**
-     * @param array            $errorHeroModuleConfig
-     * @param Logging          $logging
-     * @param ZendViewRenderer $renderer
+     * @param array                     $errorHeroModuleConfig
+     * @param Logging                   $logging
+     * @param TemplateRendererInterface $renderer
      */
     public function __construct(
         array            $errorHeroModuleConfig,
         Logging          $logging,
-        ZendViewRenderer $renderer
+        TemplateRendererInterface $renderer
     ) {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
         $this->logging               = $logging;

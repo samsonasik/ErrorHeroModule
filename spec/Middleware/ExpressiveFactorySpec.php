@@ -76,7 +76,7 @@ describe('ExpressiveFactory', function () {
             allow($container)->toReceive('get')->with(Logging::class)
                                                ->andReturn($logging);
 
-            $renderer = Double::implements(['extends' => TemplateRendererInterface::class]);
+            $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
             allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
                                                ->andReturn($renderer);
 
