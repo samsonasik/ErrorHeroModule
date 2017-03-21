@@ -157,14 +157,14 @@ class Logging
         }
 
         if ($this->request instanceof ServerRequest) {
-            $query          = $this->request->getQuery()->toArray();
-            $request_method = $this->request->getServer('REQUEST_METHOD');
-            $body_data      = ($this->request->isPost())
-                ? $this->request->getPost()->toArray()
+            $query          = $this->request->getQueryParams();
+            $request_method = $this->request->getMethod();
+            $body_data      = ($this->request->getMethod() === 'POST')
+                ? (array) $this->request->getParsedBody()
                 : [];
-            $raw_data       = $this->request->getContent();
+            $raw_data       = (array) $this->request->getBody();
             $raw_data       = str_replace("\r\n", '', $raw_data);
-            $files_data     = $this->request->getFiles()->toArray();
+            $files_data     = $this->request->getUploadedFiles();
 
             $request_data = [
                 'query'          => $query,
