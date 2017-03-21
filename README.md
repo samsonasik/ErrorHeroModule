@@ -259,6 +259,13 @@ $app->pipe(ErrorHandler::class);
 $app->pipe(ErrorHeroModule\Middleware\Expressive::class); // here
 ```
 
+and also add `error-preview` routes in `config/routes.php`:
+
+```php
+$app->get('/error-preview[/:action]', ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction::class, 'error-preview');
+```
+
+
 Give it a try!
 --------------
 
