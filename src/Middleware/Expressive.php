@@ -8,7 +8,6 @@ use ErrorHeroModule\HeroTrait;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Throwable;
 use Zend\Console\Response as ConsoleResponse;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
@@ -51,8 +50,6 @@ class Expressive
             $this->phpError($request);
 
             return $response;
-        } catch (Error $t) {
-            $this->exceptionError($t, $request);
         } catch (Exception $e) {
             $this->exceptionError($e, $request);
         }
