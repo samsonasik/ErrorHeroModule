@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule;
 
+use Zend\Expressive\ZendView\HelperPluginManagerFactory;
 use Zend\Log;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
