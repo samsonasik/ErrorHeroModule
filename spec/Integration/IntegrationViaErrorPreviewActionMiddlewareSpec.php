@@ -6,21 +6,19 @@ use ErrorHeroModule\Middleware\Expressive;
 use ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\TableGateway\TableGateway;
-use Zend\Expressive\Application;
-use Zend\Diactoros\ServerRequest;
-use Zend\ServiceManager\Config;
-use Zend\ServiceManager\ServiceManager;
-use Zend\ConfigAggregator\ArrayProvider;
 use Zend\ConfigAggregator\ConfigAggregator;
 use Zend\ConfigAggregator\PhpFileProvider;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
+use Zend\Diactoros\ServerRequest;
+use Zend\Expressive\Application;
 use Zend\Expressive\Helper\ServerUrlMiddleware;
 use Zend\Expressive\Helper\UrlHelperMiddleware;
 use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
 use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
 use Zend\Expressive\Middleware\NotFoundHandler;
-use Zend\Stratigility\Middleware\ErrorHandler;
+use Zend\ServiceManager\Config;
+use Zend\ServiceManager\ServiceManager;
 
 describe('Integration via ErrorPreviewAction Middleware', function () {
 

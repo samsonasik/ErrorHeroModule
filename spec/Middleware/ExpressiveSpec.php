@@ -7,13 +7,10 @@ use ErrorHeroModule\Middleware\Expressive;
 use Kahlan\Plugin\Double;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use ReflectionProperty;
 use Zend\Console\Console;
 use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequest;
-use Zend\Log\Writer\Db;
-use Zend\Http\PhpEnvironment\Request;
 use Zend\Expressive\Template\TemplateRendererInterface;
+use Zend\Http\PhpEnvironment\Request;
 
 describe('Expressive', function () {
 

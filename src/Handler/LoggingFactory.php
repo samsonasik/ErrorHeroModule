@@ -6,7 +6,6 @@ use Interop\Container\ContainerInterface;
 use RuntimeException;
 use Zend\Console\Console;
 use Zend\Console\Request as ConsoleRequest;
-use Zend\Diactoros\ServerRequest;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

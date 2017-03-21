@@ -8,17 +8,11 @@ use ErrorHeroModule\HeroTrait;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Console\Response as ConsoleResponse;
+use Seld\JsonLint\JsonParser;
 use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\Uri;
+use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Expressive\Application;
 use Zend\Expressive\Template\TemplateRendererInterface;
-use Zend\View\Model\ViewModel;
-use Seld\JsonLint\JsonParser;
-use Zend\Console\Console;
-use Zend\Text\Table;
-use Zend\Diactoros\Response\HtmlResponse;
 
 class Expressive
 {

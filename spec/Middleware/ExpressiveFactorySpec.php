@@ -9,9 +9,8 @@ use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Expressive;
 use ErrorHeroModule\Middleware\ExpressiveFactory;
 use Kahlan\Plugin\Double;
-use Zend\Db\Adapter\Adapter;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Expressive\Template\TemplateRendererInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 describe('ExpressiveFactory', function () {
 
