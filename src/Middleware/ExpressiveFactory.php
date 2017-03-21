@@ -27,7 +27,7 @@ class ExpressiveFactory
             $params        = $doctrineDBALConnection->getParams();
             $driverOptions = (isset($params['driverOptions'])) ? $params['driverOptions'] : [];
 
-            $config = [
+            $dbConfiguration = [
                 'username'       => $doctrineDBALConnection->getUsername(),
                 'password'       => $doctrineDBALConnection->getPassword(),
                 'driver'         => $doctrineDBALConnection->getDriver()->getName(),
@@ -39,7 +39,7 @@ class ExpressiveFactory
 
             $allowOverride = $container->getAllowOverride();
             $container->setAllowOverride(true);
-            $container->setService('Zend\Db\Adapter\Adapter', new Adapter($config));
+            $container->setService('Zend\Db\Adapter\Adapter', new Adapter($dbConfiguration));
             $container->setAllowOverride($allowOverride);
         }
 
