@@ -16,6 +16,8 @@ use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\View\Model\ViewModel;
 use Seld\JsonLint\JsonParser;
 use Zend\Console\Console;
+use Zend\Text\Table;
+use Zend\Diactoros\Response\HtmlResponse;
 
 class Expressive
 {
@@ -71,7 +73,7 @@ class Expressive
     public function exceptionError($e)
     {
         $this->logging->handleException(
-            $exception
+            $e
         );
 
         $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
@@ -107,7 +109,7 @@ class Expressive
                     $response->send();
                     exit(-1);
                 }
-
+/*
                 $view = new ViewModel();
                 $view->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['view']);
 
@@ -115,11 +117,9 @@ class Expressive
                 $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
                 $layout->setVariable('content', $this->renderer->render($view));
 
-                die;
-                $response = $response->withHeader('Content-type', 'text/html');
-//                $response->setContent($this->renderer->render($layout));
+                $response =  new HtmlResponse($this->renderer->render('error-her-module::home-page', $data));
+                $response = $response->withHeader('Content-type', 'text/html');*/
 
-//                $response->send();
                 exit(-1);
 
             }
