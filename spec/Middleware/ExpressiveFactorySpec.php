@@ -34,8 +34,8 @@ describe('ExpressiveFactory', function () {
 
                         // if enable and display_errors = 0, the page will bring layout and view
                         'template' => [
-                            'layout' => 'layout/layout',
-                            'view'   => 'error-hero-module/error-default'
+                            'layout' => 'layout::default',
+                            'view'   => 'error-hero-module::error-default'
                         ],
 
                         // if enable and display_errors = 0, the console will bring message
