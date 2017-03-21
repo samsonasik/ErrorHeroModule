@@ -3,6 +3,7 @@
 namespace ErrorHeroModule\Listener;
 
 use ErrorHeroModule\Handler\Logging;
+use ErrorHeroModule\HeroTrait;
 use Seld\JsonLint\JsonParser;
 use Zend\Console\Console;
 use Zend\Console\Response as ConsoleResponse;
@@ -18,38 +19,7 @@ use Zend\View\Renderer\PhpRenderer;
 
 class Mvc extends AbstractListenerAggregate
 {
-    /**
-     * @var array
-     */
-    private $errorHeroModuleConfig;
-
-    /**
-     * @var Logging
-     */
-    private $logging;
-
-    /**
-     * @var PhpRenderer
-     */
-    private $renderer;
-
-    private $errorType = [
-        E_ERROR             => 'E_ERROR',
-        E_WARNING           => 'E_WARNING',
-        E_PARSE             => 'E_PARSE',
-        E_NOTICE            => 'E_NOTICE',
-        E_CORE_ERROR        => 'E_CORE_ERROR',
-        E_CORE_WARNING      => 'E_CORE_WARNING',
-        E_COMPILE_ERROR     => 'E_COMPILE_ERROR',
-        E_COMPILE_WARNING   => 'E_COMPILE_WARNING',
-        E_USER_ERROR        => 'E_USER_ERROR',
-        E_USER_WARNING      => 'E_USER_WARNING',
-        E_USER_NOTICE       => 'E_USER_NOTICE',
-        E_STRICT            => 'E_STRICT',
-        E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
-        E_DEPRECATED        => 'E_DEPRECATED',
-        E_USER_DEPRECATED   => 'E_USER_DEPRECATED',
-    ];
+    use HeroTrait;
 
     /**
      * @param array       $errorHeroModuleConfig
@@ -74,14 +44,27 @@ class Mvc extends AbstractListenerAggregate
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
-        if ($this->errorHeroModuleConfig['enable'] === true) {
-            // exceptions
-            $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'exceptionError']);
-            $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'exceptionError'], 100);
-
-            // php errors
-            $this->listeners[] = $events->attach('*', [$this, 'phpError']);
+        if (! $this->errorHeroModuleConfig['enable']) {
+            return;
         }
+
+        // exceptions
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'exceptionError']);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'exceptionError'], 100);
+
+        // php errors
+        $this->listeners[] = $events->attach('*', [$this, 'phpError']);
+    }
+
+    /**
+     * @param Event $e
+     *
+     * @return void
+     */
+    public function phpError(Event $e)
+    {
+        register_shutdown_function([$this, 'execOnShutdown']);
+        set_error_handler([$this, 'phpErrorHandler']);
     }
 
     /**
@@ -104,120 +87,64 @@ class Mvc extends AbstractListenerAggregate
     }
 
     /**
-     * @param Event $e
-     *
-     * @return void
-     */
-    public function phpError(Event $e)
-    {
-        register_shutdown_function([$this, 'execOnShutdown']);
-        set_error_handler([$this, 'phpErrorHandler']);
-    }
-
-    /**
-     * @return void
-     */
-    public function execOnShutdown()
-    {
-        $error = error_get_last();
-        if ($error && $error['type']) {
-            $this->phpErrorHandler($error['type'], $error['message'], $error['file'], $error['line']);
-        }
-    }
-
-    /**
-     * @param int    $errorType
-     * @param string $errorMessage
-     * @param string $errorFile
-     * @param int    $errorLine
-     *
-     * @return void
-     */
-    public function phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine)
-    {
-        $errorTypeString = $this->errorType[$errorType];
-        $errorExcluded = false;
-        if ($errorLine) {
-            if (in_array($errorType, $this->errorHeroModuleConfig['display-settings']['exclude-php-errors'])) {
-                $errorExcluded = true;
-            } else {
-                $this->logging->handleError(
-                    $errorType,
-                    $errorMessage,
-                    $errorFile,
-                    $errorLine,
-                    $errorTypeString
-                );
-            }
-        }
-
-        if ($this->errorHeroModuleConfig['display-settings']['display_errors'] === 0 || $errorExcluded) {
-            error_reporting(E_ALL | E_STRICT);
-            ini_set('display_errors', 0);
-        }
-
-        if (! $errorExcluded) {
-            $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
-        }
-    }
-
-    /**
      * It show default view if display_errors setting = 0.
      *
+     * @param mixed|null $request
+     *
      * @return void
      */
-    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
+    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled($request = null)
     {
         $displayErrors = $this->errorHeroModuleConfig['display-settings']['display_errors'];
+        if ($displayErrors) {
+            return;
+        }
 
-        if ($displayErrors === 0) {
-            if (!Console::isConsole()) {
+        if (!Console::isConsole()) {
 
-                $response = new HttpResponse();
-                $response->setStatusCode(500);
+            $response = new HttpResponse();
+            $response->setStatusCode(500);
 
-                $request          = new Request();
-                $isXmlHttpRequest = $request->isXmlHttpRequest();
-                if ($isXmlHttpRequest === true &&
-                    isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
-                ) {
-                    $content     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
-                    $contentType = ((new JsonParser())->lint($content) === null) ? 'application/problem+json' : 'text/html';
+            $request          = new Request();
+            $isXmlHttpRequest = $request->isXmlHttpRequest();
+            if ($isXmlHttpRequest === true &&
+                isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
+            ) {
+                $content     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
+                $contentType = ((new JsonParser())->lint($content) === null) ? 'application/problem+json' : 'text/html';
 
-                    $response->getHeaders()->addHeaderLine('Content-type', $contentType);
-                    $response->setContent($content);
-
-                    $response->send();
-                    exit(-1);
-                }
-
-                $view = new ViewModel();
-                $view->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['view']);
-
-                $layout = new ViewModel();
-                $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
-                $layout->setVariable('content', $this->renderer->render($view));
-
-                $response->getHeaders()->addHeaderLine('Content-type', 'text/html');
-                $response->setContent($this->renderer->render($layout));
+                $response->getHeaders()->addHeaderLine('Content-type', $contentType);
+                $response->setContent($content);
 
                 $response->send();
                 exit(-1);
-
             }
 
-            $response = new ConsoleResponse();
-            $response->setErrorLevel(-1);
+            $view = new ViewModel();
+            $view->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['view']);
 
-            $table = new Table\Table([
-                'columnWidths' => [150],
-            ]);
-            $table->setDecorator('ascii');
-            $table->appendRow([$this->errorHeroModuleConfig['display-settings']['console']['message']]);
+            $layout = new ViewModel();
+            $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
+            $layout->setVariable('content', $this->renderer->render($view));
 
-            $response->setContent($table->render());
+            $response->getHeaders()->addHeaderLine('Content-type', 'text/html');
+            $response->setContent($this->renderer->render($layout));
+
             $response->send();
+            exit(-1);
 
         }
+
+        $response = new ConsoleResponse();
+        $response->setErrorLevel(-1);
+
+        $table = new Table\Table([
+            'columnWidths' => [150],
+        ]);
+        $table->setDecorator('ascii');
+        $table->appendRow([$this->errorHeroModuleConfig['display-settings']['console']['message']]);
+
+        $response->setContent($table->render());
+        $response->send();
     }
 }

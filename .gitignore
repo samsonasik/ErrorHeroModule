@@ -3,3 +3,4 @@ composer.lock
 coverage/
 coverage.json
 bin
+.php_cs.cache

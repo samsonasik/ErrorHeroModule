@@ -102,7 +102,9 @@ return [
 composer require samsonasik/error-hero-module
 ```
 
-**4. Copy `error-hero-module.local.php.dist` config to your local's autoload and configure it**
+**4. Copy config**
+
+***a. For [ZF2/ZF3 Mvc](https://zendframework.github.io/tutorials/getting-started/overview/) application, copy `error-hero-module.local.php.dist` config to your local's autoload and configure it***
 
 | source                                                                       | destination                                 |
 |------------------------------------------------------------------------------|---------------------------------------------|
@@ -114,11 +116,23 @@ Or run copy command:
 cp vendor/samsonasik/error-hero-module/config/error-hero-module.local.php.dist config/autoload/error-hero-module.local.php
 ```
 
+***b. For [ZF Expressive](https://zendframework.github.io/zend-expressive/) application, copy `expressive-error-hero-module.local.php.dist` config to your local's autoload and configure it***
+
+| source                                                                                  | destination                                            |
+|-----------------------------------------------------------------------------------------|--------------------------------------------------------|
+|  vendor/samsonasik/error-hero-module/config/expressive-error-hero-module.local.php.dist | config/autoload/expressive-error-hero-module.local.php |
+
+Or run copy command:
+
+```sh
+cp vendor/samsonasik/error-hero-module/config/expressive-error-hero-module.local.php.dist config/autoload/expressive-error-hero-module.local.php
+```
+
 When done, you can modify logger service named `ErrorHeroModuleLogger` and `error-hero-module` config in your's local config:
 
 ```php
 <?php
-// config/autoload/error-hero-module.local.php
+// config/autoload/error-hero-module.local.php or config/autoload/expressive-error-hero-module.local.php
 return [
 
     'log' => [
@@ -223,6 +237,9 @@ json
 ```
 
 **5. Lastly, enable it**
+
+***a. For ZF Mvc application***
+
 ```php
 // config/modules.config.php or config/application.config.php
 return [
@@ -230,6 +247,26 @@ return [
     'ErrorHeroModule', // <-- register here
 ],
 ```
+
+***b. For ZF Expressive application***
+
+> You need to use Zend\ServiceManager for service container and Zend\View for template engine. 
+
+For [zend-expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton) ^1.0, It's should already just works!
+
+For [zend-expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton) ^2.0 (upcoming), you need to open `config/pipeline.php` and add the `ErrorHeroModule\Middleware\Expressive::class` middleware after default `ErrorHandler::class` registration:
+
+```php
+$app->pipe(ErrorHandler::class);
+$app->pipe(ErrorHeroModule\Middleware\Expressive::class); // here
+```
+
+and also add `error-preview` routes in `config/routes.php`:
+
+```php
+$app->get('/error-preview[/:action]', ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction::class, 'error-preview');
+```
+
 
 Give it a try!
 --------------
@@ -265,6 +302,7 @@ You will get the following page if display_errors config is 0:
 ![error preview in console](https://cloud.githubusercontent.com/assets/459648/21669141/8e7690f0-d33b-11e6-99c7-eed4f1ab7edb.png)
 
 > For production env, you can disable error-preview sample page with set `['error-hero-module']['enable-error-preview-page']` to false.
+> For ZF Expressive, there is no default console implementation, so, if you want to apply it in your console in ZF Expressive, you may need to custom implementation error handler that utilize `ErrorHeroModule\Handler\Logging` service (see detailed usage at `ErrorHeroModule\Middleware\Expressive` class)
 
 Contributing
 ------------

@@ -6,6 +6,7 @@ use Error;
 use ErrorException;
 use Exception;
 use RuntimeException;
+use Zend\Diactoros\ServerRequest;
 use Zend\Http\PhpEnvironment\Request as HttpRequest;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db;
@@ -27,7 +28,7 @@ class Logging
     private $serverUrl;
 
     /**
-     * @var RequestInterface
+     * @var RequestInterface|ServerRequest
      */
     private $request;
 
@@ -67,20 +68,20 @@ class Logging
     private $emailSender;
 
     /**
-     * @param Logger                  $logger
-     * @param string                  $serverUrl
-     * @param string                  $requestUri
-     * @param RequestInterface        $request
-     * @param array                   $errorHeroModuleLocalConfig
-     * @param array                   $logWritersConfig
-     * @param Message|null            $mailMessageService
-     * @param TransportInterface|null $mailMessageTransport
+     * @param Logger                         $logger
+     * @param string                         $serverUrl
+     * @param string                         $requestUri
+     * @param RequestInterface|ServerRequest $request
+     * @param array                          $errorHeroModuleLocalConfig
+     * @param array                          $logWritersConfig
+     * @param Message|null                   $mailMessageService
+     * @param TransportInterface|null        $mailMessageTransport
      */
     public function __construct(
         Logger             $logger,
         $serverUrl,
-        RequestInterface   $request,
-        $requestUri,
+        $request = null,
+        $requestUri = '',
         array              $errorHeroModuleLocalConfig,
         array              $logWritersConfig,
         Message            $mailMessageService = null,
@@ -96,6 +97,17 @@ class Logging
         $this->mailMessageTransport  = $mailMessageTransport;
         $this->emailReceivers        = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
         $this->emailSender           = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
+    }
+
+    /**
+     * Set ServerRequest for expressive
+     *
+     * @param ServerRequest $request
+     */
+    public function setServerRequestandRequestUri(ServerRequest $request)
+    {
+        $this->request = $request;
+        $this->requestUri = $request->getUri()->getPath();
     }
 
     /**
@@ -145,6 +157,25 @@ class Logging
             $raw_data       = $this->request->getContent();
             $raw_data       = str_replace("\r\n", '', $raw_data);
             $files_data     = $this->request->getFiles()->toArray();
+
+            $request_data = [
+                'query'          => $query,
+                'request_method' => $request_method,
+                'body_data'      => $body_data,
+                'raw_data'       => $raw_data,
+                'files_data'     => $files_data,
+            ];
+        }
+
+        if ($this->request instanceof ServerRequest) {
+            $query          = $this->request->getQueryParams();
+            $request_method = $this->request->getMethod();
+            $body_data      = ($this->request->getMethod() === 'POST')
+                ? (array) $this->request->getParsedBody()
+                : [];
+            $raw_data       = $this->request->getBody()->__toString();
+            $raw_data       = str_replace("\r\n", '', $raw_data);
+            $files_data     = $this->request->getUploadedFiles();
 
             $request_data = [
                 'query'          => $query,
