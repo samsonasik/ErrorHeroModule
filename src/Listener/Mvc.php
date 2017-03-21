@@ -44,14 +44,16 @@ class Mvc extends AbstractListenerAggregate
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
-        if ($this->errorHeroModuleConfig['enable'] === true) {
-            // exceptions
-            $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'exceptionError']);
-            $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'exceptionError'], 100);
-
-            // php errors
-            $this->listeners[] = $events->attach('*', [$this, 'phpError']);
+        if (! $this->errorHeroModuleConfig['enable']) {
+            return;
         }
+        
+        // exceptions
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'exceptionError']);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'exceptionError'], 100);
+
+        // php errors
+        $this->listeners[] = $events->attach('*', [$this, 'phpError']);
     }
 
     /**
