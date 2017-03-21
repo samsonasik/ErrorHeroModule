@@ -173,7 +173,7 @@ class Logging
             $body_data      = ($this->request->getMethod() === 'POST')
                 ? (array) $this->request->getParsedBody()
                 : [];
-            $raw_data       = (array) $this->request->getBody();
+            $raw_data       = $this->request->getBody()->__toString();
             $raw_data       = str_replace("\r\n", '', $raw_data);
             $files_data     = $this->request->getUploadedFiles();
 
