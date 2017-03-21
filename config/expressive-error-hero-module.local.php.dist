@@ -16,7 +16,7 @@ return [
                     'name' => 'db',
                     'options' => [
                         'db'     => 'Zend\Db\Adapter\Adapter',
-                        'table'  => 'log',
+                        'table'  => 'error_log',
                         'column' => [
                             'timestamp' => 'date',
                             'priority'  => 'type',
@@ -61,8 +61,8 @@ return [
 
             // if enable and display_errors = 0, the page will bring layout and view
             'template' => [
-                'layout' => 'layout/layout',
-                'view'   => 'error-hero-module/error-default'
+                'layout' => 'layout::default',
+                'view'   => 'error-hero-module::error-default'
             ],
 
             // if enable and display_errors = 0, and on console env, the console will bring message
@@ -119,6 +119,12 @@ json
 
             Handler\Logging::class => Handler\LoggingFactory::class,
             'ViewHelperManager' => HelperPluginManagerFactory::class,
+        ],
+    ],
+
+    'templates' => [
+        'paths' => [
+            'error-hero-module'    => [__DIR__ . '/vendor/samsonasik/error-hero-module/view/error-hero-module'],
         ],
     ],
 

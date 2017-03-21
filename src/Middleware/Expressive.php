@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Middleware;
 
+use Error;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\HeroTrait;
 use Exception;
@@ -13,6 +14,8 @@ use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
 use Zend\Expressive\ZendView\ZendViewRenderer;
 use Zend\View\Model\ViewModel;
+use Seld\JsonLint\JsonParser;
+use Zend\Console\Console;
 
 class Expressive
 {
@@ -39,17 +42,18 @@ class Expressive
             return $next($request, $response);
         }
 
+        $this->phpError();
+
         try {
             return $next($request, $response);
-        } catch (Throwable $t) {
-
+        } catch (Error $t) {
+            $this->exceptionError($t);
         } catch (Exception $e) {
-
+            $this->exceptionError($e);
         }
     }
 
     /**
-     * @param Event $e
      *
      * @return void
      */
@@ -60,7 +64,7 @@ class Expressive
     }
 
     /**
-     * @param $e
+     * @param  Error|Exception $e
      *
      * @return void
      */
@@ -86,17 +90,18 @@ class Expressive
             if (!Console::isConsole()) {
 
                 $response = new Response();
-                $response->setStatusCode(500);
+                $response = $response->withStatus(500);
 
                 $request          = new ServerRequest();
-                $isXmlHttpRequest = $request->isXmlHttpRequest();
+                $isXmlHttpRequest = $request->hasHeader('X_REQUESTED_WITH');
+
                 if ($isXmlHttpRequest === true &&
                     isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
                 ) {
                     $content     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
                     $contentType = ((new JsonParser())->lint($content) === null) ? 'application/problem+json' : 'text/html';
 
-                    $response->getHeaders()->addHeaderLine('Content-type', $contentType);
+                    $response = $response->withHeader('Content-type', $contentType);
                     $response->setContent($content);
 
                     $response->send();
@@ -110,10 +115,11 @@ class Expressive
                 $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
                 $layout->setVariable('content', $this->renderer->render($view));
 
-                $response->getHeaders()->addHeaderLine('Content-type', 'text/html');
-                $response->setContent($this->renderer->render($layout));
+                die;
+                $response = $response->withHeader('Content-type', 'text/html');
+//                $response->setContent($this->renderer->render($layout));
 
-                $response->send();
+//                $response->send();
                 exit(-1);
 
             }
