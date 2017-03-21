@@ -57,11 +57,11 @@ class Expressive
     }
 
     /**
-     * @param ServerRequest $request
+     * @param ServerRequestInterface $request
      *
      * @return void
      */
-    public function phpError($request)
+    public function phpError(ServerRequestInterface $request)
     {
         $this->request = $request;
 
