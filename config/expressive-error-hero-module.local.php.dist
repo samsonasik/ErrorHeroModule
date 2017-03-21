@@ -122,9 +122,11 @@ json
         ],
     ],
 
-    'templates' => [
+    'templates' =>[
         'paths' => [
-            'error-hero-module'    => [__DIR__ . '/vendor/samsonasik/error-hero-module/view/error-hero-module'],
+            'error-hero-module'    => [
+                realpath( dirname(dirname(__DIR__) ) . '/vendor/samsonasik/error-hero-module/view/error-hero-module' ),
+            ],
         ],
     ],
 

@@ -104,21 +104,17 @@ class Expressive
                     $contentType = ((new JsonParser())->lint($content) === null) ? 'application/problem+json' : 'text/html';
 
                     $response = $response->withHeader('Content-type', $contentType);
-                    $response->setContent($content);
+                    $response->getBody()->write($content);
 
-                    $response->send();
+                    echo $response->getBody()->__toString();
+
                     exit(-1);
                 }
-/*
-                $view = new ViewModel();
-                $view->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['view']);
 
-                $layout = new ViewModel();
-                $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
-                $layout->setVariable('content', $this->renderer->render($view));
+                $response =  new HtmlResponse($this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view']));
+                $response = $response->withHeader('Content-type', 'text/html');
 
-                $response =  new HtmlResponse($this->renderer->render('error-her-module::home-page', $data));
-                $response = $response->withHeader('Content-type', 'text/html');*/
+                echo $response->getBody()->__toString();
 
                 exit(-1);
 
