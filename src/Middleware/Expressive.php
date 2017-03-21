@@ -45,6 +45,9 @@ class Expressive
             return $next($request, $response);
         }
 
+        // set Zend\Db\Adapter\Adapter service from doctrine config if doctrine config found
+        
+
         try {
             $response =  $next($request, $response);
             $this->phpError($request);
