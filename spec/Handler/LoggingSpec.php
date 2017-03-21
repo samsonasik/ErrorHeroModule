@@ -4,11 +4,13 @@ namespace ErrorHeroModule\Spec\Handler;
 
 use ErrorHeroModule\Handler\Logging;
 use Kahlan\Plugin\Double;
+use ReflectionMethod;
 use ReflectionProperty;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Diactoros\ServerRequest;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db as DbWriter;
@@ -115,6 +117,28 @@ describe('LoggingSpec', function () {
             null,
             null
         );
+    });
+
+    describe('->setServerRequestandRequestUri()', function () {
+
+        it('set request and requestUri properties', function () {
+
+            $this->logging->setServerRequestandRequestUri(new ServerRequest([], [], '/error-preview', 'GET'));
+
+            $r = new ReflectionProperty($this->logging, 'request');
+            $r->setAccessible(true);
+            expect($r->getValue($this->logging))->toBeAnInstanceOf(ServerRequest::class);
+
+            $r2 = new ReflectionProperty($this->logging, 'requestUri');
+            $r2->setAccessible(true);
+            expect($r2->getValue($this->logging))->toBe('/error-preview');
+
+            $r3 = new ReflectionMethod($this->logging, 'getRequestData');
+            $r3->setAccessible(true);
+            $r3->invoke($this->logging);
+            
+        });
+
     });
 
     describe('->handleException()', function ()  {
