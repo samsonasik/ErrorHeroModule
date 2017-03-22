@@ -71,7 +71,7 @@ return [
 
             // if enable and display_errors = 0, the page will bring layout and view
             'template' => [
-                'layout' => 'layout::layout',
+                'layout' => 'layout::expressive-layout',
                 'view'   => 'error-hero-module::error-default'
             ],
 
