@@ -8,11 +8,13 @@ use ErrorHeroModule\HeroTrait;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use ReflectionProperty;
 use Seld\JsonLint\JsonParser;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Expressive\Application;
 use Zend\Expressive\Template\TemplateRendererInterface;
+use Zend\View\Model\ViewModel;
 
 class Expressive
 {
@@ -107,6 +109,13 @@ class Expressive
 
             exit(-1);
         }
+
+        $layout = new ViewModel();
+        $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
+
+        $r = new ReflectionProperty($this->renderer, 'layout');
+        $r->setAccessible(true);
+        $r->setValue($this->renderer, $layout);
 
         $response =  new HtmlResponse($this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view']));
         $response = $response->withHeader('Content-type', 'text/html');
