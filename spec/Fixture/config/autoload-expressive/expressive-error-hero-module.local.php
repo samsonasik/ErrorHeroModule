@@ -154,4 +154,13 @@ json
         ],
     ],
 
+    'routes' => [
+        [
+            'name' => 'error-preview',
+            'path' => '/error-preview[/:action]',
+            'middleware' => Middleware\Routed\Preview\ErrorPreviewAction::class,
+            'allowed_methods' => ['GET'],
+        ],
+    ],
+
 ];
