@@ -171,7 +171,7 @@ return [
         // 2. error-preview command (ErrorHeroModule\Controller\ErrorPreviewConsoleController) via
         //       php public/index.php error-preview
         //
-        // for zf-expressive ^1.0, the disable error-preview page is by unregister 'error-preview' from this config under "routes", 
+        // for zf-expressive ^1.0, the disable error-preview page is by unregister 'error-preview' from this config under "routes",
         // for zf-expressive ^2.0, the disable error-preview page is by unregister 'error-preview' from config/routes
         //
         //
@@ -265,11 +265,13 @@ $app->pipe(ErrorHandler::class);
 $app->pipe(ErrorHeroModule\Middleware\Expressive::class); // here
 ```
 
-and also add `error-preview` routes in `config/routes.php`:
+and also add `error-preview` routes in `config/routes.php` (optional) :
 
 ```php
 $app->get('/error-preview[/:action]', ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction::class, 'error-preview');
 ```
+
+to enable error preview page. To disable error preview page, just remove it from routes.
 
 
 Give it a try!
