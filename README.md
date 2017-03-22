@@ -166,10 +166,11 @@ return [
 		 // it's for the enable/disable the logger functionality
         'enable' => true,
 
-        // default to true, if set to true, then you can see sample:
+        // for zend-mvc default to true, if set to true, then you can see sample:
         // 1. /error-preview page ( ErrorHeroModule\Controller\ErrorPreviewController )
         // 2. error-preview command (ErrorHeroModule\Controller\ErrorPreviewConsoleController) via
         //       php public/index.php error-preview
+        // for zf-expressive, it can be easily disabled via unregister from routes
         //
         // otherwise(false), you can't see them, eg: on production env.
         'enable-error-preview-page' => true,
@@ -233,6 +234,8 @@ json
             ],
         ],
     ],
+
+    // ...
 ];
 ```
 
@@ -261,12 +264,13 @@ $app->pipe(ErrorHandler::class);
 $app->pipe(ErrorHeroModule\Middleware\Expressive::class); // here
 ```
 
-and also add `error-preview` routes in `config/routes.php`:
+and also add `error-preview` routes in `config/routes.php` (optional) :
 
 ```php
 $app->get('/error-preview[/:action]', ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction::class, 'error-preview');
 ```
 
+to enable error preview page. To disable error preview page, just remove it from routes.
 
 Give it a try!
 --------------
