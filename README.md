@@ -171,7 +171,7 @@ return [
         // 2. error-preview command (ErrorHeroModule\Controller\ErrorPreviewConsoleController) via
         //       php public/index.php error-preview
         //
-        // for zf-expressive ^1.0, the disable error-preview page is by unregister 'error-preview' this config under "routes", 
+        // for zf-expressive ^1.0, the disable error-preview page is by unregister 'error-preview' from this config under "routes", 
         // for zf-expressive ^2.0, the disable error-preview page is by unregister 'error-preview' from config/routes
         //
         //
