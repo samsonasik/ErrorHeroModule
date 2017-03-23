@@ -54,6 +54,7 @@ CREATE TABLE `log` (
 You can use 'db' (with _Zend\Db_) config or 'doctrine' (with _DoctrineORMModule_) config that will be converted to be usable with `Zend\Log\Writer\Db`.
 
 ```php
+<?php
 // config/autoload/local.php
 return [
     'db' => [
@@ -72,6 +73,7 @@ return [
 **OR**
 
 ```php
+<?php
 // config/autoload/local.php
 return [
     'doctrine' => [
