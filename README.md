@@ -163,7 +163,7 @@ return [
     ],
 
     'error-hero-module' => [
-		 // it's for the enable/disable the logger functionality
+	// it's for the enable/disable the logger functionality
         'enable' => true,
 
         // default to true, if set to true, then you can see sample:
@@ -237,6 +237,7 @@ json
             ],
         ],
     ],
+    // ...
 ];
 ```
 
