@@ -5,7 +5,6 @@ namespace ErrorHeroModule\Spec\Middleware;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Expressive;
 use Kahlan\Plugin\Double;
-use Psr\Http\Message\ResponseInterface;
 use Zend\Console\Console;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
