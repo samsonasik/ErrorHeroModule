@@ -15,6 +15,10 @@ class ErrorPreviewAction
             throw new \Exception('a sample error preview');
         }
 
+        if ($action === 'php7error') {
+            throw new \Error('error of php 7');
+        }
+
         $array = [];
         $array[1]; // E_NOTICE
     }

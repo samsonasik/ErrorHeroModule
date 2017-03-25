@@ -6,9 +6,9 @@ use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Expressive;
 use Kahlan\Plugin\Double;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Zend\Console\Console;
 use Zend\Diactoros\Response;
+use Zend\Diactoros\ServerRequest;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\Http\PhpEnvironment\Request;
 
@@ -88,8 +88,8 @@ describe('Expressive', function () {
 
             $config['enable'] = false;
 
-            $request  = Double::instance(['implements' => ServerRequestInterface::class]);
-            $response = Double::instance(['implements' => ResponseInterface::class]);
+            $request  = new ServerRequest();
+            $response = new Response();
             $next     = function ($request, $response) {
                 return new Response();
             };
@@ -102,8 +102,8 @@ describe('Expressive', function () {
 
         it('returns next() when no error', function () {
 
-            $request  = Double::instance(['implements' => ServerRequestInterface::class]);
-            $response = Double::instance(['implements' => ResponseInterface::class]);
+            $request  = new ServerRequest();
+            $response = new Response();
             $next     = function ($request, $response) {
                 return new Response();
             };

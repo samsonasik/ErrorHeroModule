@@ -81,37 +81,7 @@ describe('Integration via ErrorPreviewAction Middleware for xml http request', f
             Quit::disable();
 
             $serverRequest = new ServerRequest([], [], '/error-preview', 'GET');
-            $serverRequest = $serverRequest->withHeader('X_REQUESTED_WITH', 'XMLHttpRequest');
-
-            ob_start();
-            $closure = function () use ($serverRequest) {
-                $this->app->run($serverRequest);
-            };
-            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
-            $content = ob_get_clean();
-
-            expect($content)->toBe(<<<json
-{
-    "type": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html",
-    "title": "Internal Server Error",
-    "status": 500,
-    "detail": "We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience."
-}
-json
-            );
-            
-        });
-
-    });
-
-    describe('/error-preview/error', function() {
-
-        it('show error page', function() {
-
-            Quit::disable();
-
-            $serverRequest = new ServerRequest([], [], '/error-preview/error', 'GET');
-            $serverRequest = $serverRequest->withHeader('X_REQUESTED_WITH', 'XMLHttpRequest');
+            $serverRequest = $serverRequest->withHeader('X-Requested-With', 'XMLHttpRequest');
 
             ob_start();
             $closure = function () use ($serverRequest) {
@@ -130,8 +100,8 @@ json
 json
             );
 
-
         });
+
     });
 
 });

@@ -5,8 +5,8 @@ namespace ErrorHeroModule\Handler;
 use Error;
 use ErrorException;
 use Exception;
+use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
-use Zend\Diactoros\ServerRequest;
 use Zend\Http\PhpEnvironment\Request as HttpRequest;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db;
@@ -28,7 +28,7 @@ class Logging
     private $serverUrl;
 
     /**
-     * @var RequestInterface|ServerRequest
+     * @var RequestInterface|ServerRequestInterface
      */
     private $request;
 
@@ -68,14 +68,14 @@ class Logging
     private $emailSender;
 
     /**
-     * @param Logger                         $logger
-     * @param string                         $serverUrl
-     * @param string                         $requestUri
-     * @param RequestInterface|ServerRequest $request
-     * @param array                          $errorHeroModuleLocalConfig
-     * @param array                          $logWritersConfig
-     * @param Message|null                   $mailMessageService
-     * @param TransportInterface|null        $mailMessageTransport
+     * @param Logger                                  $logger
+     * @param string                                  $serverUrl
+     * @param string                                  $requestUri
+     * @param RequestInterface|ServerRequestInterface $request
+     * @param array                                   $errorHeroModuleLocalConfig
+     * @param array                                   $logWritersConfig
+     * @param Message|null                            $mailMessageService
+     * @param TransportInterface|null                 $mailMessageTransport
      */
     public function __construct(
         Logger             $logger,
@@ -102,9 +102,9 @@ class Logging
     /**
      * Set ServerRequest for expressive
      *
-     * @param ServerRequest $request
+     * @param ServerRequestInterface $request
      */
-    public function setServerRequestandRequestUri(ServerRequest $request)
+    public function setServerRequestandRequestUri(ServerRequestInterface $request)
     {
         $this->request = $request;
         $this->requestUri = $request->getUri()->getPath();
@@ -167,7 +167,7 @@ class Logging
             ];
         }
 
-        if ($this->request instanceof ServerRequest) {
+        if ($this->request instanceof ServerRequestInterface) {
             $query          = $this->request->getQueryParams();
             $request_method = $this->request->getMethod();
             $body_data      = ($this->request->getMethod() === 'POST')
