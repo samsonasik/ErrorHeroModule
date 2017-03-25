@@ -48,6 +48,24 @@ describe('ErrorPreviewAction', function () {
 
         });
 
+        it('PHP7 Error', function() {
+
+            skipIf(PHP_MAJOR_VERSION < 7);
+
+            try {
+                $request  = Double::instance(['implements' => ServerRequestInterface::class]);
+                allow($request)->toReceive('getAttribute')->with('action', 'exception')->andReturn('php7error');
+
+                $response = Double::instance(['implements' => ResponseInterface::class]);
+                $next     = function ($request, $response) {};
+
+                $this->middleware->__invoke($request, $response, $next);
+            } catch (\Throwable $error) {
+                expect($error)->toBeAnInstanceOf(\Throwable::class);
+            }
+
+        });
+
     });
 
 });

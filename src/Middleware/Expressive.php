@@ -42,24 +42,28 @@ class Expressive
         }
 
         try {
-            $response =  $next($request, $response);
-            $this->phpError($request);
+            $this->request = $request;
+            $this->logging->setServerRequestandRequestUri($request);
+
+            $this->phpError();
+
+            $response      =  $next($request, $response);
+
 
             return $response;
+        } catch (Error $e) {
+            $this->exceptionError($e, $request);
         } catch (Exception $e) {
             $this->exceptionError($e, $request);
         }
     }
 
     /**
-     * @param ServerRequestInterface $request
      *
      * @return void
      */
-    public function phpError(ServerRequestInterface $request)
+    public function phpError()
     {
-        $this->request = $request;
-
         register_shutdown_function([$this, 'execOnShutdown']);
         set_error_handler([$this, 'phpErrorHandler']);
     }
@@ -71,12 +75,11 @@ class Expressive
      */
     public function exceptionError($e, $request)
     {
-        $this->logging->setServerRequestandRequestUri($request);
         $this->logging->handleException(
             $e
         );
 
-        $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled($request);
+        $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
     }
 
     /**
@@ -84,7 +87,7 @@ class Expressive
      *
      * @return void
      */
-    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled($request)
+    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
     {
         $displayErrors = $this->errorHeroModuleConfig['display-settings']['display_errors'];
         if ($displayErrors) {
@@ -94,7 +97,7 @@ class Expressive
         $response = new Response();
         $response = $response->withStatus(500);
 
-        $isXmlHttpRequest = $request->hasHeader('X_REQUESTED_WITH');
+        $isXmlHttpRequest = $this->request->hasHeader('X-Requested-With');
 
         if ($isXmlHttpRequest === true &&
             isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])

@@ -89,7 +89,7 @@ trait HeroTrait
         }
 
         if (! $errorExcluded) {
-            $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled($this->request);
+            $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
         }
     }
 }

@@ -89,11 +89,10 @@ class Mvc extends AbstractListenerAggregate
     /**
      * It show default view if display_errors setting = 0.
      *
-     * @param mixed|null $request
      *
      * @return void
      */
-    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled($request = null)
+    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
     {
         $displayErrors = $this->errorHeroModuleConfig['display-settings']['display_errors'];
         if ($displayErrors) {

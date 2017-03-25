@@ -112,6 +112,28 @@ describe('Integration via ErrorPreviewAction Middleware', function () {
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
 
         });
+
+    });
+
+    describe('/error-preview/php7error', function() {
+
+        it('show error page', function() {
+
+            Quit::disable();
+
+            $serverRequest = new ServerRequest([], [], '/error-preview/php7error', 'GET');
+
+            ob_start();
+            $closure = function () use ($serverRequest) {
+                $this->app->run($serverRequest);
+            };
+            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
+            $content = ob_get_clean();
+
+            expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
+
+        });
+
     });
 
 });
