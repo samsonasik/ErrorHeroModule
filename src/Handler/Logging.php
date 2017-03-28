@@ -68,14 +68,14 @@ class Logging
     private $emailSender;
 
     /**
-     * @param Logger                                  $logger
-     * @param string                                  $serverUrl
-     * @param string                                  $requestUri
-     * @param RequestInterface|ServerRequestInterface $request
-     * @param array                                   $errorHeroModuleLocalConfig
-     * @param array                                   $logWritersConfig
-     * @param Message|null                            $mailMessageService
-     * @param TransportInterface|null                 $mailMessageTransport
+     * @param Logger                    $logger
+     * @param string                    $serverUrl
+     * @param string                    $requestUri
+     * @param RequestInterface|null     $request
+     * @param array                     $errorHeroModuleLocalConfig
+     * @param array                     $logWritersConfig
+     * @param Message|null              $mailMessageService
+     * @param TransportInterface|null   $mailMessageTransport
      */
     public function __construct(
         Logger             $logger,
