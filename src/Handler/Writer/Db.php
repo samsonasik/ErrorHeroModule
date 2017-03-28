@@ -82,14 +82,16 @@ class Db
 
                 /** @var $result \Zend\Db\ResultSet\ResultSet */
                 $result = $tableGateway->selectWith($select);
-                if ($result->count() === 1) {
-                    $first = $result->current()[$timestamp];
-                    $last  = date('Y-m-d H:i:s');
+                if ($result->count() === 0) {
+                    return false;
+                }
 
-                    $diff = strtotime($last) - strtotime($first);
-                    if ($diff <= $timeRange) {
-                        return true;
-                    }
+                $first = $result->current()[$timestamp];
+                $last  = date('Y-m-d H:i:s');
+
+                $diff = strtotime($last) - strtotime($first);
+                if ($diff <= $timeRange) {
+                    return true;
                 }
             }
         }
