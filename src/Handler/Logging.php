@@ -28,7 +28,7 @@ class Logging
     private $serverUrl;
 
     /**
-     * @var RequestInterface|ServerRequestInterface
+     * @var RequestInterface|ServerRequestInterface|null
      */
     private $request;
 
