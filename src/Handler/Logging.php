@@ -80,7 +80,7 @@ class Logging
     public function __construct(
         Logger             $logger,
         $serverUrl,
-        $request = null,
+        RequestInterface   $request = null,
         $requestUri = '',
         array              $errorHeroModuleLocalConfig,
         array              $logWritersConfig,
