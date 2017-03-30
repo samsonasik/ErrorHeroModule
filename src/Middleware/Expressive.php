@@ -49,7 +49,6 @@ class Expressive
 
             $response      =  $next($request, $response);
 
-
             return $response;
         } catch (Error $e) {
             $this->exceptionError($e, $request);

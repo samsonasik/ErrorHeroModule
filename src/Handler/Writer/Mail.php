@@ -14,7 +14,6 @@ use Zend\Mime\Part as MimePart;
 
 class Mail extends BaseMail
 {
-
     /**
      * @var array
      */
