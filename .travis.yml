@@ -14,7 +14,7 @@ before_script:
   - mysql -u root errorheromodule < spec/Fixture/data/sql.sql
   - composer self-update
   - composer install --prefer-source --no-interaction
-  - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then composer global require --dev phpstan/phpstan; fi
+  - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then composer global require --dev phpstan/phpstan:dev-master; fi
   - composer dump-autoload -o
 
 script:
