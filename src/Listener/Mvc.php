@@ -63,6 +63,10 @@ class Mvc extends AbstractListenerAggregate
      */
     public function phpError(Event $e)
     {
+        if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
+            return;
+        }
+
         register_shutdown_function([$this, 'execOnShutdown']);
         set_error_handler([$this, 'phpErrorHandler']);
     }
@@ -83,6 +87,11 @@ class Mvc extends AbstractListenerAggregate
             $exception
         );
 
+        $displayErrors = $this->errorHeroModuleConfig['display-settings']['display_errors'];
+        if ($displayErrors) {
+            return;
+        }
+
         $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
     }
 
@@ -94,11 +103,6 @@ class Mvc extends AbstractListenerAggregate
      */
     private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
     {
-        $displayErrors = $this->errorHeroModuleConfig['display-settings']['display_errors'];
-        if ($displayErrors) {
-            return;
-        }
-
         if (!Console::isConsole()) {
 
             $response = new HttpResponse();

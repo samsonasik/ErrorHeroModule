@@ -21,7 +21,5 @@ class ErrorPreviewAction
 
         $array = [];
         $array[1]; // E_NOTICE
-
-        return $response;
     }
 }

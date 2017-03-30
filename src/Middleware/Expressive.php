@@ -54,9 +54,7 @@ class Expressive
 
             $this->phpError();
 
-            $response      =  $next($request, $response);
-
-            return $response;
+            return $next($request, $response);
         } catch (Error $e) {
             $this->exceptionError($e, $request);
         } catch (Exception $e) {
@@ -70,6 +68,10 @@ class Expressive
      */
     public function phpError()
     {
+        if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
+            return;
+        }
+
         register_shutdown_function([$this, 'execOnShutdown']);
         set_error_handler([$this, 'phpErrorHandler']);
     }
@@ -101,11 +103,6 @@ class Expressive
      */
     private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
     {
-        $displayErrors = $this->errorHeroModuleConfig['display-settings']['display_errors'];
-        if ($displayErrors) {
-            return;
-        }
-
         $response = new Response();
         $response = $response->withStatus(500);
 

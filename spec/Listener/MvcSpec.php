@@ -283,6 +283,8 @@ describe('Mvc', function () {
 
         it('call error_get_last() and return error', function () {
 
+            Quit::disable();
+
             allow('error_get_last')->toBeCalled()->andReturn([
                 'type' => 8,
                 'message' => 'Undefined variable: a',
@@ -348,6 +350,15 @@ describe('Mvc', function () {
 
             ];
 
+            $resolver = new Resolver\AggregateResolver();
+
+            $map = new Resolver\TemplateMapResolver([
+                'layout/layout'                   => __DIR__ . '/../Fixture/view/layout/layout.phtml',
+                'error-hero-module/error-default' => __DIR__ . '/../Fixture/view/error-hero-module/error-default.phtml',
+            ]);
+            $resolver->attach($map);
+            $this->renderer->setResolver($resolver);
+
             $logging = new Logging(
                 $logger,
                 'http://serverUrl',
@@ -395,10 +406,30 @@ describe('Mvc', function () {
                 $logging,
                 $this->renderer
             );
-            $listener->execOnShutdown();
+
+            ob_start();
+            $closure = function () use ($listener) {
+                $listener->execOnShutdown();
+            };
+            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
+            $content = ob_get_clean();
+
+            expect($content)->toContain('We have encountered a problem');
 
         });
 
+
+    });
+
+    describe('->phpErrorHandler()', function () {
+
+        it('exclude error type and match', function () {
+
+            $this->listener->phpErrorHandler(E_USER_DEPRECATED, 'deprecated', 'file.php', 1);
+            expect(error_reporting())->toBe(E_ALL | E_STRICT);
+            expect(ini_get('display_errors'))->toBe("0");
+
+        });
 
     });
 

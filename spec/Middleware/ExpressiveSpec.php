@@ -114,4 +114,16 @@ describe('Expressive', function () {
 
     });
 
+    describe('->phpErrorHandler()', function () {
+
+        it('exclude error type and match', function () {
+
+            $this->middleware->phpErrorHandler(E_USER_DEPRECATED, 'deprecated', 'file.php', 1);
+            expect(error_reporting())->toBe(E_ALL | E_STRICT);
+            expect(ini_get('display_errors'))->toBe("0");
+
+        });
+
+    });
+
 });

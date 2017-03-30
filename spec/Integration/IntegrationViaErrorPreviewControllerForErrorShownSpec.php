@@ -53,7 +53,7 @@ describe('Integration via ErrorPreviewController for error shown', function () {
 
                 expect($content)->toBe('');
             } catch (\Throwable $t) {
-
+                expect($t)->toBeAnInstanceOf(\Exception::class);
             }
         });
     });
