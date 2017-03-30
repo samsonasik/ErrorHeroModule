@@ -24,6 +24,9 @@ trait HeroTrait
      */
     private $renderer;
 
+    /**
+     * @var array
+     */
     private $errorType = [
         E_ERROR             => 'E_ERROR',
         E_WARNING           => 'E_WARNING',
