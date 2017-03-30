@@ -4,6 +4,7 @@ namespace ErrorHeroModule\Handler\Writer;
 
 use Exception;
 use Traversable;
+use Zend\Log\Exception as LogException;
 use Zend\Log\Writer\Mail as BaseMail;
 use Zend\Mail\Message as MailMessage;
 use Zend\Mail\Transport;
@@ -24,7 +25,7 @@ class Mail extends BaseMail
      * @param  Transport\TransportInterface $transport Optional
      * @param  array $requestData
      *
-     * @throws Exception\InvalidArgumentException
+     * @throws LogException\InvalidArgumentException
      */
     public function __construct(
         $mail,
