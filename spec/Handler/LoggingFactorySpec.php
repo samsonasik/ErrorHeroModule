@@ -70,7 +70,7 @@ describe('LoggingFactorySpec', function () {
 
                         // if enable and display_errors = 0, the console will bring message
                         'console' => [
-                            'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
+                            'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
                         ],
 
                     ],
@@ -163,7 +163,7 @@ describe('LoggingFactorySpec', function () {
 
                         // if enable and display_errors = 0, the console will bring message
                         'console' => [
-                            'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
+                            'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
                         ],
 
                     ],
@@ -259,7 +259,7 @@ describe('LoggingFactorySpec', function () {
 
                         // if enable and display_errors = 0, the console will bring message
                         'console' => [
-                            'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
+                            'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
                         ],
 
                     ],
@@ -358,7 +358,7 @@ describe('LoggingFactorySpec', function () {
 
                         // if enable and display_errors = 0, the console will bring message
                         'console' => [
-                            'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and send to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
+                            'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
                         ],
 
                     ],
