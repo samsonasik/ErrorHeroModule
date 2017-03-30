@@ -12,6 +12,7 @@ use Zend\Log\Logger;
 use Zend\Log\Writer\Db;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
+use Zend\Psr7Bridge\Psr7ServerRequest;
 use Zend\Stdlib\RequestInterface;
 use Zend\Stdlib\SplPriorityQueue;
 
@@ -148,6 +149,11 @@ class Logging
     private function getRequestData()
     {
         $request_data = [];
+
+        if ($this->request instanceof ServerRequestInterface) {
+            $this->request = Psr7ServerRequest::toZend($this->request);
+        }
+
         if ($this->request instanceof HttpRequest) {
             $query          = $this->request->getQuery()->toArray();
             $request_method = $this->request->getServer('REQUEST_METHOD');
@@ -157,25 +163,6 @@ class Logging
             $raw_data       = $this->request->getContent();
             $raw_data       = str_replace(PHP_EOL, '', $raw_data);
             $files_data     = $this->request->getFiles()->toArray();
-
-            $request_data = [
-                'query'          => $query,
-                'request_method' => $request_method,
-                'body_data'      => $body_data,
-                'raw_data'       => $raw_data,
-                'files_data'     => $files_data,
-            ];
-        }
-
-        if ($this->request instanceof ServerRequestInterface) {
-            $query          = $this->request->getQueryParams();
-            $request_method = $this->request->getMethod();
-            $body_data      = ($this->request->getMethod() === 'POST')
-                ? (array) $this->request->getParsedBody()
-                : [];
-            $raw_data       = $this->request->getBody()->__toString();
-            $raw_data       = str_replace(PHP_EOL, '', $raw_data);
-            $files_data     = $this->request->getUploadedFiles();
 
             $request_data = [
                 'query'          => $query,
