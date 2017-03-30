@@ -35,6 +35,13 @@ class Expressive
         $this->renderer              = $renderer;
     }
 
+    /**
+     * @param  ServerRequestInterface $request
+     * @param  ResponseInterface      $response
+     * @param  callable               $next
+     *
+     * @return ResponseInterface|void
+     */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
         if (! $this->errorHeroModuleConfig['enable']) {
@@ -69,6 +76,8 @@ class Expressive
 
     /**
      * @param  Error|Exception $e
+     * @throws Error      when 'display_errors' config is 1 and Error has thrown
+     * @throws Exception  when 'display_errors' config is 1 and Exception has thrown
      *
      * @return void
      */
@@ -77,6 +86,10 @@ class Expressive
         $this->logging->handleException(
             $e
         );
+
+        if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
+            throw $e;
+        }
 
         $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
     }
