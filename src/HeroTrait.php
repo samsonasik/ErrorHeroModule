@@ -4,6 +4,7 @@ namespace ErrorHeroModule;
 
 use ErrorHeroModule\Handler\Logging;
 use Zend\Diactoros\ServerRequest;
+use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\View\Renderer\PhpRenderer;
 
 trait HeroTrait
@@ -19,7 +20,7 @@ trait HeroTrait
     private $logging;
 
     /**
-     * @var PhpRenderer
+     * @var PhpRenderer|TemplateRendererInterface
      */
     private $renderer;
 
