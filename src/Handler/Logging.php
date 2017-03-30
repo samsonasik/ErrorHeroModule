@@ -155,7 +155,7 @@ class Logging
                 ? $this->request->getPost()->toArray()
                 : [];
             $raw_data       = $this->request->getContent();
-            $raw_data       = str_replace("\r\n", '', $raw_data);
+            $raw_data       = str_replace(PHP_EOL, '', $raw_data);
             $files_data     = $this->request->getFiles()->toArray();
 
             $request_data = [
@@ -174,7 +174,7 @@ class Logging
                 ? (array) $this->request->getParsedBody()
                 : [];
             $raw_data       = $this->request->getBody()->__toString();
-            $raw_data       = str_replace("\r\n", '', $raw_data);
+            $raw_data       = str_replace(PHP_EOL, '', $raw_data);
             $files_data     = $this->request->getUploadedFiles();
 
             $request_data = [
@@ -211,7 +211,7 @@ class Logging
         do {
             $messages[] = $i++.': '.$e->getMessage();
         } while ($e = $e->getPrevious());
-        $errorMessage = implode("\r\n", $messages);
+        $errorMessage = implode(PHP_EOL, $messages);
 
         return [
             'priority'       => $priority,
