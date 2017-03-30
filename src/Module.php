@@ -17,7 +17,7 @@ class Module
     public function init(ModuleManager $moduleManager)
     {
         $eventManager = $moduleManager->getEventManager();
-        $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'convertDoctrineToZendDbConfig']);
+        $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'convertDoctrineToZendDbService']);
         $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'errorPreviewPageHandler'], 101);
     }
 
@@ -26,7 +26,7 @@ class Module
      *
      * @return void
      */
-    public function convertDoctrineToZendDbConfig(ModuleEvent $event)
+    public function convertDoctrineToZendDbService(ModuleEvent $event)
     {
         $services       = $event->getParam('ServiceManager');
         if (! $services->has(EntityManager::class)) {
