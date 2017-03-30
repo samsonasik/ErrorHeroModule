@@ -50,8 +50,6 @@ class Db
      */
     public function isExists($errorFile, $errorLine, $errorMessage, $errorUrl)
     {
-        $timeRange = $this->configLoggingSettings['same-error-log-time-range'];
-
         // db definition
         $reflectionProperty = new ReflectionProperty($this->dbWriter, 'db');
         $reflectionProperty->setAccessible(true);
@@ -90,7 +88,7 @@ class Db
                 $last  = date('Y-m-d H:i:s');
 
                 $diff = strtotime($last) - strtotime($first);
-                if ($diff <= $timeRange) {
+                if ($diff <= $this->configLoggingSettings['same-error-log-time-range']) {
                     return true;
                 }
             }
