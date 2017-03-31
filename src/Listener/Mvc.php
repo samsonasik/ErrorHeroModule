@@ -63,10 +63,6 @@ class Mvc extends AbstractListenerAggregate
      */
     public function phpError(Event $e)
     {
-        if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
-            return;
-        }
-
         register_shutdown_function([$this, 'execOnShutdown']);
         set_error_handler([$this, 'phpErrorHandler']);
     }
