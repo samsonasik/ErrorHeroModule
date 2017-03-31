@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Spec\Listener;
 
+use ErrorException;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
 use Kahlan\Plugin\Double;
@@ -283,15 +284,12 @@ describe('Mvc', function () {
 
         it('call error_get_last() and return error', function () {
 
-            Quit::disable();
-
             allow('error_get_last')->toBeCalled()->andReturn([
                 'type' => 8,
                 'message' => 'Undefined variable: a',
                 'file' => '/var/www/zf/module/Application/Module.php',
                 'line' => 2
             ]);
-            expect('error_get_last')->toBeCalled();
 
             $dbAdapter = new Adapter([
                 'username' => 'root',
@@ -353,6 +351,7 @@ describe('Mvc', function () {
             $resolver = new Resolver\AggregateResolver();
 
             $map = new Resolver\TemplateMapResolver([
+                'error'                           => __DIR__ . '/../Fixture/view/error.phtml',
                 'layout/layout'                   => __DIR__ . '/../Fixture/view/layout/layout.phtml',
                 'error-hero-module/error-default' => __DIR__ . '/../Fixture/view/error-hero-module/error-default.phtml',
             ]);
@@ -407,14 +406,11 @@ describe('Mvc', function () {
                 $this->renderer
             );
 
-            ob_start();
             $closure = function () use ($listener) {
                 $listener->execOnShutdown();
             };
-            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
-            $content = ob_get_clean();
-
-            expect($content)->toContain('We have encountered a problem');
+            expect($closure)->toThrow(new ErrorException('Undefined variable: a', 500, 1));
+            
 
         });
 

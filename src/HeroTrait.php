@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule;
 
+use ErrorException;
 use ErrorHeroModule\Handler\Logging;
 use Zend\Diactoros\ServerRequest;
 use Zend\Expressive\Template\TemplateRendererInterface;
@@ -66,13 +67,17 @@ trait HeroTrait
             }
         }
 
-        if ($this->errorHeroModuleConfig['display-settings']['display_errors'] === 0 || $errorExcluded) {
+        if (! $this->errorHeroModuleConfig['display-settings']['display_errors'] || $errorExcluded) {
             error_reporting(E_ALL | E_STRICT);
             ini_set('display_errors', 0);
         }
 
-        if (! $errorExcluded) {
+        if (! $this->errorHeroModuleConfig['display-settings']['display_errors'] && ! $errorExcluded) {
             $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
+        }
+
+        if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
+            throw new ErrorException($errorMessage, 500, $errorType);
         }
     }
 }
