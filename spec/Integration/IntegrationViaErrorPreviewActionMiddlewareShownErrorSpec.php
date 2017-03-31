@@ -102,6 +102,7 @@ describe('Integration via ErrorPreviewAction Middleware for display errors', fun
                 $this->app->run($serverRequest);
             } catch (\Throwable $t) {
                 expect($t)->toBeAnInstanceOf(\Throwable::class);
+                expect($t->getMessage())->toContain('E_NOTICE');
             }
 
         });

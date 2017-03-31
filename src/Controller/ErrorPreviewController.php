@@ -15,5 +15,7 @@ class ErrorPreviewController extends AbstractActionController
     {
         $array = [];
         $array[1]; // E_NOTICE
+
+        return $this->getResponse();
     }
 }
