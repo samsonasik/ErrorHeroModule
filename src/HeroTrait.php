@@ -77,7 +77,7 @@ trait HeroTrait
         }
 
         if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
-            throw new ErrorException($errorMessage, 500, $errorType);
+            throw new ErrorException($errorMessage, 500, $errorType, $errorFile, $errorLine);
         }
     }
 }

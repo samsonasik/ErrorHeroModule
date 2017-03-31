@@ -409,8 +409,8 @@ describe('Mvc', function () {
             $closure = function () use ($listener) {
                 $listener->execOnShutdown();
             };
-            expect($closure)->toThrow(new ErrorException('Undefined variable: a', 500, 1));
-            
+            expect($closure)->toThrow(new ErrorException('Undefined variable: a', 500, 1, '/var/www/zf/module/Application/Module.php', 2));
+
 
         });
 
