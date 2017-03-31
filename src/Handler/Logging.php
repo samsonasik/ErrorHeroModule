@@ -4,6 +4,7 @@ namespace ErrorHeroModule\Handler;
 
 use Error;
 use ErrorException;
+use ErrorHeroModule\HeroConstant;
 use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
@@ -185,10 +186,11 @@ class Logging
     {
         $priority = Logger::ERR;
         if ($e instanceof ErrorException && isset(Logger::$errorPriorityMap[$e->getSeverity()])) {
-            $priority = Logger::$errorPriorityMap[$e->getSeverity()];
+            $priority  = Logger::$errorPriorityMap[$e->getSeverity()];
+            $errorType = HeroConstant::ERROR_TYPE[$e->getSeverity()];
+        } else {
+            $errorType = get_class($e);
         }
-
-        $exceptionClass = get_class($e);
 
         $errorFile = $e->getFile();
         $errorLine = $e->getLine();
@@ -202,7 +204,7 @@ class Logging
 
         return [
             'priority'       => $priority,
-            'exceptionClass' => $exceptionClass,
+            'errorType'      => $errorType,
             'errorFile'      => $errorFile,
             'errorLine'      => $errorLine,
             'trace'          => $trace,
@@ -221,7 +223,7 @@ class Logging
             'url'          => $this->serverUrl.$this->requestUri,
             'file'         => $collectedExceptionData['errorFile'],
             'line'         => $collectedExceptionData['errorLine'],
-            'error_type'   => $collectedExceptionData['exceptionClass'],
+            'error_type'   => $collectedExceptionData['errorType'],
             'trace'        => $collectedExceptionData['trace'],
             'request_data' => $this->getRequestData(),
         ];
@@ -291,7 +293,7 @@ class Logging
             $extra                  = $this->collectExceptionExtraData($collectedExceptionData);
         }
 
-        $this->sendMail($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra, '['.$this->serverUrl.'] '.$collectedExceptionData['exceptionClass'].' has thrown');
+        $this->sendMail($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra, '['.$this->serverUrl.'] '.$collectedExceptionData['errorType'].' has thrown');
     }
 
     /**
