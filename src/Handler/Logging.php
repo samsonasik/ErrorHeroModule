@@ -312,12 +312,14 @@ class Logging
         }
 
         $priority = Logger::$errorPriorityMap[$errorType];
+        $error    = new ErrorException($errorMessage, 500, $errorType, $errorFile, $errorLine);
 
         $extra = [
             'url'          => $this->serverUrl.$this->requestUri,
             'file'         => $errorFile,
             'line'         => $errorLine,
             'error_type'   => $errorTypeString,
+            'trace'        => $error->getTraceAsString(),
             'request_data' => $this->getRequestData(),
         ];
         $this->logger->log($priority, $errorMessage, $extra);
