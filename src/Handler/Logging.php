@@ -195,12 +195,7 @@ class Logging
         $errorFile = $e->getFile();
         $errorLine = $e->getLine();
         $trace     = $e->getTraceAsString();
-
-        $i = 1;
-        do {
-            $messages[] = $i++.': '.$e->getMessage();
-        } while ($e = $e->getPrevious());
-        $errorMessage = implode(PHP_EOL, $messages);
+        $errorMessage = $e->getMessage();
 
         return [
             'priority'       => $priority,
