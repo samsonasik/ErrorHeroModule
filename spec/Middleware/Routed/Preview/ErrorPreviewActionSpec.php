@@ -44,6 +44,7 @@ describe('ErrorPreviewAction', function () {
                 $this->middleware->__invoke($request, $response, $next);
             } catch (\Throwable $error) {
                 expect($error)->toBeAnInstanceOf(\Throwable::class);
+                expect($error->getMessage())->toContain('E_NOTICE');
             }
 
         });
@@ -62,6 +63,7 @@ describe('ErrorPreviewAction', function () {
                 $this->middleware->__invoke($request, $response, $next);
             } catch (\Throwable $error) {
                 expect($error)->toBeAnInstanceOf(\Throwable::class);
+                expect($error->getMessage())->toContain('error of php 7');
             }
 
         });

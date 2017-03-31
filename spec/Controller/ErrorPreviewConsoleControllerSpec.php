@@ -37,6 +37,7 @@ describe('ErrorPreviewConsoleController', function () {
                 $controller->errorAction();
             } catch (\Throwable $error) {
                 expect($error)->toBeAnInstanceOf(\Throwable::class);
+                expect($error->getMessage())->toContain('E_NOTICE');
             }
 
         });
