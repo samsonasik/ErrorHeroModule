@@ -56,10 +56,10 @@ class Expressive
 
             return $next($request, $response);
         } catch (Error $e) {
-            $this->exceptionError($e, $request);
         } catch (Exception $e) {
-            $this->exceptionError($e, $request);
         }
+
+        $this->exceptionError($e, $request);
     }
 
     /**
