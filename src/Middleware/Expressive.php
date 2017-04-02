@@ -99,9 +99,6 @@ class Expressive
      */
     private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
     {
-        $response = new Response();
-        $response = $response->withStatus(500);
-
         $isXmlHttpRequest = $this->request->hasHeader('X-Requested-With');
 
         if ($isXmlHttpRequest === true &&
@@ -110,8 +107,10 @@ class Expressive
             $content     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
             $contentType = ((new JsonParser())->lint($content) === null) ? 'application/problem+json' : 'text/html';
 
-            $response = $response->withHeader('Content-type', $contentType);
+            $response = new Response();
             $response->getBody()->write($content);
+            $response = $response->withHeader('Content-type', $contentType);
+            $response = $response->withStatus(500);
 
             echo $response->getBody()->__toString();
 
@@ -125,9 +124,10 @@ class Expressive
         $r->setAccessible(true);
         $r->setValue($this->renderer, $layout);
 
-        $response =  new HtmlResponse($this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view']));
-        $response = $response->withHeader('Content-type', 'text/html');
-
+        $response =  new HtmlResponse(
+            $this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view']),
+            500
+        );
         echo $response->getBody()->__toString();
 
         exit(-1);
