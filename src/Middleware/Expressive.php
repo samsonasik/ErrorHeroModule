@@ -68,10 +68,6 @@ class Expressive
      */
     public function phpError()
     {
-        if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
-            return;
-        }
-
         register_shutdown_function([$this, 'execOnShutdown']);
         set_error_handler([$this, 'phpErrorHandler']);
     }
