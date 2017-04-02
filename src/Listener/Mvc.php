@@ -70,6 +70,9 @@ class Mvc extends AbstractListenerAggregate
     /**
      * @param Event $e
      *
+     * @throws Error      when 'display_errors' config is 1 and Error has thrown
+     * @throws Exception  when 'display_errors' config is 1 and Exception has thrown
+     *
      * @return void
      */
     public function exceptionError(Event $e)
@@ -85,7 +88,7 @@ class Mvc extends AbstractListenerAggregate
 
         $displayErrors = $this->errorHeroModuleConfig['display-settings']['display_errors'];
         if ($displayErrors) {
-            return;
+            throw $exception;
         }
 
         $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();

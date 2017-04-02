@@ -47,14 +47,10 @@ describe('Integration via ErrorPreviewController for error shown', function () {
             $request->setUri('/error-preview/error');
 
             try {
-                ob_start();
                 $this->application->run();
-                $content = ob_get_clean();
-
-                expect($content)->toBe('');
             } catch (\Throwable $t) {
                 expect($t)->toBeAnInstanceOf(\Exception::class);
-                expect($t->getMessage())->toContain('E_NOTICE');
+                expect($t->getMessage())->toContain('Undefined offset: 1');
             }
         });
     });

@@ -139,7 +139,7 @@ describe('Mvc', function () {
 
         });
 
-        it('call logger->handleException() if $e->getParam("exception") and display_errors = 1', function () {
+        it('call logging->handleException() if $e->getParam("exception") and display_errors = 1', function () {
 
             $config = [
                 'enable' => true,
@@ -201,21 +201,23 @@ describe('Mvc', function () {
                 $renderer
             );
 
-            $exception = new \Exception();
+            $exception = new \Exception('message');
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
             allow($logging)->toReceive('handleException')->with($exception);
 
-            $actual = $listener->exceptionError($mvcEvent);
-            expect($actual)->toBeNull(); // void
+            $closure = function () use ($listener, $mvcEvent) {
+                $listener->exceptionError($mvcEvent);
+            };
+            expect($closure)->toThrow(new \Exception('message'));
 
         });
 
-        it('call logger->handleException() with default console error message if $e->getParam("exception") and display_errors = 0', function () {
+        it('call logging->handleException() with default console error message if $e->getParam("exception") and display_errors = 0', function () {
 
             Quit::disable();
-            $exception = new \Exception();
+            $exception = new \Exception('message');
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
@@ -247,11 +249,11 @@ describe('Mvc', function () {
             expect($content)->toContain('We have encountered a problem');
         });
 
-        it('call logger->handleException() with default view error if $e->getParam("exception") and display_errors = 0 and not a console', function () {
+        it('call logging->handleException() with default view error if $e->getParam("exception") and display_errors = 0 and not a console', function () {
 
             Console::overrideIsConsole(false);
             Quit::disable();
-            $exception = new \Exception();
+            $exception = new \Exception('message');
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
