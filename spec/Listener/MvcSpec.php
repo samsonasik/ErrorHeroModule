@@ -410,11 +410,22 @@ describe('Mvc', function () {
 
     describe('->phpErrorHandler()', function () {
 
+        it('do not has error', function () {
+
+            $actual = $this->listener->phpErrorHandler(0, '', '', 0);
+            // null means use default mvc process
+            expect($actual)->toBeNull();
+
+        });
+
         it('exclude error type and match', function () {
 
             $actual = $this->listener->phpErrorHandler(E_USER_DEPRECATED, 'deprecated', 'file.php', 1);
-            // null means rely on default mvc process
+            // null means use default mvc process
             expect($actual)->toBeNull();
+
+            expect(error_reporting())->toBe(E_ALL | E_STRICT);
+            expect(ini_get('display_errors'))->toBe("0");
 
         });
 

@@ -51,7 +51,16 @@ trait HeroTrait
      */
     public function phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine)
     {
-        if (! $errorLine || in_array($errorType, $this->errorHeroModuleConfig['display-settings']['exclude-php-errors'])) {
+        if (! $errorLine) {
+            return;
+        }
+
+        if (! $this->errorHeroModuleConfig['display-settings']['display_errors'] ||
+            in_array($errorType, $this->errorHeroModuleConfig['display-settings']['exclude-php-errors'])
+        ) {
+            error_reporting(E_ALL | E_STRICT);
+            ini_set('display_errors', 0);
+
             return;
         }
 
