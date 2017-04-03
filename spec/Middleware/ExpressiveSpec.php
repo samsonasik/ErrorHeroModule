@@ -585,6 +585,7 @@ json
                 $middleware->__invoke($request, $response, $next);
             };
             expect($closure)->toThrow(new \Exception('message'));
+            expect($logging)->not->toReceive('handleErrorException');
 
         });
 
