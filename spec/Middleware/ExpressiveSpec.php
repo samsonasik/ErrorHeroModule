@@ -496,6 +496,100 @@ json
 
     });
 
+    describe('->exceptionError()', function () {
+
+        it('do not call logging->handleErrorException() if $e->getParam("exception") and has excluded exception match', function () {
+
+            $config = $this->config;
+            $config['display-settings']['exclude-exceptions'] = [
+                \Exception::class
+            ];
+            $exception = new \Exception('message');
+
+            $dbAdapter = new Adapter([
+                'username' => 'root',
+                'password' => '',
+                'driver' => 'Pdo',
+                'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
+                'driver_options' => [
+                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                ],
+            ]);
+
+            $writer = new DbWriter(
+                [
+                    'db' => $dbAdapter,
+                    'table' => 'log',
+                    'column' => [
+                        'timestamp' => 'date',
+                        'priority'  => 'type',
+                        'message'   => 'event',
+                        'extra'     => [
+                            'url'  => 'url',
+                            'file' => 'file',
+                            'line' => 'line',
+                            'error_type' => 'error_type',
+                            'trace'      => 'trace',
+                            'request_data' => 'request_data',
+                        ],
+                    ],
+                ]
+            );
+
+            $logger = new Logger();
+            $logger->addWriter($writer);
+            $logWritersConfig = [
+
+                [
+                    'name' => 'db',
+                    'options' => [
+                        'db'     => 'Zend\Db\Adapter\Adapter',
+                        'table'  => 'log',
+                        'column' => [
+                            'timestamp' => 'date',
+                            'priority'  => 'type',
+                            'message'   => 'event',
+                            'extra'     => [
+                                'url'  => 'url',
+                                'file' => 'file',
+                                'line' => 'line',
+                                'error_type' => 'error_type',
+                                'trace'      => 'trace',
+                                'request_data' => 'request_data',
+                            ],
+                        ],
+                    ],
+                ],
+
+            ];
+
+            $logging = new Logging(
+                $logger,
+                'http://serverUrl',
+                null,
+                '/',
+                $config,
+                $logWritersConfig,
+                null,
+                null
+            );
+
+            $request  = new ServerRequest();
+            $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
+            $response = new Response();
+            $next     = function ($request, $response) use ($exception) {
+                throw $exception;
+            };
+            $middleware = new Expressive($config, $logging, $this->renderer);
+            $closure = function () use ($middleware, $request, $response, $next) {
+                $middleware->__invoke($request, $response, $next);
+            };
+            expect($closure)->toThrow(new \Exception('message'));
+
+        });
+
+    });
+
     describe('->phpErrorHandler()', function () {
 
         it('do not has error', function () {

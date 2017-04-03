@@ -48,6 +48,11 @@ return [
                 E_USER_DEPRECATED
             ],
 
+            // excluded exceptions
+            'exclude-exceptions' => [
+                \App\Exception\MyException::class, // can be an Exception class or class extends Exception class
+            ],
+
             // show or not error
             'display_errors'  => 0,
 

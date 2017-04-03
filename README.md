@@ -18,6 +18,7 @@ Features
 - [x] Save to DB with Db Writer Adapter.
 - [x] Log Exception (dispatch.error and render.error) and PHP Errors in all events process.
 - [x] Support excludes [PHP E_* Error](http://www.php.net/manual/en/errorfunc.constants.php) (eg: exclude E_USER_DEPRECATED) in config settings.
+- [x] Support excludes [PHP Exception](http://php.net/manual/en/spl.exceptions.php) (eg: Exception class or classes that extends it) in config settings.
 - [x] Handle only once log error for same error per configured time range.
 - [x] Set default page (web access) or default message (console access) for error if configured 'display_errors' = 0.
 - [x] Set default content when request is XMLHttpRequest via 'ajax' configuration.
@@ -185,6 +186,11 @@ return [
             // excluded php errors ( http://www.php.net/manual/en/errorfunc.constants.php )
             'exclude-php-errors' => [
                 E_USER_DEPRECATED,
+            ],
+
+            // excluded exceptions
+            'exclude-exceptions' => [
+                \App\Exception\MyException::class, // can be an Exception class or class extends Exception class
             ],
 
             // show or not error
