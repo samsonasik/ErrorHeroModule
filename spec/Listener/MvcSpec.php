@@ -7,7 +7,6 @@ use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
 use Kahlan\Plugin\Double;
 use Kahlan\Plugin\Quit;
-use Kahlan\QuitException;
 use Zend\Console\Console;
 use Zend\Db\Adapter\Adapter;
 use Zend\EventManager\EventManagerInterface;
@@ -240,10 +239,7 @@ describe('Mvc', function () {
             );
 
             ob_start();
-            $closure = function () use ($listener, $mvcEvent) {
-                $listener->exceptionError($mvcEvent);
-            };
-            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
+            $listener->exceptionError($mvcEvent);
             $content = ob_get_clean();
 
             expect($content)->toContain('We have encountered a problem');
@@ -252,7 +248,6 @@ describe('Mvc', function () {
         it('call logging->handleException() with default view error if $e->getParam("exception") and display_errors = 0 and not a console', function () {
 
             Console::overrideIsConsole(false);
-            Quit::disable();
             $exception = new \Exception('message');
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
@@ -261,10 +256,7 @@ describe('Mvc', function () {
 
             ob_start();
             allow($this->renderer)->toReceive('render')->andReturn(include __DIR__ . '/../../view/error-hero-module/error-default.phtml');
-            $closure = function () use ($mvcEvent) {
-                $this->listener->exceptionError($mvcEvent);
-            };
-            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
+            $this->listener->exceptionError($mvcEvent);
             $content = ob_get_clean();
 
             expect($content)->toContain('We have encountered a problem');

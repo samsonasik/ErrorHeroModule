@@ -22,6 +22,11 @@ class Mvc extends AbstractListenerAggregate
     use HeroTrait;
 
     /**
+     * @var Event
+     */
+    private $event;
+
+    /**
      * @param array       $errorHeroModuleConfig
      * @param Logging     $logging
      * @param PhpRenderer $renderer
@@ -63,6 +68,8 @@ class Mvc extends AbstractListenerAggregate
      */
     public function phpError(Event $e)
     {
+        $this->event = $e;
+
         register_shutdown_function([$this, 'execOnShutdown']);
         set_error_handler([$this, 'phpErrorHandler']);
     }
@@ -91,6 +98,7 @@ class Mvc extends AbstractListenerAggregate
             throw $exception;
         }
 
+        $this->event = $e;
         $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
     }
 
@@ -119,7 +127,9 @@ class Mvc extends AbstractListenerAggregate
                 $response->setContent($content);
 
                 $response->send();
-                exit(-1);
+
+                $this->event->stopPropagation();
+                return;
             }
 
             $view = new ViewModel();
@@ -133,8 +143,9 @@ class Mvc extends AbstractListenerAggregate
             $response->setContent($this->renderer->render($layout));
 
             $response->send();
-            exit(-1);
 
+            $this->event->stopPropagation();
+            return;
         }
 
         $response = new ConsoleResponse();

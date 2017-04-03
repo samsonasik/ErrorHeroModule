@@ -4,7 +4,6 @@ namespace ErrorHeroModule;
 
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
-use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\ServerRequest;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\View\Renderer\PhpRenderer;
