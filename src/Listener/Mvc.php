@@ -89,7 +89,7 @@ class Mvc extends AbstractListenerAggregate
             return;
         }
 
-        $this->logging->handleException(
+        $this->logging->handleErrorException(
             $exception
         );
 

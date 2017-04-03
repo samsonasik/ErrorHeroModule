@@ -81,7 +81,7 @@ class Expressive
      */
     public function exceptionError($e, $request)
     {
-        $this->logging->handleException(
+        $this->logging->handleErrorException(
             $e
         );
 

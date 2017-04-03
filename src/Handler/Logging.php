@@ -182,7 +182,7 @@ class Logging
      *
      * @return array
      */
-    private function collectExceptionData($e)
+    private function collectErrorExceptionData($e)
     {
         $priority = Logger::ERR;
         if ($e instanceof ErrorException && isset(Logger::$errorPriorityMap[$e->getSeverity()])) {
@@ -212,7 +212,7 @@ class Logging
      *
      * @return array
      */
-    private function collectExceptionExtraData(array $collectedExceptionData)
+    private function collectErrorExceptionExtraData(array $collectedExceptionData)
     {
         return [
             'url'          => $this->serverUrl.$this->requestUri,
@@ -265,9 +265,9 @@ class Logging
      *
      * @return void
      */
-    public function handleException($e)
+    public function handleErrorException($e)
     {
-        $collectedExceptionData = $this->collectExceptionData($e);
+        $collectedExceptionData = $this->collectErrorExceptionData($e);
 
         try {
             if (
@@ -281,48 +281,13 @@ class Logging
                 return;
             }
 
-            $extra = $this->collectExceptionExtraData($collectedExceptionData);
+            $extra = $this->collectErrorExceptionExtraData($collectedExceptionData);
             $this->logger->log($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra);
         } catch (RuntimeException $e) {
-            $collectedExceptionData = $this->collectExceptionData($e);
-            $extra                  = $this->collectExceptionExtraData($collectedExceptionData);
+            $collectedExceptionData = $this->collectErrorExceptionData($e);
+            $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData);
         }
 
         $this->sendMail($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra, '['.$this->serverUrl.'] '.$collectedExceptionData['errorType'].' has thrown');
-    }
-
-    /**
-     * @param int    $errorType
-     * @param string $errorMessage
-     * @param string $errorFile
-     * @param int    $errorLine
-     * @param string $errorTypeString
-     *
-     * @return void
-     */
-    public function handleError(
-        $errorType,
-        $errorMessage,
-        $errorFile,
-        $errorLine,
-        $errorTypeString
-    ) {
-        if ($this->isExists($errorFile, $errorLine, $errorMessage, $this->serverUrl.$this->requestUri)) {
-            return;
-        }
-
-        $priority = Logger::$errorPriorityMap[$errorType];
-        $error    = new ErrorException($errorMessage, 500, $errorType, $errorFile, $errorLine);
-
-        $extra = [
-            'url'          => $this->serverUrl.$this->requestUri,
-            'file'         => $errorFile,
-            'line'         => $errorLine,
-            'error_type'   => $errorTypeString,
-            'trace'        => $error->getTraceAsString(),
-            'request_data' => $this->getRequestData(),
-        ];
-        $this->logger->log($priority, $errorMessage, $extra);
-        $this->sendMail($priority, $errorMessage, $extra, '['.$this->serverUrl.'] '.$errorTypeString.' PHP Error');
     }
 }

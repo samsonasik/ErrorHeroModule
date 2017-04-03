@@ -141,7 +141,7 @@ describe('LoggingSpec', function () {
 
     });
 
-    describe('->handleException()', function ()  {
+    describe('->handleErrorException()', function ()  {
 
         it('not log if exists', function ()  {
 
@@ -167,7 +167,7 @@ describe('LoggingSpec', function () {
             expect($this->logger)->not->toReceive('log');
 
             $exception = new \Exception();
-            $this->logging->handleException($exception);
+            $this->logging->handleErrorException($exception);
 
         });
 
@@ -195,7 +195,7 @@ describe('LoggingSpec', function () {
             expect($this->logger)->not->toReceive('log');
 
             $exception = new \ErrorException();
-            $this->logging->handleException($exception);
+            $this->logging->handleErrorException($exception);
 
         });
 

@@ -138,7 +138,7 @@ describe('Mvc', function () {
 
         });
 
-        it('call logging->handleException() if $e->getParam("exception") and display_errors = 1', function () {
+        it('call logging->handleErrorException() if $e->getParam("exception") and display_errors = 1', function () {
 
             $config = [
                 'enable' => true,
@@ -204,20 +204,20 @@ describe('Mvc', function () {
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
-            allow($logging)->toReceive('handleException')->with($exception);
+            allow($logging)->toReceive('handleErrorException')->with($exception);
 
             expect($listener->exceptionError($mvcEvent))->toBeNull();
 
         });
 
-        it('call logging->handleException() with default console error message if $e->getParam("exception") and display_errors = 0', function () {
+        it('call logging->handleErrorException() with default console error message if $e->getParam("exception") and display_errors = 0', function () {
 
             Quit::disable();
             $exception = new \Exception('message');
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
-            allow($this->logging)->toReceive('handleException')->with($exception);
+            allow($this->logging)->toReceive('handleErrorException')->with($exception);
 
             $renderer = new PhpRenderer();
             $resolver = new Resolver\AggregateResolver();
@@ -242,14 +242,14 @@ describe('Mvc', function () {
             expect($content)->toContain('We have encountered a problem');
         });
 
-        it('call logging->handleException() with default view error if $e->getParam("exception") and display_errors = 0 and not a console', function () {
+        it('call logging->handleErrorException() with default view error if $e->getParam("exception") and display_errors = 0 and not a console', function () {
 
             Console::overrideIsConsole(false);
             $exception = new \Exception('message');
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
-            allow($this->logging)->toReceive('handleException')->with($exception);
+            allow($this->logging)->toReceive('handleErrorException')->with($exception);
 
             ob_start();
             allow($this->renderer)->toReceive('render')->andReturn(include __DIR__ . '/../../view/error-hero-module/error-default.phtml');
@@ -412,9 +412,9 @@ describe('Mvc', function () {
 
         it('exclude error type and match', function () {
 
-            $this->listener->phpErrorHandler(E_USER_DEPRECATED, 'deprecated', 'file.php', 1);
-            expect(error_reporting())->toBe(E_ALL | E_STRICT);
-            expect(ini_get('display_errors'))->toBe("0");
+            $actual = $this->listener->phpErrorHandler(E_USER_DEPRECATED, 'deprecated', 'file.php', 1);
+            // null means rely on default mvc process
+            expect($actual)->toBeNull();
 
         });
 

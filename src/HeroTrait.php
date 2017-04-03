@@ -51,33 +51,10 @@ trait HeroTrait
      */
     public function phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine)
     {
-        $errorTypeString = HeroConstant::ERROR_TYPE[$errorType];
-        $errorExcluded = false;
-        if ($errorLine) {
-            if (in_array($errorType, $this->errorHeroModuleConfig['display-settings']['exclude-php-errors'])) {
-                $errorExcluded = true;
-            } else {
-                $this->logging->handleError(
-                    $errorType,
-                    $errorMessage,
-                    $errorFile,
-                    $errorLine,
-                    $errorTypeString
-                );
-            }
+        if (! $errorLine || in_array($errorType, $this->errorHeroModuleConfig['display-settings']['exclude-php-errors'])) {
+            return;
         }
 
-        if (! $this->errorHeroModuleConfig['display-settings']['display_errors'] || $errorExcluded) {
-            error_reporting(E_ALL | E_STRICT);
-            ini_set('display_errors', 0);
-        }
-
-        if (! $this->errorHeroModuleConfig['display-settings']['display_errors'] && ! $errorExcluded) {
-            return $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
-        }
-
-        if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
-            throw new ErrorException($errorMessage, 500, $errorType, $errorFile, $errorLine);
-        }
+        throw new ErrorException($errorMessage, 500, $errorType, $errorFile, $errorLine);
     }
 }
