@@ -59,7 +59,7 @@ class Expressive
         } catch (Exception $e) {
         }
 
-        $this->exceptionError($e, $request);
+        return $this->exceptionError($e, $request);
     }
 
     /**
@@ -77,7 +77,7 @@ class Expressive
      * @throws Error      when 'display_errors' config is 1 and Error has thrown
      * @throws Exception  when 'display_errors' config is 1 and Exception has thrown
      *
-     * @return void
+     * @return ResponseInterface
      */
     public function exceptionError($e, $request)
     {
@@ -89,13 +89,13 @@ class Expressive
             throw $e;
         }
 
-        $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
+        return $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
     }
 
     /**
      * It show default view if display_errors setting = 0.
      *
-     * @return void
+     * @return ResponseInterface
      */
     private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
     {
@@ -112,9 +112,7 @@ class Expressive
             $response = $response->withHeader('Content-type', $contentType);
             $response = $response->withStatus(500);
 
-            echo $response->getBody()->__toString();
-
-            exit(-1);
+            return $response;
         }
 
         $layout = new ViewModel();
@@ -128,8 +126,6 @@ class Expressive
             $this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view']),
             500
         );
-        echo $response->getBody()->__toString();
-
-        exit(-1);
+        return $response;
     }
 }
