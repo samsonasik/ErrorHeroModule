@@ -77,9 +77,6 @@ class Mvc extends AbstractListenerAggregate
     /**
      * @param Event $e
      *
-     * @throws Error      when 'display_errors' config is 1 and Error has thrown
-     * @throws Exception  when 'display_errors' config is 1 and Exception has thrown
-     *
      * @return void
      */
     public function exceptionError(Event $e)
