@@ -206,10 +206,7 @@ describe('Mvc', function () {
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
             allow($logging)->toReceive('handleException')->with($exception);
 
-            $closure = function () use ($listener, $mvcEvent) {
-                $listener->exceptionError($mvcEvent);
-            };
-            expect($closure)->toThrow(new \Exception('message'));
+            expect($listener->exceptionError($mvcEvent))->toBeNull();
 
         });
 

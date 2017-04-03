@@ -38,20 +38,16 @@ describe('Integration via ErrorPreviewController for error shown', function () {
 
     describe('/error-preview/error', function() {
 
-        it('show error page', function() {
-
-            skipIf(PHP_MAJOR_VERSION < 7);
+        it('empty as rely to original mvc process to handle', function() {
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
             $request->setUri('/error-preview/error');
 
-            try {
-                $this->application->run();
-            } catch (\Throwable $t) {
-                expect($t)->toBeAnInstanceOf(\Exception::class);
-                expect($t->getMessage())->toContain('Undefined offset: 1');
-            }
+            ob_start();
+            $this->application->run();
+            expect(ob_get_clean())->toBe('');
+
         });
     });
 
