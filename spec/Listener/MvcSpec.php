@@ -89,7 +89,7 @@ describe('Mvc', function () {
 
     describe('->attach()', function () {
 
-        it('does not attach dispatch.error, render.error, and * if config[enable] = false', function () {
+        it('does not attach dispatch.error, render.error, and bootstrap if config[enable] = false', function () {
 
             $logging = Double::instance([
                 'extends' => Logging::class,
@@ -113,7 +113,7 @@ describe('Mvc', function () {
 
         });
 
-        it('attach dispatch.error, render.error, and *', function () {
+        it('attach dispatch.error, render.error, and bootstrap', function () {
 
             $eventManager = Double::instance(['implements' => EventManagerInterface::class]);
             expect($eventManager)->toReceive('attach')->with(MvcEvent::EVENT_RENDER_ERROR, [$this->listener, 'exceptionError']);
