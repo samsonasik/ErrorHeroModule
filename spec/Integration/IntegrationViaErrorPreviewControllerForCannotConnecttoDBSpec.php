@@ -5,6 +5,7 @@ namespace ErrorHeroModule\Spec;
 use ErrorHeroModule;
 use ErrorHeroModule\Controller\ErrorPreviewController;
 use Kahlan\Plugin\Quit;
+use Kahlan\QuitException;
 use Zend\Console\Console;
 use Zend\Mvc\Application;
 
@@ -41,12 +42,17 @@ describe('Integration via ErrorPreviewController for Cannot connect to DB', func
 
         it('show error page', function() {
 
+            Quit::disable();
+
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
             $request->setUri('/error-preview');
 
             ob_start();
-            $this->application->run();
+            $closure = function () {
+                $this->application->run();
+            };
+            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
@@ -66,7 +72,10 @@ describe('Integration via ErrorPreviewController for Cannot connect to DB', func
             $request->setUri('/error-preview/error');
 
             ob_start();
-            $this->application->run();
+            $closure = function () {
+                $this->application->run();
+            };
+            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
