@@ -47,6 +47,8 @@ trait HeroTrait
      * @param string $errorFile
      * @param int    $errorLine
      *
+     * @throws ErrorException when php error happen and error type is not excluded in the config
+     *
      * @return mixed
      */
     public function phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine)
