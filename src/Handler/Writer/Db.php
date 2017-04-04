@@ -78,7 +78,7 @@ class Db
                 $select->order($timestamp.' DESC');
                 $select->limit(1);
 
-                /** @var $result \Zend\Db\ResultSet\ResultSet */
+                /** @var $result ResultSet */
                 $result = $tableGateway->selectWith($select);
                 if ($result->count() === 0) {
                     return false;
