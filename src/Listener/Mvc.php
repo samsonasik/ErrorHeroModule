@@ -108,7 +108,6 @@ class Mvc extends AbstractListenerAggregate
     private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
     {
         if (!Console::isConsole()) {
-
             $response = new HttpResponse();
             $response->setStatusCode(500);
 
@@ -139,7 +138,6 @@ class Mvc extends AbstractListenerAggregate
 
             $response->send();
             exit(-1);
-
         }
 
         $response = new ConsoleResponse();
