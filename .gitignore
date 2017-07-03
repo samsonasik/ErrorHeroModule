@@ -4,3 +4,4 @@ coverage/
 coverage.json
 bin
 .php_cs.cache
+.vscode/
