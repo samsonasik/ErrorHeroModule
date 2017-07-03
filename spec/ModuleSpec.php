@@ -96,7 +96,36 @@ describe('Module', function () {
 
             $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
             allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);
-            allow($configListener)->toReceive('getMergedConfig')->andReturn([]);
+            allow($configListener)->toReceive('getMergedConfig')->andReturn([
+                'log' => [
+                    'ErrorHeroModuleLogger' => [
+                        'writers' => [
+
+                            [
+                                'name' => 'db',
+                                'options' => [
+                                    'db'     => 'Zend\Db\Adapter\Adapter',
+                                    'table'  => 'error_log',
+                                    'column' => [
+                                        'timestamp' => 'date',
+                                        'priority'  => 'type',
+                                        'message'   => 'event',
+                                        'extra'     => [
+                                            'url'  => 'url',
+                                            'file' => 'file',
+                                            'line' => 'line',
+                                            'error_type' => 'error_type',
+                                            'trace'      => 'trace',
+                                            'request_data' => 'request_data',
+                                        ],
+                                    ],
+                                ],
+                            ],
+
+                        ],
+                    ],
+                ],
+            ]);
 
             $entityManager = Double::instance(['extends' => EntityManager::class, 'methods' => '__construct']);
             $connection    = Double::instance(['extends' => Connection::class, 'methods' => '__construct']);
@@ -129,7 +158,36 @@ describe('Module', function () {
 
             $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
             allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);
-            allow($configListener)->toReceive('getMergedConfig')->andReturn([]);
+            allow($configListener)->toReceive('getMergedConfig')->andReturn([
+                'log' => [
+                    'ErrorHeroModuleLogger' => [
+                        'writers' => [
+
+                            [
+                                'name' => 'db',
+                                'options' => [
+                                    'db'     => 'Zend\Db\Adapter\Adapter',
+                                    'table'  => 'error_log',
+                                    'column' => [
+                                        'timestamp' => 'date',
+                                        'priority'  => 'type',
+                                        'message'   => 'event',
+                                        'extra'     => [
+                                            'url'  => 'url',
+                                            'file' => 'file',
+                                            'line' => 'line',
+                                            'error_type' => 'error_type',
+                                            'trace'      => 'trace',
+                                            'request_data' => 'request_data',
+                                        ],
+                                    ],
+                                ],
+                            ],
+
+                        ],
+                    ],
+                ],
+            ]);
 
             $entityManager = Double::instance(['extends' => EntityManager::class, 'methods' => '__construct']);
             $connection    = Double::instance(['extends' => Connection::class, 'methods' => '__construct']);

@@ -33,6 +33,7 @@ class Module
             return;
         }
 
+        /** @var $configListener \Zend\ModuleManager\Listener\ConfigListener */
         $configListener = $event->getConfigListener();
         $configuration  = $configListener->getMergedConfig(false);
 
@@ -58,7 +59,17 @@ class Module
 
         $allowOverride = $services->getAllowOverride();
         $services->setAllowOverride(true);
-        $services->setService('Zend\Db\Adapter\Adapter', new Adapter($config));
+
+        $adapterName = 'Zend\Db\Adapter\Adapter';
+        $writers = $configuration['log']['ErrorHeroModuleLogger']['writers'];
+        foreach ($writers as $key => $writer) {
+            if ($writer['name'] === 'db') {
+                $adapterName = $writer['options']['db'];
+                break;
+            }
+        }
+
+        $services->setService($adapterName, new Adapter($config));
         $services->setAllowOverride($allowOverride);
     }
 
@@ -70,6 +81,7 @@ class Module
     public function errorPreviewPageHandler(ModuleEvent $event)
     {
         $services       = $event->getParam('ServiceManager');
+        /** @var $configListener \Zend\ModuleManager\Listener\ConfigListener */
         $configListener = $event->getConfigListener();
         $configuration  = $configListener->getMergedConfig(false);
 
