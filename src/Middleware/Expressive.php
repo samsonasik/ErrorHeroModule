@@ -68,8 +68,8 @@ class Expressive
      */
     public function phpError()
     {
-        register_shutdown_function([$this, 'execOnShutdown']);
-        set_error_handler([$this, 'phpErrorHandler']);
+        \register_shutdown_function([$this, 'execOnShutdown']);
+        \set_error_handler([$this, 'phpErrorHandler']);
     }
 
     /**
@@ -81,7 +81,7 @@ class Expressive
      */
     public function exceptionError($e, $request)
     {
-        $exceptionClass = get_class($e);
+        $exceptionClass = \get_class($e);
         if (isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions']) &&
             \in_array($exceptionClass, $this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])
         ) {

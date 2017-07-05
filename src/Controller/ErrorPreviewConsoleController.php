@@ -4,8 +4,8 @@ namespace ErrorHeroModule\Controller;
 
 use Zend\Mvc\Controller\AbstractConsoleController;
 
-if (! class_exists('Zend\Mvc\Controller\AbstractConsoleController')) {
-    class_alias(
+if (! \class_exists('Zend\Mvc\Controller\AbstractConsoleController')) {
+    \class_alias(
         'Zend\Mvc\Console\Controller\AbstractConsoleController',
         'Zend\Mvc\Controller\AbstractConsoleController'
     );

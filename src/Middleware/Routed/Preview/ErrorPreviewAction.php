@@ -15,7 +15,7 @@ class ErrorPreviewAction
             throw new \Exception('a sample error preview');
         }
 
-        if ($action === 'php7error' && class_exists(\Error::class)) {
+        if ($action === 'php7error' && \class_exists(\Error::class)) {
             throw new \Error('error of php 7');
         }
 

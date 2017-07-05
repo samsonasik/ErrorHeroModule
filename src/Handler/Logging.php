@@ -162,7 +162,7 @@ class Logging
                 ? $this->request->getPost()->toArray()
                 : [];
             $raw_data       = $this->request->getContent();
-            $raw_data       = str_replace(PHP_EOL, '', $raw_data);
+            $raw_data       = \str_replace(PHP_EOL, '', $raw_data);
             $files_data     = $this->request->getFiles()->toArray();
 
             $request_data = [

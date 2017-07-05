@@ -68,9 +68,9 @@ class Mail extends BaseMail
             $body->addPart($mimePart);
 
             foreach ($this->requestData['files_data'] as $key => $row) {
-                if (key($row) === 'name') {
+                if (\key($row) === 'name') {
                     // single upload
-                    $mimePart              = new MimePart(fopen($row['tmp_name'], 'r'));
+                    $mimePart              = new MimePart(\fopen($row['tmp_name'], 'r'));
                     $mimePart->type        = $row['type'];
                     $mimePart->filename    = $row['name'];
                     $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
@@ -80,7 +80,7 @@ class Mail extends BaseMail
                 } else {
                     // collection upload
                     foreach ($row as $multiple => $upload) {
-                        $mimePart              = new MimePart(fopen($upload['tmp_name'], 'r'));
+                        $mimePart              = new MimePart(\fopen($upload['tmp_name'], 'r'));
                         $mimePart->type        = $upload['type'];
                         $mimePart->filename    = $upload['name'];
                         $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
@@ -105,11 +105,11 @@ class Mail extends BaseMail
         try {
             $this->transport->send($this->mail);
         } catch (Exception $e) {
-            trigger_error(
+            \trigger_error(
                 "unable to send log entries via email; " .
                 "message = {$e->getMessage()}; " .
                 "code = {$e->getCode()}; " .
-                "exception class = " . get_class($e),
+                "exception class = " . \get_class($e),
                 E_USER_WARNING
             );
         }

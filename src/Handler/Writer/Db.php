@@ -85,7 +85,7 @@ class Db
                 }
 
                 $first = $result->current()[$timestamp];
-                $last  = date('Y-m-d H:i:s');
+                $last  = \date('Y-m-d H:i:s');
 
                 $diff = \strtotime($last) - \strtotime($first);
                 if ($diff <= $this->configLoggingSettings['same-error-log-time-range']) {

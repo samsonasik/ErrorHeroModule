@@ -19,10 +19,10 @@ class Json extends Base implements FormatterInterface
             $event['timestamp'] = $event['timestamp']->format($this->getDateTimeFormat());
         }
 
-        return str_replace(
+        return \str_replace(
             '\n',
             PHP_EOL,
-            json_encode($event, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+            \json_encode($event, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
         );
     }
 }

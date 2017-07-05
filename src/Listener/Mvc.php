@@ -63,8 +63,8 @@ class Mvc extends AbstractListenerAggregate
      */
     public function phpError(Event $e)
     {
-        register_shutdown_function([$this, 'execOnShutdown']);
-        set_error_handler([$this, 'phpErrorHandler']);
+        \register_shutdown_function([$this, 'execOnShutdown']);
+        \set_error_handler([$this, 'phpErrorHandler']);
     }
 
     /**
@@ -79,7 +79,7 @@ class Mvc extends AbstractListenerAggregate
             return;
         }
 
-        $exceptionClass = get_class($exception);
+        $exceptionClass = \get_class($exception);
         if (isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions']) &&
             \in_array($exceptionClass, $this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])) {
             // rely on original mvc process

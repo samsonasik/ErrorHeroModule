@@ -35,7 +35,7 @@ trait HeroTrait
      */
     public function execOnShutdown()
     {
-        $error = error_get_last();
+        $error = \error_get_last();
         if ($error && $error['type']) {
             $this->phpErrorHandler($error['type'], $error['message'], $error['file'], $error['line']);
         }
@@ -58,8 +58,8 @@ trait HeroTrait
         }
 
         if (! $this->errorHeroModuleConfig['display-settings']['display_errors']) {
-            error_reporting(E_ALL | E_STRICT);
-            ini_set('display_errors', 0);
+            \error_reporting(E_ALL | E_STRICT);
+            \ini_set('display_errors', 0);
         }
 
         if (\in_array($errorType, $this->errorHeroModuleConfig['display-settings']['exclude-php-errors'])) {
