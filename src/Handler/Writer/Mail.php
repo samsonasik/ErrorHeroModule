@@ -56,7 +56,7 @@ class Mail extends BaseMail
         }
 
         // Always provide events to mail as plaintext.
-        $body = implode(PHP_EOL, $this->eventsToMail);
+        $body = \implode(PHP_EOL, $this->eventsToMail);
 
         if (! empty($this->requestData['files_data'])) {
             $mimePart = new MimePart($body);

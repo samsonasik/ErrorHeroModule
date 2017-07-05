@@ -62,7 +62,7 @@ trait HeroTrait
             ini_set('display_errors', 0);
         }
 
-        if (in_array($errorType, $this->errorHeroModuleConfig['display-settings']['exclude-php-errors'])) {
+        if (\in_array($errorType, $this->errorHeroModuleConfig['display-settings']['exclude-php-errors'])) {
             return;
         }
 

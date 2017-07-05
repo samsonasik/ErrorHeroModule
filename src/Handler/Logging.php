@@ -189,7 +189,7 @@ class Logging
             $priority  = Logger::$errorPriorityMap[$e->getSeverity()];
             $errorType = HeroConstant::ERROR_TYPE[$e->getSeverity()];
         } else {
-            $errorType = get_class($e);
+            $errorType = \get_class($e);
         }
 
         $errorFile = $e->getFile();

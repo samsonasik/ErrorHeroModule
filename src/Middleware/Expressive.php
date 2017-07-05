@@ -83,7 +83,7 @@ class Expressive
     {
         $exceptionClass = get_class($e);
         if (isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions']) &&
-            in_array($exceptionClass, $this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])
+            \in_array($exceptionClass, $this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])
         ) {
             throw $e;
         }
