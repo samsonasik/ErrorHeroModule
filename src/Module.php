@@ -103,12 +103,6 @@ class Module
         );
 
         $configListener->setMergedConfig($configuration);
-        $event->setConfigListener($configListener);
-
-        $allowOverride = $services->getAllowOverride();
-        $services->setAllowOverride(true);
-        $services->setService('config', $configuration);
-        $services->setAllowOverride($allowOverride);
     }
 
     /**
