@@ -2,14 +2,14 @@
 
 namespace ErrorHeroModule\Controller;
 
-use Zend\Mvc\Console\Controller\AbstractConsoleController;
-
-if (\class_exists(AbstractConsoleController::class)) {
+if (\class_exists(\Zend\Mvc\Console\Controller\AbstractConsoleController::class)) {
     \class_alias(
-        AbstractConsoleController::class,
+        \Zend\Mvc\Console\Controller\AbstractConsoleController::class,
         \Zend\Mvc\Controller\AbstractConsoleController::class
     );
 }
+
+use Zend\Mvc\Controller\AbstractConsoleController;
 
 class ErrorPreviewConsoleController extends AbstractConsoleController
 {
