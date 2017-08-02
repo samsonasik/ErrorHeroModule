@@ -41,7 +41,7 @@ describe('Module', function () {
 
             allow($moduleManager)->toReceive('getEventManager')->andReturn($eventManager);
             expect($eventManager)->toReceive('attach')->with(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this->module, 'convertDoctrineToZendDbService']);
-            expect($eventManager)->toReceive('attach')->with(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this->module, 'errorPreviewPageHandler'], 101);
+            expect($eventManager)->toReceive('attach')->with(ModuleEvent::EVENT_MERGE_CONFIG, [$this->module, 'errorPreviewPageHandler'], 101);
 
             $this->module->init($moduleManager);
 
@@ -222,8 +222,6 @@ describe('Module', function () {
         it('does not has enable-error-preview-page', function () {
 
             $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
-            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
-            allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
 
             $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
             allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);

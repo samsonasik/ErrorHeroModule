@@ -18,7 +18,7 @@ class Module
     {
         $eventManager = $moduleManager->getEventManager();
         $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'convertDoctrineToZendDbService']);
-        $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'errorPreviewPageHandler'], 101);
+        $eventManager->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'errorPreviewPageHandler'], 101);
     }
 
     /**
@@ -80,7 +80,6 @@ class Module
      */
     public function errorPreviewPageHandler(ModuleEvent $event)
     {
-        $services       = $event->getParam('ServiceManager');
         /** @var $configListener \Zend\ModuleManager\Listener\ConfigListener */
         $configListener = $event->getConfigListener();
         $configuration  = $configListener->getMergedConfig(false);
