@@ -18,7 +18,7 @@ class ExpressiveFactory
      */
     public function __invoke($container)
     {
-        $config = $container->get('config');
+        $configuration = $container->get('config');
 
         if ($container->has(EntityManager::class) && ! isset($configuration['db'])) {
             $entityManager          = $container->get(EntityManager::class);
@@ -39,12 +39,22 @@ class ExpressiveFactory
 
             $allowOverride = $container->getAllowOverride();
             $container->setAllowOverride(true);
-            $container->setService('Zend\Db\Adapter\Adapter', new Adapter($dbConfiguration));
+
+            $adapterName = 'Zend\Db\Adapter\Adapter';
+            $writers     = $configuration['log']['ErrorHeroModuleLogger']['writers'];
+            foreach ($writers as $key => $writer) {
+                if ($writer['name'] === 'db') {
+                    $adapterName = $writer['options']['db'];
+                    break;
+                }
+            }
+
+            $container->setService($adapterName, new Adapter($dbConfiguration));
             $container->setAllowOverride($allowOverride);
         }
 
         return new Expressive(
-            $config['error-hero-module'],
+            $configuration['error-hero-module'],
             $container->get(Logging::class),
             $container->get(TemplateRendererInterface::class)
         );

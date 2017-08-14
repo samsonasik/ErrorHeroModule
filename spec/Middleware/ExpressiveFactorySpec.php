@@ -21,6 +21,7 @@ describe('ExpressiveFactory', function () {
     given('config', function () {
 
         return [
+
             'error-hero-module' => [
                 'enable' => true,
                 'display-settings' => [
@@ -67,6 +68,36 @@ describe('ExpressiveFactory', function () {
                     ],
                 ],
             ],
+
+            'log' => [
+                'ErrorHeroModuleLogger' => [
+                    'writers' => [
+
+                        [
+                            'name' => 'db',
+                            'options' => [
+                                'db'     => 'Zend\Db\Adapter\Adapter',
+                                'table'  => 'error_log',
+                                'column' => [
+                                    'timestamp' => 'date',
+                                    'priority'  => 'type',
+                                    'message'   => 'event',
+                                    'extra'     => [
+                                        'url'  => 'url',
+                                        'file' => 'file',
+                                        'line' => 'line',
+                                        'error_type' => 'error_type',
+                                        'trace'      => 'trace',
+                                        'request_data' => 'request_data',
+                                    ],
+                                ],
+                            ],
+                        ],
+
+                    ],
+                ],
+            ],
+
         ];
 
     });
