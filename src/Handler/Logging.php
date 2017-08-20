@@ -234,29 +234,31 @@ class Logging
      */
     private function sendMail($priority, $errorMessage, $extra, $subject)
     {
-        if ($this->mailMessageService !== null && $this->mailMessageTransport !== null) {
-            foreach ($this->emailReceivers as $key => $email) {
-                $logger = clone $this->logger;
+        if (! $this->mailMessageService || ! $this->mailMessageTransport) {
+            return;
+        }
 
-                $this->mailMessageService->setFrom($this->emailSender);
-                $this->mailMessageService->setTo($email);
-                $this->mailMessageService->setSubject($subject);
+        foreach ($this->emailReceivers as $key => $email) {
+            $logger = clone $this->logger;
 
-                $writer    = new Writer\Mail(
-                    $this->mailMessageService,
-                    $this->mailMessageTransport,
-                    $this->getRequestData()
-                );
-                $formatter = new Formatter\Json();
-                $writer->setFormatter($formatter);
+            $this->mailMessageService->setFrom($this->emailSender);
+            $this->mailMessageService->setTo($email);
+            $this->mailMessageService->setSubject($subject);
 
-                // use setWriters() to clean up existing writers
-                $splPriorityQueue = new SplPriorityQueue();
-                $splPriorityQueue->insert($writer, 1);
-                $logger->setWriters($splPriorityQueue);
+            $writer    = new Writer\Mail(
+                $this->mailMessageService,
+                $this->mailMessageTransport,
+                $this->getRequestData()
+            );
+            $formatter = new Formatter\Json();
+            $writer->setFormatter($formatter);
 
-                $logger->log($priority, $errorMessage, $extra);
-            }
+            // use setWriters() to clean up existing writers
+            $splPriorityQueue = new SplPriorityQueue();
+            $splPriorityQueue->insert($writer, 1);
+            $logger->setWriters($splPriorityQueue);
+
+            $logger->log($priority, $errorMessage, $extra);
         }
     }
 
