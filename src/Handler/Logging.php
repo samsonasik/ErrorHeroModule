@@ -133,6 +133,7 @@ class Logging
                     if ($handlerWriterDb->isExists($errorFile, $errorLine, $errorMessage, $url)) {
                         return true;
                     }
+                    break;
                 } catch (RuntimeException $e) {
                     //new RuntimeException instance is on purpose to avoid long trace from \Zend\Db\Adapter\Exception\RuntimeException
                     throw new RuntimeException($e->getMessage());

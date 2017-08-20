@@ -91,6 +91,7 @@ class Db
                 if ($diff <= $this->configLoggingSettings['same-error-log-time-range']) {
                     return true;
                 }
+                break;
             }
         }
 
