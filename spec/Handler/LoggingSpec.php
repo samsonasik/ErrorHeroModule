@@ -123,7 +123,7 @@ describe('LoggingSpec', function () {
 
         it('set request and requestUri properties', function () {
 
-            $this->logging->setServerRequestandRequestUri(new ServerRequest([], [], '/error-preview', 'GET'));
+            $this->logging->setServerRequestandRequestUri(new ServerRequest([], [], $this->serverUrl  . '/error-preview', 'GET'));
 
             $r = new ReflectionProperty($this->logging, 'request');
             $r->setAccessible(true);
@@ -136,7 +136,7 @@ describe('LoggingSpec', function () {
             $r3 = new ReflectionMethod($this->logging, 'getRequestData');
             $r3->setAccessible(true);
             $r3->invoke($this->logging);
-            
+
         });
 
     });

@@ -16,7 +16,7 @@ return [
                     'name' => 'db',
                     'options' => [
                         'db'     => 'Zend\Db\Adapter\Adapter',
-                        'table'  => 'error_log',
+                        'table'  => 'log',
                         'column' => [
                             'timestamp' => 'date',
                             'priority'  => 'type',

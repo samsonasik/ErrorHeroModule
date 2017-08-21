@@ -109,8 +109,8 @@ class Logging
      */
     public function setServerRequestandRequestUri(ServerRequestInterface $request)
     {
-        $this->request = $request;
-        $this->requestUri = $request->getUri()->getPath();
+        $this->request    = $request;
+        $this->requestUri = substr($request->getUri(), strlen($this->serverUrl));
     }
 
     /**
