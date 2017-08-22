@@ -26,10 +26,12 @@ class LoggingFactory
         $requestUri = '';
 
         if (!Console::isConsole()) {
-            $serverUrl  = $container->get('ViewHelperManager')->get('ServerUrl')->__invoke();
             if ($container->has('Request')) {
+                $serverUrl  = $container->get('ViewHelperManager')->get('ServerUrl')->__invoke();
                 $request    = $container->get('Request');
                 $requestUri = $request->getRequestUri();
+            } else {
+                $serverUrl  = $container->get('ViewHelperManager')->get('ServerUrl')->__invoke(true);
             }
         } else {
             $serverUrl  = \php_uname('n');
