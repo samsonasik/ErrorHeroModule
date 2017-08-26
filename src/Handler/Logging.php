@@ -185,9 +185,9 @@ class Logging
     private function collectErrorExceptionData($e)
     {
         $priority = Logger::ERR;
-        if ($e instanceof ErrorException && isset(Logger::$errorPriorityMap[$e->getSeverity()])) {
-            $priority  = Logger::$errorPriorityMap[$e->getSeverity()];
-            $errorType = HeroConstant::ERROR_TYPE[$e->getSeverity()];
+        if ($e instanceof ErrorException && isset(Logger::$errorPriorityMap[$severity = $e->getSeverity()])) {
+            $priority  = Logger::$errorPriorityMap[$severity];
+            $errorType = HeroConstant::ERROR_TYPE[$severity];
         } else {
             $errorType = \get_class($e);
         }
