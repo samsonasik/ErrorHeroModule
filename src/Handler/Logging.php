@@ -248,10 +248,8 @@ class Logging
         $this->mailMessageService->setFrom($this->emailSender);
         $this->mailMessageService->setSubject($subject);
 
+        $formatter = new Formatter\Json();
         foreach ($this->emailReceivers as $key => $email) {
-
-            $formatter = new Formatter\Json();
-
             $this->mailMessageService->setTo($email);
             $writer    = new Writer\Mail(
                 $this->mailMessageService,
