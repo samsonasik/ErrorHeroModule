@@ -238,26 +238,30 @@ class Logging
             return;
         }
 
+        if (! $this->emailReceivers) {
+            return;
+        }
+
+        $this->mailMessageService->setFrom($this->emailSender);
+        $this->mailMessageService->setSubject($subject);
+
         foreach ($this->emailReceivers as $key => $email) {
-            $logger = clone $this->logger;
 
-            $this->mailMessageService->setFrom($this->emailSender);
+            $formatter = new Formatter\Json();
+
             $this->mailMessageService->setTo($email);
-            $this->mailMessageService->setSubject($subject);
-
             $writer    = new Writer\Mail(
                 $this->mailMessageService,
                 $this->mailMessageTransport,
                 $this->getRequestData()
             );
-            $formatter = new Formatter\Json();
             $writer->setFormatter($formatter);
-
             // use setWriters() to clean up existing writers
             $splPriorityQueue = new SplPriorityQueue();
             $splPriorityQueue->insert($writer, 1);
-            $logger->setWriters($splPriorityQueue);
 
+            $logger = clone $this->logger;
+            $logger->setWriters($splPriorityQueue);
             $logger->log($priority, $errorMessage, $extra);
         }
     }
