@@ -165,7 +165,7 @@ class Logging
         }
 
         $query          = $this->request->getQuery()->toArray();
-        $request_method = $this->request->getServer('REQUEST_METHOD');
+        $request_method = $this->request->getMethod();
         $body_data      = $this->request->getPost()->toArray();
         $raw_data       = $this->request->getContent();
         $raw_data       = \str_replace(PHP_EOL, '', $raw_data);
