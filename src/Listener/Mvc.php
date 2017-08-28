@@ -75,7 +75,7 @@ class Mvc extends AbstractListenerAggregate
     public function exceptionError(Event $e)
     {
         $exception = $e->getParam('exception');
-        if (!$exception) {
+        if (! $exception) {
             return;
         }
 
@@ -107,7 +107,7 @@ class Mvc extends AbstractListenerAggregate
      */
     private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
     {
-        if (!Console::isConsole()) {
+        if (! Console::isConsole()) {
             $response = new HttpResponse();
             $response->setStatusCode(500);
 

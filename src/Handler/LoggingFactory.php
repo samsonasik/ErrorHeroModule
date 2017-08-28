@@ -25,7 +25,7 @@ class LoggingFactory
         $request    = null;
         $requestUri = '';
 
-        if (!Console::isConsole()) {
+        if (! Console::isConsole()) {
             if ($container->has('Request')) {
                 $serverUrl  = $container->get('ViewHelperManager')->get('ServerUrl')->__invoke();
                 $request    = $container->get('Request');
@@ -51,12 +51,12 @@ class LoggingFactory
 
         if ($mailConfig['enable'] === true) {
             $mailMessageService   = $container->get($mailConfig['mail-message']);
-            if (!$mailMessageService instanceof Message) {
+            if (! $mailMessageService instanceof Message) {
                 throw new RuntimeException('You are enabling email log writer, your "mail-message" config must be instanceof '.Message::class);
             }
 
             $mailMessageTransport = $container->get($mailConfig['mail-transport']);
-            if (!$mailMessageTransport instanceof TransportInterface) {
+            if (! $mailMessageTransport instanceof TransportInterface) {
                 throw new RuntimeException('You are enabling email log writer, your "mail-transport" config must implements '.TransportInterface::class);
             }
         }
