@@ -263,6 +263,8 @@ class Logging
             $logger = clone $this->logger;
             $logger->setWriters($splPriorityQueue);
             $logger->log($priority, $errorMessage, $extra);
+
+            unset($logger);
         }
     }
 
