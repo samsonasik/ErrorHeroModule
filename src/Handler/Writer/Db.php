@@ -4,7 +4,6 @@ namespace ErrorHeroModule\Handler\Writer;
 
 use ReflectionProperty;
 use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Log\Writer\Db as DbWriter;
 
