@@ -36,9 +36,11 @@ trait HeroTrait
     public function execOnShutdown()
     {
         $error = \error_get_last();
-        if ($error && $error['type']) {
-            $this->phpErrorHandler($error['type'], $error['message'], $error['file'], $error['line']);
+        if (! $error) {
+            return;
         }
+
+        $this->phpErrorHandler($error['type'], $error['message'], $error['file'], $error['line']);
     }
 
     /**
