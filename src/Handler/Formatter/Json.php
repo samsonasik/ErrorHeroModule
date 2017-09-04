@@ -21,8 +21,8 @@ class Json extends Base implements FormatterInterface
 
         return \str_replace(
             '\n',
-            PHP_EOL,
-            \json_encode($event, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+            \PHP_EOL,
+            \json_encode($event, \JSON_UNESCAPED_SLASHES | \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE)
         );
     }
 }

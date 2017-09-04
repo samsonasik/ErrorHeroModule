@@ -110,7 +110,7 @@ class Mail extends BaseMail
                 "message = {$e->getMessage()}; " .
                 "code = {$e->getCode()}; " .
                 "exception class = " . \get_class($e),
-                E_USER_WARNING
+                \E_USER_WARNING
             );
         }
     }
