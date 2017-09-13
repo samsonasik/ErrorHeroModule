@@ -35,7 +35,7 @@ Installation
 DROP TABLE IF EXISTS `log`;
 
 CREATE TABLE `log` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `type` int(11) NOT NULL,
   `event` text NOT NULL,
@@ -67,7 +67,7 @@ return [
         'driver_options' => [
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
         ],
-    ],      
+    ],
 ];
 ```
 
@@ -198,7 +198,7 @@ return [
 
             // if enable and display_errors = 0, the page will bring layout and view
             'template' => [
-                'layout' => 'layout/layout',               
+                'layout' => 'layout/layout',
                 'view'   => 'error-hero-module/error-default'
             ],
 
