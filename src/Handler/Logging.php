@@ -15,7 +15,6 @@ use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
 use Zend\Psr7Bridge\Psr7ServerRequest;
 use Zend\Stdlib\RequestInterface;
-use Zend\Stdlib\SplPriorityQueue;
 
 class Logging
 {
@@ -256,15 +255,10 @@ class Logging
                 $this->requestData
             );
             $writer->setFormatter($formatter);
-            // use setWriters() to clean up existing writers
-            $splPriorityQueue = new SplPriorityQueue();
-            $splPriorityQueue->insert($writer, 1);
 
-            $logger = clone $this->logger;
-            $logger->setWriters($splPriorityQueue);
+            $logger = new Logger();
+            $logger->addWriter($writer);
             $logger->log($priority, $errorMessage, $extra);
-
-            unset($logger);
         }
     }
 
