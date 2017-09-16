@@ -38,7 +38,7 @@ describe('Mvc', function () {
 
                 // excluded php errors
                 'exclude-php-errors' => [
-                    E_USER_DEPRECATED
+                    \E_USER_DEPRECATED
                 ],
 
                 // show or not error
@@ -147,7 +147,7 @@ describe('Mvc', function () {
 
                     // excluded php errors
                     'exclude-php-errors' => [
-                        E_USER_DEPRECATED
+                        \E_USER_DEPRECATED
                     ],
 
                     // show or not error
@@ -276,7 +276,7 @@ describe('Mvc', function () {
 
                     // excluded php errors
                     'exclude-php-errors' => [
-                        E_USER_DEPRECATED
+                        \E_USER_DEPRECATED
                     ],
 
                     // excluded exceptions
@@ -448,7 +448,7 @@ describe('Mvc', function () {
                 'enable' => true,
                 'display-settings' => [
                     'exclude-php-errors' => [
-                        E_USER_DEPRECATED
+                        \E_USER_DEPRECATED
                     ],
                     'display_errors'  => 1,
                     'template' => [
@@ -504,7 +504,7 @@ describe('Mvc', function () {
 
         it('exclude error type and match', function () {
 
-            $actual = $this->listener->phpErrorHandler(E_USER_DEPRECATED, 'deprecated', 'file.php', 1);
+            $actual = $this->listener->phpErrorHandler(\E_USER_DEPRECATED, 'deprecated', 'file.php', 1);
             // null means use default mvc process
             expect($actual)->toBeNull();
 

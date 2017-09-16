@@ -49,7 +49,7 @@ describe('Expressive', function () {
 
                 // excluded php errors
                 'exclude-php-errors' => [
-                    E_USER_DEPRECATED
+                    \E_USER_DEPRECATED
                 ],
 
                 // show or not error
@@ -605,7 +605,7 @@ json
 
         it('exclude error type and match', function () {
 
-            $actual = $this->middleware->phpErrorHandler(E_USER_DEPRECATED, 'deprecated', 'file.php', 1);
+            $actual = $this->middleware->phpErrorHandler(\E_USER_DEPRECATED, 'deprecated', 'file.php', 1);
             // null means use default next(req, resp)
             expect($actual)->toBeNull();
 

@@ -58,7 +58,7 @@ return [
 
             // excluded php errors
             'exclude-php-errors' => [
-                E_USER_DEPRECATED
+                \E_USER_DEPRECATED
             ],
 
             // show or not error

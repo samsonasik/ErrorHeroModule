@@ -185,7 +185,7 @@ return [
 
             // excluded php errors ( http://www.php.net/manual/en/errorfunc.constants.php )
             'exclude-php-errors' => [
-                E_USER_DEPRECATED,
+                \E_USER_DEPRECATED,
             ],
 
             // excluded exceptions
