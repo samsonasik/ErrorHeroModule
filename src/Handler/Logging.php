@@ -256,10 +256,8 @@ class Logging
             );
             $writer->setFormatter($formatter);
 
-            $logger = new Logger();
-            $logger->addWriter($writer);
-            $logger->log($priority, $errorMessage, $extra);
-            unset($logger);
+            (new Logger())->addWriter($writer)
+                          ->log($priority, $errorMessage, $extra);
         }
     }
 
