@@ -259,6 +259,7 @@ class Logging
             $logger = new Logger();
             $logger->addWriter($writer);
             $logger->log($priority, $errorMessage, $extra);
+            unset($logger);
         }
     }
 
