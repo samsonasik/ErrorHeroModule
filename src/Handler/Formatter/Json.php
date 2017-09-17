@@ -9,6 +9,11 @@ use Zend\Log\Formatter\FormatterInterface;
 class Json extends Base implements FormatterInterface
 {
     /**
+     * @var string
+     */
+    private $timestamp;
+
+    /**
      * @param array $event event data
      *
      * @return string formatted line to write to the log
@@ -16,7 +21,10 @@ class Json extends Base implements FormatterInterface
     public function format($event)
     {
         if (isset($event['timestamp']) && $event['timestamp'] instanceof DateTime) {
-            $event['timestamp'] = $event['timestamp']->format($this->getDateTimeFormat());
+            if (! $this->timestamp) {
+                $this->timestamp = $event['timestamp']->format($this->getDateTimeFormat());
+            }
+            $event['timestamp'] = $this->timestamp;
         }
 
         return \str_replace(

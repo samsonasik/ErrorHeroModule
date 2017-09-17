@@ -15,7 +15,6 @@ use Zend\Http\PhpEnvironment\Request;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db as DbWriter;
 use Zend\Mail\Message;
-use Zend\Stdlib\SplPriorityQueue;
 
 describe('LoggingSpec', function () {
 
@@ -100,10 +99,7 @@ describe('LoggingSpec', function () {
         $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($this->dbWriter, Double::instance(['extends' => 'Zend\Db\Adapter\Adapter', 'methods' => '__construct']));
 
-        $splPriorityQueue = new SplPriorityQueue();
-        $splPriorityQueue->insert($this->dbWriter, 1);
-
-        $this->logger->setWriters($splPriorityQueue);
+        $this->logger->addWriter($this->dbWriter);
     });
 
     given('logging', function ()  {
