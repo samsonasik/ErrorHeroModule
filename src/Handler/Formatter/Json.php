@@ -20,12 +20,10 @@ class Json extends Base implements FormatterInterface
      */
     public function format($event)
     {
-        if (isset($event['timestamp']) && $event['timestamp'] instanceof DateTime) {
-            if (! $this->timestamp) {
-                $this->timestamp = $event['timestamp']->format($this->getDateTimeFormat());
-            }
-            $event['timestamp'] = $this->timestamp;
+        if (! $this->timestamp && isset($event['timestamp']) && $event['timestamp'] instanceof DateTime) {
+            $this->timestamp = $event['timestamp']->format($this->getDateTimeFormat());
         }
+        $event['timestamp'] = $this->timestamp;
 
         return \str_replace(
             '\n',
