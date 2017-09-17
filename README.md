@@ -65,7 +65,7 @@ return [
         'database' => 'mysqldbname',
         'host'     => 'mysqlhost',
         'driver_options' => [
-            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
         ],
     ],
 ];
@@ -88,7 +88,7 @@ return [
                     'host'     => 'mysqlhost',
                     'port'     => '3306',
                     'driverOptions' => [
-                        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
                     ],
                 ],
             ],

@@ -19,7 +19,7 @@ return [
         'driver' => 'Pdo',
         'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
         'driver_options' => [
-            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
         ],
     ],
 
