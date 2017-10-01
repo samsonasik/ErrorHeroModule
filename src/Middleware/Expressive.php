@@ -21,6 +21,11 @@ class Expressive
     use HeroTrait;
 
     /**
+     * @var ServerRequestInterface
+     */
+    private $request;
+
+    /**
      * @param array                     $errorHeroModuleConfig
      * @param Logging                   $logging
      * @param TemplateRendererInterface $renderer

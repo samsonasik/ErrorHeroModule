@@ -4,7 +4,6 @@ namespace ErrorHeroModule;
 
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
-use Zend\Diactoros\ServerRequest;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -24,11 +23,6 @@ trait HeroTrait
      * @var PhpRenderer|TemplateRendererInterface
      */
     private $renderer;
-
-    /**
-     * @var ServerRequest|null
-     */
-    private $request = null;
 
     /**
      * @return void
