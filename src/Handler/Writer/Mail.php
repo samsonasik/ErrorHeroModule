@@ -95,7 +95,9 @@ class Mail extends BaseMail
         $this->mail->setBody($body);
 
         if (! empty($this->requestData['files_data'])) {
-            $contentTypeHeader = $this->mail->getHeaders()->get('Content-Type');
+            $headers = $this->mail->getHeaders();
+            /** @var $contentTypeHeader \Zend\Mail\Header\ContentType */
+            $contentTypeHeader = $headers->get('Content-Type');
             $contentTypeHeader->setType('multipart/alternative');
         }
 

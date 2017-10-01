@@ -9,6 +9,7 @@ use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use Zend\Console\Request as ConsoleRequest;
+use Zend\Http\Request as HttpRequest;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db;
 use Zend\Mail\Message;
@@ -162,12 +163,15 @@ class Logging
             $this->request = Psr7ServerRequest::toZend($this->request);
         }
 
-        $query          = $this->request->getQuery()->toArray();
-        $request_method = $this->request->getMethod();
-        $body_data      = $this->request->getPost()->toArray();
-        $raw_data       = $this->request->getContent();
+        /** @var $request HttpRequest */
+        $request = $this->request;
+
+        $query          = $request->getQuery()->toArray();
+        $request_method = $request->getMethod();
+        $body_data      = $request->getPost()->toArray();
+        $raw_data       = $request->getContent();
         $raw_data       = \str_replace(\PHP_EOL, '', $raw_data);
-        $files_data     = $this->request->getFiles()->toArray();
+        $files_data     = $request->getFiles()->toArray();
 
         return [
             'query'          => $query,
