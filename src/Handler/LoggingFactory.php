@@ -22,16 +22,16 @@ class LoggingFactory
      */
     public function __invoke($container)
     {
-        $request    = null;
-        $requestUri = '';
-
         if (! Console::isConsole()) {
+            $serverUrlHelper = $container->get('ViewHelperManager')->get('ServerUrl');
             if ($container->has('Request')) {
-                $serverUrl  = $container->get('ViewHelperManager')->get('ServerUrl')->__invoke();
+                $serverUrl  = $serverUrlHelper->__invoke();
                 $request    = $container->get('Request');
                 $requestUri = $request->getRequestUri();
             } else {
-                $serverUrl  = $container->get('ViewHelperManager')->get('ServerUrl')->__invoke(true);
+                $serverUrl  = $serverUrlHelper->__invoke(true);
+                $request    = null;
+                $requestUri = '';
             }
         } else {
             $serverUrl  = \php_uname('n');
