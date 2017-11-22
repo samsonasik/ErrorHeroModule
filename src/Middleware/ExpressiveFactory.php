@@ -7,12 +7,12 @@ use ErrorHeroModule\Handler\Logging;
 use Interop\Container\ContainerInterface;
 use Zend\Db\Adapter\Adapter;
 use Zend\Expressive\Template\TemplateRendererInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceManager;
 
 class ExpressiveFactory
 {
     /**
-     * @param ContainerInterface|ServiceLocatorInterface
+     * @param ServiceManager $container
      *
      * @return Expressive
      */

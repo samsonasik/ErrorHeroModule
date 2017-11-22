@@ -9,7 +9,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class MvcFactory
 {
     /**
-     * @param ContainerInterface|ServiceLocatorInterface
+     * @param ContainerInterface|ServiceLocatorInterface $container
      *
      * @return Mvc
      */

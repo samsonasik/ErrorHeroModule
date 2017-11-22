@@ -13,7 +13,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class LoggingFactory
 {
     /**
-     * @param ContainerInterface|ServiceLocatorInterface
+     * @param ContainerInterface|ServiceLocatorInterface $container
      *
      * @throws RuntimeException when mail config is enabled but mail-message config is not a service instance of Message
      * @throws RuntimeException when mail config is enabled but mail-transport config is not a service instance of TransportInterface

@@ -43,7 +43,7 @@ class Db
      * @param string $errorFile
      * @param int    $errorLine
      * @param string $errorMessage
-     * @param string $urlError
+     * @param string $errorUrl
      *
      * @return bool
      */
@@ -77,7 +77,7 @@ class Db
                 $select->order($timestamp.' DESC');
                 $select->limit(1);
 
-                /** @var $result ResultSet */
+                /** @var ResultSet $result */
                 $result = $tableGateway->selectWith($select);
                 if ($result->count() === 0) {
                     return false;

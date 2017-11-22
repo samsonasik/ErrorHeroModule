@@ -33,7 +33,7 @@ class Module
             return;
         }
 
-        /** @var $configListener \Zend\ModuleManager\Listener\ConfigListener */
+        /** @var \Zend\ModuleManager\Listener\ConfigListener $configListener */
         $configListener = $event->getConfigListener();
         $configuration  = $configListener->getMergedConfig(false);
 
@@ -80,7 +80,7 @@ class Module
      */
     public function errorPreviewPageHandler(ModuleEvent $event)
     {
-        /** @var $configListener \Zend\ModuleManager\Listener\ConfigListener */
+        /** @var \Zend\ModuleManager\Listener\ConfigListener $configListener */
         $configListener = $event->getConfigListener();
         $configuration  = $configListener->getMergedConfig(false);
 

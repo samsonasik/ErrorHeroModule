@@ -165,7 +165,7 @@ class Logging
             $this->request = Psr7ServerRequest::toZend($this->request);
         }
 
-        /** @var $request HttpRequest */
+        /** @var HttpRequest $request */
         $request = $this->request;
 
         $query          = $request->getQuery()->toArray();
