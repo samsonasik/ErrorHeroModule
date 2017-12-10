@@ -174,6 +174,7 @@ class Logging
         $raw_data       = $request->getContent();
         $raw_data       = \str_replace(\PHP_EOL, '', $raw_data);
         $files_data     = $request->getFiles()->toArray();
+        $cookie_data    = (array) $request->getCookie();
 
         return [
             'query'          => $query,
@@ -181,6 +182,7 @@ class Logging
             'body_data'      => $body_data,
             'raw_data'       => $raw_data,
             'files_data'     => $files_data,
+            'cookie_data'    => $cookie_data,
         ];
     }
 

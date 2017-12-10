@@ -32,6 +32,7 @@ describe('Mail', function () {
                         'type'     => 'text/html'
                      ],
                  ],
+                 'cookie_data' => [],
             ]
         );
    });
@@ -39,14 +40,14 @@ describe('Mail', function () {
    describe('->shutdown', function () {
 
         it('return early when eventsToMail is empty', function () {
-            
+
             $r = new ReflectionProperty($this->writer, 'eventsToMail');
             $r->setAccessible(true);
             $r->setValue($this->writer, []);
 
             $this->writer->shutdown();
             expect($this->transport)->not->toReceive('send');
-            
+
         });
 
          it('set subjectPrependText if exists and eventsToMail not empty, then transport->send()', function () {
@@ -88,6 +89,7 @@ describe('Mail', function () {
                             ],
                          ],
                      ],
+                     'cookie_data' => [],
                 ]
             );
 
