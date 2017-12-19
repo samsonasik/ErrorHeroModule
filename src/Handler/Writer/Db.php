@@ -79,11 +79,11 @@ class Db
 
                 /** @var ResultSet $result */
                 $result = $tableGateway->selectWith($select);
-                if ($result->count() === 0) {
+                if (! ($current = $result->current())) {
                     return false;
                 }
 
-                $first = $result->current()[$timestamp];
+                $first = $current[$timestamp];
                 $last  = \date('Y-m-d H:i:s');
 
                 $diff = \strtotime($last) - \strtotime($first);

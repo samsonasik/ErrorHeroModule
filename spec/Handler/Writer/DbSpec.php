@@ -70,7 +70,7 @@ describe('Db', function () {
 
     describe('->isExists()', function () {
 
-        it('return false if count() === 0', function () {
+        it('return false if no current data', function () {
 
             $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
@@ -82,7 +82,7 @@ describe('Db', function () {
             allow($sql)->toReceive('select')->andReturn($select);
 
             $resultSet = Double::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
-            allow($resultSet)->toReceive('count')->andReturn(0);
+            allow($resultSet)->toReceive('current')->andReturn(null);
             allow(TableGateway::class)->toReceive('selectWith')->with($select)->andReturn($resultSet);
 
             $actual = $this->writerHandler->isExists('file', 1, 'Undefined offset: 1', 'http://serverUrl/uri');
@@ -90,7 +90,7 @@ describe('Db', function () {
 
         });
 
-        it('return false if count() === 1 but timestamp is expired', function () {
+        it('return false if has current data but timestamp is expired', function () {
 
             $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
@@ -108,7 +108,6 @@ describe('Db', function () {
             date_sub($date, date_interval_create_from_date_string("40 days"));
             $date =  date_format($date,"Y-m-d H:i:s");
 
-            allow($resultSet)->toReceive('count')->andReturn(1);
             allow($resultSet)->toReceive('current')->andReturn(
                 [
                     'date' => $date,
@@ -121,7 +120,7 @@ describe('Db', function () {
 
         });
 
-        it('return true if count() === 1 but timestamp === current time', function () {
+        it('return true if has current data but timestamp === current time', function () {
 
             $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
@@ -134,7 +133,6 @@ describe('Db', function () {
 
             $resultSet = Double::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
 
-            allow($resultSet)->toReceive('count')->andReturn(1);
             allow($resultSet)->toReceive('current')->andReturn(
                 [
                     'date' => date('Y-m-d H:i:s'),
