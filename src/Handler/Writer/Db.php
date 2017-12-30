@@ -68,6 +68,7 @@ class Db
 
                 $tableGateway = new TableGateway($table, $db, null, new ResultSet());
                 $select       = $tableGateway->getSql()->select();
+                $select->columns([$timestamp]);
                 $select->where([
                     $message => $errorMessage,
                     $line    => $errorLine,

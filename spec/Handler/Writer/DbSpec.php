@@ -76,6 +76,7 @@ describe('Db', function () {
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
 
             $select = Double::instance(['extends' => Select::class, 'methods' => '__construct']);
+            allow($select)->toReceive('columns')->with(['date']);
             allow($select)->toReceive('where');
             allow($select)->toReceive('order');
             allow($select)->toReceive('limit');
@@ -96,6 +97,7 @@ describe('Db', function () {
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
 
             $select = Double::instance(['extends' => Select::class, 'methods' => '__construct']);
+            allow($select)->toReceive('columns')->with(['date']);
             allow($select)->toReceive('where');
             allow($select)->toReceive('order');
             allow($select)->toReceive('limit');
@@ -126,6 +128,7 @@ describe('Db', function () {
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
 
             $select = Double::instance(['extends' => Select::class, 'methods' => '__construct']);
+            allow($select)->toReceive('columns')->with(['date']);
             allow($select)->toReceive('where');
             allow($select)->toReceive('order');
             allow($select)->toReceive('limit');
