@@ -175,7 +175,7 @@ return [
         //       php public/index.php error-preview
         //
         // for zf-expressive ^1.0, the disable error-preview page is by unregister 'error-preview' from this config under "routes",
-        // for zf-expressive ^2.0, the disable error-preview page is by unregister 'error-preview' from config/routes
+        // for zf-expressive ^2.0 or ^3.0.0-dev, the disable error-preview page is by unregister 'error-preview' from config/routes
         //
         //
         // otherwise(false), you can't see them, eg: on production env.
@@ -267,7 +267,7 @@ return [
 
 For [zend-expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton) ^1.0, It's should already just works!
 
-For [zend-expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton) ^2.0, you need to open `config/pipeline.php` and add the `ErrorHeroModule\Middleware\Expressive::class` middleware after default `ErrorHandler::class` registration:
+For [zend-expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton) ^2.0 or ^3.0.0-dev, you need to open `config/pipeline.php` and add the `ErrorHeroModule\Middleware\Expressive::class` middleware after default `ErrorHandler::class` registration:
 
 ```php
 $app->pipe(ErrorHandler::class);
