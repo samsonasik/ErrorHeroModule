@@ -152,10 +152,12 @@ return [
                             'priority'  => 'type',
                             'message'   => 'event',
                             'extra'     => [
-                                'url'  => 'url',
-                                'file' => 'file',
-                                'line' => 'line',
-                                'error_type' => 'error_type',
+                                'url'          => 'url',
+                                'file'         => 'file',
+                                'line'         => 'line',
+                                'error_type'   => 'error_type',
+                                'trace'        => 'trace',
+                                'request_data' => 'request_data'
                             ],
                         ],
                     ],
