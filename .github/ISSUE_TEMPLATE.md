@@ -9,7 +9,6 @@ What ZF application I'm using when issue happen ?
 What PHP version you're using?
 
 - [ ] PHP 5.6
-- [ ] PHP 5.6
 - [ ] PHP 7.0
 - [ ] PHP 7.1
 - [ ] PHP 7.2
