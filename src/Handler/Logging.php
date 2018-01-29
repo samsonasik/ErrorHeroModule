@@ -133,7 +133,7 @@ class Logging
         foreach ($writers as $writer) {
             if ($writer instanceof Db) {
                 try {
-                    $handlerWriterDb = new Writer\Db($writer, $this->configLoggingSettings, $this->logWritersConfig);
+                    $handlerWriterDb = new Writer\Checker\Db($writer, $this->configLoggingSettings, $this->logWritersConfig);
                     if ($handlerWriterDb->isExists($errorFile, $errorLine, $errorMessage, $url)) {
                         return true;
                     }

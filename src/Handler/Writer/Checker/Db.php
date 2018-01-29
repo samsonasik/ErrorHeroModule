@@ -1,6 +1,6 @@
 <?php
 
-namespace ErrorHeroModule\Handler\Writer;
+namespace ErrorHeroModule\Handler\Writer\Checker;
 
 use ReflectionProperty;
 use Zend\Db\ResultSet\ResultSet;

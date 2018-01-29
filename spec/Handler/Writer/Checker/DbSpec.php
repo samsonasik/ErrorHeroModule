@@ -1,8 +1,8 @@
 <?php
 
-namespace ErrorHeroModule\Spec\Handler\Writer;
+namespace ErrorHeroModule\Spec\Handler\Writer\Checker;
 
-use ErrorHeroModule\Handler\Writer\Db;
+use ErrorHeroModule\Handler\Writer\Checker\Db;
 use Kahlan\Plugin\Double;
 use ReflectionProperty;
 use Zend\Db\ResultSet\ResultSet;
