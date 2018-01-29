@@ -106,5 +106,13 @@ json
                 'developer2@foo.com',
             ],
         ],
+        'mqtt-notification-settings' => [
+            // set to true to activate mqtt notification on log error event
+            'enable' => true,
+            // ErrorHeroModule\Interfaces\MqttTransport instance registered at service manager
+            'mqtt-transport' => 'MqttTransportService',
+            // Topic
+            'topic' => "your/topic",            
+        ],		
     ],
 ];

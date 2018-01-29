@@ -16,6 +16,7 @@ use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
 use Zend\Psr7Bridge\Psr7ServerRequest;
 use Zend\Stdlib\RequestInterface;
+use ErrorHeroModule\Interfaces\MqttTransport;
 
 class Logging
 {
@@ -60,6 +61,11 @@ class Logging
     private $mailMessageTransport;
 
     /**
+     * @var MqttTransport|null
+     */
+    private $mqttMessageTransport;	
+	
+    /**
      * @var array
      */
     private $emailReceivers;
@@ -92,7 +98,8 @@ class Logging
         array              $errorHeroModuleLocalConfig,
         array              $logWritersConfig,
         Message            $mailMessageService = null,
-        TransportInterface $mailMessageTransport = null
+        TransportInterface $mailMessageTransport = null,
+		MqttTransport $mqttMessageTransport = null
     ) {
         $this->logger                = $logger;
         $this->serverUrl             = $serverUrl;
@@ -104,6 +111,8 @@ class Logging
         $this->mailMessageTransport  = $mailMessageTransport;
         $this->emailReceivers        = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
         $this->emailSender           = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
+        $this->mqttMessageTransport = $mqttMessageTransport;
+        $this->mqttTopic = $errorHeroModuleLocalConfig['mqtt-notification-settings']['topic'];		
     }
 
     /**
@@ -274,6 +283,37 @@ class Logging
     }
 
     /**
+     * @param int    $priority
+     * @param string $errorMessage
+     * @param array  $extra
+     * @param string $topic
+     *
+     * @return void
+     */
+    private function sendMqtt($priority, $errorMessage, $extra, $topic) {
+        if (!$this->mqttMessageTransport) {
+            return;
+        }
+
+        $this->mqttMessageTransport->connect();
+
+        $data = [
+            "date" => \date('Y-m-d H:i:s'),
+            "type" => $priority,
+            "event" => $errorMessage,
+            "url" => $extra["url"],
+            "file" => $extra["file"],
+            "line" => $extra["line"],
+            "error_type" => $extra["error_type"],
+            "trace" => $extra["trace"],
+            "request_data" => $extra["request_data"],
+        ];
+
+        $this->mqttMessageTransport->publish($topic, $data);
+        $this->mqttMessageTransport->close();
+    }	
+	
+    /**
      * @param Error|Exception $e
      *
      * @return void
@@ -303,5 +343,6 @@ class Logging
 
         $this->requestData = $extra['request_data'];
         $this->sendMail($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra, '['.$this->serverUrl.'] '.$collectedExceptionData['errorType'].' has thrown');
+		$this->sendMqtt($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra, $this->mqttTopic);
     }
 }

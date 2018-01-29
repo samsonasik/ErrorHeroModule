@@ -9,6 +9,7 @@ use Zend\Console\Request as ConsoleRequest;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use ErrorHeroModule\Interfaces\MqttTransport;
 
 class LoggingFactory
 {
@@ -17,6 +18,7 @@ class LoggingFactory
      *
      * @throws RuntimeException when mail config is enabled but mail-message config is not a service instance of Message
      * @throws RuntimeException when mail config is enabled but mail-transport config is not a service instance of TransportInterface
+	 * @throws RuntimeException when mqtt config is enabled but mqtt-transport config is not a service instance of MqttTransport 
      *
      * @return Logging
      */
@@ -49,6 +51,9 @@ class LoggingFactory
         $mailMessageService   = null;
         $mailMessageTransport = null;
 
+        $mqttConfig = $errorHeroModuleLocalConfig['mqtt-notification-settings'];
+        $mqttMessageTransport = null;		
+		
         if ($mailConfig['enable'] === true) {
             $mailMessageService   = $container->get($mailConfig['mail-message']);
             if (! $mailMessageService instanceof Message) {
@@ -61,6 +66,13 @@ class LoggingFactory
             }
         }
 
+        if ($mqttConfig['enable'] === true) {
+            $mqttMessageTransport = $container->get($mqttConfig['mqtt-transport']);
+            if (!$mqttMessageTransport instanceof MqttTransport) {
+                throw new RuntimeException('You are enabling mqtt log sending, your "mqtt-transport" config must implements ' . MqttTransport::class);
+            }
+        }		
+		
         return new Logging(
             $errorHeroModuleLogger,
             $serverUrl,
@@ -69,7 +81,8 @@ class LoggingFactory
             $errorHeroModuleLocalConfig,
             $logWritersConfig,
             $mailMessageService,
-            $mailMessageTransport
+            $mailMessageTransport,
+			$mqttMessageTransport
         );
     }
 }
