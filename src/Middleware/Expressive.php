@@ -8,15 +8,18 @@ use ErrorHeroModule\HeroTrait;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use ReflectionProperty;
 use Seld\JsonLint\JsonParser;
+use Throwable;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Expressive\Application;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\View\Model\ViewModel;
 
-class Expressive
+class Expressive implements MiddlewareInterface
 {
     use HeroTrait;
 
@@ -41,16 +44,14 @@ class Expressive
     }
 
     /**
-     * @param  ServerRequestInterface $request
-     * @param  ResponseInterface      $response
-     * @param  callable               $next
-     *
-     * @return ResponseInterface|void
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $handler
+     * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
         if (! $this->errorHeroModuleConfig['enable']) {
-            return $next($request, $response);
+            return $handler->handle($request);
         }
 
         try {
@@ -59,12 +60,10 @@ class Expressive
 
             $this->phpError();
 
-            return $next($request, $response);
-        } catch (Error $e) {
-        } catch (Exception $e) {
-        }
+            return $handler->handle($request);
+        } catch (Throwable $t) {}
 
-        return $this->exceptionError($e, $request);
+        return $this->exceptionError($t, $request);
     }
 
     /**
@@ -78,27 +77,27 @@ class Expressive
     }
 
     /**
-     * @param  Error|Exception $e
+     * @param  Throwable $t
      * @throws Error      when 'display_errors' config is 1 and Error has thrown
      * @throws Exception  when 'display_errors' config is 1 and Exception has thrown
      *
      * @return ResponseInterface
      */
-    public function exceptionError($e, $request)
+    public function exceptionError($t, $request)
     {
-        $exceptionClass = \get_class($e);
+        $exceptionOrErrorClass = \get_class($t);
         if (isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions']) &&
-            \in_array($exceptionClass, $this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])
+            \in_array($exceptionOrErrorClass, $this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])
         ) {
-            throw $e;
+            throw $t;
         }
 
         $this->logging->handleErrorException(
-            $e
+            $t
         );
 
         if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
-            throw $e;
+            throw $t;
         }
 
         return $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();

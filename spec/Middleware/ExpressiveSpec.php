@@ -5,6 +5,7 @@ namespace ErrorHeroModule\Spec\Middleware;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Expressive;
 use Kahlan\Plugin\Double;
+use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Db\Adapter\Adapter;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
@@ -103,33 +104,29 @@ json
         );
     });
 
-    describe('->__invoke()', function () {
+    describe('->process()', function () {
 
-        it('returns next() when not enabled', function () {
+        it('returns handle() when not enabled', function () {
 
             $config['enable'] = false;
 
-            $request  = new ServerRequest();
-            $response = new Response();
-            $next     = function ($request, $response) {
-                return new Response();
-            };
+            $request = new ServerRequest();
+            $handler = Double::instance(['implements' => RequestHandlerInterface::class]);
+            allow($handler)->toReceive('handle')->with($request)->andReturn(new Response());
             $middleware = new Expressive($config, $this->logging, $this->renderer);
 
-            $actual = $middleware->__invoke($request, $response, $next);
+            $actual = $middleware->process($request, $handler);
             expect($actual)->toBeAnInstanceOf(Response::class);
 
         });
 
-        it('returns next() when no error', function () {
+        it('returns handle() when no error', function () {
 
             $request  = new ServerRequest();
-            $response = new Response();
-            $next     = function ($request, $response) {
-                return new Response();
-            };
+            $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
+            allow($handler)->toReceive('handle')->with($request)->andReturn(new Response());
 
-            $actual = $this->middleware->__invoke($request, $response, $next);
+            $actual = $this->middleware->process($request, $handler);
             expect($actual)->toBeAnInstanceOf(Response::class);
 
         });
@@ -210,13 +207,10 @@ json
                 );
 
                 $request  = new ServerRequest();
-                $response = new Response();
-                $next     = function ($request, $response) {
-                    throw new \Exception('message');
-                };
+                $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 $middleware = new Expressive($config, $logging, $this->renderer);
 
-                $actual = $middleware->__invoke($request, $response, $next);
+                $actual = $middleware->process($request, $handler);
                 expect($actual)->toBeAnInstanceOf(Response::class);
                 expect($actual->getBody()->__toString())->toContain('<p>We have encountered a problem and we can not fulfill your request');
 
@@ -296,14 +290,14 @@ json
                 );
 
                 $request  = new ServerRequest();
-                $response = new Response();
-                $next     = function ($request, $response) {
+                $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
+                allow($handler)->toReceive('handle')->with($request)->andRun(function () {
                     throw new \Exception('message');
-                };
+                });
                 $middleware = new Expressive($config, $logging, $this->renderer);
 
-                $closure = function () use ($middleware, $request, $response, $next) {
-                    $middleware->__invoke($request, $response, $next);
+                $closure = function () use ($middleware, $request, $handler) {
+                    $middleware->process($request, $handler);
                 };
                 expect($closure)->toThrow(new \Exception('message'));
 
@@ -384,13 +378,10 @@ json
 
                 $request  = new ServerRequest();
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
-                $response = new Response();
-                $next     = function ($request, $response) {
-                    throw new \Exception('message');
-                };
+                $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 $middleware = new Expressive($config, $logging, $this->renderer);
 
-                $actual = $middleware->__invoke($request, $response, $next);
+                $actual = $middleware->process($request, $handler);
                 expect($actual)->toBeAnInstanceOf(Response::class);
                 expect($actual->getBody()->__toString())->toBe(<<<json
 {
@@ -479,14 +470,14 @@ json
 
                 $request  = new ServerRequest();
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
-                $response = new Response();
-                $next     = function ($request, $response) {
+                $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
+                allow($handler)->toReceive('handle')->with($request)->andRun(function () {
                     throw new \Exception('message');
-                };
+                });
                 $middleware = new Expressive($config, $logging, $this->renderer);
 
-                $closure = function () use ($middleware, $request, $response, $next) {
-                    $middleware->__invoke($request, $response, $next);
+                $closure = function () use ($middleware, $request, $handler) {
+                    $middleware->process($request, $handler);
                 };
                 expect($closure)->toThrow(new \Exception('message'));
 
@@ -576,15 +567,15 @@ json
 
             $request  = new ServerRequest();
             $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
-            $response = new Response();
-            $next     = function ($request, $response) use ($exception) {
+            $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
+            allow($handler)->toReceive('handle')->with($request)->andRun(function () use ($exception) {
                 throw $exception;
-            };
+            });
             $middleware = new Expressive($config, $logging, $this->renderer);
-            $closure = function () use ($middleware, $request, $response, $next) {
-                $middleware->__invoke($request, $response, $next);
+            $closure = function () use ($middleware, $request, $handler) {
+                $middleware->process($request, $handler);
             };
-            expect($closure)->toThrow(new \Exception('message'));
+            expect($closure)->toThrow($exception);
             expect($logging)->not->toReceive('handleErrorException');
 
         });

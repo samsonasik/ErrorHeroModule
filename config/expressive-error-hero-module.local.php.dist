@@ -127,22 +127,4 @@ json
         ],
     ],
 
-    'middleware_pipeline' => [
-        'always' => [
-            'middleware' => [
-                Middleware\Expressive::class
-            ],
-            'priority' => PHP_INT_MAX,
-        ],
-    ],
-
-    'routes' => [
-        [
-            'name' => 'error-preview',
-            'path' => '/error-preview[/:action]',
-            'middleware' => Middleware\Routed\Preview\ErrorPreviewAction::class,
-            'allowed_methods' => ['GET'],
-        ],
-    ],
-
 ];

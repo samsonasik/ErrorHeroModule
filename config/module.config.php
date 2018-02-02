@@ -8,11 +8,6 @@ use Zend\Log;
 return [
 
     'controllers' => [
-        'invokables' => [
-            // sm v2 compat
-            Controller\ErrorPreviewController::class           => Controller\ErrorPreviewController::class,
-            Controller\ErrorPreviewConsoleController::class    => Controller\ErrorPreviewConsoleController::class,
-        ],
         'factories' => [
             // sm v3
             Controller\ErrorPreviewController::class           => InvokableFactory::class,

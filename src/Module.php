@@ -93,8 +93,6 @@ class Module
         }
 
         unset(
-            $configuration['controllers']['invokables'][Controller\ErrorPreviewController::class],
-            $configuration['controllers']['invokables'][Controller\ErrorPreviewConsoleController::class],
             $configuration['controllers']['factories'][Controller\ErrorPreviewController::class],
             $configuration['controllers']['factories'][Controller\ErrorPreviewConsoleController::class],
             $configuration['router']['routes']['error-preview'],
