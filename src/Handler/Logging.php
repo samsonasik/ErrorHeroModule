@@ -2,12 +2,11 @@
 
 namespace ErrorHeroModule\Handler;
 
-use Error;
 use ErrorException;
 use ErrorHeroModule\HeroConstant;
-use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
+use Throwable;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\Http\Request as HttpRequest;
 use Zend\Log\Logger;
@@ -191,24 +190,24 @@ class Logging
     }
 
     /**
-     * @param  Error|Exception $e
+     * @param  Throwable $t
      *
      * @return array
      */
-    private function collectErrorExceptionData($e)
+    private function collectErrorExceptionData(Throwable $t)
     {
-        if ($e instanceof ErrorException && isset(Logger::$errorPriorityMap[$severity = $e->getSeverity()])) {
+        if ($t instanceof ErrorException && isset(Logger::$errorPriorityMap[$severity = $t->getSeverity()])) {
             $priority  = Logger::$errorPriorityMap[$severity];
             $errorType = HeroConstant::ERROR_TYPE[$severity];
         } else {
             $priority  = Logger::ERR;
-            $errorType = \get_class($e);
+            $errorType = \get_class($t);
         }
 
-        $errorFile = $e->getFile();
-        $errorLine = $e->getLine();
-        $trace     = $e->getTraceAsString();
-        $errorMessage = $e->getMessage();
+        $errorFile    = $t->getFile();
+        $errorLine    = $t->getLine();
+        $trace        = $t->getTraceAsString();
+        $errorMessage = $t->getMessage();
 
         return [
             'priority'       => $priority,
@@ -278,7 +277,7 @@ class Logging
      *
      * @return void
      */
-    public function handleErrorException($t)
+    public function handleErrorException(Throwable $t)
     {
         $collectedExceptionData = $this->collectErrorExceptionData($t);
 
