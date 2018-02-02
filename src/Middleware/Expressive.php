@@ -77,7 +77,7 @@ class Expressive implements MiddlewareInterface
     }
 
     /**
-     * @param  Error|Exception $t
+     * @param  Throwable $t
      * @throws Error      when 'display_errors' config is 1 and Error has thrown
      * @throws Exception  when 'display_errors' config is 1 and Exception has thrown
      *

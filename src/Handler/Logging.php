@@ -274,13 +274,13 @@ class Logging
     }
 
     /**
-     * @param Error|Exception $e
+     * @param Throwable $t
      *
      * @return void
      */
-    public function handleErrorException($e)
+    public function handleErrorException($t)
     {
-        $collectedExceptionData = $this->collectErrorExceptionData($e);
+        $collectedExceptionData = $this->collectErrorExceptionData($t);
 
         try {
             if (
@@ -297,7 +297,7 @@ class Logging
             $extra = $this->collectErrorExceptionExtraData($collectedExceptionData);
             $this->logger->log($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra);
         } catch (RuntimeException $e) {
-            $collectedExceptionData = $this->collectErrorExceptionData($e);
+            $collectedExceptionData = $this->collectErrorExceptionData($t);
             $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData);
         }
 
