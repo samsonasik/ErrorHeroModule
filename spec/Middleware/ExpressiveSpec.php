@@ -395,7 +395,7 @@ json
 
             });
 
-            it('non-xmlhttprequest: shows error on display_errors = 1', function () {
+            it('xmlhttprequest: shows error on display_errors = 1', function () {
 
                 $config = $this->config;
                 $config['display-settings']['display_errors'] = 1;
