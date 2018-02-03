@@ -17,7 +17,7 @@ before_install:
    - if [[ $TRAVIS_PHP_VERSION = 7.2 ]]; then git clone git://github.com/xdebug/xdebug.git && cd xdebug && phpize && ./configure --enable-xdebug  && make && make install && echo "zend_extension = xdebug.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini && cd ..; fi
 
 script:
-  - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then ~/.composer/vendor/bin/phpstan analyse src/ --level=7; fi
+  - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then bin/phpstan analyse src/ --level=7; fi
   - if [[ $TRAVIS_PHP_VERSION != "nightly" ]]; then bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml; fi
   - if [[ $TRAVIS_PHP_VERSION = "nightly" ]]; then bin/kahlan; fi
   - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then bin/php-coveralls -v --exclude-no-stmt; fi
