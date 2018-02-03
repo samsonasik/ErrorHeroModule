@@ -30,8 +30,6 @@ describe('ErrorPreviewConsoleController', function () {
 
         it('Error', function() {
 
-            skipIf(PHP_MAJOR_VERSION < 7);
-
             try {
                 $controller = $this->controller;
                 $controller->errorAction();

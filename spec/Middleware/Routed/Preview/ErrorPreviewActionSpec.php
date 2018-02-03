@@ -32,8 +32,6 @@ describe('ErrorPreviewAction', function () {
 
         it('Error', function() {
 
-            skipIf(PHP_MAJOR_VERSION < 7);
-
             try {
                 $request  = Double::instance(['implements' => ServerRequestInterface::class]);
                 allow($request)->toReceive('getAttribute')->with('action', 'exception')->andReturn('error');
@@ -50,8 +48,6 @@ describe('ErrorPreviewAction', function () {
         });
 
         it('PHP7 Error', function() {
-
-            skipIf(PHP_MAJOR_VERSION < 7);
 
             try {
                 $request  = Double::instance(['implements' => ServerRequestInterface::class]);

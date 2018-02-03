@@ -107,8 +107,6 @@ describe('Mail', function () {
 
          it('transport->send() trigger error', function () {
 
-            skipIf(PHP_MAJOR_VERSION < 7);
-
             $r = new ReflectionProperty($this->writer, 'eventsToMail');
             $r->setAccessible(true);
             $r->setValue($this->writer, ["timestamp" => "2017-02-25T02:08:46+07:00"]);
