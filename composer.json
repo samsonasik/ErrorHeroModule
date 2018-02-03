@@ -29,7 +29,7 @@
         "kahlan/kahlan": "^4.0.0",
         "phpstan/phpstan": "^0.9",
         "satooshi/php-coveralls": "^2.0",
-        "zendframework/zend-expressive": "^3.0.0-dev",
+        "zendframework/zend-expressive": "dev-feature/stratigility-bc-breaks",
         "zendframework/zend-expressive-zendviewrenderer": "^2.0.0-dev",
         "zendframework/zend-mvc": "^3.0",
         "zendframework/zend-mvc-console": "^1.1"
@@ -61,5 +61,11 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories" : [
+        {
+            "type" : "vcs",
+            "url" : "git@github.com:weierophinney/zend-expressive.git"
+        }
+    ]
 }
