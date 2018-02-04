@@ -7,7 +7,6 @@ use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
 use Interop\Container\ContainerInterface;
 use Kahlan\Plugin\Double;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Renderer\PhpRenderer;
 
 describe('MvcFactory', function () {
