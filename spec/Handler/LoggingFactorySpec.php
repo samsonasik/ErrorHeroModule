@@ -4,12 +4,12 @@ namespace ErrorHeroModule\Spec\Handler;
 
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
+use Interop\Container\ContainerInterface;
 use Kahlan\Plugin\Double;
 use Zend\Console\Console;
 use Zend\Log\Logger;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Helper\ServerUrl;
 
 describe('LoggingFactorySpec', function () {
@@ -101,7 +101,7 @@ describe('LoggingFactorySpec', function () {
                 ],
             ];
 
-            $container = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $container = Double::instance(['implements' => ContainerInterface::class]);
             $_SERVER['REQUEST_URI'] = '/';
             allow($container)->toReceive('has')->with('Request')->andReturn(false);
             allow($container)->toReceive('get', 'get')->with('ServerUrl')->andReturn(new ServerUrl());
@@ -112,7 +112,7 @@ describe('LoggingFactorySpec', function () {
             allow($container)->toReceive('get')->with('ErrorHeroModuleLogger')
                                                 ->andReturn($logger);
 
-            $actual = $this->factory->__invoke($container);
+            $actual = $this->factory->__invoke($container, Logging::class);
             expect($actual)->toBeAnInstanceOf(Logging::class);
 
             Console::overrideIsConsole(true);
@@ -199,7 +199,7 @@ describe('LoggingFactorySpec', function () {
                 ],
             ];
 
-            $container = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $container = Double::instance(['implements' => ContainerInterface::class]);
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
@@ -207,7 +207,7 @@ describe('LoggingFactorySpec', function () {
             allow($container)->toReceive('get')->with('ErrorHeroModuleLogger')
                                                ->andReturn($logger);
 
-            $actual = $this->factory->__invoke($container);
+            $actual = $this->factory->__invoke($container, Logging::class);
             expect($actual)->toBeAnInstanceOf(Logging::class);
 
         });
@@ -292,7 +292,7 @@ describe('LoggingFactorySpec', function () {
                 ],
             ];
 
-            $container = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $container = Double::instance(['implements' => ContainerInterface::class]);
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
@@ -301,7 +301,7 @@ describe('LoggingFactorySpec', function () {
                                                ->andReturn($logger);
 
             $closure = function () use ($container) {
-                $this->factory->__invoke($container);
+                $this->factory->__invoke($container, Logging::class);
             };
 
             expect($closure)->toThrow(new \RuntimeException());
@@ -388,7 +388,7 @@ describe('LoggingFactorySpec', function () {
                 ],
             ];
 
-            $container = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $container = Double::instance(['implements' => ContainerInterface::class]);
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
@@ -400,7 +400,7 @@ describe('LoggingFactorySpec', function () {
                                                ->andReturn(new Message());
 
             $closure = function () use ($container) {
-                $this->factory->__invoke($container);
+                $this->factory->__invoke($container, Logging::class);
             };
 
             expect($closure)->toThrow(new \RuntimeException());
@@ -487,7 +487,7 @@ describe('LoggingFactorySpec', function () {
                 ],
             ];
 
-            $container = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $container = Double::instance(['implements' => ContainerInterface::class]);
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
@@ -501,7 +501,7 @@ describe('LoggingFactorySpec', function () {
             allow($container)->toReceive('get')->with('MailTransportService')
                                                ->andReturn(Double::instance(['implements' => TransportInterface::class]));
 
-            $actual = $this->factory->__invoke($container);
+            $actual = $this->factory->__invoke($container, Logging::class);
             expect($actual)->toBeAnInstanceOf(Logging::class);
 
         });

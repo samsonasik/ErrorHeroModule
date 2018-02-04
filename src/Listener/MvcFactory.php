@@ -4,16 +4,11 @@ namespace ErrorHeroModule\Listener;
 
 use ErrorHeroModule\Handler\Logging;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
-class MvcFactory
+class MvcFactory implements FactoryInterface
 {
-    /**
-     * @param ContainerInterface|ServiceLocatorInterface $container
-     *
-     * @return Mvc
-     */
-    public function __invoke($container)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) : Mvc
     {
         $config = $container->get('config');
 

@@ -4,18 +4,14 @@ namespace ErrorHeroModule\Middleware;
 
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Handler\Logging;
+use Interop\Container\ContainerInterface;
 use Zend\Db\Adapter\Adapter;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\ServiceManager\ServiceManager;
 
 class ExpressiveFactory
 {
-    /**
-     * @param ServiceManager $container
-     *
-     * @return Expressive
-     */
-    public function __invoke($container)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) : Expressive
     {
         $configuration = $container->get('config');
 
@@ -36,20 +32,22 @@ class ExpressiveFactory
                 'driver_options' => $driverOptions,
             ];
 
-            $allowOverride = $container->getAllowOverride();
-            $container->setAllowOverride(true);
+            if ($container instanceof ServiceManager) {
+                $allowOverride = $container->getAllowOverride();
+                $container->setAllowOverride(true);
 
-            $adapterName = 'Zend\Db\Adapter\Adapter';
-            $writers     = $configuration['log']['ErrorHeroModuleLogger']['writers'];
-            foreach ($writers as $key => $writer) {
-                if ($writer['name'] === 'db') {
-                    $adapterName = $writer['options']['db'];
-                    break;
+                $adapterName = 'Zend\Db\Adapter\Adapter';
+                $writers     = $configuration['log']['ErrorHeroModuleLogger']['writers'];
+                foreach ($writers as $key => $writer) {
+                    if ($writer['name'] === 'db') {
+                        $adapterName = $writer['options']['db'];
+                        break;
+                    }
                 }
-            }
 
-            $container->setService($adapterName, new Adapter($dbConfiguration));
-            $container->setAllowOverride($allowOverride);
+                $container->setService($adapterName, new Adapter($dbConfiguration));
+                $container->setAllowOverride($allowOverride);
+            }
         }
 
         return new Expressive(

@@ -10,7 +10,7 @@ use ErrorHeroModule\Middleware\Expressive;
 use ErrorHeroModule\Middleware\ExpressiveFactory;
 use Kahlan\Plugin\Double;
 use Zend\Expressive\Template\TemplateRendererInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceManager;
 
 describe('ExpressiveFactory', function () {
 
@@ -106,7 +106,7 @@ describe('ExpressiveFactory', function () {
 
         it('returns Expressive Middleware instance with doctrine to zend-db conversion', function () {
 
-            $container = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $container = Double::instance(['extends' => ServiceManager::class, 'methods' => '__construct']);
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($this->config);
 
@@ -138,14 +138,14 @@ describe('ExpressiveFactory', function () {
             allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
                                                ->andReturn($renderer);
 
-            $actual = $this->factory->__invoke($container);
+            $actual = $this->factory->__invoke($container, Expressive::class);
             expect($actual)->toBeAnInstanceOf(Expressive::class);
 
         });
 
         it('returns Expressive Middleware instance without doctrine to zend-db conversion', function () {
 
-            $container = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $container = Double::instance(['extends' => ServiceManager::class, 'methods' => '__construct']);
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($this->config);
 
@@ -157,7 +157,7 @@ describe('ExpressiveFactory', function () {
             allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
                                                ->andReturn($renderer);
 
-            $actual = $this->factory->__invoke($container);
+            $actual = $this->factory->__invoke($container, Expressive::class);
             expect($actual)->toBeAnInstanceOf(Expressive::class);
 
         });
