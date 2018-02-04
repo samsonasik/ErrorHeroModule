@@ -14,19 +14,14 @@ class Module
      *
      * @return void
      */
-    public function init(ModuleManager $moduleManager)
+    public function init(ModuleManager $moduleManager) : void
     {
         $eventManager = $moduleManager->getEventManager();
         $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'convertDoctrineToZendDbService']);
         $eventManager->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'errorPreviewPageHandler'], 101);
     }
 
-    /**
-     * @param  ModuleEvent                   $event
-     *
-     * @return void
-     */
-    public function convertDoctrineToZendDbService(ModuleEvent $event)
+    public function convertDoctrineToZendDbService(ModuleEvent $event) : void
     {
         $services       = $event->getParam('ServiceManager');
         if (! $services->has(EntityManager::class)) {
@@ -73,12 +68,7 @@ class Module
         $services->setAllowOverride($allowOverride);
     }
 
-    /**
-     * @param  ModuleEvent                   $event
-     *
-     * @return void
-     */
-    public function errorPreviewPageHandler(ModuleEvent $event)
+    public function errorPreviewPageHandler(ModuleEvent $event) : void
     {
         /** @var \Zend\ModuleManager\Listener\ConfigListener $configListener */
         $configListener = $event->getConfigListener();
@@ -102,10 +92,7 @@ class Module
         $configListener->setMergedConfig($configuration);
     }
 
-    /**
-     * @return array
-     */
-    public function getConfig()
+    public function getConfig() : array
     {
         return include __DIR__.'/../config/module.config.php';
     }

@@ -24,10 +24,7 @@ trait HeroTrait
      */
     private $renderer;
 
-    /**
-     * @return void
-     */
-    public function execOnShutdown()
+    public function execOnShutdown() : void
     {
         $error = \error_get_last();
         if (! $error) {
@@ -47,7 +44,7 @@ trait HeroTrait
      *
      * @return mixed
      */
-    public function phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine)
+    public function phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine) : void
     {
         if (! $errorLine) {
             return;

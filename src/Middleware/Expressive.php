@@ -70,20 +70,19 @@ class Expressive implements MiddlewareInterface
      *
      * @return void
      */
-    public function phpError()
+    public function phpError() : void
     {
         \register_shutdown_function([$this, 'execOnShutdown']);
         \set_error_handler([$this, 'phpErrorHandler']);
     }
 
     /**
-     * @param  Throwable $t
      * @throws Error      when 'display_errors' config is 1 and Error has thrown
      * @throws Exception  when 'display_errors' config is 1 and Exception has thrown
      *
      * @return ResponseInterface
      */
-    public function exceptionError($t, $request)
+    public function exceptionError(Throwable $t, ServerRequestInterface $request) : ResponseInterface
     {
         $exceptionOrErrorClass = \get_class($t);
         if (isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions']) &&
@@ -108,7 +107,7 @@ class Expressive implements MiddlewareInterface
      *
      * @return ResponseInterface
      */
-    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
+    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled() : ResponseInterface
     {
         $isXmlHttpRequest = $this->request->hasHeader('X-Requested-With');
 

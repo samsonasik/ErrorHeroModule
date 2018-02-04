@@ -36,13 +36,7 @@ class Mvc extends AbstractListenerAggregate
         $this->renderer              = $renderer;
     }
 
-    /**
-     * @param EventManagerInterface $events
-     * @param int                   $priority
-     *
-     * @return void
-     */
-    public function attach(EventManagerInterface $events, $priority = 1)
+    public function attach(EventManagerInterface $events, $priority = 1) : void
     {
         if (! $this->errorHeroModuleConfig['enable']) {
             return;
@@ -72,7 +66,7 @@ class Mvc extends AbstractListenerAggregate
      *
      * @return void
      */
-    public function exceptionError(Event $e)
+    public function exceptionError(Event $e) : void
     {
         $exception = $e->getParam('exception');
         if (! $exception) {
@@ -101,11 +95,8 @@ class Mvc extends AbstractListenerAggregate
 
     /**
      * It show default view if display_errors setting = 0.
-     *
-     *
-     * @return mixed
      */
-    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
+    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled() : void
     {
         if (! Console::isConsole()) {
             $response = new HttpResponse();

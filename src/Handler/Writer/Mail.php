@@ -40,7 +40,7 @@ class Mail extends BaseMail
      * {inheritDoc}
      * Override with apply attachment whenever there is $_FILES data
      */
-    public function shutdown()
+    public function shutdown() : void
     {
         // If there are events to mail, use them as message body.  Otherwise,
         // there is no mail to be sent.

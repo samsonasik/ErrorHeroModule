@@ -39,15 +39,7 @@ class Db
         $this->logWritersConfig      = $logWritersConfig;
     }
 
-    /**
-     * @param string $errorFile
-     * @param int    $errorLine
-     * @param string $errorMessage
-     * @param string $errorUrl
-     *
-     * @return bool
-     */
-    public function isExists($errorFile, $errorLine, $errorMessage, $errorUrl)
+    public function isExists(string $errorFile, int $errorLine, string $errorMessage, string $errorUrl) : bool
     {
         // db definition
         $reflectionProperty = new ReflectionProperty($this->dbWriter, 'db');

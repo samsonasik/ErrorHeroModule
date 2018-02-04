@@ -73,21 +73,11 @@ class Logging
      */
     private $requestData = [];
 
-    /**
-     * @param Logger                    $logger
-     * @param string                    $serverUrl
-     * @param string                    $requestUri
-     * @param RequestInterface|null     $request
-     * @param array                     $errorHeroModuleLocalConfig
-     * @param array                     $logWritersConfig
-     * @param Message|null              $mailMessageService
-     * @param TransportInterface|null   $mailMessageTransport
-     */
     public function __construct(
         Logger             $logger,
-        $serverUrl,
+        string             $serverUrl,
         RequestInterface   $request = null,
-        $requestUri = '',
+        string             $requestUri = '',
         array              $errorHeroModuleLocalConfig,
         array              $logWritersConfig,
         Message            $mailMessageService = null,
@@ -107,8 +97,6 @@ class Logging
 
     /**
      * Set ServerRequest for expressive
-     *
-     * @param ServerRequestInterface $request
      */
     public function setServerRequestandRequestUri(ServerRequestInterface $request)
     {
@@ -117,16 +105,9 @@ class Logging
     }
 
     /**
-     * @param string $errorFile
-     * @param int    $errorLine
-     * @param string $errorMessage
-     * @param string $url
-     *
      * @throws RuntimeException when cannot connect to DB in the first place
-     *
-     * @return bool
      */
-    private function isExists($errorFile, $errorLine, $errorMessage, $url)
+    private function isExists(string $errorFile, int $errorLine, string $errorMessage, string $url) : bool
     {
         $writers = $this->logger->getWriters()->toArray();
         foreach ($writers as $writer) {
@@ -149,12 +130,7 @@ class Logging
         return false;
     }
 
-    /**
-     * Get Request Data.
-     *
-     * @return array
-     */
-    private function getRequestData()
+    private function getRequestData() : array
     {
         if (! $this->request || $this->request instanceof ConsoleRequest) {
             return [];
@@ -189,12 +165,7 @@ class Logging
         ];
     }
 
-    /**
-     * @param  Throwable $t
-     *
-     * @return array
-     */
-    private function collectErrorExceptionData(Throwable $t)
+    private function collectErrorExceptionData(Throwable $t) : array
     {
         if ($t instanceof ErrorException && isset(Logger::$errorPriorityMap[$severity = $t->getSeverity()])) {
             $priority  = Logger::$errorPriorityMap[$severity];
@@ -219,12 +190,7 @@ class Logging
         ];
     }
 
-    /**
-     * @param  array                     $collectedExceptionData
-     *
-     * @return array
-     */
-    private function collectErrorExceptionExtraData(array $collectedExceptionData)
+    private function collectErrorExceptionExtraData(array $collectedExceptionData) : array
     {
         return [
             'url'          => $this->serverUrl.$this->requestUri,
@@ -236,15 +202,7 @@ class Logging
         ];
     }
 
-    /**
-     * @param int    $priority
-     * @param string $errorMessage
-     * @param array  $extra
-     * @param string $subject
-     *
-     * @return void
-     */
-    private function sendMail($priority, $errorMessage, $extra, $subject)
+    private function sendMail(int $priority, string $errorMessage, array $extra, string $subject) : void
     {
         if (! $this->mailMessageService || ! $this->mailMessageTransport) {
             return;
@@ -272,12 +230,7 @@ class Logging
         }
     }
 
-    /**
-     * @param Throwable $t
-     *
-     * @return void
-     */
-    public function handleErrorException(Throwable $t)
+    public function handleErrorException(Throwable $t) : void
     {
         $collectedExceptionData = $this->collectErrorExceptionData($t);
 

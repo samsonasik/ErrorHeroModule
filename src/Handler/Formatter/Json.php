@@ -18,7 +18,7 @@ class Json extends Base implements FormatterInterface
      *
      * @return string formatted line to write to the log
      */
-    public function format($event)
+    public function format($event) : string
     {
         if (! $this->timestamp && isset($event['timestamp']) && $event['timestamp'] instanceof DateTime) {
             $this->timestamp = $event['timestamp']->format($this->getDateTimeFormat());
