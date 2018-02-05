@@ -3,6 +3,7 @@
 namespace ErrorHeroModule\Spec;
 
 use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
+use Kahlan\PhpErrorException;
 
 describe('ErrorPreviewConsoleController', function () {
 
@@ -30,13 +31,12 @@ describe('ErrorPreviewConsoleController', function () {
 
         it('Error', function() {
 
-            try {
-                $controller = $this->controller;
-                $controller->errorAction();
-            } catch (\Throwable $error) {
-                expect($error)->toBeAnInstanceOf(\Throwable::class);
-                expect($error->getMessage())->toContain('E_NOTICE');
-            }
+            $closure = function () {
+                $this->controller->errorAction();
+            };
+
+            $exception = new PhpErrorException('`E_NOTICE` Undefined offset: 1');
+            expect($closure)->toThrow($exception);
 
         });
 
