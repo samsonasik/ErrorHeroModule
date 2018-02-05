@@ -180,7 +180,7 @@ return [
         // 2. error-preview command (ErrorHeroModule\Controller\ErrorPreviewConsoleController) via
         //       php public/index.php error-preview
         //
-        // for zf-expressive ^3.0.0-dev, the disable error-preview page is by unregister 'error-preview' from config/routes
+        // for zf-expressive ^3.0.0, the disable error-preview page is by unregister 'error-preview' from config/routes
         //
         //
         // otherwise(false), you can't see them, eg: on production env.
@@ -270,7 +270,7 @@ return [
 
 > You need to use Zend\ServiceManager for service container and Zend\View for template engine.
 
-For [zend-expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton) ^3.0.0-dev, you need to open `config/pipeline.php` and add the `ErrorHeroModule\Middleware\Expressive::class` middleware after default `ErrorHandler::class` registration:
+For [zend-expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton) ^3.0.0, you need to open `config/pipeline.php` and add the `ErrorHeroModule\Middleware\Expressive::class` middleware after default `ErrorHandler::class` registration:
 
 ```php
 $app->pipe(ErrorHandler::class);
