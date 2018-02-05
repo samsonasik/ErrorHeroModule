@@ -98,7 +98,7 @@ class Logging
     /**
      * Set ServerRequest for expressive
      */
-    public function setServerRequestandRequestUri(ServerRequestInterface $request)
+    public function setServerRequestandRequestUri(ServerRequestInterface $request) : void
     {
         $this->request    = $request;
         $this->requestUri = \substr($request->getUri(), \strlen($this->serverUrl));
