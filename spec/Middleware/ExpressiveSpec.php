@@ -5,6 +5,7 @@ namespace ErrorHeroModule\Spec\Middleware;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Expressive;
 use Kahlan\Plugin\Double;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Db\Adapter\Adapter;
 use Zend\Diactoros\Response;
@@ -116,7 +117,7 @@ json
             $middleware = new Expressive($config, $this->logging, $this->renderer);
 
             $actual = $middleware->process($request, $handler);
-            expect($actual)->toBeAnInstanceOf(Response::class);
+            expect($actual)->toBeAnInstanceOf(ResponseInterface::class);
 
         });
 
@@ -126,8 +127,10 @@ json
             $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
             allow($handler)->toReceive('handle')->with($request)->andReturn(new Response());
 
+            allow(Logging::class)->toReceive('setServerRequestandRequestUri')->with($request);
+
             $actual = $this->middleware->process($request, $handler);
-            expect($actual)->toBeAnInstanceOf(Response::class);
+            expect($actual)->toBeAnInstanceOf(ResponseInterface::class);
 
         });
 

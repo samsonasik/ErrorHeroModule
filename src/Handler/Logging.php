@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ErrorHeroModule\Handler;
 
 use ErrorException;
@@ -101,7 +103,7 @@ class Logging
     public function setServerRequestandRequestUri(ServerRequestInterface $request) : void
     {
         $this->request    = $request;
-        $this->requestUri = \substr($request->getUri(), \strlen($this->serverUrl));
+        $this->requestUri = \substr($request->getUri()->__toString(), \strlen($this->serverUrl));
     }
 
     /**

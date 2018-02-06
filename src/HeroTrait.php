@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ErrorHeroModule;
 
 use ErrorException;
@@ -45,7 +47,7 @@ trait HeroTrait
 
         if (! $this->errorHeroModuleConfig['display-settings']['display_errors']) {
             \error_reporting(\E_ALL | \E_STRICT);
-            \ini_set('display_errors', 0);
+            \ini_set('display_errors', '0');
         }
 
         if (\in_array($errorType, $this->errorHeroModuleConfig['display-settings']['exclude-php-errors'])) {

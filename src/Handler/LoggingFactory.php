@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ErrorHeroModule\Handler;
 
 use Interop\Container\ContainerInterface;

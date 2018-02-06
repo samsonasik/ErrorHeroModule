@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ErrorHeroModule\Middleware\Routed\Preview;
 
 use Psr\Http\Message\ResponseInterface;
