@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Handler;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use RuntimeException;
 use Zend\Console\Console;
 use Zend\Console\Request as ConsoleRequest;
@@ -17,7 +17,7 @@ class LoggingFactory
      * @throws RuntimeException when mail config is enabled but mail-message config is not a service instance of Message
      * @throws RuntimeException when mail config is enabled but mail-transport config is not a service instance of TransportInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) : Logging
+    public function __invoke(ContainerInterface $container) : Logging
     {
         if (! Console::isConsole()) {
             $serverUrlHelper = $container->get('ViewHelperManager')->get('ServerUrl');

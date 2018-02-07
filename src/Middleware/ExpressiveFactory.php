@@ -6,14 +6,14 @@ namespace ErrorHeroModule\Middleware;
 
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Handler\Logging;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Zend\Db\Adapter\Adapter;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\ServiceManager\ServiceManager;
 
 class ExpressiveFactory
 {
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) : Expressive
+    public function __invoke(ContainerInterface $container) : Expressive
     {
         $configuration = $container->get('config');
 

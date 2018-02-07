@@ -4,7 +4,7 @@ namespace ErrorHeroModule\Spec\Handler;
 
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Kahlan\Plugin\Double;
 use Zend\Console\Console;
 use Zend\Log\Logger;

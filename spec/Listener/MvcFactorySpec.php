@@ -5,7 +5,7 @@ namespace ErrorHeroModule\Spec\Listener;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Kahlan\Plugin\Double;
 use Zend\View\Renderer\PhpRenderer;
 
