@@ -138,7 +138,7 @@ describe('ExpressiveFactory', function () {
             allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
                                                ->andReturn($renderer);
 
-            $actual = $this->factory->__invoke($container, Expressive::class);
+            $actual = $this->factory->__invoke($container);
             expect($actual)->toBeAnInstanceOf(Expressive::class);
 
         });
@@ -157,7 +157,7 @@ describe('ExpressiveFactory', function () {
             allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
                                                ->andReturn($renderer);
 
-            $actual = $this->factory->__invoke($container, Expressive::class);
+            $actual = $this->factory->__invoke($container);
             expect($actual)->toBeAnInstanceOf(Expressive::class);
 
         });

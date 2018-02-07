@@ -80,7 +80,7 @@ describe('MvcFactory', function () {
             allow($container)->toReceive('get')->with('ViewRenderer')
                                                ->andReturn($renderer);
 
-            $actual = $this->factory->__invoke($container, Mvc::class);
+            $actual = $this->factory->__invoke($container);
             expect($actual)->toBeAnInstanceOf(Mvc::class);
 
         });

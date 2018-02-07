@@ -112,7 +112,7 @@ describe('LoggingFactorySpec', function () {
             allow($container)->toReceive('get')->with('ErrorHeroModuleLogger')
                                                 ->andReturn($logger);
 
-            $actual = $this->factory->__invoke($container, Logging::class);
+            $actual = $this->factory->__invoke($container);
             expect($actual)->toBeAnInstanceOf(Logging::class);
 
             Console::overrideIsConsole(true);
@@ -207,7 +207,7 @@ describe('LoggingFactorySpec', function () {
             allow($container)->toReceive('get')->with('ErrorHeroModuleLogger')
                                                ->andReturn($logger);
 
-            $actual = $this->factory->__invoke($container, Logging::class);
+            $actual = $this->factory->__invoke($container);
             expect($actual)->toBeAnInstanceOf(Logging::class);
 
         });
@@ -301,7 +301,7 @@ describe('LoggingFactorySpec', function () {
                                                ->andReturn($logger);
 
             $closure = function () use ($container) {
-                $this->factory->__invoke($container, Logging::class);
+                $this->factory->__invoke($container);
             };
 
             expect($closure)->toThrow(new \RuntimeException());
@@ -400,7 +400,7 @@ describe('LoggingFactorySpec', function () {
                                                ->andReturn(new Message());
 
             $closure = function () use ($container) {
-                $this->factory->__invoke($container, Logging::class);
+                $this->factory->__invoke($container);
             };
 
             expect($closure)->toThrow(new \RuntimeException());
@@ -501,7 +501,7 @@ describe('LoggingFactorySpec', function () {
             allow($container)->toReceive('get')->with('MailTransportService')
                                                ->andReturn(Double::instance(['implements' => TransportInterface::class]));
 
-            $actual = $this->factory->__invoke($container, Logging::class);
+            $actual = $this->factory->__invoke($container);
             expect($actual)->toBeAnInstanceOf(Logging::class);
 
         });
