@@ -291,10 +291,11 @@ Give it a try!
 
 _**Web Access**_
 
-| URl                                  | Preview For  |
-|--------------------------------------|--------------|
-| http://yourzfapp/error-preview       | Exception    |
-| http://yourzfapp/error-preview/error | Error        |
+| URl                                   | Preview For  |
+|---------------------------------------|--------------|
+| http://yourzfapp/error-preview        | Exception    |
+| http://yourzfapp/error-preview/error  | Error        |
+| http://yourzfapp/error-preview/notice | PHP E_NOTICE |
 
 You will get the following page if display_errors config is 0:
 
@@ -310,10 +311,11 @@ _**Console Access**_
 > composer require zendframework/zend-mvc-console --sort-packages
 > ```
 
-| Command                                  | Preview For  |
-|------------------------------------------|--------------|
-| php public/index.php error-preview       | Exception    |
-| php public/index.php error-preview error | Error        |
+| Command                                   | Preview For  |
+|-------------------------------------------|--------------|
+| php public/index.php error-preview        | Exception    |
+| php public/index.php error-preview error  | Error        |
+| php public/index.php error-preview notice | PHP E_NOTICE |
 
 You will get the following page if display_errors config is 0:
 

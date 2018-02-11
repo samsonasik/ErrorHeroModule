@@ -21,7 +21,22 @@ describe('ErrorPreviewConsoleController', function () {
             $closure = function() use ($controller) {
                 $controller->exceptionAction();
             };
-            expect($closure)->toThrow(new \Exception('a sample error preview'));
+            expect($closure)->toThrow(new \Exception('a sample exception preview'));
+
+        });
+
+    });
+
+    describe('->noticeAction()', function() {
+
+        it('PHP E_* Error: Notice', function() {
+
+            $closure = function () {
+                $this->controller->noticeAction();
+            };
+
+            $exception = new PhpErrorException('`E_NOTICE` Undefined offset: 1');
+            expect($closure)->toThrow($exception);
 
         });
 
@@ -31,12 +46,11 @@ describe('ErrorPreviewConsoleController', function () {
 
         it('Error', function() {
 
-            $closure = function () {
-                $this->controller->errorAction();
+            $controller = $this->controller;
+            $closure = function() use ($controller) {
+                $controller->errorAction();
             };
-
-            $exception = new PhpErrorException('`E_NOTICE` Undefined offset: 1');
-            expect($closure)->toThrow($exception);
+            expect($closure)->toThrow(new \Error('a sample error preview'));
 
         });
 

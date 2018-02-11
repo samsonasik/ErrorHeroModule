@@ -21,18 +21,18 @@ describe('ErrorPreviewController', function () {
             $closure = function() use ($controller) {
                 $controller->exceptionAction();
             };
-            expect($closure)->toThrow(new \Exception('a sample error preview'));
+            expect($closure)->toThrow(new \Exception('a sample exception preview'));
 
         });
 
     });
 
-    describe('->errorAction()', function() {
+    describe('->noticeAction()', function() {
 
         it('Error', function() {
 
             $closure = function () {
-                $this->controller->errorAction();
+                $this->controller->noticeAction();
             };
 
             $exception = new PhpErrorException('`E_NOTICE` Undefined offset: 1');

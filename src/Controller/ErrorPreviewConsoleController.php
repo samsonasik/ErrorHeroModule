@@ -10,10 +10,15 @@ class ErrorPreviewConsoleController extends AbstractConsoleController
 {
     public function exceptionAction()
     {
-        throw new \Exception('a sample error preview');
+        throw new \Exception('a sample exception preview');
     }
 
     public function errorAction()
+    {
+        throw new \Error('a sample error preview');
+    }
+
+    public function noticeAction()
     {
         $array = [];
         $array[1]; // E_NOTICE

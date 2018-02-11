@@ -27,14 +27,14 @@ describe('ErrorPreviewAction', function () {
 
                 $this->middleware->process($request, $handler);
             };
-            expect($closure)->toThrow(new \Exception('a sample error preview'));
+            expect($closure)->toThrow(new \Exception('a sample exception preview'));
 
         });
 
-        it('Notice', function() {
+        it('PHP E_* Error: Notice', function() {
 
             $request  = Double::instance(['implements' => ServerRequestInterface::class]);
-            allow($request)->toReceive('getAttribute')->with('action', 'exception')->andReturn('notice');
+            allow($request)->toReceive('getAttribute')->with('action', 'exception')->andReturn('PHP E_* Error: Notice');
 
             $handler = Double::instance(['implements' => RequestHandlerInterface::class]);
 
@@ -57,7 +57,7 @@ describe('ErrorPreviewAction', function () {
                 $this->middleware->process($request, $handler);
             };
 
-            expect($closure)->toThrow(new Error('error'));
+            expect($closure)->toThrow(new Error('a sample error preview'));
 
         });
 

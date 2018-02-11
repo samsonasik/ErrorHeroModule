@@ -16,11 +16,11 @@ class ErrorPreviewAction implements MiddlewareInterface
         $action = $request->getAttribute('action', 'exception');
 
         if ($action === 'exception') {
-            throw new \Exception('a sample error preview');
+            throw new \Exception('a sample exception preview');
         }
 
         if ($action === 'error') {
-            throw new \Error('error');
+            throw new \Error('a sample error preview');
         }
 
         $array = [];
