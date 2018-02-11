@@ -31,7 +31,7 @@ describe('ErrorPreviewAction', function () {
 
         });
 
-        it('Error', function() {
+        it('Notice', function() {
 
             $request  = Double::instance(['implements' => ServerRequestInterface::class]);
             allow($request)->toReceive('getAttribute')->with('action', 'exception')->andReturn('notice');
