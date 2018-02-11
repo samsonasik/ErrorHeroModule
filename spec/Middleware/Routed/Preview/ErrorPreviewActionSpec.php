@@ -34,7 +34,7 @@ describe('ErrorPreviewAction', function () {
         it('Error', function() {
 
             $request  = Double::instance(['implements' => ServerRequestInterface::class]);
-            allow($request)->toReceive('getAttribute')->with('action', 'exception')->andReturn('error');
+            allow($request)->toReceive('getAttribute')->with('action', 'exception')->andReturn('notice');
 
             $handler = Double::instance(['implements' => RequestHandlerInterface::class]);
 
@@ -49,7 +49,7 @@ describe('ErrorPreviewAction', function () {
         it('PHP7 Error', function() {
 
             $request  = Double::instance(['implements' => ServerRequestInterface::class]);
-            allow($request)->toReceive('getAttribute')->with('action', 'exception')->andReturn('php7error');
+            allow($request)->toReceive('getAttribute')->with('action', 'exception')->andReturn('error');
 
             $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
 
@@ -57,7 +57,7 @@ describe('ErrorPreviewAction', function () {
                 $this->middleware->process($request, $handler);
             };
 
-            expect($closure)->toThrow(new Error('error of php 7'));
+            expect($closure)->toThrow(new Error('error'));
 
         });
 

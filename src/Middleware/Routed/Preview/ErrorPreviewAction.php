@@ -19,8 +19,8 @@ class ErrorPreviewAction implements MiddlewareInterface
             throw new \Exception('a sample error preview');
         }
 
-        if ($action === 'php7error') {
-            throw new \Error('error of php 7');
+        if ($action === 'error') {
+            throw new \Error('error');
         }
 
         $array = [];
