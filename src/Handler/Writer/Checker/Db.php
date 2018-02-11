@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Handler\Writer\Checker;
 
-use ReflectionProperty;
+use Closure;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Log\Writer\Db as DbWriter;
@@ -44,9 +44,9 @@ class Db
     public function isExists(string $errorFile, int $errorLine, string $errorMessage, string $errorUrl) : bool
     {
         // db definition
-        $reflectionProperty = new ReflectionProperty($this->dbWriter, 'db');
-        $reflectionProperty->setAccessible(true);
-        $db = $reflectionProperty->getValue($this->dbWriter);
+        $db = Closure::bind(function (DbWriter $dbWriter) {
+            return $dbWriter->db;
+        }, null, DbWriter::class)($this->dbWriter);
 
         foreach ($this->logWritersConfig as $writerConfig) {
             if ($writerConfig['name'] === 'db') {

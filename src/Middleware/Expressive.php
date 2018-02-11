@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Middleware;
 
+use Closure;
 use Error;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\HeroTrait;
@@ -12,7 +13,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use ReflectionProperty;
 use Seld\JsonLint\JsonParser;
 use Throwable;
 use Zend\Diactoros\Response;
@@ -130,9 +130,11 @@ class Expressive implements MiddlewareInterface
         $layout = new ViewModel();
         $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
 
-        $r = new ReflectionProperty($this->renderer, 'layout');
-        $r->setAccessible(true);
-        $r->setValue($this->renderer, $layout);
+        $renderer = & $this->renderer;
+        $closure  = Closure::bind(function ($renderer) {
+            return $renderer->layout;
+        }, null, $renderer)($renderer);
+        $closure = $layout;
 
         $response =  new HtmlResponse(
             $this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view']),
