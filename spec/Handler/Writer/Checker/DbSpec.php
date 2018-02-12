@@ -86,7 +86,7 @@ describe('Db', function () {
             allow($resultSet)->toReceive('current')->andReturn(null);
             allow(TableGateway::class)->toReceive('selectWith')->with($select)->andReturn($resultSet);
 
-            $actual = $this->writerHandler->isExists('file', 1, 'Undefined offset: 1', 'http://serverUrl/uri');
+            $actual = $this->writerHandler->isExists('file', 1, 'Undefined offset: 1', 'http://serverUrl/uri', 'E_NOTICE');
             expect($actual)->toBe(false);
 
         });
@@ -117,7 +117,7 @@ describe('Db', function () {
             );
             allow(TableGateway::class)->toReceive('selectWith')->with($select)->andReturn($resultSet);
 
-            $actual = $this->writerHandler->isExists('file', 1, 'Undefined offset: 1', 'http://serverUrl/uri');
+            $actual = $this->writerHandler->isExists('file', 1, 'Undefined offset: 1', 'http://serverUrl/uri', 'E_NOTICE');
             expect($actual)->toBe(false);
 
         });
@@ -143,7 +143,7 @@ describe('Db', function () {
             );
             allow(TableGateway::class)->toReceive('selectWith')->with($select)->andReturn($resultSet);
 
-            $actual = $this->writerHandler->isExists('file', 1, 'Undefined offset: 1', 'http://serverUrl/uri');
+            $actual = $this->writerHandler->isExists('file', 1, 'Undefined offset: 1', 'http://serverUrl/uri', 'E_NOTICE');
             expect($actual)->toBe(true);
 
         });
