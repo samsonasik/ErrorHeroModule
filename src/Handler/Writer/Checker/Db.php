@@ -46,7 +46,7 @@ class Db
         // db definition
         $db = Closure::bind(function (DbWriter $dbWriter) {
             return $dbWriter->db;
-        }, null, DbWriter::class)($this->dbWriter);
+        }, null, $this->dbWriter)($this->dbWriter);
 
         foreach ($this->logWritersConfig as $writerConfig) {
             if ($writerConfig['name'] === 'db') {
