@@ -44,7 +44,7 @@ class Db
     public function isExists(string $errorFile, int $errorLine, string $errorMessage, string $errorUrl) : bool
     {
         // db definition
-        $db = Closure::bind(function (DbWriter $dbWriter) {
+        $db = Closure::bind(function ($dbWriter) {
             return $dbWriter->db;
         }, null, $this->dbWriter)($this->dbWriter);
 
