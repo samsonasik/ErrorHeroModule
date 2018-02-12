@@ -243,7 +243,7 @@ class Logging
                     $collectedExceptionData['errorLine'],
                     $collectedExceptionData['errorMessage'],
                     $this->serverUrl.$this->requestUri,
-                    $collectedExceptionData['error_type']
+                    $collectedExceptionData['errorType']
                 )
             ) {
                 return;
