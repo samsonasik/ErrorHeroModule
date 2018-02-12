@@ -66,7 +66,7 @@ class Db
                 $file       = $writerConfig['options']['column']['extra']['file'];
                 $line       = $writerConfig['options']['column']['extra']['line'];
                 $url        = $writerConfig['options']['column']['extra']['url'];
-                $error_type = $writerConfig['options']['columns']['extra']['error_type'];
+                $error_type = $writerConfig['options']['column']['extra']['error_type'];
 
                 $tableGateway = new TableGateway($table, $db, null, new ResultSet());
                 $select       = $tableGateway->getSql()->select();
