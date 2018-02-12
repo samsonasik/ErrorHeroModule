@@ -122,6 +122,7 @@ class Logging
      * @param int    $errorLine
      * @param string $errorMessage
      * @param string $url
+     * @param string $errorType
      *
      * @throws RuntimeException when cannot connect to DB in the first place
      *

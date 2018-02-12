@@ -44,6 +44,7 @@ class Db
      * @param int    $errorLine
      * @param string $errorMessage
      * @param string $errorUrl
+     * @param string $errorType
      *
      * @return bool
      */
