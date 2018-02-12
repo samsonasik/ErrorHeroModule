@@ -41,7 +41,7 @@ class Db
         $this->logWritersConfig      = $logWritersConfig;
     }
 
-    public function isExists(string $errorFile, int $errorLine, string $errorMessage, string $errorUrl) : bool
+    public function isExists(string $errorFile, int $errorLine, string $errorMessage, string $errorUrl, string $errorType) : bool
     {
         // db definition
         $db = Closure::bind(function ($dbWriter) {
@@ -54,20 +54,22 @@ class Db
                 $table = $writerConfig['options']['table'];
 
                 // columns definition
-                $timestamp = $writerConfig['options']['column']['timestamp'];
-                $message   = $writerConfig['options']['column']['message'];
-                $file      = $writerConfig['options']['column']['extra']['file'];
-                $line      = $writerConfig['options']['column']['extra']['line'];
-                $url       = $writerConfig['options']['column']['extra']['url'];
+                $timestamp  = $writerConfig['options']['column']['timestamp'];
+                $message    = $writerConfig['options']['column']['message'];
+                $file       = $writerConfig['options']['column']['extra']['file'];
+                $line       = $writerConfig['options']['column']['extra']['line'];
+                $url        = $writerConfig['options']['column']['extra']['url'];
+                $error_type = $writerConfig['options']['columns']['extra']['error_type'];
 
                 $tableGateway = new TableGateway($table, $db, null, new ResultSet());
                 $select       = $tableGateway->getSql()->select();
                 $select->columns([$timestamp]);
                 $select->where([
-                    $message => $errorMessage,
-                    $line    => $errorLine,
-                    $url     => $errorUrl,
-                    $file    => $errorFile,
+                    $message    => $errorMessage,
+                    $line       => $errorLine,
+                    $url        => $errorUrl,
+                    $file       => $errorFile,
+                    $error_type => $errorType,
                 ]);
                 $select->order($timestamp.' DESC');
                 $select->limit(1);
