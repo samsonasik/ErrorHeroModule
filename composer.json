@@ -35,8 +35,8 @@
         "zendframework/zend-mvc-console": "^1.1"
     },
     "conflict": {
-        "zendframework/zend-expressive": "<3.0",
-        "zendframework/zend-mvc": "<3.0"
+        "zendframework/zend-expressive": "<3.0 >=4.0",
+        "zendframework/zend-mvc": "<3.0 >=4.0"
     },
     "suggest": {
         "zendframework/zend-mvc-console": "^1.1 for zend-mvc ^3.0 usage to be able to use Console Controller"
