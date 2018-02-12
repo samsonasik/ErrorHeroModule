@@ -44,10 +44,11 @@ class Db
      * @param int    $errorLine
      * @param string $errorMessage
      * @param string $errorUrl
+     * @param string $errorType
      *
      * @return bool
      */
-    public function isExists($errorFile, $errorLine, $errorMessage, $errorUrl)
+    public function isExists($errorFile, $errorLine, $errorMessage, $errorUrl, $errorType)
     {
         // db definition
         $reflectionProperty = new ReflectionProperty($this->dbWriter, 'db');
@@ -60,20 +61,22 @@ class Db
                 $table = $writerConfig['options']['table'];
 
                 // columns definition
-                $timestamp = $writerConfig['options']['column']['timestamp'];
-                $message   = $writerConfig['options']['column']['message'];
-                $file      = $writerConfig['options']['column']['extra']['file'];
-                $line      = $writerConfig['options']['column']['extra']['line'];
-                $url       = $writerConfig['options']['column']['extra']['url'];
+                $timestamp  = $writerConfig['options']['column']['timestamp'];
+                $message    = $writerConfig['options']['column']['message'];
+                $file       = $writerConfig['options']['column']['extra']['file'];
+                $line       = $writerConfig['options']['column']['extra']['line'];
+                $url        = $writerConfig['options']['column']['extra']['url'];
+                $error_type = $writerConfig['options']['column']['extra']['error_type'];
 
                 $tableGateway = new TableGateway($table, $db, null, new ResultSet());
                 $select       = $tableGateway->getSql()->select();
                 $select->columns([$timestamp]);
                 $select->where([
-                    $message => $errorMessage,
-                    $line    => $errorLine,
-                    $url     => $errorUrl,
-                    $file    => $errorFile,
+                    $message    => $errorMessage,
+                    $line       => $errorLine,
+                    $url        => $errorUrl,
+                    $file       => $errorFile,
+                    $error_type => $errorType,
                 ]);
                 $select->order($timestamp.' DESC');
                 $select->limit(1);

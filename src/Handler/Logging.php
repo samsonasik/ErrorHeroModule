@@ -122,19 +122,20 @@ class Logging
      * @param int    $errorLine
      * @param string $errorMessage
      * @param string $url
+     * @param string $errorType
      *
      * @throws RuntimeException when cannot connect to DB in the first place
      *
      * @return bool
      */
-    private function isExists($errorFile, $errorLine, $errorMessage, $url)
+    private function isExists($errorFile, $errorLine, $errorMessage, $url, $errorType)
     {
         $writers = $this->logger->getWriters()->toArray();
         foreach ($writers as $writer) {
             if ($writer instanceof Db) {
                 try {
                     $handlerWriterDb = new Writer\Db($writer, $this->configLoggingSettings, $this->logWritersConfig);
-                    if ($handlerWriterDb->isExists($errorFile, $errorLine, $errorMessage, $url)) {
+                    if ($handlerWriterDb->isExists($errorFile, $errorLine, $errorMessage, $url, $errorType)) {
                         return true;
                     }
                     break;
@@ -288,7 +289,8 @@ class Logging
                     $collectedExceptionData['errorFile'],
                     $collectedExceptionData['errorLine'],
                     $collectedExceptionData['errorMessage'],
-                    $this->serverUrl.$this->requestUri
+                    $this->serverUrl.$this->requestUri,
+                    $collectedExceptionData['errorType']
                 )
             ) {
                 return;
