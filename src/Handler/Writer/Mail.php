@@ -116,8 +116,6 @@ class Mail extends BaseMail
         $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
         $mimePart->encoding    = Mime::ENCODING_BASE64;
 
-        $body->addPart($mimePart);
-
-        return $body;
+        return $body->addPart($mimePart);
     }
 }
