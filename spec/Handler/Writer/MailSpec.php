@@ -24,7 +24,7 @@ describe('Mail', function () {
                 'body_data'      => ['text' => 'test'],
                 'raw_data'       => [],
                 'files_data'     => [
-                    "file" => [
+                    [
                         'name' => 'foo.html',
                         'tmp_name' => __DIR__ . '/../../Fixture/data/foo.html',
                         'error'    => 0,

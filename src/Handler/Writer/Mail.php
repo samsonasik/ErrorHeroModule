@@ -72,24 +72,13 @@ class Mail extends BaseMail
             foreach ($this->requestData['files_data'] as $key => $row) {
                 if (\key($row) === 'name') {
                     // single upload
-                    $mimePart              = new MimePart(\fopen($row['tmp_name'], 'r'));
-                    $mimePart->type        = $row['type'];
-                    $mimePart->filename    = $row['name'];
-                    $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
-                    $mimePart->encoding    = Mime::ENCODING_BASE64;
+                    $body = $this->bodyAddPart($body, $row);
+                    continue;
+                }
 
-                    $body->addPart($mimePart);
-                } else {
-                    // collection upload
-                    foreach ($row as $multiple => $upload) {
-                        $mimePart              = new MimePart(\fopen($upload['tmp_name'], 'r'));
-                        $mimePart->type        = $upload['type'];
-                        $mimePart->filename    = $upload['name'];
-                        $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
-                        $mimePart->encoding    = Mime::ENCODING_BASE64;
-
-                        $body->addPart($mimePart);
-                    }
+                // collection upload
+                foreach ($row as $multiple => $upload) {
+                    $body = $this->bodyAddPart($body, $upload);
                 }
             }
         }
@@ -117,5 +106,18 @@ class Mail extends BaseMail
                 \E_USER_WARNING
             );
         }
+    }
+
+    private function bodyAddPart(MimeMessage $body, array $data) : MimeMessage
+    {
+        $mimePart              = new MimePart(\fopen($data['tmp_name'], 'r'));
+        $mimePart->type        = $data['type'];
+        $mimePart->filename    = $data['name'];
+        $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
+        $mimePart->encoding    = Mime::ENCODING_BASE64;
+
+        $body->addPart($mimePart);
+
+        return $body;
     }
 }
