@@ -10,7 +10,7 @@ use Zend\ServiceManager\ServiceManager;
 
 class DoctrineToZendDb
 {
-    public static function transform(ServiceManager $container, array $configuration)
+    public static function transform(ServiceManager $container, array $configuration) : ServiceManager
     {
         $entityManager          = $container->get(EntityManager::class);
         $doctrineDBALConnection = $entityManager->getConnection();
