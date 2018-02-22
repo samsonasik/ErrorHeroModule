@@ -24,8 +24,8 @@ class Module
 
     public function convertDoctrineToZendDbService(ModuleEvent $event) : void
     {
-        $services       = $event->getParam('ServiceManager');
-        if (! $services->has(EntityManager::class)) {
+        $container = $event->getParam('ServiceManager');
+        if (! $container->has(EntityManager::class)) {
             return;
         }
 
@@ -37,7 +37,7 @@ class Module
             return;
         }
 
-        Transformer\DoctrineToZendDb::transform($services, $configuration);
+        Transformer\DoctrineToZendDb::transform($container, $configuration);
     }
 
     public function errorPreviewPageHandler(ModuleEvent $event) : void
