@@ -11,7 +11,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\ModuleManager\Listener\ConfigListener;
 use Zend\ModuleManager\ModuleEvent;
 use Zend\ModuleManager\ModuleManager;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceManager;
 
 describe('Module', function () {
 
@@ -54,7 +54,7 @@ describe('Module', function () {
         it('does not has EntityManager service', function () {
 
             $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
-            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
             allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
@@ -66,7 +66,7 @@ describe('Module', function () {
         it('has EntityManager service but already has db config', function () {
 
             $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
-            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
             allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(true);
 
@@ -90,7 +90,7 @@ describe('Module', function () {
         it('has EntityManager service but already does not has db config not isset driverOptions', function () {
 
             $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
-            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
             allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(true);
 
@@ -152,7 +152,7 @@ describe('Module', function () {
         it('has EntityManager service but already does not has db config with isset driverOptions', function () {
 
             $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
-            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
             allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(true);
 
@@ -239,7 +239,7 @@ describe('Module', function () {
         it('has enable-error-preview-page and enabled', function () {
 
             $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
-            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
 
             $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
@@ -259,7 +259,7 @@ describe('Module', function () {
         it('has enable-error-preview-page and disabled', function () {
 
             $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
-            $serviceManager  = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
 
             $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
