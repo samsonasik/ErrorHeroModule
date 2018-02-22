@@ -22,16 +22,12 @@ class Mail extends BaseMail
     private $requestData;
 
     /**
-     * @param  MailMessage|array|Traversable $mail
-     * @param  Transport\TransportInterface $transport Optional
-     * @param  array $requestData
-     *
      * @throws LogException\InvalidArgumentException
      */
     public function __construct(
-        $mail,
-        Transport\TransportInterface $transport = null,
-        array $requestData
+        MailMessage                  $mail,
+        Transport\TransportInterface $transport,
+        array                        $requestData
     ) {
         parent::__construct($mail, $transport);
 
