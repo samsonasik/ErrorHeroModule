@@ -23,11 +23,6 @@ class Mvc extends AbstractListenerAggregate
 {
     use HeroTrait;
 
-    /**
-     * @param array       $errorHeroModuleConfig
-     * @param Logging     $logging
-     * @param PhpRenderer $renderer
-     */
     public function __construct(
         array       $errorHeroModuleConfig,
         Logging     $logging,
@@ -52,22 +47,12 @@ class Mvc extends AbstractListenerAggregate
         $this->listeners[] = $events->attach(MvcEvent::EVENT_BOOTSTRAP, [$this, 'phpError']);
     }
 
-    /**
-     * @param Event $e
-     *
-     * @return void
-     */
     public function phpError(Event $e)
     {
         \register_shutdown_function([$this, 'execOnShutdown']);
         \set_error_handler([$this, 'phpErrorHandler']);
     }
 
-    /**
-     * @param Event $e
-     *
-     * @return void
-     */
     public function exceptionError(Event $e) : void
     {
         $exception = $e->getParam('exception');

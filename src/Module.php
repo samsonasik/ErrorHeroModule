@@ -10,11 +10,6 @@ use Zend\ModuleManager\ModuleManager;
 
 class Module
 {
-    /**
-     * @param  ModuleManager $moduleManager
-     *
-     * @return void
-     */
     public function init(ModuleManager $moduleManager) : void
     {
         $eventManager = $moduleManager->getEventManager();

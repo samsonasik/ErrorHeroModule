@@ -36,6 +36,7 @@ class Mail extends BaseMail
 
     /**
      * {inheritDoc}
+     *
      * Override with apply attachment whenever there is $_FILES data
      */
     public function shutdown() : void

@@ -30,11 +30,6 @@ class Expressive implements MiddlewareInterface
      */
     private $request;
 
-    /**
-     * @param array                     $errorHeroModuleConfig
-     * @param Logging                   $logging
-     * @param TemplateRendererInterface $renderer
-     */
     public function __construct(
         array            $errorHeroModuleConfig,
         Logging          $logging,
@@ -45,11 +40,6 @@ class Expressive implements MiddlewareInterface
         $this->renderer              = $renderer;
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
         if (! $this->errorHeroModuleConfig['enable']) {
@@ -68,10 +58,6 @@ class Expressive implements MiddlewareInterface
         return $this->exceptionError($t, $request);
     }
 
-    /**
-     *
-     * @return void
-     */
     public function phpError() : void
     {
         \register_shutdown_function([$this, 'execOnShutdown']);
@@ -81,8 +67,6 @@ class Expressive implements MiddlewareInterface
     /**
      * @throws Error      when 'display_errors' config is 1 and Error has thrown
      * @throws Exception  when 'display_errors' config is 1 and Exception has thrown
-     *
-     * @return ResponseInterface
      */
     public function exceptionError(Throwable $t, ServerRequestInterface $request) : ResponseInterface
     {
@@ -106,8 +90,6 @@ class Expressive implements MiddlewareInterface
 
     /**
      * It show default view if display_errors setting = 0.
-     *
-     * @return ResponseInterface
      */
     private function showDefaultViewWhenDisplayErrorSetttingIsDisabled() : ResponseInterface
     {
