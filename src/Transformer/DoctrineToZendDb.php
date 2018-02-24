@@ -28,7 +28,6 @@ class DoctrineToZendDb
             'driver_options' => $driverOptions,
         ];
 
-
         $allowOverride = $container->getAllowOverride();
         $container->setAllowOverride(true);
 
