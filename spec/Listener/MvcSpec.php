@@ -403,7 +403,7 @@ describe('Mvc', function () {
                 [
                     'name' => 'db',
                     'options' => [
-                        'db'     => 'Zend\Db\Adapter\Adapter',
+                        'db'     => Adapter::class,
                         'table'  => 'log',
                         'column' => [
                             'timestamp' => 'date',

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Handler\Writer;
 
 use Exception;
-use Traversable;
 use Zend\Log\Exception as LogException;
 use Zend\Log\Writer\Mail as BaseMail;
 use Zend\Mail\Message as MailMessage;

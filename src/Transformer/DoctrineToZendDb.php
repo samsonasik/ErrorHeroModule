@@ -31,7 +31,7 @@ class DoctrineToZendDb
         $allowOverride = $container->getAllowOverride();
         $container->setAllowOverride(true);
 
-        $adapterName = 'Zend\Db\Adapter\Adapter';
+        $adapterName = Adapter::class;
         $writers = $configuration['log']['ErrorHeroModuleLogger']['writers'];
         foreach ($writers as $key => $writer) {
             if ($writer['name'] === 'db') {

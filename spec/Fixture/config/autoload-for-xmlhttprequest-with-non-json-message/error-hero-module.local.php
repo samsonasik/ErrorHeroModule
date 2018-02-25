@@ -1,5 +1,7 @@
 <?php
 
+use Zend\Db\Adapter\Adapter;
+
 return [
 
     'db' => [
@@ -19,7 +21,7 @@ return [
                 [
                     'name' => 'db',
                     'options' => [
-                        'db'     => 'Zend\Db\Adapter\Adapter',
+                        'db'     => Adapter::class,
                         'table'  => 'log',
                         'column' => [
                             'timestamp' => 'date',

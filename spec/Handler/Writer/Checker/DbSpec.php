@@ -5,6 +5,7 @@ namespace ErrorHeroModule\Spec\Handler\Writer\Checker;
 use ErrorHeroModule\Handler\Writer\Checker\Db;
 use Kahlan\Plugin\Double;
 use ReflectionProperty;
+use Zend\Db\Adapter\Adapter;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
@@ -18,7 +19,7 @@ describe('Db', function () {
         $this->dbWriter = Double::instance(['extends' => DbWriter::class, 'methods' => '__construct']);
         $reflectionProperty = new ReflectionProperty($this->dbWriter, 'db');
         $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($this->dbWriter, Double::instance(['extends' => 'Zend\Db\Adapter\Adapter', 'methods' => '__construct']));
+        $reflectionProperty->setValue($this->dbWriter, Double::instance(['extends' => Adapter::class, 'methods' => '__construct']));
 
         $this->configLoggingSettings =  [
             'same-error-log-time-range' => 86400,
@@ -28,7 +29,7 @@ describe('Db', function () {
             [
                 'name' => 'db',
                 'options' => [
-                    'db'     => 'Zend\Db\Adapter\Adapter',
+                    'db'     => Adapter::class,
                     'table'  => 'log',
                     'column' => [
                         'timestamp' => 'date',

@@ -7,6 +7,7 @@ use ErrorHeroModule\Handler\LoggingFactory;
 use Kahlan\Plugin\Double;
 use Psr\Container\ContainerInterface;
 use Zend\Console\Console;
+use Zend\Db\Adapter\Adapter;
 use Zend\Log\Logger;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
@@ -31,7 +32,7 @@ describe('LoggingFactorySpec', function () {
                             [
                                 'name' => 'db',
                                 'options' => [
-                                    'db'     => 'Zend\Db\Adapter\Adapter',
+                                    'db'     => Adapter::class,
                                     'table'  => 'log',
                                     'column' => [
                                         'timestamp' => 'date',
@@ -129,7 +130,7 @@ describe('LoggingFactorySpec', function () {
                             [
                                 'name' => 'db',
                                 'options' => [
-                                    'db'     => 'Zend\Db\Adapter\Adapter',
+                                    'db'     => Adapter::class,
                                     'table'  => 'log',
                                     'column' => [
                                         'timestamp' => 'date',
@@ -222,7 +223,7 @@ describe('LoggingFactorySpec', function () {
                             [
                                 'name' => 'db',
                                 'options' => [
-                                    'db'     => 'Zend\Db\Adapter\Adapter',
+                                    'db'     => Adapter::class,
                                     'table'  => 'log',
                                     'column' => [
                                         'timestamp' => 'date',
@@ -318,7 +319,7 @@ describe('LoggingFactorySpec', function () {
                             [
                                 'name' => 'db',
                                 'options' => [
-                                    'db'     => 'Zend\Db\Adapter\Adapter',
+                                    'db'     => Adapter::class,
                                     'table'  => 'log',
                                     'column' => [
                                         'timestamp' => 'date',
@@ -417,7 +418,7 @@ describe('LoggingFactorySpec', function () {
                             [
                                 'name' => 'db',
                                 'options' => [
-                                    'db'     => 'Zend\Db\Adapter\Adapter',
+                                    'db'     => Adapter::class,
                                     'table'  => 'log',
                                     'column' => [
                                         'timestamp' => 'date',

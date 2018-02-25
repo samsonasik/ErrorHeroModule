@@ -9,6 +9,7 @@ use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Expressive;
 use ErrorHeroModule\Middleware\ExpressiveFactory;
 use Kahlan\Plugin\Double;
+use Zend\Db\Adapter\Adapter;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\ServiceManager\ServiceManager;
 
@@ -76,7 +77,7 @@ describe('ExpressiveFactory', function () {
                         [
                             'name' => 'db',
                             'options' => [
-                                'db'     => 'Zend\Db\Adapter\Adapter',
+                                'db'     => Adapter::class,
                                 'table'  => 'error_log',
                                 'column' => [
                                     'timestamp' => 'date',
