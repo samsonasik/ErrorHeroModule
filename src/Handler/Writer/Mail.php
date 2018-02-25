@@ -40,19 +40,6 @@ class Mail extends BaseMail
      */
     public function shutdown() : void
     {
-        // If there are events to mail, use them as message body.  Otherwise,
-        // there is no mail to be sent.
-        if (empty($this->eventsToMail)) {
-            return;
-        }
-
-        if ($this->subjectPrependText !== null) {
-            // Tack on the summary of entries per-priority to the subject
-            // line and set it on the Zend\Mail object.
-            $numEntries = $this->getFormattedNumEntriesPerPriority();
-            $this->mail->setSubject("{$this->subjectPrependText} ({$numEntries})");
-        }
-
         // Always provide events to mail as plaintext.
         $body = \implode(\PHP_EOL, $this->eventsToMail);
 
