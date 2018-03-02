@@ -15,7 +15,7 @@ describe('MvcFactory', function () {
         return new MvcFactory();
     });
 
-    describe('->__invoke()', function () {
+    describe('()', function () {
 
         it('return Mvc Listener instance', function () {
 
@@ -80,7 +80,7 @@ describe('MvcFactory', function () {
             allow($container)->toReceive('get')->with('ViewRenderer')
                                                ->andReturn($renderer);
 
-            $actual = $this->factory->__invoke($container);
+            $actual = $this->factory($container);
             expect($actual)->toBeAnInstanceOf(Mvc::class);
 
         });

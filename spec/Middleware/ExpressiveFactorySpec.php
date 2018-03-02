@@ -103,7 +103,7 @@ describe('ExpressiveFactory', function () {
 
     });
 
-    describe('->__invoke()', function () {
+    describe('()', function () {
 
         it('returns Expressive Middleware instance with doctrine to zend-db conversion', function () {
 
@@ -139,7 +139,7 @@ describe('ExpressiveFactory', function () {
             allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
                                                ->andReturn($renderer);
 
-            $actual = $this->factory->__invoke($container);
+            $actual = $this->factory($container);
             expect($actual)->toBeAnInstanceOf(Expressive::class);
 
         });
@@ -158,7 +158,7 @@ describe('ExpressiveFactory', function () {
             allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
                                                ->andReturn($renderer);
 
-            $actual = $this->factory->__invoke($container);
+            $actual = $this->factory($container);
             expect($actual)->toBeAnInstanceOf(Expressive::class);
 
         });
