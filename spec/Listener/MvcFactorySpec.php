@@ -15,7 +15,7 @@ describe('MvcFactory', function () {
         return new MvcFactory();
     });
 
-    describe('()', function () {
+    describe('__invoke()', function () {
 
         it('return Mvc Listener instance', function () {
 

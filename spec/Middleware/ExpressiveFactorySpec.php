@@ -103,7 +103,7 @@ describe('ExpressiveFactory', function () {
 
     });
 
-    describe('()', function () {
+    describe('__invoke()', function () {
 
         it('returns Expressive Middleware instance with doctrine to zend-db conversion', function () {
 
