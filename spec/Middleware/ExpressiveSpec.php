@@ -211,6 +211,9 @@ json
 
                 $request  = new ServerRequest();
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
+                allow($handler)->toReceive('handle')->with($request)->andRun(function () {
+                    throw new \Exception('message');
+                });
                 $middleware = new Expressive($config, $logging, $this->renderer);
 
                 $actual = $middleware->process($request, $handler);
@@ -382,6 +385,9 @@ json
                 $request  = new ServerRequest();
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
+                allow($handler)->toReceive('handle')->with($request)->andRun(function () {
+                    throw new \Exception('message');
+                });
                 $middleware = new Expressive($config, $logging, $this->renderer);
 
                 $actual = $middleware->process($request, $handler);
