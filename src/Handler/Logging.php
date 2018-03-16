@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ErrorHeroModule\Handler;
 
-use Error;
 use ErrorException;
 use ErrorHeroModule\HeroConstant;
-use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
+use Throwable;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\Http\Request as HttpRequest;
 use Zend\Log\Logger;
@@ -74,21 +75,11 @@ class Logging
      */
     private $requestData = [];
 
-    /**
-     * @param Logger                    $logger
-     * @param string                    $serverUrl
-     * @param string                    $requestUri
-     * @param RequestInterface|null     $request
-     * @param array                     $errorHeroModuleLocalConfig
-     * @param array                     $logWritersConfig
-     * @param Message|null              $mailMessageService
-     * @param TransportInterface|null   $mailMessageTransport
-     */
     public function __construct(
         Logger             $logger,
-        $serverUrl,
+        string             $serverUrl,
         RequestInterface   $request = null,
-        $requestUri = '',
+        string             $requestUri = '',
         array              $errorHeroModuleLocalConfig,
         array              $logWritersConfig,
         Message            $mailMessageService = null,
@@ -108,33 +99,24 @@ class Logging
 
     /**
      * Set ServerRequest for expressive
-     *
-     * @param ServerRequestInterface $request
      */
-    public function setServerRequestandRequestUri(ServerRequestInterface $request)
+    public function setServerRequestandRequestUri(ServerRequestInterface $request) : void
     {
         $this->request    = $request;
-        $this->requestUri = \substr($request->getUri(), \strlen($this->serverUrl));
+        $this->requestUri = \substr($request->getUri()->__toString(), \strlen($this->serverUrl));
     }
 
     /**
-     * @param string $errorFile
-     * @param int    $errorLine
-     * @param string $errorMessage
-     * @param string $url
-     *
      * @throws RuntimeException when cannot connect to DB in the first place
-     *
-     * @return bool
      */
-    private function isExists($errorFile, $errorLine, $errorMessage, $url)
+    private function isExists(string $errorFile, int $errorLine, string $errorMessage, string $url, string $errorType) : bool
     {
         $writers = $this->logger->getWriters()->toArray();
         foreach ($writers as $writer) {
             if ($writer instanceof Db) {
                 try {
                     $handlerWriterDb = new Writer\Checker\Db($writer, $this->configLoggingSettings, $this->logWritersConfig);
-                    if ($handlerWriterDb->isExists($errorFile, $errorLine, $errorMessage, $url)) {
+                    if ($handlerWriterDb->isExists($errorFile, $errorLine, $errorMessage, $url, $errorType)) {
                         return true;
                     }
                     break;
@@ -150,12 +132,7 @@ class Logging
         return false;
     }
 
-    /**
-     * Get Request Data.
-     *
-     * @return array
-     */
-    private function getRequestData()
+    private function getRequestData() : array
     {
         if (! $this->request || $this->request instanceof ConsoleRequest) {
             return [];
@@ -190,25 +167,20 @@ class Logging
         ];
     }
 
-    /**
-     * @param  Error|Exception $e
-     *
-     * @return array
-     */
-    private function collectErrorExceptionData($e)
+    private function collectErrorExceptionData(Throwable $t) : array
     {
-        if ($e instanceof ErrorException && isset(Logger::$errorPriorityMap[$severity = $e->getSeverity()])) {
+        if ($t instanceof ErrorException && isset(Logger::$errorPriorityMap[$severity = $t->getSeverity()])) {
             $priority  = Logger::$errorPriorityMap[$severity];
             $errorType = HeroConstant::ERROR_TYPE[$severity];
         } else {
             $priority  = Logger::ERR;
-            $errorType = \get_class($e);
+            $errorType = \get_class($t);
         }
 
-        $errorFile = $e->getFile();
-        $errorLine = $e->getLine();
-        $trace     = $e->getTraceAsString();
-        $errorMessage = $e->getMessage();
+        $errorFile    = $t->getFile();
+        $errorLine    = $t->getLine();
+        $trace        = $t->getTraceAsString();
+        $errorMessage = $t->getMessage();
 
         return [
             'priority'       => $priority,
@@ -220,12 +192,7 @@ class Logging
         ];
     }
 
-    /**
-     * @param  array                     $collectedExceptionData
-     *
-     * @return array
-     */
-    private function collectErrorExceptionExtraData(array $collectedExceptionData)
+    private function collectErrorExceptionExtraData(array $collectedExceptionData) : array
     {
         return [
             'url'          => $this->serverUrl.$this->requestUri,
@@ -237,15 +204,7 @@ class Logging
         ];
     }
 
-    /**
-     * @param int    $priority
-     * @param string $errorMessage
-     * @param array  $extra
-     * @param string $subject
-     *
-     * @return void
-     */
-    private function sendMail($priority, $errorMessage, $extra, $subject)
+    private function sendMail(int $priority, string $errorMessage, array $extra, string $subject) : void
     {
         if (! $this->mailMessageService || ! $this->mailMessageTransport) {
             return;
@@ -273,14 +232,9 @@ class Logging
         }
     }
 
-    /**
-     * @param Error|Exception $e
-     *
-     * @return void
-     */
-    public function handleErrorException($e)
+    public function handleErrorException(Throwable $t) : void
     {
-        $collectedExceptionData = $this->collectErrorExceptionData($e);
+        $collectedExceptionData = $this->collectErrorExceptionData($t);
 
         try {
             if (
@@ -288,7 +242,8 @@ class Logging
                     $collectedExceptionData['errorFile'],
                     $collectedExceptionData['errorLine'],
                     $collectedExceptionData['errorMessage'],
-                    $this->serverUrl.$this->requestUri
+                    $this->serverUrl.$this->requestUri,
+                    $collectedExceptionData['errorType']
                 )
             ) {
                 return;
@@ -297,7 +252,7 @@ class Logging
             $extra = $this->collectErrorExceptionExtraData($collectedExceptionData);
             $this->logger->log($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra);
         } catch (RuntimeException $e) {
-            $collectedExceptionData = $this->collectErrorExceptionData($e);
+            $collectedExceptionData = $this->collectErrorExceptionData($t);
             $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData);
         }
 

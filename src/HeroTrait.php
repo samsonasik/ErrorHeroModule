@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ErrorHeroModule;
 
 use ErrorException;
@@ -24,10 +26,7 @@ trait HeroTrait
      */
     private $renderer;
 
-    /**
-     * @return void
-     */
-    public function execOnShutdown()
+    public function execOnShutdown() : void
     {
         $error = \error_get_last();
         if (! $error) {
@@ -38,16 +37,9 @@ trait HeroTrait
     }
 
     /**
-     * @param int    $errorType
-     * @param string $errorMessage
-     * @param string $errorFile
-     * @param int    $errorLine
-     *
      * @throws ErrorException when php error happen and error type is not excluded in the config
-     *
-     * @return mixed
      */
-    public function phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine)
+    public function phpErrorHandler(int $errorType, string $errorMessage, string $errorFile, int $errorLine) : void
     {
         if (! $errorLine) {
             return;
@@ -55,7 +47,7 @@ trait HeroTrait
 
         if (! $this->errorHeroModuleConfig['display-settings']['display_errors']) {
             \error_reporting(\E_ALL | \E_STRICT);
-            \ini_set('display_errors', 0);
+            \ini_set('display_errors', '0');
         }
 
         if (\in_array($errorType, $this->errorHeroModuleConfig['display-settings']['exclude-php-errors'])) {

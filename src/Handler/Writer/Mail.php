@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ErrorHeroModule\Handler\Writer;
 
 use Exception;
-use Traversable;
 use Zend\Log\Exception as LogException;
 use Zend\Log\Writer\Mail as BaseMail;
 use Zend\Mail\Message as MailMessage;
@@ -20,16 +21,12 @@ class Mail extends BaseMail
     private $requestData;
 
     /**
-     * @param  MailMessage|array|Traversable $mail
-     * @param  Transport\TransportInterface $transport Optional
-     * @param  array $requestData
-     *
      * @throws LogException\InvalidArgumentException
      */
     public function __construct(
-        $mail,
-        Transport\TransportInterface $transport = null,
-        array $requestData
+        MailMessage                  $mail,
+        Transport\TransportInterface $transport,
+        array                        $requestData
     ) {
         parent::__construct($mail, $transport);
 
@@ -38,23 +35,11 @@ class Mail extends BaseMail
 
     /**
      * {inheritDoc}
+     *
      * Override with apply attachment whenever there is $_FILES data
      */
-    public function shutdown()
+    public function shutdown() : void
     {
-        // If there are events to mail, use them as message body.  Otherwise,
-        // there is no mail to be sent.
-        if (empty($this->eventsToMail)) {
-            return;
-        }
-
-        if ($this->subjectPrependText !== null) {
-            // Tack on the summary of entries per-priority to the subject
-            // line and set it on the Zend\Mail object.
-            $numEntries = $this->getFormattedNumEntriesPerPriority();
-            $this->mail->setSubject("{$this->subjectPrependText} ({$numEntries})");
-        }
-
         // Always provide events to mail as plaintext.
         $body = \implode(\PHP_EOL, $this->eventsToMail);
 
@@ -70,24 +55,13 @@ class Mail extends BaseMail
             foreach ($this->requestData['files_data'] as $key => $row) {
                 if (\key($row) === 'name') {
                     // single upload
-                    $mimePart              = new MimePart(\fopen($row['tmp_name'], 'r'));
-                    $mimePart->type        = $row['type'];
-                    $mimePart->filename    = $row['name'];
-                    $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
-                    $mimePart->encoding    = Mime::ENCODING_BASE64;
+                    $body = $this->bodyAddPart($body, $row);
+                    continue;
+                }
 
-                    $body->addPart($mimePart);
-                } else {
-                    // collection upload
-                    foreach ($row as $multiple => $upload) {
-                        $mimePart              = new MimePart(\fopen($upload['tmp_name'], 'r'));
-                        $mimePart->type        = $upload['type'];
-                        $mimePart->filename    = $upload['name'];
-                        $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
-                        $mimePart->encoding    = Mime::ENCODING_BASE64;
-
-                        $body->addPart($mimePart);
-                    }
+                // collection upload
+                foreach ($row as $multiple => $upload) {
+                    $body = $this->bodyAddPart($body, $upload);
                 }
             }
         }
@@ -115,5 +89,16 @@ class Mail extends BaseMail
                 \E_USER_WARNING
             );
         }
+    }
+
+    private function bodyAddPart(MimeMessage $body, array $data) : MimeMessage
+    {
+        $mimePart              = new MimePart(\fopen($data['tmp_name'], 'r'));
+        $mimePart->type        = $data['type'];
+        $mimePart->filename    = $data['name'];
+        $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
+        $mimePart->encoding    = Mime::ENCODING_BASE64;
+
+        return $body->addPart($mimePart);
     }
 }

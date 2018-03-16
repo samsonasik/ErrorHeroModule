@@ -6,7 +6,7 @@ use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
 use Kahlan\Plugin\Double;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 use Zend\View\Renderer\PhpRenderer;
 
 describe('MvcFactory', function () {
@@ -15,7 +15,7 @@ describe('MvcFactory', function () {
         return new MvcFactory();
     });
 
-    describe('->__invoke()', function () {
+    describe('__invoke()', function () {
 
         it('return Mvc Listener instance', function () {
 
@@ -68,7 +68,7 @@ describe('MvcFactory', function () {
                 ],
             ];
 
-            $container = Double::instance(['implements' => ServiceLocatorInterface::class]);
+            $container = Double::instance(['implements' => ContainerInterface::class]);
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
@@ -80,7 +80,7 @@ describe('MvcFactory', function () {
             allow($container)->toReceive('get')->with('ViewRenderer')
                                                ->andReturn($renderer);
 
-            $actual = $this->factory->__invoke($container);
+            $actual = $this->factory($container);
             expect($actual)->toBeAnInstanceOf(Mvc::class);
 
         });

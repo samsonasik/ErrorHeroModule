@@ -2,10 +2,12 @@
 
 namespace ErrorHeroModule\Spec\Middleware\Routed\Preview;
 
+use Error;
+use ErrorException;
 use ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction;
 use Kahlan\Plugin\Double;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 describe('ErrorPreviewAction', function () {
 
@@ -13,7 +15,7 @@ describe('ErrorPreviewAction', function () {
         return new ErrorPreviewAction();
     });
 
-    describe('->__invoke()', function () {
+    describe('->process()', function () {
 
         it('throw Exception', function () {
 
@@ -21,50 +23,41 @@ describe('ErrorPreviewAction', function () {
                 $request  = Double::instance(['implements' => ServerRequestInterface::class]);
                 allow($request)->toReceive('getAttribute')->with('action', 'exception')->andReturn('exception');
 
-                $response = Double::instance(['implements' => ResponseInterface::class]);
-                $next     = function ($request, $response) {};
+                $handler = Double::instance(['implements' => RequestHandlerInterface::class]);
 
-                $this->middleware->__invoke($request, $response, $next);
+                $this->middleware->process($request, $handler);
             };
-            expect($closure)->toThrow(new \Exception('a sample error preview'));
+            expect($closure)->toThrow(new \Exception('a sample exception preview'));
 
         });
 
-        it('Error', function() {
+        it('PHP E_* Error: Notice', function() {
 
-            skipIf(PHP_MAJOR_VERSION < 7);
+            $request  = Double::instance(['implements' => ServerRequestInterface::class]);
+            allow($request)->toReceive('getAttribute')->with('action', 'exception')->andReturn('PHP E_* Error: Notice');
 
-            try {
-                $request  = Double::instance(['implements' => ServerRequestInterface::class]);
-                allow($request)->toReceive('getAttribute')->with('action', 'exception')->andReturn('error');
+            $handler = Double::instance(['implements' => RequestHandlerInterface::class]);
 
-                $response = Double::instance(['implements' => ResponseInterface::class]);
-                $next     = function ($request, $response) {};
-
-                $this->middleware->__invoke($request, $response, $next);
-            } catch (\Throwable $error) {
-                expect($error)->toBeAnInstanceOf(\Throwable::class);
-                expect($error->getMessage())->toContain('E_NOTICE');
-            }
+            $closure = function () use ($request, $handler) {
+                $this->middleware->process($request, $handler);
+            };
+            $exception = new ErrorException('Undefined offset: 1', 500);
+            expect($closure)->toThrow($exception);
 
         });
 
         it('PHP7 Error', function() {
 
-            skipIf(PHP_MAJOR_VERSION < 7);
+            $request  = Double::instance(['implements' => ServerRequestInterface::class]);
+            allow($request)->toReceive('getAttribute')->with('action', 'exception')->andReturn('error');
 
-            try {
-                $request  = Double::instance(['implements' => ServerRequestInterface::class]);
-                allow($request)->toReceive('getAttribute')->with('action', 'exception')->andReturn('php7error');
+            $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
 
-                $response = Double::instance(['implements' => ResponseInterface::class]);
-                $next     = function ($request, $response) {};
+            $closure = function () use ($request, $handler) {
+                $this->middleware->process($request, $handler);
+            };
 
-                $this->middleware->__invoke($request, $response, $next);
-            } catch (\Throwable $error) {
-                expect($error)->toBeAnInstanceOf(\Throwable::class);
-                expect($error->getMessage())->toContain('error of php 7');
-            }
+            expect($closure)->toThrow(new Error('a sample error preview'));
 
         });
 

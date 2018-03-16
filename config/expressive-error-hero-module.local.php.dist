@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule;
 
+use Zend\Db\Adapter\Adapter;
 use Zend\Expressive\ZendView\HelperPluginManagerFactory;
 use Zend\Log;
 use Zend\ServiceManager\Factory\InvokableFactory;
@@ -15,7 +16,7 @@ return [
                 [
                     'name' => 'db',
                     'options' => [
-                        'db'     => 'Zend\Db\Adapter\Adapter',
+                        'db'     => Adapter::class,
                         'table'  => 'log',
                         'column' => [
                             'timestamp' => 'date',
@@ -124,24 +125,6 @@ json
             'error-hero-module'    => [
                 realpath( dirname(dirname(__DIR__) ) . '/vendor/samsonasik/error-hero-module/view/error-hero-module' ),
             ],
-        ],
-    ],
-
-    'middleware_pipeline' => [
-        'always' => [
-            'middleware' => [
-                Middleware\Expressive::class
-            ],
-            'priority' => PHP_INT_MAX,
-        ],
-    ],
-
-    'routes' => [
-        [
-            'name' => 'error-preview',
-            'path' => '/error-preview[/:action]',
-            'middleware' => Middleware\Routed\Preview\ErrorPreviewAction::class,
-            'allowed_methods' => ['GET'],
         ],
     ],
 

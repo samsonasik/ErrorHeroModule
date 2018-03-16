@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ErrorHeroModule\Handler\Writer\Checker;
 
-use ReflectionProperty;
+use Closure;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Log\Writer\Db as DbWriter;
@@ -39,20 +41,12 @@ class Db
         $this->logWritersConfig      = $logWritersConfig;
     }
 
-    /**
-     * @param string $errorFile
-     * @param int    $errorLine
-     * @param string $errorMessage
-     * @param string $errorUrl
-     *
-     * @return bool
-     */
-    public function isExists($errorFile, $errorLine, $errorMessage, $errorUrl)
+    public function isExists(string $errorFile, int $errorLine, string $errorMessage, string $errorUrl, string $errorType) : bool
     {
         // db definition
-        $reflectionProperty = new ReflectionProperty($this->dbWriter, 'db');
-        $reflectionProperty->setAccessible(true);
-        $db = $reflectionProperty->getValue($this->dbWriter);
+        $db = Closure::bind(function ($dbWriter) {
+            return $dbWriter->db;
+        }, null, $this->dbWriter)($this->dbWriter);
 
         foreach ($this->logWritersConfig as $writerConfig) {
             if ($writerConfig['name'] === 'db') {
@@ -60,20 +54,22 @@ class Db
                 $table = $writerConfig['options']['table'];
 
                 // columns definition
-                $timestamp = $writerConfig['options']['column']['timestamp'];
-                $message   = $writerConfig['options']['column']['message'];
-                $file      = $writerConfig['options']['column']['extra']['file'];
-                $line      = $writerConfig['options']['column']['extra']['line'];
-                $url       = $writerConfig['options']['column']['extra']['url'];
+                $timestamp  = $writerConfig['options']['column']['timestamp'];
+                $message    = $writerConfig['options']['column']['message'];
+                $file       = $writerConfig['options']['column']['extra']['file'];
+                $line       = $writerConfig['options']['column']['extra']['line'];
+                $url        = $writerConfig['options']['column']['extra']['url'];
+                $error_type = $writerConfig['options']['column']['extra']['error_type'];
 
                 $tableGateway = new TableGateway($table, $db, null, new ResultSet());
                 $select       = $tableGateway->getSql()->select();
                 $select->columns([$timestamp]);
                 $select->where([
-                    $message => $errorMessage,
-                    $line    => $errorLine,
-                    $url     => $errorUrl,
-                    $file    => $errorFile,
+                    $message    => $errorMessage,
+                    $line       => $errorLine,
+                    $url        => $errorUrl,
+                    $file       => $errorFile,
+                    $error_type => $errorType,
                 ]);
                 $select->order($timestamp.' DESC');
                 $select->limit(1);

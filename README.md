@@ -7,10 +7,14 @@ ErrorHeroModule
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 [![Downloads](https://img.shields.io/packagist/dt/samsonasik/error-hero-module.svg?style=flat-square)](https://packagist.org/packages/samsonasik/error-hero-module)
 
+> This is README for version ^2.0 which only support ZF3 and ZF Expressive version 3 with php ^7.1.
+
+> For version 1, you can read at [version 1 readme](https://github.com/samsonasik/ErrorHeroModule/tree/1.x.x) which still support ZF2 and ZF Expressive version 1 and 2 with php ^5.6|^7.0 support.
+
 Introduction
 ------------
 
-ErrorHeroModule is a module for Error Logging (DB and Mail) your ZF2, ZF3 Mvc Application, and ZF Expressive for Exceptions in 'dispatch.error' or 'render.error' or during request and response, and [PHP E_* Error](http://www.php.net/manual/en/errorfunc.constants.php).
+ErrorHeroModule is a module for Error Logging (DB and Mail) your ZF3 Mvc Application, and ZF Expressive for Exceptions in 'dispatch.error' or 'render.error' or during request and response, and [PHP E_* Error](http://www.php.net/manual/en/errorfunc.constants.php).
 
 Features
 --------
@@ -176,8 +180,7 @@ return [
         // 2. error-preview command (ErrorHeroModule\Controller\ErrorPreviewConsoleController) via
         //       php public/index.php error-preview
         //
-        // for zf-expressive ^1.0, the disable error-preview page is by unregister 'error-preview' from this config under "routes",
-        // for zf-expressive ^2.0 or ^3.0.0-dev, the disable error-preview page is by unregister 'error-preview' from config/routes
+        // for zf-expressive ^3.0.0, the disable error-preview page is by unregister 'error-preview' from config/routes
         //
         //
         // otherwise(false), you can't see them, eg: on production env.
@@ -267,9 +270,7 @@ return [
 
 > You need to use Zend\ServiceManager for service container and Zend\View for template engine.
 
-For [zend-expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton) ^1.0, It's should already just works!
-
-For [zend-expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton) ^2.0 or ^3.0.0-dev, you need to open `config/pipeline.php` and add the `ErrorHeroModule\Middleware\Expressive::class` middleware after default `ErrorHandler::class` registration:
+For [zend-expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton) ^3.0.0, you need to open `config/pipeline.php` and add the `ErrorHeroModule\Middleware\Expressive::class` middleware after default `ErrorHandler::class` registration:
 
 ```php
 $app->pipe(ErrorHandler::class);
@@ -290,10 +291,11 @@ Give it a try!
 
 _**Web Access**_
 
-| URl                                  | Preview For  |
-|--------------------------------------|--------------|
-| http://yourzfapp/error-preview       | Exception    |
-| http://yourzfapp/error-preview/error | Error        |
+| URl                                   | Preview For  |
+|---------------------------------------|--------------|
+| http://yourzfapp/error-preview        | Exception    |
+| http://yourzfapp/error-preview/error  | Error        |
+| http://yourzfapp/error-preview/notice | PHP E_NOTICE |
 
 You will get the following page if display_errors config is 0:
 
@@ -309,10 +311,11 @@ _**Console Access**_
 > composer require zendframework/zend-mvc-console --sort-packages
 > ```
 
-| Command                                  | Preview For  |
-|------------------------------------------|--------------|
-| php public/index.php error-preview       | Exception    |
-| php public/index.php error-preview error | Error        |
+| Command                                   | Preview For  |
+|-------------------------------------------|--------------|
+| php public/index.php error-preview        | Exception    |
+| php public/index.php error-preview error  | Error        |
+| php public/index.php error-preview notice | PHP E_NOTICE |
 
 You will get the following page if display_errors config is 0:
 

@@ -1,35 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ErrorHeroModule;
 
 use Doctrine\ORM\EntityManager;
-use Zend\Db\Adapter\Adapter;
 use Zend\ModuleManager\ModuleEvent;
 use Zend\ModuleManager\ModuleManager;
 
 class Module
 {
-    /**
-     * @param  ModuleManager $moduleManager
-     *
-     * @return void
-     */
-    public function init(ModuleManager $moduleManager)
+    public function init(ModuleManager $moduleManager) : void
     {
         $eventManager = $moduleManager->getEventManager();
         $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'convertDoctrineToZendDbService']);
         $eventManager->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'errorPreviewPageHandler'], 101);
     }
 
-    /**
-     * @param  ModuleEvent                   $event
-     *
-     * @return void
-     */
-    public function convertDoctrineToZendDbService(ModuleEvent $event)
+    public function convertDoctrineToZendDbService(ModuleEvent $event) : void
     {
-        $services       = $event->getParam('ServiceManager');
-        if (! $services->has(EntityManager::class)) {
+        $container = $event->getParam('ServiceManager');
+        if (! $container->has(EntityManager::class)) {
             return;
         }
 
@@ -41,44 +32,10 @@ class Module
             return;
         }
 
-        $entityManager          = $services->get(EntityManager::class);
-        $doctrineDBALConnection = $entityManager->getConnection();
-
-        $params        = $doctrineDBALConnection->getParams();
-        $driverOptions = (isset($params['driverOptions'])) ? $params['driverOptions'] : [];
-
-        $config = [
-            'username'       => $doctrineDBALConnection->getUsername(),
-            'password'       => $doctrineDBALConnection->getPassword(),
-            'driver'         => $doctrineDBALConnection->getDriver()->getName(),
-            'database'       => $doctrineDBALConnection->getDatabase(),
-            'host'           => $doctrineDBALConnection->getHost(),
-            'port'           => $doctrineDBALConnection->getPort(),
-            'driver_options' => $driverOptions,
-        ];
-
-        $allowOverride = $services->getAllowOverride();
-        $services->setAllowOverride(true);
-
-        $adapterName = 'Zend\Db\Adapter\Adapter';
-        $writers = $configuration['log']['ErrorHeroModuleLogger']['writers'];
-        foreach ($writers as $key => $writer) {
-            if ($writer['name'] === 'db') {
-                $adapterName = $writer['options']['db'];
-                break;
-            }
-        }
-
-        $services->setService($adapterName, new Adapter($config));
-        $services->setAllowOverride($allowOverride);
+        Transformer\DoctrineToZendDb::transform($container, $configuration);
     }
 
-    /**
-     * @param  ModuleEvent                   $event
-     *
-     * @return void
-     */
-    public function errorPreviewPageHandler(ModuleEvent $event)
+    public function errorPreviewPageHandler(ModuleEvent $event) : void
     {
         /** @var \Zend\ModuleManager\Listener\ConfigListener $configListener */
         $configListener = $event->getConfigListener();
@@ -93,8 +50,6 @@ class Module
         }
 
         unset(
-            $configuration['controllers']['invokables'][Controller\ErrorPreviewController::class],
-            $configuration['controllers']['invokables'][Controller\ErrorPreviewConsoleController::class],
             $configuration['controllers']['factories'][Controller\ErrorPreviewController::class],
             $configuration['controllers']['factories'][Controller\ErrorPreviewConsoleController::class],
             $configuration['router']['routes']['error-preview'],
@@ -104,10 +59,7 @@ class Module
         $configListener->setMergedConfig($configuration);
     }
 
-    /**
-     * @return array
-     */
-    public function getConfig()
+    public function getConfig() : array
     {
         return include __DIR__.'/../config/module.config.php';
     }

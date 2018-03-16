@@ -1,24 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ErrorHeroModule\Controller;
 
-if (\class_exists(\Zend\Mvc\Console\Controller\AbstractConsoleController::class)) {
-    \class_alias(
-        \Zend\Mvc\Console\Controller\AbstractConsoleController::class,
-        'Zend\Mvc\Controller\AbstractConsoleController'
-    );
-}
-
-use Zend\Mvc\Controller\AbstractConsoleController;
+use Zend\Mvc\Console\Controller\AbstractConsoleController;
 
 class ErrorPreviewConsoleController extends AbstractConsoleController
 {
     public function exceptionAction()
     {
-        throw new \Exception('a sample error preview');
+        throw new \Exception('a sample exception preview');
     }
 
     public function errorAction()
+    {
+        throw new \Error('a sample error preview');
+    }
+
+    public function noticeAction()
     {
         $array = [];
         $array[1]; // E_NOTICE

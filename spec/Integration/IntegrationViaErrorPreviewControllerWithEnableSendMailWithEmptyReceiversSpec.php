@@ -7,11 +7,12 @@ use ErrorHeroModule\Controller\ErrorPreviewController;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
+use Zend\Db\Adapter\Adapter;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Mvc\Application;
 
-describe('Integration via ErrorPreviewController with enable send mail', function () {
+describe('Integration via ErrorPreviewController with enable send mail with emtpy receiver', function () {
 
     given('application', function () {
 
@@ -36,7 +37,7 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
         $serviceManager->get('SendResponseListener')
                        ->detach($events);
 
-        $db  = $serviceManager->get('Zend\Db\Adapter\Adapter');
+        $db  = $serviceManager->get(Adapter::class);
         $tableGateway = new TableGateway('log', $db, null, new ResultSet());
         $tableGateway->delete([]);
 
@@ -46,7 +47,7 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
 
     describe('/error-preview', function() {
 
-        it('show error page', function() {
+        it('show error page for exception', function() {
 
             Quit::disable();
 
@@ -69,7 +70,7 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
 
     describe('/error-preview/error', function() {
 
-        it('show error page', function() {
+        it('show error page for E_* error', function() {
 
             Quit::disable();
 
