@@ -111,7 +111,7 @@ composer require samsonasik/error-hero-module
 
 **4. Copy config**
 
-***a. For [ZF2/ZF3 Mvc](https://zendframework.github.io/tutorials/getting-started/overview/) application, copy `error-hero-module.local.php.dist` config to your local's autoload and configure it***
+***a. For [ZF3 Mvc](https://zendframework.github.io/tutorials/getting-started/overview/) application, copy `error-hero-module.local.php.dist` config to your local's autoload and configure it***
 
 | source                                                                       | destination                                 |
 |------------------------------------------------------------------------------|---------------------------------------------|
