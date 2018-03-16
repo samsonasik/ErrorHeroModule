@@ -60,7 +60,5 @@
         "zf": {
             "module": "ErrorHeroModule"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
