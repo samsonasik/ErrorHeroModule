@@ -16,7 +16,7 @@ class DoctrineToZendDb
         $doctrineDBALConnection = $entityManager->getConnection();
 
         $params        = $doctrineDBALConnection->getParams();
-        $driverOptions = (isset($params['driverOptions'])) ? $params['driverOptions'] : [];
+        $driverOptions = $params['driverOptions'] ?? [];
 
         $config = [
             'username'       => $doctrineDBALConnection->getUsername(),
