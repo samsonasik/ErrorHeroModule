@@ -24,10 +24,7 @@ class Module
             return;
         }
 
-        /** @var \Zend\ModuleManager\Listener\ConfigListener $configListener */
-        $configListener = $event->getConfigListener();
-        $configuration  = $configListener->getMergedConfig(false);
-
+        $configuration  = $container->get('config');
         if (isset($configuration['db'])) {
             return;
         }

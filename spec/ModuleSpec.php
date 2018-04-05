@@ -70,10 +70,7 @@ describe('Module', function () {
             $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
             allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(true);
-
-            $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
-            allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);
-            allow($configListener)->toReceive('getMergedConfig')->andReturn([
+            allow($serviceManager)->toReceive('get')->with('config')->andReturn([
                 'db' => [
                     'username' => 'root',
                     'password' => '',
@@ -94,10 +91,7 @@ describe('Module', function () {
             $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
             allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(true);
-
-            $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
-            allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);
-            allow($configListener)->toReceive('getMergedConfig')->andReturn([
+            allow($serviceManager)->toReceive('get')->with('config')->andReturn([
                 'log' => [
                     'ErrorHeroModuleLogger' => [
                         'writers' => [
@@ -156,10 +150,7 @@ describe('Module', function () {
             $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
             allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(true);
-
-            $configListener = Double::instance(['extends' => ConfigListener::class, 'methods' => '__construct']);
-            allow($moduleEvent)->toReceive('getConfigListener')->andReturn($configListener);
-            allow($configListener)->toReceive('getMergedConfig')->andReturn([
+            allow($serviceManager)->toReceive('get')->with('config')->andReturn([
                 'log' => [
                     'ErrorHeroModuleLogger' => [
                         'writers' => [
