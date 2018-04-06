@@ -70,11 +70,6 @@ class Logging
      */
     private $emailSender;
 
-    /**
-     * @var array
-     */
-    private $requestData = [];
-
     public function __construct(
         Logger             $logger,
         string             $serverUrl,
@@ -223,7 +218,7 @@ class Logging
             $writer    = new Writer\Mail(
                 $this->mailMessageService,
                 $this->mailMessageTransport,
-                $this->requestData
+                $extra['request_data']
             );
             $writer->setFormatter($formatter);
 
@@ -256,7 +251,6 @@ class Logging
             $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData);
         }
 
-        $this->requestData = $extra['request_data'];
         $this->sendMail($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra, '['.$this->serverUrl.'] '.$collectedExceptionData['errorType'].' has thrown');
     }
 }
