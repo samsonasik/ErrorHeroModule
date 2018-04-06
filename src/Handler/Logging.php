@@ -106,7 +106,7 @@ class Logging
      */
     private function isExists(string $errorFile, int $errorLine, string $errorMessage, string $url, string $errorType) : bool
     {
-        $writers = $this->logger->getWriters()->toArray();
+        $writers = $this->logger->getWriters();
         foreach ($writers as $writer) {
             if ($writer instanceof Db) {
                 try {
