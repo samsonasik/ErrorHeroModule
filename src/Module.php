@@ -25,11 +25,7 @@ class Module
         }
 
         $configuration  = $container->get('config');
-        if (isset($configuration['db'])) {
-            return;
-        }
-
-        Transformer\DoctrineToZendDb::transform($container, $configuration);
+        $configuration['db'] ?? Transformer\DoctrineToZendDb::transform($container, $configuration);
     }
 
     public function errorPreviewPageHandler(ModuleEvent $event) : void
