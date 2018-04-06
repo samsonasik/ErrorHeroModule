@@ -104,9 +104,8 @@ class Expressive implements MiddlewareInterface
             $response = new Response();
             $response->getBody()->write($content);
             $response = $response->withHeader('Content-type', $contentType);
-            $response = $response->withStatus(500);
 
-            return $response;
+            return $response->withStatus(500);
         }
 
         $layout = new ViewModel();
@@ -117,10 +116,9 @@ class Expressive implements MiddlewareInterface
         }, null, $this->renderer)($this->renderer);
         $rendererLayout = $layout;
 
-        $response =  new HtmlResponse(
+        return new HtmlResponse(
             $this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view']),
             500
         );
-        return $response;
     }
 }
