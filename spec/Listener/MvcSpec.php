@@ -350,10 +350,8 @@ describe('Mvc', function () {
 
         it('call error_get_last() and return nothing', function () {
 
-            allow('error_get_last')->toBeCalled();
-            expect('error_get_last')->toBeCalled();
-
-            $this->listener->execOnShutdown();
+            allow('error_get_last')->toBeCalled()->andReturn(null);
+            expect($this->listener->execOnShutdown())->toBeNull();
 
         });
 
