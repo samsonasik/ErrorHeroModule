@@ -138,7 +138,7 @@ describe('LoggingSpec', function () {
 
             $r = new ReflectionProperty($this->logging, 'request');
             $r->setAccessible(true);
-            expect($r->getValue($this->logging))->toBeAnInstanceOf(ServerRequest::class);
+            expect($r->getValue($this->logging))->toBeAnInstanceOf(Request::class);
 
             $r2 = new ReflectionProperty($this->logging, 'requestUri');
             $r2->setAccessible(true);

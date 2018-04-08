@@ -31,7 +31,7 @@ class Logging
     private $serverUrl;
 
     /**
-     * @var RequestInterface|ServerRequestInterface|null
+     * @var RequestInterface|null
      */
     private $request;
 
@@ -97,7 +97,7 @@ class Logging
      */
     public function setServerRequestandRequestUri(ServerRequestInterface $request) : void
     {
-        $this->request    = $request;
+        $this->request    = Psr7ServerRequest::toZend($request);
         $uri              = $request->getUri();
         $this->serverUrl  = $uri->getScheme() . '://' . $uri->getHost();
         $this->requestUri = \substr($uri->__toString(), \strlen($this->serverUrl));
@@ -133,10 +133,6 @@ class Logging
     {
         if (! $this->request || $this->request instanceof ConsoleRequest) {
             return [];
-        }
-
-        if ($this->request instanceof ServerRequestInterface) {
-            $this->request = Psr7ServerRequest::toZend($this->request);
         }
 
         /** @var HttpRequest $request */
