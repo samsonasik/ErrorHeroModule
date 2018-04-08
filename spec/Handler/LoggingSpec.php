@@ -12,6 +12,7 @@ use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Diactoros\ServerRequest;
+use Zend\Diactoros\Uri;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db as DbWriter;
@@ -118,9 +119,44 @@ describe('LoggingSpec', function () {
 
     describe('->setServerRequestandRequestUri()', function () {
 
-        it('set request and requestUri properties', function () {
+        it('set request and requestUri properties on serverurl not empty (assigned by __construct)', function () {
 
             $this->logging->setServerRequestandRequestUri(new ServerRequest([], [], $this->serverUrl  . '/error-preview', 'GET'));
+
+            $r = new ReflectionProperty($this->logging, 'request');
+            $r->setAccessible(true);
+            expect($r->getValue($this->logging))->toBeAnInstanceOf(ServerRequest::class);
+
+            $r2 = new ReflectionProperty($this->logging, 'requestUri');
+            $r2->setAccessible(true);
+            expect($r2->getValue($this->logging))->toBe('/error-preview');
+
+            $r3 = new ReflectionMethod($this->logging, 'getRequestData');
+            $r3->setAccessible(true);
+            $r3->invoke($this->logging);
+
+        });
+
+        it('set request and requestUri properties on empty serverurl (assign it immediately)', function () {
+
+            $r0 = new ReflectionProperty($this->logging, 'serverUrl');
+            $r0->setAccessible(true);
+            $r0->setValue($this->logging, '');
+
+            $request = new ServerRequest(
+                [],
+                [],
+                new Uri('http://example.com/error-preview'),
+                'GET',
+                'php://memory',
+                [],
+                [],
+                [],
+                '',
+                '1.2'
+            );
+
+            $this->logging->setServerRequestandRequestUri($request);
 
             $r = new ReflectionProperty($this->logging, 'request');
             $r->setAccessible(true);
