@@ -12,6 +12,7 @@ use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Diactoros\ServerRequest;
+use Zend\Diactoros\Uri;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db as DbWriter;
@@ -120,7 +121,20 @@ describe('LoggingSpec', function () {
 
         it('set request and requestUri properties', function () {
 
-            $this->logging->setServerRequestandRequestUri(new ServerRequest([], [], $this->serverUrl  . '/error-preview', 'GET'));
+            $request = new ServerRequest(
+                [],
+                [],
+                new Uri('http://example.com/error-preview'),
+                'GET',
+                'php://memory',
+                [],
+                [],
+                [],
+                '',
+                '1.2'
+            );
+
+            $this->logging->setServerRequestandRequestUri($request);
 
             $r = new ReflectionProperty($this->logging, 'request');
             $r->setAccessible(true);

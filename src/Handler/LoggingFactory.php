@@ -20,13 +20,12 @@ class LoggingFactory
     public function __invoke(ContainerInterface $container) : Logging
     {
         if (! Console::isConsole()) {
-            $serverUrlHelper = $container->get('ViewHelperManager')->get('ServerUrl');
             if ($container->has('Request')) {
-                $serverUrl  = $serverUrlHelper->__invoke();
+                $serverUrl  = $container->get('ViewHelperManager')->get('ServerUrl')();
                 $request    = $container->get('Request');
                 $requestUri = $request->getRequestUri();
             } else {
-                $serverUrl  = $serverUrlHelper->__invoke(true);
+                $serverUrl  = '';
                 $request    = null;
                 $requestUri = '';
             }
