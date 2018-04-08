@@ -20,20 +20,14 @@ class LoggingFactory
     public function __invoke(ContainerInterface $container) : Logging
     {
         if (! Console::isConsole()) {
-            $request    = null;
-            $requestUri = '';
-
-            if (! $container->has('ViewHelperManager')) {
-                $serverUrl  = '';
+            if ($container->has('Request')) {
+                $serverUrl  = $container->get('ViewHelperManager')->get('ServerUrl')();
+                $request    = $container->get('Request');
+                $requestUri = $request->getRequestUri();
             } else {
-                $serverUrlHelper = $container->get('ViewHelperManager')->get('ServerUrl');
-                if ($container->has('Request')) {
-                    $serverUrl  = $serverUrlHelper->__invoke();
-                    $request    = $container->get('Request');
-                    $requestUri = $request->getRequestUri();
-                } else {
-                    $serverUrl  = $serverUrlHelper->__invoke(true);
-                }
+                $serverUrl  = '';
+                $request    = null;
+                $requestUri = '';
             }
         } else {
             $serverUrl  = \php_uname('n');
