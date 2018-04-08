@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use Throwable;
 use Zend\Console\Request as ConsoleRequest;
-use Zend\Http\Request as HttpRequest;
+use Zend\Http\PhpEnvironment\Request as HttpRequest;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db;
 use Zend\Mail\Message;
