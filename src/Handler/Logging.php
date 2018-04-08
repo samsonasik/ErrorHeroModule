@@ -93,12 +93,12 @@ class Logging
     }
 
     /**
-     * Set ServerRequest for expressive
+     * Set Server Request for expressive
      */
     public function setServerRequestandRequestUri(ServerRequestInterface $request) : void
     {
         $this->request    = Psr7ServerRequest::toZend($request);
-        $uri              = $request->getUri();
+        $uri              = $this->request->getUri();
         $this->serverUrl  = $uri->getScheme() . '://' . $uri->getHost();
         $this->requestUri = \substr($uri->__toString(), \strlen($this->serverUrl));
     }
