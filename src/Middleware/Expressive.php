@@ -19,6 +19,7 @@ use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Expressive\Application;
 use Zend\Expressive\Template\TemplateRendererInterface;
+use Zend\Expressive\ZendView\ZendViewRenderer;
 use Zend\View\Model\ViewModel;
 
 class Expressive implements MiddlewareInterface
@@ -108,13 +109,15 @@ class Expressive implements MiddlewareInterface
             return $response->withStatus(500);
         }
 
-        $layout = new ViewModel();
-        $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
+        if ($this->renderer instanceof ZendViewRenderer) {
+            $layout = new ViewModel();
+            $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
 
-        $rendererLayout = & Closure::bind(function & ($renderer) {
-            return $renderer->layout;
-        }, null, $this->renderer)($this->renderer);
-        $rendererLayout = $layout;
+            $rendererLayout = & Closure::bind(function & ($renderer) {
+                return $renderer->layout;
+            }, null, $this->renderer)($this->renderer);
+            $rendererLayout = $layout;
+        }
 
         return new HtmlResponse(
             $this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view']),

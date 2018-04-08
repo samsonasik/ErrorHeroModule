@@ -203,6 +203,8 @@ return [
 
             // if enable and display_errors = 0, the page will bring layout and view
             'template' => [
+                // non zend-view (plates, twig) not need a layout definition
+                // as layout defined in the view
                 'layout' => 'layout/layout',
                 'view'   => 'error-hero-module/error-default'
             ],
