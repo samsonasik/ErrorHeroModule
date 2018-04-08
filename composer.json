@@ -40,7 +40,9 @@
     },
     "suggest": {
         "zendframework/zend-mvc-console": "^1.1 for zend-mvc ^3.0 usage to be able to use Console Controller",
-        "zendframework/zend-expressive-zendviewrenderer": "^2.0 to be able to use it in zend-expressive ^3.0"
+        "zendframework/zend-expressive-zendviewrenderer": "^2.0 to be able to use zend-view template engine in zend-expressive ^3.0",
+        "zendframework/zend-expressive-twigrenderer": "^2.0 to be able to use twig template engine in zend-expressive ^3.0",
+        "zendframework/zend-expressive-platesrenderer": "^2.0 to be able to use plates template engine in zend-expressive ^3.0"
     },
     "autoload": {
         "psr-4": {
