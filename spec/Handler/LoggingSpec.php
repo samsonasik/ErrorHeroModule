@@ -119,29 +119,7 @@ describe('LoggingSpec', function () {
 
     describe('->setServerRequestandRequestUri()', function () {
 
-        it('set request and requestUri properties on serverurl not empty (assigned by __construct)', function () {
-
-            $this->logging->setServerRequestandRequestUri(new ServerRequest([], [], $this->serverUrl  . '/error-preview', 'GET'));
-
-            $r = new ReflectionProperty($this->logging, 'request');
-            $r->setAccessible(true);
-            expect($r->getValue($this->logging))->toBeAnInstanceOf(ServerRequest::class);
-
-            $r2 = new ReflectionProperty($this->logging, 'requestUri');
-            $r2->setAccessible(true);
-            expect($r2->getValue($this->logging))->toBe('/error-preview');
-
-            $r3 = new ReflectionMethod($this->logging, 'getRequestData');
-            $r3->setAccessible(true);
-            $r3->invoke($this->logging);
-
-        });
-
-        it('set request and requestUri properties on empty serverurl (assign it immediately)', function () {
-
-            $r0 = new ReflectionProperty($this->logging, 'serverUrl');
-            $r0->setAccessible(true);
-            $r0->setValue($this->logging, '');
+        it('set request and requestUri properties', function () {
 
             $request = new ServerRequest(
                 [],
