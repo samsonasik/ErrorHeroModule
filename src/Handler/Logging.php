@@ -98,7 +98,14 @@ class Logging
     public function setServerRequestandRequestUri(ServerRequestInterface $request) : void
     {
         $this->request    = $request;
-        $this->requestUri = \substr($request->getUri()->__toString(), \strlen($this->serverUrl));
+
+        $uri = $request->getUri();
+        if (! $this->serverUrl) {
+            $uri             = $this->request->getUri();
+            $this->serverUrl = $uri->getScheme() . '://' . $uri->getHost();
+        }
+
+        $this->requestUri = \substr($uri->__toString(), \strlen($this->serverUrl));
     }
 
     /**
