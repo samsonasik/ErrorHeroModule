@@ -596,7 +596,7 @@ json
         it('do not has error', function () {
 
             $actual = $this->middleware->phpErrorHandler(0, '', '', 0);
-            // null means use default next(req, resp)
+            // null means use default $handler->handle($request)
             expect($actual)->toBeNull();
 
         });
@@ -604,7 +604,7 @@ json
         it('exclude error type and match', function () {
 
             $actual = $this->middleware->phpErrorHandler(\E_USER_DEPRECATED, 'deprecated', 'file.php', 1);
-            // null means use default next(req, resp)
+            // null means use default $handler->handle($request)
             expect($actual)->toBeNull();
 
             expect(error_reporting())->toBe(E_ALL | E_STRICT);
