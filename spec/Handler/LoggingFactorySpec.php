@@ -119,7 +119,7 @@ describe('LoggingFactorySpec', function () {
 
         });
 
-        it('instance of Logging on non-console with container does has "Request" service', function () {
+        it('instance of Logging on non-console with container has "Request" service', function () {
 
             Console::overrideIsConsole(false);
             $config = [
