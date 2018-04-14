@@ -9,7 +9,7 @@ class HeroConstant
     /**
      * @var array
      */
-    const ERROR_TYPE = [
+    public const ERROR_TYPE = [
         \E_ERROR             => 'E_ERROR',
         \E_WARNING           => 'E_WARNING',
         \E_PARSE             => 'E_PARSE',
