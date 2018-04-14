@@ -100,7 +100,7 @@ class Logging
         $this->request    = Psr7ServerRequest::toZend($request);
         $uri              = $this->request->getUri();
         $this->serverUrl  = $uri->getScheme() . '://' . $uri->getHost();
-        $this->requestUri = \substr($uri->__toString(), \strlen($this->serverUrl));
+        $this->requestUri = $this->request->getRequestUri();
     }
 
     /**

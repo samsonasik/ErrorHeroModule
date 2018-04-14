@@ -21,8 +21,9 @@ class LoggingFactory
     {
         if (! Console::isConsole()) {
             if ($container->has('Request')) {
-                $serverUrl  = $container->get('ViewHelperManager')->get('ServerUrl')();
                 $request    = $container->get('Request');
+                $uri        = $request->getUri();
+                $serverUrl  = $uri->getScheme() . '://' . $uri->getHost();
                 $requestUri = $request->getRequestUri();
             } else {
                 $serverUrl  = '';
