@@ -3,7 +3,6 @@
 namespace ErrorHeroModule;
 
 use Zend\Db\Adapter\Adapter;
-use Zend\Expressive\ZendView\HelperPluginManagerFactory;
 use Zend\Log;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
@@ -117,7 +116,6 @@ json
             ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction::class => InvokableFactory::class,
 
             Handler\Logging::class => Handler\LoggingFactory::class,
-            'ViewHelperManager' => HelperPluginManagerFactory::class,
         ],
     ],
 
