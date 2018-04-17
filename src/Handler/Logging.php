@@ -131,7 +131,7 @@ class Logging
 
     private function getRequestData() : array
     {
-        if (! $this->request || $this->request instanceof ConsoleRequest) {
+        if ($this->request instanceof ConsoleRequest) {
             return [];
         }
 
