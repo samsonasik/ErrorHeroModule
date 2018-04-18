@@ -7,6 +7,8 @@ if (! ($this instanceof ExpressiveZendViewRenderer || $this instanceof MvcZendVi
     if (method_exists($this, 'layout')) {
         $this->layout('layout::default', ['title' => 'Error']);
     }
+} else {
+    $this->headTitle('Error');
 }
 ?>
 
