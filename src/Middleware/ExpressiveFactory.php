@@ -22,7 +22,9 @@ class ExpressiveFactory
         }
 
         if (isset($configuration['db']) && $container instanceof SymfonyContainer) {
-            // ...
+            // db services definition
+
+            //logger service definition
         }
 
         return new Expressive(
