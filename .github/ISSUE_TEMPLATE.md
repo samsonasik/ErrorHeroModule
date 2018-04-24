@@ -13,6 +13,11 @@ What PHP version you're using?
 - [ ] PHP 7.1
 - [ ] PHP 7.2
 
+What ErrorHeroModule version you're using?
+
+- [ ] ^1.0
+- [ ] ^2.0
+
 ### Expected behavior
 
 ### Actual behavior
