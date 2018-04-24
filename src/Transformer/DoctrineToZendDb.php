@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Transformer;
 
 use Doctrine\ORM\EntityManager;
+use Psr\Container\ContainerInterface;
 use Zend\Db\Adapter\Adapter;
 use Zend\ServiceManager\ServiceManager;
 
 class DoctrineToZendDb
 {
-    public static function transform(ServiceManager $container, array $configuration) : ServiceManager
+    public static function transform(ContainerInterface $container, array $configuration) : ContainerInterface
     {
         $entityManager          = $container->get(EntityManager::class);
         $doctrineDBALConnection = $entityManager->getConnection();
@@ -28,20 +29,22 @@ class DoctrineToZendDb
             'driver_options' => $driverOptions,
         ];
 
-        $allowOverride = $container->getAllowOverride();
-        $container->setAllowOverride(true);
+        if ($container instanceof ServiceManager) {
+            $allowOverride = $container->getAllowOverride();
+            $container->setAllowOverride(true);
 
-        $adapterName = Adapter::class;
-        $writers = $configuration['log']['ErrorHeroModuleLogger']['writers'];
-        foreach ($writers as $key => $writer) {
-            if ($writer['name'] === 'db') {
-                $adapterName = $writer['options']['db'];
-                break;
+            $adapterName = Adapter::class;
+            $writers = $configuration['log']['ErrorHeroModuleLogger']['writers'];
+            foreach ($writers as $key => $writer) {
+                if ($writer['name'] === 'db') {
+                    $adapterName = $writer['options']['db'];
+                    break;
+                }
             }
-        }
 
-        $container->setService($adapterName, new Adapter($config));
-        $container->setAllowOverride($allowOverride);
+            $container->setService($adapterName, new Adapter($config));
+            $container->setAllowOverride($allowOverride);
+        }
 
         return $container;
     }

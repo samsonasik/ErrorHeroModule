@@ -8,8 +8,8 @@ use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Transformer\DoctrineToZendDb;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\Container as SymfonyContainer;
 use Zend\Expressive\Template\TemplateRendererInterface;
-use Zend\ServiceManager\ServiceManager;
 
 class ExpressiveFactory
 {
@@ -17,11 +17,12 @@ class ExpressiveFactory
     {
         $configuration = $container->get('config');
 
-        if ($container->has(EntityManager::class) &&
-            ! isset($configuration['db']) &&
-            $container instanceof ServiceManager
-        ) {
+        if ($container->has(EntityManager::class) && ! isset($configuration['db'])) {
             $container = DoctrineToZendDb::transform($container, $configuration);
+        }
+
+        if (isset($configuration['db']) && $container instanceof SymfonyContainer) {
+            // ...
         }
 
         return new Expressive(
