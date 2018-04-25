@@ -49,10 +49,6 @@ trait HeroTrait
      */
     public function phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine)
     {
-        if (! $errorLine) {
-            return;
-        }
-
         if (! (error_reporting() & $errorType)) {
             return;
         }
