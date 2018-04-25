@@ -605,7 +605,7 @@ json
 
             allow('error_reporting')->tobeCalled()->andReturn(0);
             $actual = $this->middleware->phpErrorHandler(2, 'mkdir(): File exists', 'file.php', 6);
-            // null means use default mvc process
+            // null means use default $handler->handle($request)
             expect($actual)->toBeNull();
 
         });
