@@ -601,6 +601,15 @@ json
 
         });
 
+        it('error_reporting() returns 0', function () {
+
+            allow('error_reporting')->tobeCalled()->andReturn(0);
+            $actual = $this->middleware->phpErrorHandler(2, 'mkdir(): File exists', 'file.php', 6);
+            // null means use default mvc process
+            expect($actual)->toBeNull();
+
+        });
+
         it('exclude error type and match', function () {
 
             $actual = $this->middleware->phpErrorHandler(\E_USER_DEPRECATED, 'deprecated', 'file.php', 1);
