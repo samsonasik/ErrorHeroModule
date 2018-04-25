@@ -492,14 +492,6 @@ describe('Mvc', function () {
 
     describe('->phpErrorHandler()', function () {
 
-        it('do not has error', function () {
-
-            $actual = $this->listener->phpErrorHandler(0, '', '', 0);
-            // null means use default mvc process
-            expect($actual)->toBeNull();
-
-        });
-
         it('error_reporting() returns 0', function () {
 
             allow('error_reporting')->tobeCalled()->andReturn(0);
