@@ -8,6 +8,7 @@ use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
 use Zend\Http\PhpEnvironment\Request;
+use Zend\Http\PhpEnvironment\Response;
 use Zend\Mvc\Application;
 
 describe('Integration via ErrorPreviewController for XmlHttpRequest', function () {
@@ -50,6 +51,7 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
             $request->setUri('/error-preview');
 
             allow(Request::class)->toReceive('isXmlHttpRequest')->andReturn(true);
+            allow(Response::class)->toReceive('getHeaders', 'addHeaderLine');
 
             ob_start();
             $closure = function () {
@@ -67,6 +69,9 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
 }
 json
             );
+            expect(Response::class)->toReceive('getHeaders', 'addHeaderLine')
+                ->with('Content-type', 'application/problem+json');
+
 
         });
 
