@@ -30,8 +30,8 @@ class Expressive implements MiddlewareInterface
     private $request;
 
     public function __construct(
-        array            $errorHeroModuleConfig,
-        Logging          $logging,
+        array                     $errorHeroModuleConfig,
+        Logging                   $logging,
         TemplateRendererInterface $renderer
     ) {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
