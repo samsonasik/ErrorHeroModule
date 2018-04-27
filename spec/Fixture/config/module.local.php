@@ -45,6 +45,7 @@ return [
     'view_manager' => [
        'template_path_stack' => [
            __DIR__.'/../view',
+           __DIR__.'/../../../view',
        ],
     ],
 

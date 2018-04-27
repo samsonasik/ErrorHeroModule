@@ -225,7 +225,7 @@ describe('Mvc', function () {
 
             $map = new Resolver\TemplateMapResolver([
                 'layout/layout'                   => __DIR__ . '/../Fixture/view/layout/layout.phtml',
-                'error-hero-module/error-default' => __DIR__ . '/../Fixture/view/error-hero-module/error-default.phtml',
+                'error-hero-module/error-default' => __DIR__ . '/../../view/error-hero-module/error-default.phtml',
             ]);
             $resolver->attach($map);
             $renderer->setResolver($resolver);
@@ -426,7 +426,7 @@ describe('Mvc', function () {
             $map = new Resolver\TemplateMapResolver([
                 'error'                           => __DIR__ . '/../Fixture/view/error.phtml',
                 'layout/layout'                   => __DIR__ . '/../Fixture/view/layout/layout.phtml',
-                'error-hero-module/error-default' => __DIR__ . '/../Fixture/view/error-hero-module/error-default.phtml',
+                'error-hero-module/error-default' => __DIR__ . '/../../../view/error-hero-module/error-default.phtml',
             ]);
             $resolver->attach($map);
             $this->renderer->setResolver($resolver);
