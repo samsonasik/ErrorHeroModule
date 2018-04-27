@@ -6,7 +6,6 @@ namespace ErrorHeroModule\Listener;
 
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\HeroTrait;
-use Seld\JsonLint\JsonParser;
 use Zend\Console\Console;
 use Zend\Console\Response as ConsoleResponse;
 use Zend\EventManager\AbstractListenerAggregate;
@@ -94,11 +93,11 @@ class Mvc extends AbstractListenerAggregate
             if ($isXmlHttpRequest === true &&
                 isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
             ) {
-                $content     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
-                $contentType = ((new JsonParser())->lint($content) === null) ? 'application/problem+json' : 'text/html';
+                $message     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
+                $contentType = $this->detectAjaxMessageContentType($message);
 
                 $response->getHeaders()->addHeaderLine('Content-type', $contentType);
-                $response->setContent($content);
+                $response->setContent($message);
 
                 $response->send();
                 exit(-1);

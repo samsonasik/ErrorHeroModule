@@ -13,7 +13,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Seld\JsonLint\JsonParser;
 use Throwable;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\HtmlResponse;
@@ -98,11 +97,11 @@ class Expressive implements MiddlewareInterface
         if ($isXmlHttpRequest === true &&
             isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
         ) {
-            $content     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
-            $contentType = ((new JsonParser())->lint($content) === null) ? 'application/problem+json' : 'text/html';
+            $message     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
+            $contentType = $this->detectAjaxMessageContentType($message);
 
             $response = new Response();
-            $response->getBody()->write($content);
+            $response->getBody()->write($message);
             $response = $response->withHeader('Content-type', $contentType);
 
             return $response->withStatus(500);

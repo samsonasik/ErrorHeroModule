@@ -6,6 +6,7 @@ namespace ErrorHeroModule;
 
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
+use Seld\JsonLint\JsonParser;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -55,5 +56,12 @@ trait HeroTrait
         }
 
         throw new ErrorException($errorMessage, 500, $errorType, $errorFile, $errorLine);
+    }
+
+    private function detectAjaxMessageContentType($message) : string
+    {
+        return ((new JsonParser())->lint($message) === null)
+            ? 'application/problem+json'
+            : ((strip_tags($message) === $message) ? 'text/plain' : 'text/html');
     }
 }

@@ -8,6 +8,7 @@ use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
 use Zend\Http\PhpEnvironment\Request;
+use Zend\Http\PhpEnvironment\Response;
 use Zend\Mvc\Application;
 
 describe('Integration via ErrorPreviewController for XmlHttpRequest with non-json message', function () {
@@ -50,6 +51,7 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest with non-jso
             $request->setUri('/error-preview');
 
             allow(Request::class)->toReceive('isXmlHttpRequest')->andReturn(true);
+            allow(Response::class)->toReceive('getHeaders', 'addHeaderLine');
 
             ob_start();
             $closure = function () {
@@ -59,6 +61,8 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest with non-jso
             $content = ob_get_clean();
 
             expect($content)->toBe('We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.');
+            expect(Response::class)->toReceive('getHeaders', 'addHeaderLine')
+                                                             ->with('Content-type', 'text/plain');
 
         });
 
