@@ -218,7 +218,10 @@ json
 
                 $actual = $middleware->process($request, $handler);
                 expect($actual)->toBeAnInstanceOf(Response::class);
-                expect($actual->getBody()->__toString())->toContain('<p>We have encountered a problem and we can not fulfill your request');
+
+                $content = $actual->getBody()->__toString();
+                expect($content)->toContain('<title>Error');
+                expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
 
             });
 

@@ -1,3 +1,8 @@
-<?php
-    echo $this->content;
-?>
+<html>
+<head>
+<?php echo $this->headTitle('Application')->setSeparator('-')->setAutoEscape(false); ?>
+</head>
+<body>
+    <?php echo $this->content; ?>
+</body>
+</html>

@@ -55,6 +55,7 @@ describe('Integration via ErrorPreviewController for Cannot connect to DB', func
             expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
+            expect($content)->toContain('<title>Error');
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
 
         });
@@ -78,6 +79,7 @@ describe('Integration via ErrorPreviewController for Cannot connect to DB', func
             expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
+            expect($content)->toContain('<title>Error');
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
 
         });
