@@ -58,7 +58,7 @@ trait HeroTrait
         throw new ErrorException($errorMessage, 500, $errorType, $errorFile, $errorLine);
     }
 
-    private function detectAjaxMessageContentType($message) : string
+    private function detectAjaxMessageContentType(string $message) : string
     {
         return ((new JsonParser())->lint($message) === null)
             ? 'application/problem+json'
