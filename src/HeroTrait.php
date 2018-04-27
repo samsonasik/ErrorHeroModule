@@ -62,6 +62,6 @@ trait HeroTrait
     {
         return ((new JsonParser())->lint($message) === null)
             ? 'application/problem+json'
-            : ((strip_tags($message) === $message) ? 'text/plain' : 'text/html');
+            : ((\strip_tags($message) === $message) ? 'text/plain' : 'text/html');
     }
 }
