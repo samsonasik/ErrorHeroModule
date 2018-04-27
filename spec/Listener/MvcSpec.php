@@ -264,7 +264,7 @@ describe('Mvc', function () {
             expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
-            expect($content)->toContain('We have encountered a problem');
+            expect($content)->toContain('<p>We have encountered a problem');
 
         });
 
