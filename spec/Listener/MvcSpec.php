@@ -213,6 +213,7 @@ describe('Mvc', function () {
 
         it('call logging->handleErrorException() with default console error message if $e->getParam("exception") and display_errors = 0', function () {
 
+            Console::overrideIsConsole(true);
             Quit::disable();
             $exception = new \Exception('message');
 
@@ -220,20 +221,10 @@ describe('Mvc', function () {
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
             allow($this->logging)->toReceive('handleErrorException')->with($exception);
 
-            $renderer = new PhpRenderer();
-            $resolver = new Resolver\AggregateResolver();
-
-            $map = new Resolver\TemplateMapResolver([
-                'layout/layout'                   => __DIR__ . '/../Fixture/view/layout/layout.phtml',
-                'error-hero-module/error-default' => __DIR__ . '/../../view/error-hero-module/error-default.phtml',
-            ]);
-            $resolver->attach($map);
-            $renderer->setResolver($resolver);
-
             $listener =  new Mvc(
                 $this->config,
                 $this->logging,
-                $renderer
+                $this->renderer
             );
 
             ob_start();
