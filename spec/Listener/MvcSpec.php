@@ -239,7 +239,6 @@ describe('Mvc', function () {
 
         it('call logging->handleErrorException() with default view error if $e->getParam("exception") and display_errors = 0 and not a console', function () {
 
-            Console::overrideIsConsole(false);
             Quit::disable();
             $exception = new \Exception('message');
 
