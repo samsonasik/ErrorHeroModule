@@ -70,7 +70,7 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
 json
             );
             expect(Response::class)->toReceive('getHeaders', 'addHeaderLine')
-                ->with('Content-type', 'application/problem+json');
+                                   ->with('Content-type', 'application/problem+json');
 
 
         });
