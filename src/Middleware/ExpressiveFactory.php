@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Transformer\DoctrineToZendDb;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\DependencyInjection\Container as SymfonyContainer;
+use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
 class ExpressiveFactory
@@ -21,7 +21,7 @@ class ExpressiveFactory
             $container = DoctrineToZendDb::transform($container, $configuration);
         }
 
-        if (isset($configuration['db']) && $container instanceof SymfonyContainer) {
+        if (isset($configuration['db']) && $container instanceof SymfonyContainerBuilder) {
             // db services definition
 
             //logger service definition
