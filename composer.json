@@ -26,9 +26,10 @@
     },
     "require-dev": {
         "doctrine/doctrine-orm-module": "^1.1",
+        "jsoumelidis/zend-sf-di-config": "^0.4.0",
         "kahlan/kahlan": "^4.1.1",
-        "phpstan/phpstan": "^0.9",
         "php-coveralls/php-coveralls": "^2.0",
+        "phpstan/phpstan": "^0.9",
         "zendframework/zend-expressive": "^3.0",
         "zendframework/zend-expressive-zendviewrenderer": "^2.0",
         "zendframework/zend-mvc": "^3.0",
