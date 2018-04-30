@@ -119,7 +119,7 @@ describe('LoggingFactorySpec', function () {
 
         });
 
-        it('instance of Logging on non-console with container has "Request" service with port 80 (default)', function () {
+        it('instance of Logging on non-console with container has "Request" service with port 80', function () {
 
             Console::overrideIsConsole(false);
             $config = [
