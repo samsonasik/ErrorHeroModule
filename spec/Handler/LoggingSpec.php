@@ -119,12 +119,43 @@ describe('LoggingSpec', function () {
 
     describe('->setServerRequestandRequestUri()', function () {
 
-        it('set request and requestUri properties', function () {
+        it('set request and requestUri properties with port 80', function () {
 
             $request = new ServerRequest(
                 [],
                 [],
                 new Uri('http://example.com/error-preview'),
+                'GET',
+                'php://memory',
+                [],
+                [],
+                [],
+                '',
+                '1.2'
+            );
+
+            $this->logging->setServerRequestandRequestUri($request);
+
+            $r = new ReflectionProperty($this->logging, 'request');
+            $r->setAccessible(true);
+            expect($r->getValue($this->logging))->toBeAnInstanceOf(Request::class);
+
+            $r2 = new ReflectionProperty($this->logging, 'requestUri');
+            $r2->setAccessible(true);
+            expect($r2->getValue($this->logging))->toBe('/error-preview');
+
+            $r3 = new ReflectionMethod($this->logging, 'getRequestData');
+            $r3->setAccessible(true);
+            $r3->invoke($this->logging);
+
+        });
+
+        it('set request and requestUri properties with non 80 port', function () {
+
+            $request = new ServerRequest(
+                [],
+                [],
+                new Uri('http://example.com:8080/error-preview'),
                 'GET',
                 'php://memory',
                 [],
