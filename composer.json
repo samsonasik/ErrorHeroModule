@@ -2,7 +2,7 @@
     "name": "samsonasik/error-hero-module",
     "type": "library",
     "description": "A Hero for your Zend Framework application to trap php errors & exceptions",
-    "keywords": ["zf2", "zf3", "error", "expressive", "hero", "log", "logger", "logging", "mail", "db", "doctrine", "handler", "psr3", "psr7", "psr11", "psr15", "zend-view", "twig", "plates"],
+    "keywords": ["zf2", "zf3", "error", "expressive", "hero", "log", "logger", "logging", "mail", "db", "doctrine", "handler", "psr3", "psr7", "psr11", "psr15", "zend-view", "twig", "plates", "symfony"],
     "homepage": "https://github.com/samsonasik/ErrorHeroModule",
     "license": "MIT",
     "authors": [
