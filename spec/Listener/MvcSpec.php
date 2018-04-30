@@ -16,7 +16,6 @@ use Zend\Log\Logger;
 use Zend\Log\Writer\Db as DbWriter;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Renderer\PhpRenderer;
-use Zend\View\Resolver;
 
 describe('Mvc', function () {
 

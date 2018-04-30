@@ -9,6 +9,8 @@ use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Expressive;
 use ErrorHeroModule\Middleware\ExpressiveFactory;
 use Kahlan\Plugin\Double;
+use RuntimeException;
+use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Zend\Db\Adapter\Adapter;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\ServiceManager\ServiceManager;
@@ -22,6 +24,27 @@ describe('ExpressiveFactory', function () {
     given('config', function () {
 
         return [
+
+            'db' => [
+                'username' => 'root',
+                'password' => '',
+                'driver'   => 'pdo_mysql',
+                'dsn'      => 'mysql:host=localhost;dbname=errorheromodule',
+                'driver_options' => [
+                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                ],
+                'adapters' => [
+                    'my-adapter' => [
+                        'driver' => 'pdo_mysql',
+                        'dsn' => 'mysql:host=localhost;dbname=errorheromodule',
+                        'username' => 'root',
+                        'password' => '',
+                        'driver_options' => [
+                            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                        ],
+                    ],
+                ],
+            ],
 
             'error-hero-module' => [
                 'enable' => true,
@@ -107,9 +130,11 @@ describe('ExpressiveFactory', function () {
 
         it('returns Expressive Middleware instance with doctrine to zend-db conversion', function () {
 
+            $config = $this->config;
+            unset($config['db']);
             $container = Double::instance(['extends' => ServiceManager::class, 'methods' => '__construct']);
             allow($container)->toReceive('get')->with('config')
-                                               ->andReturn($this->config);
+                                               ->andReturn($config);
 
             allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(true);
             $entityManager = Double::instance(['extends' => EntityManager::class, 'methods' => '__construct']);
@@ -130,6 +155,50 @@ describe('ExpressiveFactory', function () {
             allow($container)->toReceive('get')->with(EntityManager::class)->andReturn(
                 $entityManager
             );
+
+            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
+            allow($container)->toReceive('get')->with(Logging::class)
+                                               ->andReturn($logging);
+
+            $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
+            allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
+                                               ->andReturn($renderer);
+
+            $actual = $this->factory($container);
+            expect($actual)->toBeAnInstanceOf(Expressive::class);
+
+        });
+
+        it('throws RuntimeException when using Symfony Container but no "db" config', function () {
+
+            $container = Double::instance(['extends' => SymfonyContainerBuilder::class, 'methods' => '__construct']);
+            allow($container)->toReceive('get')->with('config')
+                                               ->andReturn([]);
+
+            allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
+
+            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
+            allow($container)->toReceive('get')->with(Logging::class)
+                                               ->andReturn($logging);
+
+            $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
+            allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
+                                               ->andReturn($renderer);
+
+            $actual = function () use ($container) {
+                $this->factory($container);
+            };
+            expect($actual)->toThrow(new RuntimeException('db config is required for build Zend\Db\Adapter\Adapter instance by Symfony Container'));
+
+        });
+
+        it('returns Expressive Middleware instance with create services first for Symfony Container', function () {
+
+            $container = Double::instance(['extends' => SymfonyContainerBuilder::class, 'methods' => '__construct']);
+            allow($container)->toReceive('get')->with('config')
+                                               ->andReturn($this->config);
+
+            allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
             $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
             allow($container)->toReceive('get')->with(Logging::class)
