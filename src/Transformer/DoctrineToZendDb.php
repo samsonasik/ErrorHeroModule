@@ -13,10 +13,6 @@ class DoctrineToZendDb
 {
     public static function transform(ContainerInterface $container, array $configuration) : ContainerInterface
     {
-        if (! $container instanceof ServiceManager) {
-            return $container;
-        }
-
         $entityManager          = $container->get(EntityManager::class);
         $doctrineDBALConnection = $entityManager->getConnection();
 
@@ -33,9 +29,6 @@ class DoctrineToZendDb
             'driver_options' => $driverOptions,
         ];
 
-        $allowOverride = $container->getAllowOverride();
-        $container->setAllowOverride(true);
-
         $adapterName = Adapter::class;
         $writers = $configuration['log']['ErrorHeroModuleLogger']['writers'];
         foreach ($writers as $key => $writer) {
@@ -45,8 +38,12 @@ class DoctrineToZendDb
             }
         }
 
-        $container->setService($adapterName, new Adapter($config));
-        $container->setAllowOverride($allowOverride);
+        if ($container instanceof ServiceManager) {
+            $allowOverride = $container->getAllowOverride();
+            $container->setAllowOverride(true);
+            $container->setService($adapterName, new Adapter($config));
+            $container->setAllowOverride($allowOverride);
+        }
 
         return $container;
     }

@@ -130,9 +130,11 @@ describe('ExpressiveFactory', function () {
 
         it('returns Expressive Middleware instance with doctrine to zend-db conversion', function () {
 
+            $config = $this->config;
+            unset($config['db']);
             $container = Double::instance(['extends' => ServiceManager::class, 'methods' => '__construct']);
             allow($container)->toReceive('get')->with('config')
-                                               ->andReturn($this->config);
+                                               ->andReturn($config);
 
             allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(true);
             $entityManager = Double::instance(['extends' => EntityManager::class, 'methods' => '__construct']);
