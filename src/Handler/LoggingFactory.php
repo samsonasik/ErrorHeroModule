@@ -24,6 +24,10 @@ class LoggingFactory
                 $request    = $container->get('Request');
                 $uri        = $request->getUri();
                 $serverUrl  = $uri->getScheme() . '://' . $uri->getHost();
+                $port       = $uri->getPort();
+                if ($port !== 80) {
+                    $serverUrl .= ':' . $port;
+                }
                 $requestUri = $request->getRequestUri();
             } else {
                 $serverUrl  = '';
