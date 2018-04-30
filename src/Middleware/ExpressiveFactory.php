@@ -8,12 +8,11 @@ use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Transformer\DoctrineToZendDb;
 use Psr\Container\ContainerInterface;
-use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Zend\Db\Adapter\Adapter;
+use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\Log\Logger;
 use Zend\Log\WriterPluginManager;
-use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\ServiceManager\ServiceManager;
 
 class ExpressiveFactory
@@ -28,7 +27,7 @@ class ExpressiveFactory
 
         if ($container instanceof SymfonyContainerBuilder) {
             if (! isset($configuration['db'])) {
-                throw new \RuntimeException('db config is required for build Zend\Db\Adapter\Adapter instance');
+                throw new \RuntimeException('db config is required for build Zend\Db\Adapter\Adapter instance by Symfony Container');
             }
 
             $config = $configuration['db'];
