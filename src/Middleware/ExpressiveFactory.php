@@ -9,7 +9,11 @@ use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Transformer\DoctrineToZendDb;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
+use Zend\Db\Adapter\Adapter;
+use Zend\Log\Logger;
+use Zend\Log\WriterPluginManager;
 use Zend\Expressive\Template\TemplateRendererInterface;
+use Zend\ServiceManager\ServiceManager;
 
 class ExpressiveFactory
 {
@@ -21,10 +25,33 @@ class ExpressiveFactory
             $container = DoctrineToZendDb::transform($container, $configuration);
         }
 
-        if (isset($configuration['db']) && $container instanceof SymfonyContainerBuilder) {
-            // db services definition
+        if ($container instanceof SymfonyContainerBuilder) {
+            $config = $configuration['db'];
+            $serviceManager = new ServiceManager();
+            if (isset($config['adapters'])) {
+                foreach ($config['adapters'] as $key => $adapterConfig) {
+                    $container->set($key, new Adapter($adapterConfig));
+                    $serviceManager->setService($key, new Adapter($adapterConfig));
+                }
+            }
+            $container->set(Adapter::class, new Adapter($config));
+            $serviceManager->setService(Adapter::class, new Adapter($config));
 
-            //logger service definition
+            $writerPluginManager = new WriterPluginManager($serviceManager);
+            $writers = $configuration['log']['ErrorHeroModuleLogger']['writers'];
+            foreach ($writers as $key => $writer) {
+                if ($writer['name'] === 'db') {
+                    $writers[$key]['options']['db'] = $container->get($writers[$key]['options']['db']);
+                    break;
+                }
+            }
+
+            $logger = new Logger([
+                'writer_plugin_manager' => $writerPluginManager,
+                'writers'               => $writers
+            ]);
+            $container->set('ErrorHeroModuleLogger', $logger);
+            unset($serviceManager);
         }
 
         return new Expressive(
