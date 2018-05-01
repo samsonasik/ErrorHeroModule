@@ -11,7 +11,7 @@ use Zend\Log\Logger;
 use Zend\Log\WriterPluginManager;
 use Zend\ServiceManager\ServiceManager;
 
-class SymfonyServices implements TransformerInterface
+class SymfonyService implements TransformerInterface
 {
     public static function transform(ContainerInterface $container, array $configuration) : ContainerInterface
     {

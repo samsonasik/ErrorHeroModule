@@ -7,8 +7,9 @@ namespace ErrorHeroModule\Middleware;
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Transformer\DoctrineToZendDb;
-use ErrorHeroModule\Transformer\SymfonyServices;
+use ErrorHeroModule\Transformer\SymfonyService;
 use Psr\Container\ContainerInterface;
+use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
@@ -24,10 +25,10 @@ class ExpressiveFactory
 
         if ($container instanceof SymfonyContainerBuilder) {
             if (! isset($configuration['db'])) {
-                throw new \RuntimeException('db config is required for build Zend\Db\Adapter\Adapter instance by Symfony Container');
+                throw new RuntimeException('db config is required for build Zend\Db\Adapter\Adapter instance by Symfony Container');
             }
 
-            $container = SymfonyServices::transform($container, $configuration);
+            $container = SymfonyService::transform($container, $configuration);
         }
 
         return new Expressive(
