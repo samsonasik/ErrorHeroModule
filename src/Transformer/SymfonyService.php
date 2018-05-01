@@ -42,7 +42,6 @@ class SymfonyService implements TransformerInterface
             }
 
             $container->set('ErrorHeroModuleLogger', new Logger(['writers' => $writers]));
-            unset($serviceManager);
         }
 
         return $container;
