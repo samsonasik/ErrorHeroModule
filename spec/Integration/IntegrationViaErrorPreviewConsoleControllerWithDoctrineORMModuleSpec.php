@@ -2,14 +2,12 @@
 
 namespace ErrorHeroModule\Spec;
 
+use Doctrine\ORM\EntityManager;
 use ErrorHeroModule;
 use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\TableGateway\TableGateway;
 use Zend\Mvc\Application;
 
 describe('Integration via ErrorPreviewConsoleController with doctrine', function () {
@@ -38,9 +36,9 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
         $serviceManager->get('SendResponseListener')
                        ->detach($events);
 
-        $db  = $serviceManager->get(Adapter::class);
-        $tableGateway = new TableGateway('log', $db, null, new ResultSet());
-        $tableGateway->delete([]);
+        $entityManager  = $serviceManager->get(EntityManager::class);
+        $stmt = $entityManager->getConnection()->prepare('DELETE FROM log');
+        $stmt->execute();
 
         return $application;
 

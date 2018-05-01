@@ -56,7 +56,7 @@ CREATE TABLE `log` (
 
 **2. Setup your Zend\Db\Adapter\Adapter service or your Doctrine\ORM\EntityManager service config**
 
-You can use 'db' (with _Zend\Db_) config or 'doctrine' (with _DoctrineORMModule_) config that will be converted to be usable with `Zend\Log\Writer\Db`.
+You can use 'db' (with _Zend\Db_) config or 'doctrine' (with _DoctrineORMModule_) config that will be transformed to be usable with `Zend\Log\Writer\Db`.
 
 ```php
 <?php

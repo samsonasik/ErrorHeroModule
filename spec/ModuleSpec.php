@@ -41,7 +41,7 @@ describe('Module', function () {
             $eventManager    = Double::instance(['implements' => EventManagerInterface::class]);
 
             allow($moduleManager)->toReceive('getEventManager')->andReturn($eventManager);
-            expect($eventManager)->toReceive('attach')->with(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this->module, 'convertDoctrineToZendDbService']);
+            expect($eventManager)->toReceive('attach')->with(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this->module, 'doctrineTransform']);
             expect($eventManager)->toReceive('attach')->with(ModuleEvent::EVENT_MERGE_CONFIG, [$this->module, 'errorPreviewPageHandler'], 101);
 
             $this->module->init($moduleManager);
@@ -50,7 +50,7 @@ describe('Module', function () {
 
     });
 
-    describe('->convertDoctrineToZendDbService()', function () {
+    describe('->doctrineTransform()', function () {
 
         it('does not has EntityManager service', function () {
 
@@ -59,7 +59,7 @@ describe('Module', function () {
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
             allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
-            $this->module->convertDoctrineToZendDbService($moduleEvent);
+            $this->module->doctrineTransform($moduleEvent);
             expect($moduleEvent)->not->toReceive('getConfigListener');
 
         });
@@ -80,7 +80,7 @@ describe('Module', function () {
                 ],
             ]);
 
-            $this->module->convertDoctrineToZendDbService($moduleEvent);
+            $this->module->doctrineTransform($moduleEvent);
             expect($serviceManager)->not->toReceive('get')->with(EntityManager::class);
 
         });
@@ -139,7 +139,7 @@ describe('Module', function () {
             allow($entityManager)->toReceive('getConnection')->andReturn($connection);
             allow($serviceManager)->toReceive('get')->with(EntityManager::class)->andReturn($entityManager);
 
-            $this->module->convertDoctrineToZendDbService($moduleEvent);
+            $this->module->doctrineTransform($moduleEvent);
             expect($serviceManager)->toReceive('get')->with(EntityManager::class);
 
         });
@@ -202,7 +202,7 @@ describe('Module', function () {
             allow($entityManager)->toReceive('getConnection')->andReturn($connection);
             allow($serviceManager)->toReceive('get')->with(EntityManager::class)->andReturn($entityManager);
 
-            $this->module->convertDoctrineToZendDbService($moduleEvent);
+            $this->module->doctrineTransform($moduleEvent);
             expect($serviceManager)->toReceive('get')->with(EntityManager::class);
 
         });

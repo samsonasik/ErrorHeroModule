@@ -7,9 +7,10 @@ namespace ErrorHeroModule\Transformer;
 use Doctrine\ORM\EntityManager;
 use Psr\Container\ContainerInterface;
 use Zend\Db\Adapter\Adapter;
+use Zend\Log\Logger;
 use Zend\ServiceManager\ServiceManager;
 
-class DoctrineToZendDb implements TransformerInterface
+class Doctrine implements TransformerInterface
 {
     public static function transform(ContainerInterface $container, array $configuration) : ContainerInterface
     {
@@ -30,19 +31,15 @@ class DoctrineToZendDb implements TransformerInterface
                 'driver_options' => $driverOptions,
             ];
 
-            $adapterName = Adapter::class;
             $writers = $configuration['log']['ErrorHeroModuleLogger']['writers'];
             foreach ($writers as $key => $writer) {
                 if ($writer['name'] === 'db') {
-                    $adapterName = $writer['options']['db'];
+                    $writers[$key]['options']['db'] = new Adapter($config);
                     break;
                 }
             }
 
-            $allowOverride = $container->getAllowOverride();
-            $container->setAllowOverride(true);
-            $container->setService($adapterName, new Adapter($config));
-            $container->setAllowOverride($allowOverride);
+            $container->setService('ErrorHeroModuleLogger', new Logger(['writers' => $writers]));
         }
 
         return $container;

@@ -6,7 +6,7 @@ namespace ErrorHeroModule\Middleware;
 
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Handler\Logging;
-use ErrorHeroModule\Transformer\DoctrineToZendDb;
+use ErrorHeroModule\Transformer\Doctrine;
 use ErrorHeroModule\Transformer\SymfonyService;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
@@ -20,7 +20,7 @@ class ExpressiveFactory
         $configuration = $container->get('config');
 
         if ($container->has(EntityManager::class) && ! isset($configuration['db'])) {
-            $container = DoctrineToZendDb::transform($container, $configuration);
+            $container = Doctrine::transform($container, $configuration);
         }
 
         if ($container instanceof SymfonyContainerBuilder) {

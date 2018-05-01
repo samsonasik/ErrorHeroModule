@@ -13,11 +13,11 @@ class Module
     public function init(ModuleManager $moduleManager) : void
     {
         $eventManager = $moduleManager->getEventManager();
-        $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'convertDoctrineToZendDbService']);
+        $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'doctrineTransform']);
         $eventManager->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'errorPreviewPageHandler'], 101);
     }
 
-    public function convertDoctrineToZendDbService(ModuleEvent $event) : void
+    public function doctrineTransform(ModuleEvent $event) : void
     {
         $container = $event->getParam('ServiceManager');
         if (! $container->has(EntityManager::class)) {
@@ -25,7 +25,7 @@ class Module
         }
 
         $configuration  = $container->get('config');
-        $configuration['db'] ?? Transformer\DoctrineToZendDb::transform($container, $configuration);
+        $configuration['db'] ?? Transformer\Doctrine::transform($container, $configuration);
     }
 
     public function errorPreviewPageHandler(ModuleEvent $event) : void
