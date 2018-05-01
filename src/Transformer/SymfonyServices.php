@@ -20,7 +20,6 @@ class SymfonyServices implements TransformerInterface
             $writers         = $configuration['log']['ErrorHeroModuleLogger']['writers'];
             $config          = $configuration['db'];
             $serviceManager  = new ServiceManager();
-            $foundInAdapters = false;
 
             foreach ($writers as $key => $writer) {
                 if ($writer['name'] === 'db') {
