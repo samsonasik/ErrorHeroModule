@@ -19,7 +19,6 @@ class SymfonyService implements TransformerInterface
             $adapterName     = Adapter::class;
             $writers         = $configuration['log']['ErrorHeroModuleLogger']['writers'];
             $config          = $configuration['db'];
-            $serviceManager  = new ServiceManager();
 
             foreach ($writers as $key => $writer) {
                 if ($writer['name'] === 'db') {
@@ -36,17 +35,15 @@ class SymfonyService implements TransformerInterface
                     }
                 }
             }
-            $serviceManager->setService($adapterName, new Adapter($config));
 
             foreach ($writers as $key => $writer) {
                 if ($writer['name'] === 'db') {
-                    $writers[$key]['options']['db'] = $serviceManager->get($adapterName);
+                    $writers[$key]['options']['db'] = new Adapter($config);
                     break;
                 }
             }
 
-            $writerPluginManager = new WriterPluginManager($serviceManager);
-
+            $writerPluginManager = new WriterPluginManager(new ServiceManager());
             $logger = new Logger([
                 'writer_plugin_manager' => $writerPluginManager,
                 'writers'               => $writers
