@@ -25,7 +25,7 @@ class ExpressiveFactory
 
         if ($container instanceof SymfonyContainerBuilder) {
             if (! isset($configuration['db'])) {
-                throw new RuntimeException('db config is required for build Zend\Db\Adapter\Adapter instance by Symfony Container');
+                throw new RuntimeException('db config is required for build "ErrorHeroModuleLogger" service by Symfony Container');
             }
 
             $container = SymfonyService::transform($container, $configuration);

@@ -188,7 +188,7 @@ describe('ExpressiveFactory', function () {
             $actual = function () use ($container) {
                 $this->factory($container);
             };
-            expect($actual)->toThrow(new RuntimeException('db config is required for build Zend\Db\Adapter\Adapter instance by Symfony Container'));
+            expect($actual)->toThrow(new RuntimeException('db config is required for build "ErrorHeroModuleLogger" service by Symfony Container'));
 
         });
 
