@@ -32,22 +32,16 @@ class SymfonyServices implements TransformerInterface
             if (isset($config['adapters'])) {
                 foreach ($config['adapters'] as $key => $adapterConfig) {
                     if ($adapterName === $key) {
-                        $container->set($key, new Adapter($adapterConfig));
-                        $serviceManager->setService($key, new Adapter($adapterConfig));
-                        $foundInAdapters = true;
+                        $config = $adapterConfig;
                         break;
                     }
                 }
             }
-
-            if (! $foundInAdapters) {
-                $container->set($adapterName, new Adapter($config));
-                $serviceManager->setService($adapterName, new Adapter($config));
-            }
+            $serviceManager->setService($adapterName, new Adapter($config));
 
             foreach ($writers as $key => $writer) {
                 if ($writer['name'] === 'db') {
-                    $writers[$key]['options']['db'] = $container->get($writer['options']['db']);
+                    $writers[$key]['options']['db'] = $serviceManager->get($adapterName);
                     break;
                 }
             }
