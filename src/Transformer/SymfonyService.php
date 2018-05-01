@@ -14,9 +14,9 @@ class SymfonyService implements TransformerInterface
     public static function transform(ContainerInterface $container, array $configuration) : ContainerInterface
     {
         if ($container instanceof SymfonyContainerBuilder) {
-            $adapterName     = Adapter::class;
-            $writers         = $configuration['log']['ErrorHeroModuleLogger']['writers'];
-            $config          = $configuration['db'];
+            $adapterName = Adapter::class;
+            $writers     = $configuration['log']['ErrorHeroModuleLogger']['writers'];
+            $config      = $configuration['db'];
 
             foreach ($writers as $key => $writer) {
                 if ($writer['name'] === 'db') {
