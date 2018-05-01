@@ -8,8 +8,6 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Zend\Db\Adapter\Adapter;
 use Zend\Log\Logger;
-use Zend\Log\WriterPluginManager;
-use Zend\ServiceManager\ServiceManager;
 
 class SymfonyService implements TransformerInterface
 {
@@ -43,12 +41,7 @@ class SymfonyService implements TransformerInterface
                 }
             }
 
-            $writerPluginManager = new WriterPluginManager(new ServiceManager());
-            $logger = new Logger([
-                'writer_plugin_manager' => $writerPluginManager,
-                'writers'               => $writers
-            ]);
-            $container->set('ErrorHeroModuleLogger', $logger);
+            $container->set('ErrorHeroModuleLogger', new Logger(['writers' => $writers]));
             unset($serviceManager);
         }
 
