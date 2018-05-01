@@ -28,7 +28,7 @@ class ExpressiveFactory
                 throw new RuntimeException('db config is required for build "ErrorHeroModuleLogger" service by Symfony Container');
             }
 
-            $container = SymfonyService::transform($container, $configuration);
+            $container = SymfonyService::transform($container, (array) $configuration);
         }
 
         return new Expressive(
