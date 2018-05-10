@@ -4,43 +4,44 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Transformer;
 
+use Assert\Assertion;
 use Doctrine\ORM\EntityManager;
 use Psr\Container\ContainerInterface;
 use Zend\Db\Adapter\Adapter;
 use Zend\Log\Logger;
-use Zend\ServiceManager\ServiceManager;
+use Zend\ServiceManager\ServiceManager as ZendServiceManager;
 
 class Doctrine implements TransformerInterface
 {
     public static function transform(ContainerInterface $container, array $configuration) : ContainerInterface
     {
-        if ($container instanceof ServiceManager) {
-            $entityManager          = $container->get(EntityManager::class);
-            $doctrineDBALConnection = $entityManager->getConnection();
+        Assertion::isInstanceOf($container, ZendServiceManager::class);
 
-            $params        = $doctrineDBALConnection->getParams();
-            $driverOptions = $params['driverOptions'] ?? [];
+        $entityManager          = $container->get(EntityManager::class);
+        $doctrineDBALConnection = $entityManager->getConnection();
 
-            $config = [
-                'username'       => $doctrineDBALConnection->getUsername(),
-                'password'       => $doctrineDBALConnection->getPassword(),
-                'driver'         => $doctrineDBALConnection->getDriver()->getName(),
-                'database'       => $doctrineDBALConnection->getDatabase(),
-                'host'           => $doctrineDBALConnection->getHost(),
-                'port'           => $doctrineDBALConnection->getPort(),
-                'driver_options' => $driverOptions,
-            ];
+        $params        = $doctrineDBALConnection->getParams();
+        $driverOptions = $params['driverOptions'] ?? [];
 
-            $writers = $configuration['log']['ErrorHeroModuleLogger']['writers'];
-            foreach ($writers as $key => $writer) {
-                if ($writer['name'] === 'db') {
-                    $writers[$key]['options']['db'] = new Adapter($config);
-                    break;
-                }
+        $config = [
+            'username'       => $doctrineDBALConnection->getUsername(),
+            'password'       => $doctrineDBALConnection->getPassword(),
+            'driver'         => $doctrineDBALConnection->getDriver()->getName(),
+            'database'       => $doctrineDBALConnection->getDatabase(),
+            'host'           => $doctrineDBALConnection->getHost(),
+            'port'           => $doctrineDBALConnection->getPort(),
+            'driver_options' => $driverOptions,
+        ];
+
+        $writers = $configuration['log']['ErrorHeroModuleLogger']['writers'];
+        foreach ($writers as $key => $writer) {
+            if ($writer['name'] === 'db') {
+                $writers[$key]['options']['db'] = new Adapter($config);
+                break;
             }
-
-            $container->setService('ErrorHeroModuleLogger', new Logger(['writers' => $writers]));
         }
+
+        $container->setService('ErrorHeroModuleLogger', new Logger(['writers' => $writers]));
 
         return $container;
     }

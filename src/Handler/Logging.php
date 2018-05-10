@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Handler;
 
+use Assert\Assertion;
 use ErrorException;
 use ErrorHeroModule\HeroConstant;
 use Psr\Http\Message\ServerRequestInterface;
@@ -139,7 +140,7 @@ class Logging
             return [];
         }
 
-        /** @var HttpRequest $request */
+        Assertion::isInstanceOf($this->request, HttpRequest::class);
         $request = $this->request;
 
         $query          = $request->getQuery()->toArray();

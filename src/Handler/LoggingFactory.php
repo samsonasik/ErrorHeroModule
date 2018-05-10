@@ -37,7 +37,7 @@ class LoggingFactory
         } else {
             $serverUrl  = \php_uname('n');
             $request    = new ConsoleRequest();
-            $requestUri = ':'. \basename(\getcwd())  .' ' . \get_current_user() . '$ php ' . $request->getScriptName() . ' ' . $request->toString();
+            $requestUri = ':'. \basename((string) \getcwd())  .' ' . \get_current_user() . '$ php ' . $request->getScriptName() . ' ' . $request->toString();
         }
 
         $config                = $container->get('config');
