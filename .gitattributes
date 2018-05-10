@@ -5,3 +5,4 @@
 /.travis.yml export-ignore
 /phpstan.neon export-ignore
 /spec/ export-ignore
+/CONTRIBUTING.md export-ignore
