@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Listener;
 
+use Assert\Assertion;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\HeroTrait;
 use Zend\Console\Console;
@@ -102,6 +103,8 @@ class Mvc extends AbstractListenerAggregate
                 $response->send();
                 exit(-1);
             }
+
+            Assertion::isInstanceOf($this->renderer, PhpRenderer::class);
 
             $view = new ViewModel();
             $view->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['view']);
