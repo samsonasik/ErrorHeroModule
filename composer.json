@@ -30,6 +30,7 @@
         "jsoumelidis/zend-sf-di-config": "^0.4.0",
         "kahlan/kahlan": "^4.1.1",
         "php-coveralls/php-coveralls": "^2.0",
+        "phpstan/phpstan": "0.10.xdev",
         "phpstan/phpstan-beberlei-assert": "0.10.xdev",
         "zendframework/zend-expressive": "^3.0",
         "zendframework/zend-expressive-zendviewrenderer": "^2.0",
