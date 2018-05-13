@@ -15,12 +15,24 @@ use Zend\Expressive\Template\TemplateRendererInterface;
 
 class ExpressiveFactory
 {
+    private function createMiddlewareInstance(ContainerInterface $container, array $configuration) : Expressive
+    {
+        return new Expressive(
+            $configuration['error-hero-module'],
+            $container->get(Logging::class),
+            $container->get(TemplateRendererInterface::class)
+        );
+    }
+
     public function __invoke(ContainerInterface $container) : Expressive
     {
         $configuration = $container->get('config');
 
         if ($container->has(EntityManager::class) && ! isset($configuration['db'])) {
-            $container = Doctrine::transform($container, $configuration);
+            return $this->createMiddlewareInstance(
+                Doctrine::transform($container, $configuration),
+                $configuration
+            );
         }
 
         if ($container instanceof SymfonyContainerBuilder) {
@@ -29,13 +41,12 @@ class ExpressiveFactory
                 throw new RuntimeException('db config is required for build "ErrorHeroModuleLogger" service by Symfony Container');
             }
 
-            $container = SymfonyService::transform($container, $configuration);
+            return $this->createMiddlewareInstance(
+                SymfonyService::transform($container, $configuration),
+                $configuration
+            );
         }
 
-        return new Expressive(
-            $configuration['error-hero-module'],
-            $container->get(Logging::class),
-            $container->get(TemplateRendererInterface::class)
-        );
+        return $this->createMiddlewareInstance($container, $configuration);
     }
 }
