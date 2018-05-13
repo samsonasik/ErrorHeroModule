@@ -41,8 +41,10 @@ class Doctrine implements TransformerInterface
             }
         }
 
-        $container->setService('ErrorHeroModuleLogger', new Logger(['writers' => $writers]));
-
-        return $container;
+        return $container->configure([
+            'services' => [
+                'ErrorHeroModuleLogger' => new Logger(['writers' => $writers]),
+            ],
+        ]);
     }
 }
