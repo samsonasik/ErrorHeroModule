@@ -77,13 +77,13 @@ class Mvc extends AbstractListenerAggregate
             return;
         }
 
-        $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled($e);
+        $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
     }
 
     /**
      * It show default view if display_errors setting = 0.
      */
-    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled(Event $e) : void
+    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled() : void
     {
         if (! Console::isConsole()) {
             $response = new HttpResponse();
@@ -98,11 +98,10 @@ class Mvc extends AbstractListenerAggregate
                 $contentType = $this->detectAjaxMessageContentType($message);
 
                 $response->getHeaders()->addHeaderLine('Content-type', $contentType);
-                $response->sendHeaders();
-                echo $message;
+                $response->setContent($message);
 
-                $e->stopPropagation(true);
-                return;
+                $response->send();
+                exit(-1);
             }
 
             Assertion::isInstanceOf($this->renderer, PhpRenderer::class);
@@ -115,11 +114,10 @@ class Mvc extends AbstractListenerAggregate
             $layout->setVariable('content', $this->renderer->render($view));
 
             $response->getHeaders()->addHeaderLine('Content-type', 'text/html');
-            $response->sendHeaders();
-            echo $this->renderer->render($layout);
+            $response->setContent($this->renderer->render($layout));
 
-            $e->stopPropagation(true);
-            return;
+            $response->send();
+            exit(-1);
         }
 
         $response = new ConsoleResponse();
