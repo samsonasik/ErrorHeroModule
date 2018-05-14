@@ -5,7 +5,6 @@ namespace ErrorHeroModule\Spec;
 use ErrorHeroModule;
 use ErrorHeroModule\Controller\ErrorPreviewController;
 use Kahlan\Plugin\Quit;
-use Kahlan\QuitException;
 use Zend\Console\Console;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\ResultSet\ResultSet;
@@ -49,17 +48,12 @@ describe('Integration via ErrorPreviewController with enable send mail with emtp
 
         it('show error page for exception', function() {
 
-            Quit::disable();
-
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
             $request->setUri('/error-preview');
 
             ob_start();
-            $closure = function () {
-                $this->application->run();
-            };
-            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
+            $this->application->run();
             $content = ob_get_clean();
 
             expect($content)->toContain('<title>Error');
@@ -80,10 +74,7 @@ describe('Integration via ErrorPreviewController with enable send mail with emtp
             $request->setUri('/error-preview/error');
 
             ob_start();
-            $closure = function () {
-                $this->application->run();
-            };
-            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
+            $this->application->run();
             $content = ob_get_clean();
 
             expect($content)->toContain('<title>Error');
