@@ -4,8 +4,6 @@ namespace ErrorHeroModule\Spec\Integration;
 
 use ErrorHeroModule;
 use ErrorHeroModule\Controller\ErrorPreviewController;
-use Kahlan\Plugin\Quit;
-use Kahlan\QuitException;
 use Zend\Console\Console;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Http\PhpEnvironment\Response;
@@ -44,8 +42,6 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest with non-jso
 
         it('show error page', function() {
 
-            Quit::disable();
-
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
             $request->setUri('/error-preview');
@@ -54,10 +50,7 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest with non-jso
             allow(Response::class)->toReceive('getHeaders', 'addHeaderLine');
 
             ob_start();
-            $closure = function () {
-                $this->application->run();
-            };
-            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
+            $this->application->run();
             $content = ob_get_clean();
 
             expect($content)->toBe('We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.');
