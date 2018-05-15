@@ -238,7 +238,6 @@ describe('Mvc', function () {
 
         it('call logging->handleErrorException() with default view error if $e->getParam("exception") and display_errors = 0 and not a console', function () {
 
-            Quit::disable();
             $exception = new \Exception('message');
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
@@ -250,7 +249,6 @@ describe('Mvc', function () {
             $closure = function () use ($mvcEvent) {
                 $this->listener->exceptionError($mvcEvent);
             };
-            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
             $content = ob_get_clean();
 
             expect($content)->toContain('<p>We have encountered a problem');
