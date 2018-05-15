@@ -27,11 +27,6 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
             ],
         ]);
 
-        $events         = $application->getEventManager();
-        $serviceManager = $application->getServiceManager();
-        $serviceManager->get('SendResponseListener')
-                       ->detach($events);
-
         return $application;
 
     });

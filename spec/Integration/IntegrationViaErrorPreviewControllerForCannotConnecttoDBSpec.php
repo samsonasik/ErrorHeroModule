@@ -27,11 +27,6 @@ describe('Integration via ErrorPreviewController for Cannot connect to DB', func
             ],
         ]);
 
-        $events         = $application->getEventManager();
-        $serviceManager = $application->getServiceManager();
-        $serviceManager->get('SendResponseListener')
-                       ->detach($events);
-
         return $application;
 
     });

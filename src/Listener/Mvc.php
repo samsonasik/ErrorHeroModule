@@ -10,12 +10,12 @@ use ErrorHeroModule\HeroTrait;
 use Zend\Console\Console;
 use Zend\Console\Response as ConsoleResponse;
 use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Http\PhpEnvironment\Request;
-use Zend\Http\PhpEnvironment\Response as HttpResponse;
+use Zend\Http\PhpEnvironment\Response;
 use Zend\Mvc\MvcEvent;
 use Zend\Text\Table;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -47,13 +47,13 @@ class Mvc extends AbstractListenerAggregate
         $this->listeners[] = $events->attach(MvcEvent::EVENT_BOOTSTRAP, [$this, 'phpError']);
     }
 
-    public function phpError(Event $e)
+    public function phpError(MvcEvent $e)
     {
         \register_shutdown_function([$this, 'execOnShutdown']);
         \set_error_handler([$this, 'phpErrorHandler']);
     }
 
-    public function exceptionError(Event $e) : void
+    public function exceptionError(MvcEvent $e) : void
     {
         $exception = $e->getParam('exception');
         if (! $exception) {
@@ -83,13 +83,16 @@ class Mvc extends AbstractListenerAggregate
     /**
      * It show default view if display_errors setting = 0.
      */
-    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled(Event $e) : void
+    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled(MvcEvent $e) : void
     {
         if (! Console::isConsole()) {
-            $response = new HttpResponse();
+            $response = $e->getResponse();
+            Assertion::isInstanceOf($response, Response::class);
             $response->setStatusCode(500);
 
-            $request          = new Request();
+            $request = $e->getRequest();
+            Assertion::isInstanceOf($request, Request::class);
+
             $isXmlHttpRequest = $request->isXmlHttpRequest();
             if ($isXmlHttpRequest === true &&
                 isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
@@ -98,9 +101,9 @@ class Mvc extends AbstractListenerAggregate
                 $contentType = $this->detectAjaxMessageContentType($message);
 
                 $response->getHeaders()->addHeaderLine('Content-type', $contentType);
-                $response->sendHeaders();
-                echo $message;
+                $response->setContent($message);
 
+                $e->setViewModel($contentType === 'application/problem+json' ? new JsonModel() : new ViewModel());
                 $e->stopPropagation(true);
                 return;
             }
@@ -114,10 +117,7 @@ class Mvc extends AbstractListenerAggregate
             $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
             $layout->setVariable('content', $this->renderer->render($view));
 
-            $response->getHeaders()->addHeaderLine('Content-type', 'text/html');
-            $response->sendHeaders();
-            echo $this->renderer->render($layout);
-
+            $e->setViewModel($layout);
             $e->stopPropagation(true);
             return;
         }

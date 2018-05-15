@@ -33,8 +33,6 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
 
         $events         = $application->getEventManager();
         $serviceManager = $application->getServiceManager();
-        $serviceManager->get('SendResponseListener')
-                       ->detach($events);
 
         $entityManager  = $serviceManager->get(EntityManager::class);
         $stmt = $entityManager->getConnection()->prepare('DELETE FROM log');

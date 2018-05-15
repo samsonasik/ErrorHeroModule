@@ -11,7 +11,7 @@ use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Mvc\Application;
 
-describe('Integration via ErrorPreviewController with enable send mail with emtpy receiver', function () {
+describe('Integration via ErrorPreviewController with enable send mail with empty receiver', function () {
 
     given('application', function () {
 
@@ -33,8 +33,6 @@ describe('Integration via ErrorPreviewController with enable send mail with emtp
 
         $events         = $application->getEventManager();
         $serviceManager = $application->getServiceManager();
-        $serviceManager->get('SendResponseListener')
-                       ->detach($events);
 
         $db  = $serviceManager->get(Adapter::class);
         $tableGateway = new TableGateway('log', $db, null, new ResultSet());

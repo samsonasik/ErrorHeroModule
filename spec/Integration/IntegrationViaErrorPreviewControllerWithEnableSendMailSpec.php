@@ -33,8 +33,6 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
 
         $events         = $application->getEventManager();
         $serviceManager = $application->getServiceManager();
-        $serviceManager->get('SendResponseListener')
-                       ->detach($events);
 
         $db  = $serviceManager->get(Adapter::class);
         $tableGateway = new TableGateway('log', $db, null, new ResultSet());
