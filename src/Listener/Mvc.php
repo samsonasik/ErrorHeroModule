@@ -97,14 +97,19 @@ class Mvc extends AbstractListenerAggregate
             if ($isXmlHttpRequest === true &&
                 isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
             ) {
+                $application    = $e->getApplication();
+                $events         = $application->getEventManager();
+                $serviceManager = $application->getServiceManager();
+                $serviceManager->get('SendResponseListener')
+                               ->detach($events);
+
                 $message     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
                 $contentType = $this->detectAjaxMessageContentType($message);
 
                 $response->getHeaders()->addHeaderLine('Content-type', $contentType);
                 $response->setContent($message);
+                $response->send();
 
-                $e->setViewModel($contentType === 'application/problem+json' ? new JsonModel() : new ViewModel());
-                $e->stopPropagation(true);
                 return;
             }
 
