@@ -15,7 +15,6 @@ use Zend\Http\PhpEnvironment\Request;
 use Zend\Http\PhpEnvironment\Response;
 use Zend\Mvc\MvcEvent;
 use Zend\Text\Table;
-use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -124,6 +123,7 @@ class Mvc extends AbstractListenerAggregate
 
             $e->setViewModel($layout);
             $e->stopPropagation(true);
+
             return;
         }
 
