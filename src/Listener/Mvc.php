@@ -77,8 +77,7 @@ class Mvc extends AbstractListenerAggregate
             $exception
         );
 
-        $displayErrors = $this->errorHeroModuleConfig['display-settings']['display_errors'];
-        if ($displayErrors) {
+        if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
             // rely on original mvc process
             return;
         }
