@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Middleware;
 
+use Aura\Di\Container as AuraContainer;
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Handler\Logging;
+use ErrorHeroModule\Transformer\AuraService;
 use ErrorHeroModule\Transformer\Doctrine;
 use ErrorHeroModule\Transformer\SymfonyService;
 use Psr\Container\ContainerInterface;
@@ -24,6 +26,21 @@ class ExpressiveFactory
         );
     }
 
+    private function verifyConfig($configuration, $containerType = 'Symfony')
+    {
+        $configuration = (array) $configuration;
+        if (! isset($configuration['db'])) {
+            throw new RuntimeException(
+                sprintf(
+                    'db config is required for build "ErrorHeroModuleLogger" service by %s Container',
+                    $containerType
+                )
+            );
+        }
+
+        return $configuration;
+    }
+
     public function __invoke(ContainerInterface $container) : Expressive
     {
         $configuration = $container->get('config');
@@ -36,13 +53,19 @@ class ExpressiveFactory
         }
 
         if ($container instanceof SymfonyContainerBuilder) {
-            $configuration = (array) $configuration;
-            if (! isset($configuration['db'])) {
-                throw new RuntimeException('db config is required for build "ErrorHeroModuleLogger" service by Symfony Container');
-            }
+            $configuration = $this->verifyConfig($configuration, 'Symfony');
 
             return $this->createMiddlewareInstance(
                 SymfonyService::transform($container, $configuration),
+                $configuration
+            );
+        }
+
+        if ($container instanceof AuraContainer) {
+            $configuration = $this->verifyConfig($configuration, 'Aura');
+
+            return $this->createMiddlewareInstance(
+                AuraService::transform($container, $configuration),
                 $configuration
             );
         }
