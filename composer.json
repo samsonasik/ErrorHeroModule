@@ -2,7 +2,7 @@
     "name": "samsonasik/error-hero-module",
     "type": "library",
     "description": "A Hero for your Zend Framework application to trap php errors & exceptions",
-    "keywords": ["zf2", "zf3", "error", "expressive", "hero", "log", "logger", "logging", "mail", "db", "doctrine", "handler", "psr3", "psr7", "psr11", "psr15", "zend-view", "twig", "plates", "symfony"],
+    "keywords": ["zf2", "zf3", "error", "expressive", "hero", "log", "logger", "logging", "mail", "db", "doctrine", "handler", "psr3", "psr7", "psr11", "psr15", "zend-view", "twig", "plates", "symfony", "aura"],
     "homepage": "https://github.com/samsonasik/ErrorHeroModule",
     "license": "MIT",
     "authors": [
@@ -26,12 +26,13 @@
         "zendframework/zend-text": "^2.5"
     },
     "require-dev": {
+        "aura/di": "^3.4",
         "doctrine/doctrine-orm-module": "^1.1",
-        "jsoumelidis/zend-sf-di-config": "^0.4.0",
         "kahlan/kahlan": "^4.1.1",
         "php-coveralls/php-coveralls": "^2.0",
         "phpstan/phpstan": "0.10.xdev",
         "phpstan/phpstan-beberlei-assert": "0.10.xdev",
+        "symfony/dependency-injection": "^4.0",
         "zendframework/zend-expressive": "^3.0",
         "zendframework/zend-expressive-zendviewrenderer": "^2.0",
         "zendframework/zend-mvc": "^3.0",

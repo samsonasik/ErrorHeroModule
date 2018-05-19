@@ -2,12 +2,14 @@
 
 namespace ErrorHeroModule\Spec\Middleware;
 
+use Aura\Di\Container as AuraContainer;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Expressive;
 use ErrorHeroModule\Middleware\ExpressiveFactory;
+use ErrorHeroModule\Spec\Fixture\NotSupportedContainer;
 use Kahlan\Plugin\Double;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
@@ -236,6 +238,73 @@ describe('ExpressiveFactory', function () {
 
         });
 
+        it('throws RuntimeException when using Aura Container but no "db" config', function () {
+
+            $container = Double::instance(['extends' => AuraContainer::class, 'methods' => '__construct']);
+            allow($container)->toReceive('get')->with('config')
+                                               ->andReturn([]);
+
+            allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
+
+            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
+            allow($container)->toReceive('get')->with(Logging::class)
+                                               ->andReturn($logging);
+
+            $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
+            allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
+                                               ->andReturn($renderer);
+
+            $actual = function () use ($container) {
+                $this->factory($container);
+            };
+            expect($actual)->toThrow(new RuntimeException('db config is required for build "ErrorHeroModuleLogger" service by Aura Container'));
+
+        });
+
+        it('returns Expressive Middleware instance with create services first for Aura Container and db name found in adapters', function () {
+
+            $config = $this->config;
+            $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = 'my-adapter';
+            $container = Double::instance(['extends' => AuraContainer::class, 'methods' => '__construct']);
+            allow($container)->toReceive('get')->with('config')
+                                               ->andReturn($config);
+
+            allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
+
+            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
+            allow($container)->toReceive('get')->with(Logging::class)
+                                               ->andReturn($logging);
+
+            $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
+            allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
+                                               ->andReturn($renderer);
+
+            $actual = $this->factory($container);
+            expect($actual)->toBeAnInstanceOf(Expressive::class);
+
+        });
+
+        it('returns Expressive Middleware instance with create services first for Aura Container and db name not found in adapters, which means use "Zend\Db\Adapter\Adapter" name', function () {
+
+            $container = Double::instance(['extends' => AuraContainer::class, 'methods' => '__construct']);
+            allow($container)->toReceive('get')->with('config')
+                                               ->andReturn($this->config);
+
+            allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
+
+            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
+            allow($container)->toReceive('get')->with(Logging::class)
+                                               ->andReturn($logging);
+
+            $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
+            allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
+                                               ->andReturn($renderer);
+
+            $actual = $this->factory($container);
+            expect($actual)->toBeAnInstanceOf(Expressive::class);
+
+        });
+
         it('returns Expressive Middleware instance without doctrine to zend-db conversion', function () {
 
             $container = Double::instance(['extends' => ServiceManager::class, 'methods' => '__construct']);
@@ -252,6 +321,34 @@ describe('ExpressiveFactory', function () {
 
             $actual = $this->factory($container);
             expect($actual)->toBeAnInstanceOf(Expressive::class);
+
+        });
+
+        it('throws RuntimeException on not supported container', function () {
+
+            $container = new NotSupportedContainer();
+            allow($container)->toReceive('get')->with('config')
+                                               ->andReturn([]);
+
+            allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
+
+            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
+            allow($container)->toReceive('get')->with(Logging::class)
+                                               ->andReturn($logging);
+
+            $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
+            allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
+                                               ->andReturn($renderer);
+
+            $actual = function () use ($container) {
+                $this->factory($container);
+            };
+            expect($actual)->toThrow(
+                new RuntimeException(sprintf(
+                    'container "%s" is unsupported',
+                    get_class($container)
+                ))
+            );
 
         });
 

@@ -7,43 +7,17 @@ namespace ErrorHeroModule\Transformer;
 use Assert\Assertion;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
-use Zend\Db\Adapter\Adapter;
-use Zend\Log\Logger;
 
-class SymfonyService implements TransformerInterface
+class SymfonyService extends TransformerAbstract implements TransformerInterface
 {
     public static function transform(ContainerInterface $container, array $configuration) : ContainerInterface
     {
         Assertion::isInstanceOf($container, SymfonyContainerBuilder::class);
 
-        $adapterName = Adapter::class;
-        $writers     = $configuration['log']['ErrorHeroModuleLogger']['writers'];
-        $config      = $configuration['db'];
+        $dbAdapterConfig = parent::getDbAdapterConfig($configuration);
+        $logger          = parent::getLoggerInstance($configuration, $dbAdapterConfig);
 
-        foreach ($writers as $key => $writer) {
-            if ($writer['name'] === 'db') {
-                $adapterName = $writer['options']['db'];
-                break;
-            }
-        }
-
-        if (isset($config['adapters'])) {
-            foreach ($config['adapters'] as $key => $adapterConfig) {
-                if ($adapterName === $key) {
-                    $config = $adapterConfig;
-                    break;
-                }
-            }
-        }
-
-        foreach ($writers as $key => $writer) {
-            if ($writer['name'] === 'db') {
-                $writers[$key]['options']['db'] = new Adapter($config);
-                break;
-            }
-        }
-
-        $container->set('ErrorHeroModuleLogger', new Logger(['writers' => $writers]));
+        $container->set('ErrorHeroModuleLogger', $logger);
 
         return $container;
     }

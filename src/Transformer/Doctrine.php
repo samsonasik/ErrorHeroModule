@@ -7,11 +7,9 @@ namespace ErrorHeroModule\Transformer;
 use Assert\Assertion;
 use Doctrine\ORM\EntityManager;
 use Psr\Container\ContainerInterface;
-use Zend\Db\Adapter\Adapter;
-use Zend\Log\Logger;
 use Zend\ServiceManager\ServiceManager as ZendServiceManager;
 
-class Doctrine implements TransformerInterface
+class Doctrine extends TransformerAbstract implements TransformerInterface
 {
     public static function transform(ContainerInterface $container, array $configuration) : ContainerInterface
     {
@@ -23,7 +21,7 @@ class Doctrine implements TransformerInterface
         $params        = $doctrineDBALConnection->getParams();
         $driverOptions = $params['driverOptions'] ?? [];
 
-        $config = [
+        $dbAdapterConfig = [
             'username'       => $doctrineDBALConnection->getUsername(),
             'password'       => $doctrineDBALConnection->getPassword(),
             'driver'         => $doctrineDBALConnection->getDriver()->getName(),
@@ -33,17 +31,11 @@ class Doctrine implements TransformerInterface
             'driver_options' => $driverOptions,
         ];
 
-        $writers = $configuration['log']['ErrorHeroModuleLogger']['writers'];
-        foreach ($writers as $key => $writer) {
-            if ($writer['name'] === 'db') {
-                $writers[$key]['options']['db'] = new Adapter($config);
-                break;
-            }
-        }
+        $logger   = parent::getLoggerInstance($configuration, $dbAdapterConfig);
 
         return $container->configure([
             'services' => [
-                'ErrorHeroModuleLogger' => new Logger(['writers' => $writers]),
+                'ErrorHeroModuleLogger' => $logger,
             ],
         ]);
     }
