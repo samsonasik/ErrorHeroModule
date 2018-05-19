@@ -6,6 +6,7 @@ namespace ErrorHeroModule\Transformer;
 
 use Assert\Assertion;
 use Aura\Di\Container as AuraContainer;
+use Closure;
 use Psr\Container\ContainerInterface;
 
 class AuraService extends TransformerAbstract implements TransformerInterface
@@ -17,8 +18,11 @@ class AuraService extends TransformerAbstract implements TransformerInterface
         $dbAdapterConfig = parent::getDbAdapterConfig($configuration);
         $logger          = parent::getLoggerInstance($configuration, $dbAdapterConfig);
 
-        $container->set('ErrorHeroModuleLogger', $logger);
+        $containerLocked = & Closure::bind(function & ($container) {
+            return $container->locked;
+        }, null, $container)($container);
+        $containerLocked = false;
 
-        return $container;
+        return $container->set('ErrorHeroModuleLogger', $logger);
     }
 }
