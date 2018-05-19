@@ -233,6 +233,7 @@ class Logging
     public function handleErrorException(Throwable $t) : void
     {
         $collectedExceptionData = $this->collectErrorExceptionData($t);
+        $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData);
 
         try {
             if (
@@ -240,14 +241,13 @@ class Logging
                     $collectedExceptionData['errorFile'],
                     $collectedExceptionData['errorLine'],
                     $collectedExceptionData['errorMessage'],
-                    $this->serverUrl.$this->requestUri,
+                    $extra['url'],
                     $collectedExceptionData['errorType']
                 )
             ) {
                 return;
             }
 
-            $extra = $this->collectErrorExceptionExtraData($collectedExceptionData);
             $this->logger->log($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra);
         } catch (RuntimeException $e) {
             $collectedExceptionData = $this->collectErrorExceptionData($t);
