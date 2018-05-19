@@ -20,6 +20,8 @@ use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\Expressive\ZendView\ZendViewRenderer;
 use Zend\View\Model\ViewModel;
 
+use function ErrorHeroModule\detectAjaxMessageContentType;
+
 class Expressive implements MiddlewareInterface
 {
     use HeroTrait;
@@ -103,7 +105,7 @@ class Expressive implements MiddlewareInterface
             isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
         ) {
             $message     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
-            $contentType = $this->detectAjaxMessageContentType($message);
+            $contentType = detectAjaxMessageContentType($message);
 
             $response = new Response();
             $response->getBody()->write($message);

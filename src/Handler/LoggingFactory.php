@@ -11,6 +11,8 @@ use Zend\Console\Request as ConsoleRequest;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
 
+use function ErrorHeroModule\getServerURLandRequestURI;
+
 class LoggingFactory
 {
     /**
@@ -22,13 +24,10 @@ class LoggingFactory
         if (! Console::isConsole()) {
             if ($container->has('Request')) {
                 $request    = $container->get('Request');
-                $uri        = $request->getUri();
-                $serverUrl  = $uri->getScheme() . '://' . $uri->getHost();
-                $port       = $uri->getPort();
-                if ($port !== 80) {
-                    $serverUrl .= ':' . $port;
-                }
-                $requestUri = $request->getRequestUri();
+
+                $getServerURLandRequestURI = getServerURLandRequestURI($request);
+                $serverUrl  = $getServerURLandRequestURI['serverUrl'];
+                $requestUri = $getServerURLandRequestURI['requestUri'];
             } else {
                 $serverUrl  = '';
                 $request    = null;

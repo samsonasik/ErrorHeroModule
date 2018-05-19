@@ -19,6 +19,8 @@ use Zend\Mail\Transport\TransportInterface;
 use Zend\Psr7Bridge\Psr7ServerRequest;
 use Zend\Stdlib\RequestInterface;
 
+use function ErrorHeroModule\getServerURLandRequestURI;
+
 class Logging
 {
     /**
@@ -98,14 +100,11 @@ class Logging
      */
     public function setServerRequestandRequestUri(ServerRequestInterface $request) : void
     {
-        $this->request    = $request = Psr7ServerRequest::toZend($request);
-        $uri              = $request->getUri();
-        $this->serverUrl  = $uri->getScheme() . '://' . $uri->getHost();
-        $port             = $uri->getPort();
-        if ($port !== 80) {
-            $this->serverUrl .= ':' . $port;
-        }
-        $this->requestUri = $request->getRequestUri();
+        $this->request = Psr7ServerRequest::toZend($request);
+
+        $getServerURLandRequestURI = getServerURLandRequestURI($this->request);
+        $this->serverUrl  = $getServerURLandRequestURI['serverUrl'];
+        $this->requestUri = $getServerURLandRequestURI['requestUri'];
     }
 
     /**

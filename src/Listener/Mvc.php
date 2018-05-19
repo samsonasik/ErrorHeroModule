@@ -18,6 +18,8 @@ use Zend\Text\Table;
 use Zend\View\Model\ViewModel;
 use Zend\View\Renderer\PhpRenderer;
 
+use function ErrorHeroModule\detectAjaxMessageContentType;
+
 class Mvc extends AbstractListenerAggregate
 {
     use HeroTrait;
@@ -108,7 +110,7 @@ class Mvc extends AbstractListenerAggregate
                                ->detach($events);
 
                 $message     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
-                $contentType = $this->detectAjaxMessageContentType($message);
+                $contentType = detectAjaxMessageContentType($message);
 
                 $response->getHeaders()->addHeaderLine('Content-type', $contentType);
                 $response->setContent($message);
