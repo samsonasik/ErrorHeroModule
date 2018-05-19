@@ -14,6 +14,7 @@ use Psr\Container\ContainerInterface;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Zend\Expressive\Template\TemplateRendererInterface;
+use Zend\ServiceManager\ServiceManager;
 
 class ExpressiveFactory
 {
@@ -52,6 +53,10 @@ class ExpressiveFactory
             );
         }
 
+        if ($container instanceof ServiceManager) {
+            return $this->createMiddlewareInstance($container, $configuration);
+        }
+
         if ($container instanceof SymfonyContainerBuilder) {
             $configuration = $this->verifyConfig($configuration, 'Symfony');
 
@@ -70,6 +75,9 @@ class ExpressiveFactory
             );
         }
 
-        return $this->createMiddlewareInstance($container, $configuration);
+        throw new RuntimeException(sprintf(
+            'container "%s" is unsupported',
+            get_class($container)
+        ));
     }
 }

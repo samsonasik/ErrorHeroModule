@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Expressive;
 use ErrorHeroModule\Middleware\ExpressiveFactory;
+use ErrorHeroModule\Spec\Fixture\NotSupportedContainer;
 use Kahlan\Plugin\Double;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
@@ -320,6 +321,34 @@ describe('ExpressiveFactory', function () {
 
             $actual = $this->factory($container);
             expect($actual)->toBeAnInstanceOf(Expressive::class);
+
+        });
+
+        it('throws RuntimeException on not supported container', function () {
+
+            $container = new NotSupportedContainer();
+            allow($container)->toReceive('get')->with('config')
+                                               ->andReturn([]);
+
+            allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
+
+            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
+            allow($container)->toReceive('get')->with(Logging::class)
+                                               ->andReturn($logging);
+
+            $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
+            allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
+                                               ->andReturn($renderer);
+
+            $actual = function () use ($container) {
+                $this->factory($container);
+            };
+            expect($actual)->toThrow(
+                new RuntimeException(sprintf(
+                    'container "%s" is unsupported',
+                    get_class($container)
+                ))
+            );
 
         });
 
