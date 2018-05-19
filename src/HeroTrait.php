@@ -7,8 +7,6 @@ namespace ErrorHeroModule;
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
 use Seld\JsonLint\JsonParser;
-use Zend\Expressive\Template\TemplateRendererInterface;
-use Zend\View\Renderer\PhpRenderer;
 
 trait HeroTrait
 {
@@ -21,11 +19,6 @@ trait HeroTrait
      * @var Logging
      */
     private $logging;
-
-    /**
-     * @var PhpRenderer|TemplateRendererInterface
-     */
-    private $renderer;
 
     public function execOnShutdown() : void
     {

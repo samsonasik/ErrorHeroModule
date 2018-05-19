@@ -25,6 +25,11 @@ class Expressive implements MiddlewareInterface
     use HeroTrait;
 
     /**
+     * @var TemplateRendererInterface
+     */
+    private $renderer;
+
+    /**
      * @var ServerRequestInterface
      */
     private $request;

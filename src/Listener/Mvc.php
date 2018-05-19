@@ -22,6 +22,11 @@ class Mvc extends AbstractListenerAggregate
 {
     use HeroTrait;
 
+    /**
+     * @var PhpRenderer
+     */
+    private $renderer;
+
     public function __construct(
         array       $errorHeroModuleConfig,
         Logging     $logging,
@@ -111,8 +116,6 @@ class Mvc extends AbstractListenerAggregate
 
                 return;
             }
-
-            Assertion::isInstanceOf($this->renderer, PhpRenderer::class);
 
             $view = new ViewModel();
             $view->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['view']);
