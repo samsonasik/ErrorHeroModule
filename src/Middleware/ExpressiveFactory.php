@@ -27,7 +27,7 @@ class ExpressiveFactory
         );
     }
 
-    private function verifyConfig($configuration, $containerType = 'Symfony')
+    private function verifyConfig($configuration, string $containerType = 'Symfony') : array
     {
         $configuration = (array) $configuration;
         if (! isset($configuration['db'])) {
