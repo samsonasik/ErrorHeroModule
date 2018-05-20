@@ -22,7 +22,6 @@
         "zendframework/zend-log": "^2.5",
         "zendframework/zend-mail": "^2.9",
         "zendframework/zend-psr7bridge": "^1.0",
-        "zendframework/zend-servicemanager": "^3.0",
         "zendframework/zend-text": "^2.5"
     },
     "require-dev": {
@@ -36,7 +35,8 @@
         "zendframework/zend-expressive": "^3.0",
         "zendframework/zend-expressive-zendviewrenderer": "^2.0",
         "zendframework/zend-mvc": "^3.0",
-        "zendframework/zend-mvc-console": "^1.1"
+        "zendframework/zend-mvc-console": "^1.1",
+        "zendframework/zend-servicemanager": "^3.3"
     },
     "conflict": {
         "zendframework/zend-expressive": "<3.0 >=4.0",
