@@ -11,7 +11,6 @@ use Zend\Console\Request as ConsoleRequest;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
 
-
 class LoggingFactory
 {
     /**
