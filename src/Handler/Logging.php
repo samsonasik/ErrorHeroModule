@@ -146,8 +146,7 @@ class Logging
         $query          = $request->getQuery()->toArray();
         $request_method = $request->getMethod();
         $body_data      = $request->getPost()->toArray();
-        $raw_data       = $request->getContent();
-        $raw_data       = \str_replace(\PHP_EOL, '', $raw_data);
+        $raw_data       = \str_replace(\PHP_EOL, '', $request->getContent());
         $files_data     = $request->getFiles()->toArray();
         $cookie         = $request->getCookie();
 
