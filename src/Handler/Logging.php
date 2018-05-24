@@ -155,6 +155,7 @@ class Logging
             $cookie = new Cookie([]);
         }
 
+        Assertion::isInstanceOf($cookie, Cookie::class);
         $cookie_data = $cookie->getArrayCopy();
 
         return [
