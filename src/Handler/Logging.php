@@ -158,8 +158,8 @@ class Logging
         $cookie_data = $cookie->getArrayCopy();
 
         return [
-            'query_data'     => $query_data,
             'request_method' => $request_method,
+            'query_data'     => $query_data,
             'body_data'      => $body_data,
             'raw_data'       => $raw_data,
             'files_data'     => $files_data,
