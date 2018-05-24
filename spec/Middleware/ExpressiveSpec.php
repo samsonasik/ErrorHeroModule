@@ -115,7 +115,7 @@ json
             $request = new ServerRequest(
                 [],
                 [],
-                new Uri('http://example.com/error-preview'),
+                new Uri('http://example.com'),
                 'GET',
                 'php://memory',
                 [],
@@ -138,7 +138,7 @@ json
             $request  = new ServerRequest(
                 [],
                 [],
-                new Uri('http://example.com/error-preview'),
+                new Uri('http://example.com'),
                 'GET',
                 'php://memory',
                 [],
@@ -235,7 +235,7 @@ json
                 $request  = new ServerRequest(
                     [],
                     [],
-                    new Uri('http://example.com/error-preview'),
+                    new Uri('http://example.com'),
                     'GET',
                     'php://memory',
                     [],
@@ -335,7 +335,7 @@ json
                 $request  = new ServerRequest(
                     [],
                     [],
-                    new Uri('http://example.com/error-preview'),
+                    new Uri('http://example.com'),
                     'GET',
                     'php://memory',
                     [],
@@ -433,7 +433,7 @@ json
                 $request  = new ServerRequest(
                     [],
                     [],
-                    new Uri('http://example.com/error-preview'),
+                    new Uri('http://example.com'),
                     'GET',
                     'php://memory',
                     [],
@@ -539,7 +539,7 @@ json
                 $request  = new ServerRequest(
                     [],
                     [],
-                    new Uri('http://example.com/error-preview'),
+                    new Uri('http://example.com'),
                     'GET',
                     'php://memory',
                     [],
@@ -647,7 +647,7 @@ json
             $request  = new ServerRequest(
                 [],
                 [],
-                new Uri('http://example.com/error-preview'),
+                new Uri('http://example.com'),
                 'GET',
                 'php://memory',
                 [],
