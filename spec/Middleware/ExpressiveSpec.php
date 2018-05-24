@@ -10,6 +10,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Db\Adapter\Adapter;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
+use Zend\Diactoros\Uri;
 use Zend\Expressive\ZendView\ZendViewRenderer;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Log\Logger;
@@ -111,7 +112,18 @@ json
 
             $config['enable'] = false;
 
-            $request = new ServerRequest();
+            $request = new ServerRequest(
+                [],
+                [],
+                new Uri('http://example.com/error-preview'),
+                'GET',
+                'php://memory',
+                [],
+                [],
+                [],
+                '',
+                '1.2'
+            );
             $handler = Double::instance(['implements' => RequestHandlerInterface::class]);
             allow($handler)->toReceive('handle')->with($request)->andReturn(new Response());
             $middleware = new Expressive($config, $this->logging, $this->renderer);
@@ -123,7 +135,18 @@ json
 
         it('returns handle() when no error', function () {
 
-            $request  = new ServerRequest();
+            $request  = new ServerRequest(
+                [],
+                [],
+                new Uri('http://example.com/error-preview'),
+                'GET',
+                'php://memory',
+                [],
+                [],
+                [],
+                '',
+                '1.2'
+            );
             $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
             allow($handler)->toReceive('handle')->with($request)->andReturn(new Response());
 
@@ -200,7 +223,7 @@ json
 
                 $logging = new Logging(
                     $logger,
-                    'http://serverUrl',
+                    'http://example.com',
                     null,
                     '/',
                     $config,
@@ -209,7 +232,18 @@ json
                     null
                 );
 
-                $request  = new ServerRequest();
+                $request  = new ServerRequest(
+                    [],
+                    [],
+                    new Uri('http://example.com/error-preview'),
+                    'GET',
+                    'php://memory',
+                    [],
+                    [],
+                    [],
+                    '',
+                    '1.2'
+                );
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
                     throw new \Exception('message');
@@ -289,7 +323,7 @@ json
 
                 $logging = new Logging(
                     $logger,
-                    'http://serverUrl',
+                    'http://example.com',
                     null,
                     '/',
                     $config,
@@ -298,7 +332,18 @@ json
                     null
                 );
 
-                $request  = new ServerRequest();
+                $request  = new ServerRequest(
+                    [],
+                    [],
+                    new Uri('http://example.com/error-preview'),
+                    'GET',
+                    'php://memory',
+                    [],
+                    [],
+                    [],
+                    '',
+                    '1.2'
+                );
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
                     throw new \Exception('message');
@@ -376,7 +421,7 @@ json
 
                 $logging = new Logging(
                     $logger,
-                    'http://serverUrl',
+                    'http://example.com',
                     null,
                     '/',
                     $config,
@@ -385,7 +430,18 @@ json
                     null
                 );
 
-                $request  = new ServerRequest();
+                $request  = new ServerRequest(
+                    [],
+                    [],
+                    new Uri('http://example.com/error-preview'),
+                    'GET',
+                    'php://memory',
+                    [],
+                    [],
+                    [],
+                    '',
+                    '1.2'
+                );
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
@@ -471,7 +527,7 @@ json
 
                 $logging = new Logging(
                     $logger,
-                    'http://serverUrl',
+                    'http://example.com',
                     null,
                     '/',
                     $config,
@@ -480,7 +536,18 @@ json
                     null
                 );
 
-                $request  = new ServerRequest();
+                $request  = new ServerRequest(
+                    [],
+                    [],
+                    new Uri('http://example.com/error-preview'),
+                    'GET',
+                    'php://memory',
+                    [],
+                    [],
+                    [],
+                    '',
+                    '1.2'
+                );
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
@@ -568,7 +635,7 @@ json
 
             $logging = new Logging(
                 $logger,
-                'http://serverUrl',
+                'http://example.com',
                 null,
                 '/',
                 $config,
@@ -577,7 +644,18 @@ json
                 null
             );
 
-            $request  = new ServerRequest();
+            $request  = new ServerRequest(
+                [],
+                [],
+                new Uri('http://example.com/error-preview'),
+                'GET',
+                'php://memory',
+                [],
+                [],
+                [],
+                '',
+                '1.2'
+            );
             $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
             $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
             allow($handler)->toReceive('handle')->with($request)->andRun(function () use ($exception) {
