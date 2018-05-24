@@ -6,6 +6,7 @@ use ErrorHeroModule\Handler\Writer\Mail;
 use Exception;
 use Kahlan\Plugin\Double;
 use ReflectionProperty;
+use Zend\Http\Header\Cookie;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
 
@@ -32,7 +33,7 @@ describe('Mail', function () {
                         'type'     => 'text/html'
                      ],
                  ],
-                 'cookie_data' => [],
+                 'cookie_data' => (new Cookie([]))->getArrayCopy(),
             ]
         );
    });
@@ -60,7 +61,7 @@ describe('Mail', function () {
                             ],
                          ],
                      ],
-                     'cookie_data' => [],
+                     'cookie_data' => (new Cookie([]))->getArrayCopy(),
                 ]
             );
 

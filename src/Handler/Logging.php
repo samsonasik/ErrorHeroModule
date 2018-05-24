@@ -149,11 +149,13 @@ class Logging
         $raw_data       = $request->getContent();
         $raw_data       = \str_replace(\PHP_EOL, '', $raw_data);
         $files_data     = $request->getFiles()->toArray();
-        $cookie_data    = $request->getCookie();
+        $cookie         = $request->getCookie();
 
-        if (false === $cookie_data) {
-            $cookie_data = new Cookie([]);
+        if (false === $cookie) {
+            $cookie = new Cookie([]);
         }
+
+        $cookie_data = $cookie->getArrayCopy();
 
         return [
             'query'          => $query,
