@@ -20,7 +20,7 @@ describe('Mail', function () {
             $this->mailMessage,
             $this->transport,
             [
-                'query'          => [],
+                'query_data'     => [],
                 'request_method' => 'POST',
                 'body_data'      => ['text' => 'test'],
                 'raw_data'       => [],
@@ -46,7 +46,7 @@ describe('Mail', function () {
                 $this->mailMessage,
                 $this->transport,
                 [
-                    'query'          => [],
+                    'query_data'     => [],
                     'request_method' => 'POST',
                     'body_data'      => ['text' => 'test'],
                     'raw_data'       => [],

@@ -143,7 +143,7 @@ class Logging
         Assertion::isInstanceOf($this->request, HttpRequest::class);
         $request = $this->request;
 
-        $query          = $request->getQuery()->toArray();
+        $query_data     = $request->getQuery()->toArray();
         $request_method = $request->getMethod();
         $body_data      = $request->getPost()->toArray();
         $raw_data       = \str_replace(\PHP_EOL, '', $request->getContent());
@@ -158,7 +158,7 @@ class Logging
         $cookie_data = $cookie->getArrayCopy();
 
         return [
-            'query'          => $query,
+            'query_data'     => $query_data,
             'request_method' => $request_method,
             'body_data'      => $body_data,
             'raw_data'       => $raw_data,
