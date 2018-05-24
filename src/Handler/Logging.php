@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use Throwable;
 use Zend\Console\Request as ConsoleRequest;
+use Zend\Http\Header\Cookie;
 use Zend\Http\PhpEnvironment\Request as HttpRequest;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db;
@@ -148,11 +149,11 @@ class Logging
         $raw_data       = $request->getContent();
         $raw_data       = \str_replace(\PHP_EOL, '', $raw_data);
         $files_data     = $request->getFiles()->toArray();
+        $cookie_data    = $request->getCookie();
 
-        if (! ($cookie_data = $request->getCookie())) {
-            $cookie_data = [];
+        if (false === $cookie_data) {
+            $cookie_data = new Cookie([]);
         }
-        $cookie_data = (array) $cookie_data;
 
         return [
             'query'          => $query,
