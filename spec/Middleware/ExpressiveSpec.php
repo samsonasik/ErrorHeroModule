@@ -223,9 +223,7 @@ json
 
                 $logging = new Logging(
                     $logger,
-                    'http://example.com',
                     null,
-                    '/',
                     $config,
                     $logWritersConfig,
                     null,
@@ -323,9 +321,7 @@ json
 
                 $logging = new Logging(
                     $logger,
-                    'http://example.com',
                     null,
-                    '/',
                     $config,
                     $logWritersConfig,
                     null,
@@ -421,9 +417,7 @@ json
 
                 $logging = new Logging(
                     $logger,
-                    'http://example.com',
                     null,
-                    '/',
                     $config,
                     $logWritersConfig,
                     null,
@@ -527,9 +521,7 @@ json
 
                 $logging = new Logging(
                     $logger,
-                    'http://example.com',
                     null,
-                    '/',
                     $config,
                     $logWritersConfig,
                     null,
@@ -635,9 +627,7 @@ json
 
             $logging = new Logging(
                 $logger,
-                'http://example.com',
                 null,
-                '/',
                 $config,
                 $logWritersConfig,
                 null,

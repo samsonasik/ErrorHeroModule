@@ -50,7 +50,8 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
-            $request->setUri('/error-preview');
+            $request->setUri('http://example.com/error-preview');
+            $request->setRequestUri('/error-preview');
 
             ob_start();
             $this->application->run();
@@ -71,7 +72,8 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
-            $request->setUri('/error-preview/error');
+            $request->setUri('http://example.com/error-preview/error');
+            $request->setRequestUri('/error-preview/error');
 
             ob_start();
             $this->application->run();

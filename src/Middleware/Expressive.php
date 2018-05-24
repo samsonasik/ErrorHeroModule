@@ -54,7 +54,7 @@ class Expressive implements MiddlewareInterface
 
         try {
             $this->request = $request;
-            $this->logging->setServerRequestandRequestUri($request);
+            $this->logging->setRequest($request);
 
             $this->phpError();
 

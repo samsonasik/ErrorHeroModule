@@ -11,7 +11,6 @@ use Zend\Console\Request as ConsoleRequest;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
 
-use function ErrorHeroModule\getServerURLandRequestURI;
 
 class LoggingFactory
 {
@@ -24,19 +23,11 @@ class LoggingFactory
         if (! Console::isConsole()) {
             if ($container->has('Request')) {
                 $request    = $container->get('Request');
-
-                $getServerURLandRequestURI = getServerURLandRequestURI($request);
-                $serverUrl  = $getServerURLandRequestURI['serverUrl'];
-                $requestUri = $getServerURLandRequestURI['requestUri'];
             } else {
-                $serverUrl  = '';
                 $request    = null;
-                $requestUri = '';
             }
         } else {
-            $serverUrl  = \php_uname('n');
             $request    = new ConsoleRequest();
-            $requestUri = ':'. \basename((string) \getcwd())  .' ' . \get_current_user() . '$ php ' . $request->getScriptName() . ' ' . $request->toString();
         }
 
         $config                = $container->get('config');
@@ -63,9 +54,7 @@ class LoggingFactory
 
         return new Logging(
             $errorHeroModuleLogger,
-            $serverUrl,
             $request,
-            $requestUri,
             $errorHeroModuleLocalConfig,
             $logWritersConfig,
             $mailMessageService,

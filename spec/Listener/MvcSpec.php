@@ -410,9 +410,7 @@ describe('Mvc', function () {
 
             $logging = new Logging(
                 $logger,
-                'http://serverUrl',
                 Double::instance(['extends' => Request::class, 'methods' => '__construct']),
-                '/',
                 $this->config,
                 $logWritersConfig,
                 null,

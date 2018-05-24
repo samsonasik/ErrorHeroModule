@@ -30,19 +30,9 @@ class Logging
     private $logger;
 
     /**
-     * @var string
-     */
-    private $serverUrl;
-
-    /**
      * @var RequestInterface|null
      */
     private $request;
-
-    /**
-     * @var string
-     */
-    private $requestUri;
 
     /**
      * @var array
@@ -76,18 +66,14 @@ class Logging
 
     public function __construct(
         Logger             $logger,
-        string             $serverUrl,
         RequestInterface   $request = null,
-        string             $requestUri = '',
         array              $errorHeroModuleLocalConfig,
         array              $logWritersConfig,
         Message            $mailMessageService = null,
         TransportInterface $mailMessageTransport = null
     ) {
         $this->logger                = $logger;
-        $this->serverUrl             = $serverUrl;
         $this->request               = $request;
-        $this->requestUri            = $requestUri;
         $this->configLoggingSettings = $errorHeroModuleLocalConfig['logging-settings'];
         $this->logWritersConfig      = $logWritersConfig;
         $this->mailMessageService    = $mailMessageService;
@@ -97,15 +83,11 @@ class Logging
     }
 
     /**
-     * Set Server Request for expressive
+     * Set Request for expressive
      */
-    public function setServerRequestandRequestUri(ServerRequestInterface $request) : void
+    public function setRequest(ServerRequestInterface $request) : void
     {
         $this->request = Psr7ServerRequest::toZend($request);
-
-        $getServerURLandRequestURI = getServerURLandRequestURI($this->request);
-        $this->serverUrl  = $getServerURLandRequestURI['serverUrl'];
-        $this->requestUri = $getServerURLandRequestURI['requestUri'];
     }
 
     /**
@@ -136,13 +118,12 @@ class Logging
 
     private function getRequestData() : array
     {
-        if ($this->request instanceof ConsoleRequest) {
+        $request = $this->request;
+        if ($request instanceof ConsoleRequest) {
             return [];
         }
 
-        Assertion::isInstanceOf($this->request, HttpRequest::class);
-        $request = $this->request;
-
+        Assertion::isInstanceOf($request, HttpRequest::class);
         $query_data     = $request->getQuery()->toArray();
         $request_method = $request->getMethod();
         $body_data      = $request->getPost()->toArray();
@@ -195,7 +176,6 @@ class Logging
     private function collectErrorExceptionExtraData(array $collectedExceptionData) : array
     {
         return [
-            'url'          => $this->serverUrl.$this->requestUri,
             'file'         => $collectedExceptionData['errorFile'],
             'line'         => $collectedExceptionData['errorLine'],
             'error_type'   => $collectedExceptionData['errorType'],
@@ -237,6 +217,20 @@ class Logging
         $collectedExceptionData = $this->collectErrorExceptionData($t);
         $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData);
 
+        $request = $this->request;
+        if ($request instanceof ConsoleRequest) {
+            $serverUrl  = \php_uname('n');
+            $requestUri = ':' . \basename((string) \getcwd())
+                . ' ' . \get_current_user()
+                . '$ php ' . $request->getScriptName() . ' ' . $request->toString();
+        } else {
+            Assertion::isInstanceOf($request, HttpRequest::class);
+            $getServerURLandRequestURI = getServerURLandRequestURI($request);
+            $serverUrl  = $getServerURLandRequestURI['serverUrl'];
+            $requestUri = $getServerURLandRequestURI['requestUri'];
+        }
+        $extra['url'] = $serverUrl . $requestUri;
+
         try {
             if (
                 $this->isExists(
@@ -256,6 +250,6 @@ class Logging
             $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData);
         }
 
-        $this->sendMail($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra, '['.$this->serverUrl.'] '.$collectedExceptionData['errorType'].' has thrown');
+        $this->sendMail($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra, '['.$serverUrl.'] '.$collectedExceptionData['errorType'].' has thrown');
     }
 }
