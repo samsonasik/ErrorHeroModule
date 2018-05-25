@@ -21,10 +21,8 @@ use Zend\Mail\Message;
 describe('LoggingSpec', function () {
 
     beforeAll(function () {
-        $this->logger = Double::instance(['extends' => Logger::class]);
-        $this->serverUrl = 'http://serverUrl';
-        $this->requestUri = '/';
-        $this->request   = Double::instance(['extends' => Request::class, 'methods' => '__construct']);
+        $this->logger  = Double::instance(['extends' => Logger::class]);
+        $this->request = Double::instance(['extends' => Request::class, 'methods' => '__construct']);
         $this->errorHeroModuleLocalConfig = [
             'enable' => true,
             'display-settings' => [
@@ -107,9 +105,7 @@ describe('LoggingSpec', function () {
     given('logging', function ()  {
         return new Logging(
             $this->logger,
-            $this->serverUrl,
             $this->request,
-            $this->requestUri,
             $this->errorHeroModuleLocalConfig,
             $this->logWritersConfig,
             null,
@@ -117,9 +113,9 @@ describe('LoggingSpec', function () {
         );
     });
 
-    describe('->setServerRequestandRequestUri()', function () {
+    describe('->setRequest()', function () {
 
-        it('set request and requestUri properties with port 80', function () {
+        it('set request property with port 80', function () {
 
             $request = new ServerRequest(
                 [],
@@ -134,15 +130,11 @@ describe('LoggingSpec', function () {
                 '1.2'
             );
 
-            $this->logging->setServerRequestandRequestUri($request);
+            $this->logging->setRequest($request);
 
             $r = new ReflectionProperty($this->logging, 'request');
             $r->setAccessible(true);
             expect($r->getValue($this->logging))->toBeAnInstanceOf(Request::class);
-
-            $r2 = new ReflectionProperty($this->logging, 'requestUri');
-            $r2->setAccessible(true);
-            expect($r2->getValue($this->logging))->toBe('/error-preview');
 
             $r3 = new ReflectionMethod($this->logging, 'getRequestData');
             $r3->setAccessible(true);
@@ -150,7 +142,7 @@ describe('LoggingSpec', function () {
 
         });
 
-        it('set request and requestUri properties with non 80 port', function () {
+        it('set request property with non 80 port', function () {
 
             $request = new ServerRequest(
                 [],
@@ -165,15 +157,11 @@ describe('LoggingSpec', function () {
                 '1.2'
             );
 
-            $this->logging->setServerRequestandRequestUri($request);
+            $this->logging->setRequest($request);
 
             $r = new ReflectionProperty($this->logging, 'request');
             $r->setAccessible(true);
             expect($r->getValue($this->logging))->toBeAnInstanceOf(Request::class);
-
-            $r2 = new ReflectionProperty($this->logging, 'requestUri');
-            $r2->setAccessible(true);
-            expect($r2->getValue($this->logging))->toBe('/error-preview');
 
             $r3 = new ReflectionMethod($this->logging, 'getRequestData');
             $r3->setAccessible(true);

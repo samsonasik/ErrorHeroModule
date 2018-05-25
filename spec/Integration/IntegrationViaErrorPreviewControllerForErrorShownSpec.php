@@ -42,7 +42,8 @@ describe('Integration via ErrorPreviewController for error shown', function () {
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
-            $request->setUri('/error-preview/error');
+            $request->setUri('http://example.com/error-preview/error');
+            $request->setRequestUri('/error-preview/error');
 
             ob_start();
             $this->application->run();

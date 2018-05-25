@@ -39,7 +39,8 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
-            $request->setUri('/error-preview');
+            $request->setUri('http://example.com/error-preview');
+            $request->setRequestUri('/error-preview');
 
             allow(Request::class)->toReceive('isXmlHttpRequest')->andReturn(true);
             allow(Response::class)->toReceive('getHeaders', 'addHeaderLine');
