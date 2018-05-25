@@ -97,8 +97,8 @@ class Mvc extends AbstractListenerAggregate
 
             $request = $e->getRequest();
             Assertion::isInstanceOf($request, Request::class);
-
             $isXmlHttpRequest = $request->isXmlHttpRequest();
+
             if ($isXmlHttpRequest === true &&
                 isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
             ) {

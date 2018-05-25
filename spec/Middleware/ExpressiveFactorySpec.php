@@ -3,6 +3,7 @@
 namespace ErrorHeroModule\Spec\Middleware;
 
 use Aura\Di\Container as AuraContainer;
+use Aura\Di\ContainerBuilder as AuraContainerBuilder;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
@@ -173,7 +174,7 @@ describe('ExpressiveFactory', function () {
 
         it('throws RuntimeException when using Symfony Container but no "db" config', function () {
 
-            $container = Double::instance(['extends' => SymfonyContainerBuilder::class, 'methods' => '__construct']);
+            $container = new SymfonyContainerBuilder();
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn([]);
 
@@ -190,7 +191,12 @@ describe('ExpressiveFactory', function () {
             $actual = function () use ($container) {
                 $this->factory($container);
             };
-            expect($actual)->toThrow(new RuntimeException('db config is required for build "ErrorHeroModuleLogger" service by Symfony Container'));
+            expect($actual)->toThrow(new RuntimeException(
+                sprintf(
+                    'db config is required for build "ErrorHeroModuleLogger" service by %s Container',
+                    SymfonyContainerBuilder::class
+                )
+            ));
 
         });
 
@@ -198,7 +204,7 @@ describe('ExpressiveFactory', function () {
 
             $config = $this->config;
             $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = 'my-adapter';
-            $container = Double::instance(['extends' => SymfonyContainerBuilder::class, 'methods' => '__construct']);
+            $container = new SymfonyContainerBuilder();
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
@@ -219,7 +225,7 @@ describe('ExpressiveFactory', function () {
 
         it('returns Expressive Middleware instance with create services first for Symfony Container and db name not found in adapters, which means use "Zend\Db\Adapter\Adapter" name', function () {
 
-            $container = Double::instance(['extends' => SymfonyContainerBuilder::class, 'methods' => '__construct']);
+            $container = new SymfonyContainerBuilder();
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($this->config);
 
@@ -240,7 +246,7 @@ describe('ExpressiveFactory', function () {
 
         it('throws RuntimeException when using Aura Container but no "db" config', function () {
 
-            $container = Double::instance(['extends' => AuraContainer::class, 'methods' => '__construct']);
+            $container = (new AuraContainerBuilder())->newInstance();
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn([]);
 
@@ -257,7 +263,12 @@ describe('ExpressiveFactory', function () {
             $actual = function () use ($container) {
                 $this->factory($container);
             };
-            expect($actual)->toThrow(new RuntimeException('db config is required for build "ErrorHeroModuleLogger" service by Aura Container'));
+            expect($actual)->toThrow(new RuntimeException(
+                sprintf(
+                    'db config is required for build "ErrorHeroModuleLogger" service by %s Container',
+                    AuraContainer::class
+                )
+            ));
 
         });
 
@@ -265,7 +276,7 @@ describe('ExpressiveFactory', function () {
 
             $config = $this->config;
             $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = 'my-adapter';
-            $container = Double::instance(['extends' => AuraContainer::class, 'methods' => '__construct']);
+            $container = (new AuraContainerBuilder())->newInstance();
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
@@ -286,7 +297,7 @@ describe('ExpressiveFactory', function () {
 
         it('returns Expressive Middleware instance with create services first for Aura Container and db name not found in adapters, which means use "Zend\Db\Adapter\Adapter" name', function () {
 
-            $container = Double::instance(['extends' => AuraContainer::class, 'methods' => '__construct']);
+            $container = (new AuraContainerBuilder())->newInstance();
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($this->config);
 

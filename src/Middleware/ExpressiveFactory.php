@@ -18,6 +18,11 @@ use Zend\ServiceManager\ServiceManager;
 
 class ExpressiveFactory
 {
+    private const CONTAINERS_TRANSFORM = [
+        SymfonyContainerBuilder::class => SymfonyService::class,
+        AuraContainer::class           => AuraService::class,
+    ];
+
     private function createMiddlewareInstance(ContainerInterface $container, array $configuration) : Expressive
     {
         return new Expressive(
@@ -27,14 +32,14 @@ class ExpressiveFactory
         );
     }
 
-    private function verifyConfig($configuration, string $containerType = 'Symfony') : array
+    private function verifyConfig($configuration, string $containerClass) : array
     {
         $configuration = (array) $configuration;
         if (! isset($configuration['db'])) {
             throw new RuntimeException(
                 sprintf(
                     'db config is required for build "ErrorHeroModuleLogger" service by %s Container',
-                    $containerType
+                    $containerClass
                 )
             );
         }
@@ -57,27 +62,21 @@ class ExpressiveFactory
             return $this->createMiddlewareInstance($container, $configuration);
         }
 
-        if ($container instanceof SymfonyContainerBuilder) {
-            $configuration = $this->verifyConfig($configuration, 'Symfony');
+        $containerClass = get_class($container);
+        if (in_array($containerClass, array_keys(self::CONTAINERS_TRANSFORM), true)) {
+            $configuration = $this->verifyConfig($configuration, $containerClass);
+            /** @var \ErrorHeroModule\Transformer\TransformerInterface $transformer */
+            $transformer   = self::CONTAINERS_TRANSFORM[$containerClass];
 
             return $this->createMiddlewareInstance(
-                SymfonyService::transform($container, $configuration),
-                $configuration
-            );
-        }
-
-        if ($container instanceof AuraContainer) {
-            $configuration = $this->verifyConfig($configuration, 'Aura');
-
-            return $this->createMiddlewareInstance(
-                AuraService::transform($container, $configuration),
+                $transformer::transform($container, $configuration),
                 $configuration
             );
         }
 
         throw new RuntimeException(sprintf(
             'container "%s" is unsupported',
-            get_class($container)
+            $containerClass
         ));
     }
 }

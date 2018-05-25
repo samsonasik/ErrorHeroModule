@@ -186,7 +186,6 @@ class Logging
                     . '$ php ' . $request->getScriptName() . ' ' . $request->toString();
         } else {
             Assertion::isInstanceOf($request, HttpRequest::class);
-
             $uri             = $request->getUri();
             $this->serverUrl = $uri->getScheme() . '://' . $uri->getHost();
             $port            = $uri->getPort();
