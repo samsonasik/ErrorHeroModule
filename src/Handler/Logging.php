@@ -118,12 +118,12 @@ class Logging
 
     private function getRequestData() : array
     {
-        $request = $this->request;
-        if ($request instanceof ConsoleRequest) {
+        if ($this->request instanceof ConsoleRequest) {
             return [];
         }
 
-        Assertion::isInstanceOf($request, HttpRequest::class);
+        Assertion::isInstanceOf($this->request, HttpRequest::class);
+        $request        = $this->request;
         $query_data     = $request->getQuery()->toArray();
         $request_method = $request->getMethod();
         $body_data      = $request->getPost()->toArray();
@@ -217,15 +217,14 @@ class Logging
         $collectedExceptionData = $this->collectErrorExceptionData($t);
         $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData);
 
-        $request = $this->request;
-        if ($request instanceof ConsoleRequest) {
+        if ($this->request instanceof ConsoleRequest) {
             $serverUrl  = \php_uname('n');
             $requestUri = ':' . \basename((string) \getcwd())
                 . ' ' . \get_current_user()
-                . '$ php ' . $request->getScriptName() . ' ' . $request->toString();
+                . '$ php ' . $this->request->getScriptName() . ' ' . $this->request->toString();
         } else {
-            Assertion::isInstanceOf($request, HttpRequest::class);
-            $getServerURLandRequestURI = getServerURLandRequestURI($request);
+            Assertion::isInstanceOf($this->request, HttpRequest::class);
+            $getServerURLandRequestURI = getServerURLandRequestURI($this->request);
             $serverUrl  = $getServerURLandRequestURI['serverUrl'];
             $requestUri = $getServerURLandRequestURI['requestUri'];
         }
