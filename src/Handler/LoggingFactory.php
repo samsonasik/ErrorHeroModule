@@ -21,12 +21,12 @@ class LoggingFactory
     {
         if (! Console::isConsole()) {
             if ($container->has('Request')) {
-                $request    = $container->get('Request');
+                $request = $container->get('Request');
             } else {
-                $request    = null;
+                $request = null;
             }
         } else {
-            $request    = new ConsoleRequest();
+            $request = new ConsoleRequest();
         }
 
         $config                = $container->get('config');
