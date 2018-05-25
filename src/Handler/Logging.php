@@ -20,8 +20,6 @@ use Zend\Mail\Transport\TransportInterface;
 use Zend\Psr7Bridge\Psr7ServerRequest;
 use Zend\Stdlib\RequestInterface;
 
-use function ErrorHeroModule\getServerURLandRequestURI;
-
 class Logging
 {
     /**
@@ -180,16 +178,22 @@ class Logging
 
     private function collectErrorExceptionExtraData(array $collectedExceptionData) : array
     {
-        if ($this->request instanceof ConsoleRequest) {
+        $request = $this->request;
+        if ($request instanceof ConsoleRequest) {
             $this->serverUrl = \php_uname('n');
             $requestUri      = ':' . \basename((string) \getcwd())
                     . ' ' . \get_current_user()
-                    . '$ php ' . $this->request->getScriptName() . ' ' . $this->request->toString();
+                    . '$ php ' . $request->getScriptName() . ' ' . $request->toString();
         } else {
-            Assertion::isInstanceOf($this->request, HttpRequest::class);
-            $getServerURLandRequestURI = getServerURLandRequestURI($this->request);
-            $this->serverUrl = $getServerURLandRequestURI['serverUrl'];
-            $requestUri      = $getServerURLandRequestURI['requestUri'];
+            Assertion::isInstanceOf($request, HttpRequest::class);
+
+            $uri             = $request->getUri();
+            $this->serverUrl = $uri->getScheme() . '://' . $uri->getHost();
+            $port            = $uri->getPort();
+            if ($port !== 80) {
+                $this->serverUrl .= ':' . $port;
+            }
+            $requestUri      = $request->getRequestUri();
         }
 
         return [
