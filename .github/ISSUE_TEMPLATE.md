@@ -18,6 +18,12 @@ What ErrorHeroModule version you're using?
 - [ ] ^1.0
 - [ ] ^2.0
 
+What Database you're using?
+
+- [ ] MySQL version ...
+- [ ] PostgreSQL version ...
+- [ ] Other (please write DB name and version)
+
 ### Expected behavior
 
 ### Actual behavior
