@@ -24,6 +24,13 @@ describe('ExpressiveFactory', function () {
         return new ExpressiveFactory();
     });
 
+    given('mapCreateContainers', function () {
+        return [
+            AuraContainer::class => (new AuraContainerBuilder())->newInstance(),
+            SymfonyContainerBuilder::class => new SymfonyContainerBuilder(),
+        ];
+    });
+
     given('config', function () {
 
         return [
@@ -172,150 +179,6 @@ describe('ExpressiveFactory', function () {
 
         });
 
-        it('throws RuntimeException when using Symfony Container but no "db" config', function () {
-
-            $container = new SymfonyContainerBuilder();
-            allow($container)->toReceive('get')->with('config')
-                                               ->andReturn([]);
-
-            allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
-
-            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
-            allow($container)->toReceive('get')->with(Logging::class)
-                                               ->andReturn($logging);
-
-            $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
-            allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
-                                               ->andReturn($renderer);
-
-            $actual = function () use ($container) {
-                $this->factory($container);
-            };
-            expect($actual)->toThrow(new RuntimeException(
-                sprintf(
-                    'db config is required for build "ErrorHeroModuleLogger" service by %s Container',
-                    SymfonyContainerBuilder::class
-                )
-            ));
-
-        });
-
-        it('returns Expressive Middleware instance with create services first for Symfony Container and db name found in adapters', function () {
-
-            $config = $this->config;
-            $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = 'my-adapter';
-            $container = new SymfonyContainerBuilder();
-            allow($container)->toReceive('get')->with('config')
-                                               ->andReturn($config);
-
-            allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
-
-            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
-            allow($container)->toReceive('get')->with(Logging::class)
-                                               ->andReturn($logging);
-
-            $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
-            allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
-                                               ->andReturn($renderer);
-
-            $actual = $this->factory($container);
-            expect($actual)->toBeAnInstanceOf(Expressive::class);
-
-        });
-
-        it('returns Expressive Middleware instance with create services first for Symfony Container and db name not found in adapters, which means use "Zend\Db\Adapter\Adapter" name', function () {
-
-            $container = new SymfonyContainerBuilder();
-            allow($container)->toReceive('get')->with('config')
-                                               ->andReturn($this->config);
-
-            allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
-
-            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
-            allow($container)->toReceive('get')->with(Logging::class)
-                                               ->andReturn($logging);
-
-            $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
-            allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
-                                               ->andReturn($renderer);
-
-            $actual = $this->factory($container);
-            expect($actual)->toBeAnInstanceOf(Expressive::class);
-
-        });
-
-        it('throws RuntimeException when using Aura Container but no "db" config', function () {
-
-            $container = (new AuraContainerBuilder())->newInstance();
-            allow($container)->toReceive('get')->with('config')
-                                               ->andReturn([]);
-
-            allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
-
-            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
-            allow($container)->toReceive('get')->with(Logging::class)
-                                               ->andReturn($logging);
-
-            $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
-            allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
-                                               ->andReturn($renderer);
-
-            $actual = function () use ($container) {
-                $this->factory($container);
-            };
-            expect($actual)->toThrow(new RuntimeException(
-                sprintf(
-                    'db config is required for build "ErrorHeroModuleLogger" service by %s Container',
-                    AuraContainer::class
-                )
-            ));
-
-        });
-
-        it('returns Expressive Middleware instance with create services first for Aura Container and db name found in adapters', function () {
-
-            $config = $this->config;
-            $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = 'my-adapter';
-            $container = (new AuraContainerBuilder())->newInstance();
-            allow($container)->toReceive('get')->with('config')
-                                               ->andReturn($config);
-
-            allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
-
-            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
-            allow($container)->toReceive('get')->with(Logging::class)
-                                               ->andReturn($logging);
-
-            $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
-            allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
-                                               ->andReturn($renderer);
-
-            $actual = $this->factory($container);
-            expect($actual)->toBeAnInstanceOf(Expressive::class);
-
-        });
-
-        it('returns Expressive Middleware instance with create services first for Aura Container and db name not found in adapters, which means use "Zend\Db\Adapter\Adapter" name', function () {
-
-            $container = (new AuraContainerBuilder())->newInstance();
-            allow($container)->toReceive('get')->with('config')
-                                               ->andReturn($this->config);
-
-            allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
-
-            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
-            allow($container)->toReceive('get')->with(Logging::class)
-                                               ->andReturn($logging);
-
-            $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
-            allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
-                                               ->andReturn($renderer);
-
-            $actual = $this->factory($container);
-            expect($actual)->toBeAnInstanceOf(Expressive::class);
-
-        });
-
         it('returns Expressive Middleware instance without doctrine to zend-db conversion', function () {
 
             $container = Double::instance(['extends' => ServiceManager::class, 'methods' => '__construct']);
@@ -332,6 +195,84 @@ describe('ExpressiveFactory', function () {
 
             $actual = $this->factory($container);
             expect($actual)->toBeAnInstanceOf(Expressive::class);
+
+        });
+
+        it('throws RuntimeException when using mapped containers but no "db" config', function () {
+
+            foreach ($this->mapCreateContainers as $containerClass => $containerInstance) {
+                $container = $containerInstance;
+                allow($container)->toReceive('get')->with('config')
+                                                ->andReturn([]);
+
+                allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
+
+                $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
+                allow($container)->toReceive('get')->with(Logging::class)
+                                                ->andReturn($logging);
+
+                $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
+                allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
+                                                ->andReturn($renderer);
+
+                $actual = function () use ($container) {
+                    $this->factory($container);
+                };
+                expect($actual)->toThrow(new RuntimeException(
+                    sprintf(
+                        'db config is required for build "ErrorHeroModuleLogger" service by %s Container',
+                        $containerClass
+                    )
+                ));
+            }
+
+        });
+
+        it('returns Expressive Middleware instance with create service first for mapped containers and db name found in adapters', function () {
+
+            foreach ($this->mapCreateContainers as $containerInstance) {
+                $config = $this->config;
+                $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = 'my-adapter';
+                $container = $containerInstance;
+                allow($container)->toReceive('get')->with('config')
+                                                ->andReturn($config);
+
+                allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
+
+                $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
+                allow($container)->toReceive('get')->with(Logging::class)
+                                                ->andReturn($logging);
+
+                $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
+                allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
+                                                ->andReturn($renderer);
+
+                $actual = $this->factory($container);
+                expect($actual)->toBeAnInstanceOf(Expressive::class);
+            }
+
+        });
+
+        it('returns Expressive Middleware instance with create services first for mapped containers and db name not found in adapters, which means use "Zend\Db\Adapter\Adapter" name', function () {
+
+            foreach ($this->mapCreateContainers as $containerInstance) {
+                $container = $containerInstance;
+                allow($container)->toReceive('get')->with('config')
+                                                ->andReturn($this->config);
+
+                allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
+
+                $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
+                allow($container)->toReceive('get')->with(Logging::class)
+                                                ->andReturn($logging);
+
+                $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
+                allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
+                                                ->andReturn($renderer);
+
+                $actual = $this->factory($container);
+                expect($actual)->toBeAnInstanceOf(Expressive::class);
+            }
 
         });
 
