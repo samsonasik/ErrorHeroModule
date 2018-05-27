@@ -4,7 +4,6 @@ namespace ErrorHeroModule\Spec\Handler;
 
 use ErrorHeroModule\Handler\Logging;
 use Kahlan\Plugin\Double;
-use ReflectionMethod;
 use ReflectionProperty;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\ResultSet\ResultSet;
@@ -136,10 +135,6 @@ describe('LoggingSpec', function () {
             $r->setAccessible(true);
             expect($r->getValue($this->logging))->toBeAnInstanceOf(Request::class);
 
-            $r3 = new ReflectionMethod($this->logging, 'getRequestData');
-            $r3->setAccessible(true);
-            $r3->invoke($this->logging);
-
         });
 
         it('set request property with non 80 port', function () {
@@ -162,10 +157,6 @@ describe('LoggingSpec', function () {
             $r = new ReflectionProperty($this->logging, 'request');
             $r->setAccessible(true);
             expect($r->getValue($this->logging))->toBeAnInstanceOf(Request::class);
-
-            $r3 = new ReflectionMethod($this->logging, 'getRequestData');
-            $r3->setAccessible(true);
-            $r3->invoke($this->logging);
 
         });
 
