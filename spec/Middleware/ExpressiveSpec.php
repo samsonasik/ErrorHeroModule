@@ -43,6 +43,45 @@ describe('Expressive', function () {
 
     });
 
+    given('logger', function () {
+
+        $dbAdapter = new Adapter([
+            'username' => 'root',
+            'password' => '',
+            'driver' => 'Pdo',
+            'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
+            'driver_options' => [
+                \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+            ],
+        ]);
+
+        $writer = new DbWriter(
+            [
+                'db' => $dbAdapter,
+                'table' => 'log',
+                'column' => [
+                    'timestamp' => 'date',
+                    'priority'  => 'type',
+                    'message'   => 'event',
+                    'extra'     => [
+                        'url'  => 'url',
+                        'file' => 'file',
+                        'line' => 'line',
+                        'error_type' => 'error_type',
+                        'trace'      => 'trace',
+                        'request_data' => 'request_data',
+                    ],
+                ],
+            ]
+        );
+
+        $logger = new Logger();
+        $logger->addWriter($writer);
+
+        return $logger;
+
+    });
+
     given('config', function () {
         return [
             'enable' => true,
@@ -96,6 +135,37 @@ json
                 ],
             ],
         ];
+    });
+
+    given('logWritersConfig', function () {
+
+        $logWritersConfig = [
+
+            [
+                'name' => 'db',
+                'options' => [
+                    'db'     => Adapter::class,
+                    'table'  => 'log',
+                    'column' => [
+                        'timestamp' => 'date',
+                        'priority'  => 'type',
+                        'message'   => 'event',
+                        'extra'     => [
+                            'url'  => 'url',
+                            'file' => 'file',
+                            'line' => 'line',
+                            'error_type' => 'error_type',
+                            'trace'      => 'trace',
+                            'request_data' => 'request_data',
+                        ],
+                    ],
+                ],
+            ],
+
+        ];
+
+        return $logWritersConfig;
+
     });
 
     given('middleware', function () {
@@ -164,39 +234,7 @@ json
                 $config = $this->config;
                 $config['display-settings']['display_errors'] = 0;
 
-                $dbAdapter = new Adapter([
-                    'username' => 'root',
-                    'password' => '',
-                    'driver' => 'Pdo',
-                    'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
-                    'driver_options' => [
-                        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
-                    ],
-                ]);
-
-                $writer = new DbWriter(
-                    [
-                        'db' => $dbAdapter,
-                        'table' => 'log',
-                        'column' => [
-                            'timestamp' => 'date',
-                            'priority'  => 'type',
-                            'message'   => 'event',
-                            'extra'     => [
-                                'url'  => 'url',
-                                'file' => 'file',
-                                'line' => 'line',
-                                'error_type' => 'error_type',
-                                'trace'      => 'trace',
-                                'request_data' => 'request_data',
-                            ],
-                        ],
-                    ]
-                );
-
-                $logger = new Logger();
-                $logger->addWriter($writer);
-                $logWritersConfig = [
+                $this->logWritersConfig = [
 
                     [
                         'name' => 'db',
@@ -222,10 +260,10 @@ json
                 ];
 
                 $logging = new Logging(
-                    $logger,
+                    $this->logger,
                     null,
                     $config,
-                    $logWritersConfig,
+                    $this->logWritersConfig,
                     null,
                     null
                 );
@@ -262,68 +300,11 @@ json
                 $config = $this->config;
                 $config['display-settings']['display_errors'] = 1;
 
-                $dbAdapter = new Adapter([
-                    'username' => 'root',
-                    'password' => '',
-                    'driver' => 'Pdo',
-                    'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
-                    'driver_options' => [
-                        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
-                    ],
-                ]);
-
-                $writer = new DbWriter(
-                    [
-                        'db' => $dbAdapter,
-                        'table' => 'log',
-                        'column' => [
-                            'timestamp' => 'date',
-                            'priority'  => 'type',
-                            'message'   => 'event',
-                            'extra'     => [
-                                'url'  => 'url',
-                                'file' => 'file',
-                                'line' => 'line',
-                                'error_type' => 'error_type',
-                                'trace'      => 'trace',
-                                'request_data' => 'request_data',
-                            ],
-                        ],
-                    ]
-                );
-
-                $logger = new Logger();
-                $logger->addWriter($writer);
-                $logWritersConfig = [
-
-                    [
-                        'name' => 'db',
-                        'options' => [
-                            'db'     => Adapter::class,
-                            'table'  => 'log',
-                            'column' => [
-                                'timestamp' => 'date',
-                                'priority'  => 'type',
-                                'message'   => 'event',
-                                'extra'     => [
-                                    'url'  => 'url',
-                                    'file' => 'file',
-                                    'line' => 'line',
-                                    'error_type' => 'error_type',
-                                    'trace'      => 'trace',
-                                    'request_data' => 'request_data',
-                                ],
-                            ],
-                        ],
-                    ],
-
-                ];
-
                 $logging = new Logging(
-                    $logger,
+                    $this->logger,
                     null,
                     $config,
-                    $logWritersConfig,
+                    $this->logWritersConfig,
                     null,
                     null
                 );
@@ -358,68 +339,11 @@ json
                 $config = $this->config;
                 $config['display-settings']['display_errors'] = 0;
 
-                $dbAdapter = new Adapter([
-                    'username' => 'root',
-                    'password' => '',
-                    'driver' => 'Pdo',
-                    'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
-                    'driver_options' => [
-                        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
-                    ],
-                ]);
-
-                $writer = new DbWriter(
-                    [
-                        'db' => $dbAdapter,
-                        'table' => 'log',
-                        'column' => [
-                            'timestamp' => 'date',
-                            'priority'  => 'type',
-                            'message'   => 'event',
-                            'extra'     => [
-                                'url'  => 'url',
-                                'file' => 'file',
-                                'line' => 'line',
-                                'error_type' => 'error_type',
-                                'trace'      => 'trace',
-                                'request_data' => 'request_data',
-                            ],
-                        ],
-                    ]
-                );
-
-                $logger = new Logger();
-                $logger->addWriter($writer);
-                $logWritersConfig = [
-
-                    [
-                        'name' => 'db',
-                        'options' => [
-                            'db'     => Adapter::class,
-                            'table'  => 'log',
-                            'column' => [
-                                'timestamp' => 'date',
-                                'priority'  => 'type',
-                                'message'   => 'event',
-                                'extra'     => [
-                                    'url'  => 'url',
-                                    'file' => 'file',
-                                    'line' => 'line',
-                                    'error_type' => 'error_type',
-                                    'trace'      => 'trace',
-                                    'request_data' => 'request_data',
-                                ],
-                            ],
-                        ],
-                    ],
-
-                ];
-
                 $logging = new Logging(
-                    $logger,
+                    $this->logger,
                     null,
                     $config,
-                    $logWritersConfig,
+                    $this->logWritersConfig,
                     null,
                     null
                 );
@@ -462,68 +386,11 @@ json
                 $config = $this->config;
                 $config['display-settings']['display_errors'] = 1;
 
-                $dbAdapter = new Adapter([
-                    'username' => 'root',
-                    'password' => '',
-                    'driver' => 'Pdo',
-                    'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
-                    'driver_options' => [
-                        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
-                    ],
-                ]);
-
-                $writer = new DbWriter(
-                    [
-                        'db' => $dbAdapter,
-                        'table' => 'log',
-                        'column' => [
-                            'timestamp' => 'date',
-                            'priority'  => 'type',
-                            'message'   => 'event',
-                            'extra'     => [
-                                'url'  => 'url',
-                                'file' => 'file',
-                                'line' => 'line',
-                                'error_type' => 'error_type',
-                                'trace'      => 'trace',
-                                'request_data' => 'request_data',
-                            ],
-                        ],
-                    ]
-                );
-
-                $logger = new Logger();
-                $logger->addWriter($writer);
-                $logWritersConfig = [
-
-                    [
-                        'name' => 'db',
-                        'options' => [
-                            'db'     => Adapter::class,
-                            'table'  => 'log',
-                            'column' => [
-                                'timestamp' => 'date',
-                                'priority'  => 'type',
-                                'message'   => 'event',
-                                'extra'     => [
-                                    'url'  => 'url',
-                                    'file' => 'file',
-                                    'line' => 'line',
-                                    'error_type' => 'error_type',
-                                    'trace'      => 'trace',
-                                    'request_data' => 'request_data',
-                                ],
-                            ],
-                        ],
-                    ],
-
-                ];
-
                 $logging = new Logging(
-                    $logger,
+                    $this->logger,
                     null,
                     $config,
-                    $logWritersConfig,
+                    $this->logWritersConfig,
                     null,
                     null
                 );
@@ -568,68 +435,11 @@ json
             ];
             $exception = new \Exception('message');
 
-            $dbAdapter = new Adapter([
-                'username' => 'root',
-                'password' => '',
-                'driver' => 'Pdo',
-                'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
-                'driver_options' => [
-                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
-                ],
-            ]);
-
-            $writer = new DbWriter(
-                [
-                    'db' => $dbAdapter,
-                    'table' => 'log',
-                    'column' => [
-                        'timestamp' => 'date',
-                        'priority'  => 'type',
-                        'message'   => 'event',
-                        'extra'     => [
-                            'url'  => 'url',
-                            'file' => 'file',
-                            'line' => 'line',
-                            'error_type' => 'error_type',
-                            'trace'      => 'trace',
-                            'request_data' => 'request_data',
-                        ],
-                    ],
-                ]
-            );
-
-            $logger = new Logger();
-            $logger->addWriter($writer);
-            $logWritersConfig = [
-
-                [
-                    'name' => 'db',
-                    'options' => [
-                        'db'     => Adapter::class,
-                        'table'  => 'log',
-                        'column' => [
-                            'timestamp' => 'date',
-                            'priority'  => 'type',
-                            'message'   => 'event',
-                            'extra'     => [
-                                'url'  => 'url',
-                                'file' => 'file',
-                                'line' => 'line',
-                                'error_type' => 'error_type',
-                                'trace'      => 'trace',
-                                'request_data' => 'request_data',
-                            ],
-                        ],
-                    ],
-                ],
-
-            ];
-
             $logging = new Logging(
-                $logger,
+                $this->logger,
                 null,
                 $config,
-                $logWritersConfig,
+                $this->logWritersConfig,
                 null,
                 null
             );
