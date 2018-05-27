@@ -8,8 +8,10 @@ use Aura\Di\Container as AuraContainer;
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Transformer\AuraService;
+use ErrorHeroModule\Transformer\AurynService;
 use ErrorHeroModule\Transformer\Doctrine;
 use ErrorHeroModule\Transformer\SymfonyService;
+use Northwoods\Container\InjectorContainer as AurynInjectorContainer;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
@@ -21,6 +23,7 @@ class ExpressiveFactory
     private const CONTAINERS_TRANSFORM = [
         SymfonyContainerBuilder::class => SymfonyService::class,
         AuraContainer::class           => AuraService::class,
+        AurynInjectorContainer::class  => AurynService::class,
     ];
 
     private function createMiddlewareInstance(ContainerInterface $container, array $configuration) : Expressive
