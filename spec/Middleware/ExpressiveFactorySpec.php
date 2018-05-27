@@ -4,6 +4,7 @@ namespace ErrorHeroModule\Spec\Middleware;
 
 use Aura\Di\Container as AuraContainer;
 use Aura\Di\ContainerBuilder as AuraContainerBuilder;
+use Auryn\Injector as AurynInjector;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
@@ -12,6 +13,7 @@ use ErrorHeroModule\Middleware\Expressive;
 use ErrorHeroModule\Middleware\ExpressiveFactory;
 use ErrorHeroModule\Spec\Fixture\NotSupportedContainer;
 use Kahlan\Plugin\Double;
+use Northwoods\Container\InjectorContainer as AurynInjectorContainer;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Zend\Db\Adapter\Adapter;
@@ -28,6 +30,7 @@ describe('ExpressiveFactory', function () {
         return [
             AuraContainer::class => (new AuraContainerBuilder())->newInstance(),
             SymfonyContainerBuilder::class => new SymfonyContainerBuilder(),
+            AurynInjectorContainer::class => new AurynInjectorContainer(new AurynInjector()),
         ];
     });
 
