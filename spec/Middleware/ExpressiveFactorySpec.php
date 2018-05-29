@@ -14,6 +14,8 @@ use ErrorHeroModule\Middleware\ExpressiveFactory;
 use ErrorHeroModule\Spec\Fixture\NotSupportedContainer;
 use Kahlan\Plugin\Double;
 use Northwoods\Container\InjectorContainer as AurynInjectorContainer;
+use Pimple\Container as PimpleContainer;
+use Pimple\Psr11\Container as Psr11PimpleContainer;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Zend\Db\Adapter\Adapter;
@@ -31,6 +33,7 @@ describe('ExpressiveFactory', function () {
             AuraContainer::class => (new AuraContainerBuilder())->newInstance(),
             SymfonyContainerBuilder::class => new SymfonyContainerBuilder(),
             AurynInjectorContainer::class => new AurynInjectorContainer(new AurynInjector()),
+            Psr11PimpleContainer::class => new Psr11PimpleContainer(new PimpleContainer()),
         ];
     });
 
