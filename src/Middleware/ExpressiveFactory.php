@@ -10,8 +10,10 @@ use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Transformer\AuraService;
 use ErrorHeroModule\Transformer\AurynService;
 use ErrorHeroModule\Transformer\Doctrine;
+use ErrorHeroModule\Transformer\PimpleService;
 use ErrorHeroModule\Transformer\SymfonyService;
 use Northwoods\Container\InjectorContainer as AurynInjectorContainer;
+use Pimple\Psr11\Container as Psr11PimpleContainer;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
@@ -24,6 +26,7 @@ class ExpressiveFactory
         SymfonyContainerBuilder::class => SymfonyService::class,
         AuraContainer::class           => AuraService::class,
         AurynInjectorContainer::class  => AurynService::class,
+        Psr11PimpleContainer::class    => PimpleService::class,
     ];
 
     private function createMiddlewareInstance(ContainerInterface $container, array $configuration) : Expressive
