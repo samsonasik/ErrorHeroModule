@@ -60,7 +60,7 @@ json
             );
             expect(Response::class)->toReceive('getHeaders', 'addHeaderLine')
                                    ->with('Content-type', 'application/problem+json');
-
+            expect($this->application->getResponse()->getStatusCode())->toBe(500);
 
         });
 

@@ -53,6 +53,7 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest with non-jso
             expect($content)->toBe('We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.');
             expect(Response::class)->toReceive('getHeaders', 'addHeaderLine')
                                    ->with('Content-type', 'text/plain');
+            expect($this->application->getResponse()->getStatusCode())->toBe(500);
 
         });
 

@@ -48,6 +48,7 @@ describe('Integration via ErrorPreviewController for error shown', function () {
             ob_start();
             $this->application->run();
             expect(ob_get_clean())->toBe('');
+            expect($this->application->getResponse()->getStatusCode())->toBe(500);
 
         });
     });
