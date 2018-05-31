@@ -54,8 +54,6 @@ class Expressive implements MiddlewareInterface
 
         try {
             $this->request = $request;
-            $this->logging->setRequest($request);
-
             $this->phpError();
 
             return $handler->handle($request);
@@ -83,6 +81,7 @@ class Expressive implements MiddlewareInterface
             throw $t;
         }
 
+        $this->logging->setRequest($request);
         $this->logging->handleErrorException(
             $t
         );
