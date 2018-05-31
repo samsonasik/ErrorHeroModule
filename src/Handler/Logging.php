@@ -218,7 +218,6 @@ class Logging
         $this->mailMessageService->setFrom($this->emailSender);
         $this->mailMessageService->setSubject($subject);
 
-        $formatter = new Formatter\Json();
         foreach ($this->emailReceivers as $key => $email) {
             $this->mailMessageService->setTo($email);
             $writer    = new Writer\Mail(
@@ -226,7 +225,7 @@ class Logging
                 $this->mailMessageTransport,
                 $extra['request_data']
             );
-            $writer->setFormatter($formatter);
+            $writer->setFormatter(new Formatter\Json());
 
             (new Logger())->addWriter($writer)
                           ->log($priority, $errorMessage, $extra);
