@@ -31,11 +31,6 @@ class Expressive implements MiddlewareInterface
      */
     private $renderer;
 
-    /**
-     * @var ServerRequestInterface
-     */
-    private $request;
-
     public function __construct(
         array                     $errorHeroModuleConfig,
         Logging                   $logging,
@@ -53,9 +48,7 @@ class Expressive implements MiddlewareInterface
         }
 
         try {
-            $this->request = $request;
             $this->phpError();
-
             return $handler->handle($request);
         } catch (Throwable $t) {}
 
@@ -81,7 +74,7 @@ class Expressive implements MiddlewareInterface
             throw $t;
         }
 
-        $this->logging->setRequest($this->request);
+        $this->logging->setRequest($request);
         $this->logging->handleErrorException(
             $t
         );
@@ -90,15 +83,15 @@ class Expressive implements MiddlewareInterface
             throw $t;
         }
 
-        return $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled();
+        return $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled($request);
     }
 
     /**
      * It show default view if display_errors setting = 0.
      */
-    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled() : ResponseInterface
+    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled(ServerRequestInterface $request) : ResponseInterface
     {
-        $isXmlHttpRequest = $this->request->hasHeader('X-Requested-With');
+        $isXmlHttpRequest = $request->hasHeader('X-Requested-With');
 
         if ($isXmlHttpRequest === true &&
             isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
