@@ -15,7 +15,6 @@ use Zend\Http\PhpEnvironment\Request;
 use Zend\Http\PhpEnvironment\Response;
 use Zend\Mvc\MvcEvent;
 use Zend\Text\Table;
-use Zend\View\Model\ViewModel;
 use Zend\View\Renderer\PhpRenderer;
 
 use function ErrorHeroModule\detectAjaxMessageContentType;
@@ -118,12 +117,12 @@ class Mvc extends AbstractListenerAggregate
                 return;
             }
 
-            $view = new ViewModel();
-            $view->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['view']);
-
             $layout = $e->getViewModel();
             $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
-            $layout->setVariable('content', $this->renderer->render($view));
+            $layout->setVariable(
+                'content',
+                $this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view'])
+            );
 
             $e->setViewModel($layout);
             $e->stopPropagation(true);
