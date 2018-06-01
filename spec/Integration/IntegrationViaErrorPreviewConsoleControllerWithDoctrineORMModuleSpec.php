@@ -8,6 +8,7 @@ use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
+use Zend\Console\Request as ConsoleRequest;
 use Zend\Mvc\Application;
 
 describe('Integration via ErrorPreviewConsoleController with doctrine', function () {
@@ -30,6 +31,7 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
                 ],
             ],
         ]);
+        $application->getMvcEvent()->setRequest(new ConsoleRequest());
 
         $events         = $application->getEventManager();
         $serviceManager = $application->getServiceManager();

@@ -6,8 +6,6 @@ namespace ErrorHeroModule\Handler;
 
 use Psr\Container\ContainerInterface;
 use RuntimeException;
-use Zend\Console\Console;
-use Zend\Console\Request as ConsoleRequest;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
 
@@ -19,16 +17,6 @@ class LoggingFactory
      */
     public function __invoke(ContainerInterface $container) : Logging
     {
-        if (! Console::isConsole()) {
-            if ($container->has('Request')) {
-                $request = $container->get('Request');
-            } else {
-                $request = null;
-            }
-        } else {
-            $request = new ConsoleRequest();
-        }
-
         $config                = $container->get('config');
         $errorHeroModuleLogger = $container->get('ErrorHeroModuleLogger');
 
@@ -53,7 +41,6 @@ class LoggingFactory
 
         return new Logging(
             $errorHeroModuleLogger,
-            $request,
             $errorHeroModuleLocalConfig,
             $logWritersConfig,
             $mailMessageService,

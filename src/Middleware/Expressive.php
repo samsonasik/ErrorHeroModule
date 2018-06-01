@@ -18,6 +18,7 @@ use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\Expressive\ZendView\ZendViewRenderer;
+use Zend\Psr7Bridge\Psr7ServerRequest;
 use Zend\View\Model\ViewModel;
 
 use function ErrorHeroModule\detectAjaxMessageContentType;
@@ -74,9 +75,9 @@ class Expressive implements MiddlewareInterface
             throw $t;
         }
 
-        $this->logging->setRequest($request);
         $this->logging->handleErrorException(
-            $t
+            $t,
+            Psr7ServerRequest::toZend($request)
         );
 
         if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {

@@ -261,7 +261,6 @@ json
 
                 $logging = new Logging(
                     $this->logger,
-                    null,
                     $config,
                     $this->logWritersConfig,
                     null,
@@ -302,7 +301,6 @@ json
 
                 $logging = new Logging(
                     $this->logger,
-                    null,
                     $config,
                     $this->logWritersConfig,
                     null,
@@ -341,7 +339,6 @@ json
 
                 $logging = new Logging(
                     $this->logger,
-                    null,
                     $config,
                     $this->logWritersConfig,
                     null,
@@ -388,7 +385,6 @@ json
 
                 $logging = new Logging(
                     $this->logger,
-                    null,
                     $config,
                     $this->logWritersConfig,
                     null,
@@ -437,7 +433,6 @@ json
 
             $logging = new Logging(
                 $this->logger,
-                null,
                 $config,
                 $this->logWritersConfig,
                 null,
