@@ -10,8 +10,6 @@ use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
 use Zend\Db\TableGateway\TableGateway;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\Uri;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db as DbWriter;
@@ -104,62 +102,11 @@ describe('LoggingSpec', function () {
     given('logging', function ()  {
         return new Logging(
             $this->logger,
-            $this->request,
             $this->errorHeroModuleLocalConfig,
             $this->logWritersConfig,
             null,
             null
         );
-    });
-
-    describe('->setRequest()', function () {
-
-        it('set request property with port 80', function () {
-
-            $request = new ServerRequest(
-                [],
-                [],
-                new Uri('http://example.com/error-preview'),
-                'GET',
-                'php://memory',
-                [],
-                [],
-                [],
-                '',
-                '1.2'
-            );
-
-            $this->logging->setRequest($request);
-
-            $r = new ReflectionProperty($this->logging, 'request');
-            $r->setAccessible(true);
-            expect($r->getValue($this->logging))->toBeAnInstanceOf(Request::class);
-
-        });
-
-        it('set request property with non 80 port', function () {
-
-            $request = new ServerRequest(
-                [],
-                [],
-                new Uri('http://example.com:8080/error-preview'),
-                'GET',
-                'php://memory',
-                [],
-                [],
-                [],
-                '',
-                '1.2'
-            );
-
-            $this->logging->setRequest($request);
-
-            $r = new ReflectionProperty($this->logging, 'request');
-            $r->setAccessible(true);
-            expect($r->getValue($this->logging))->toBeAnInstanceOf(Request::class);
-
-        });
-
     });
 
     describe('->handleErrorException()', function ()  {
@@ -188,7 +135,7 @@ describe('LoggingSpec', function () {
             expect($this->logger)->not->toReceive('log');
 
             $exception = new \Exception();
-            $this->logging->handleErrorException($exception);
+            $this->logging->handleErrorException($exception, $this->request);
 
         });
 
@@ -216,7 +163,7 @@ describe('LoggingSpec', function () {
             expect($this->logger)->not->toReceive('log');
 
             $exception = new \ErrorException();
-            $this->logging->handleErrorException($exception);
+            $this->logging->handleErrorException($exception, $this->request);
 
         });
 

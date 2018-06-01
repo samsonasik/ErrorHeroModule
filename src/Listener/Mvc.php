@@ -14,6 +14,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Http\PhpEnvironment\Response;
 use Zend\Mvc\MvcEvent;
+use Zend\Stdlib\RequestInterface;
 use Zend\Text\Table;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -73,7 +74,8 @@ class Mvc extends AbstractListenerAggregate
         }
 
         $this->logging->handleErrorException(
-            $exception
+            $exception,
+            $request = $e->getRequest()
         );
 
         if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
@@ -81,23 +83,20 @@ class Mvc extends AbstractListenerAggregate
             return;
         }
 
-        $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled($e);
+        $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled($e, $request);
     }
 
     /**
      * It show default view if display_errors setting = 0.
      */
-    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled(MvcEvent $e) : void
+    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled(MvcEvent $e, RequestInterface $request) : void
     {
-        if (! Console::isConsole()) {
+        if ($request instanceof Request) {
             $response = $e->getResponse();
             Assertion::isInstanceOf($response, Response::class);
             $response->setStatusCode(500);
 
-            $request = $e->getRequest();
-            Assertion::isInstanceOf($request, Request::class);
             $isXmlHttpRequest = $request->isXmlHttpRequest();
-
             if ($isXmlHttpRequest === true &&
                 isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
             ) {

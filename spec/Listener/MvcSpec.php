@@ -9,6 +9,7 @@ use Kahlan\Plugin\Double;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
+use Zend\Console\Request as ConsoleRequest;
 use Zend\Db\Adapter\Adapter;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Http\PhpEnvironment\Request;
@@ -133,7 +134,7 @@ describe('Mvc', function () {
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn(null);
 
-            $actual = $this->listener->exceptionError($mvcEvent);
+            $actual = $this->listener->exceptionError($mvcEvent, Double::instance(['extends' => Request::class, 'methods' => '__construct']));
             expect($actual)->toBeNull();
 
         });
@@ -160,7 +161,9 @@ describe('Mvc', function () {
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
-            allow($logging)->toReceive('handleErrorException')->with($exception);
+            $request = new Request();
+            allow($mvcEvent)->toReceive('getRequest')->andReturn($request);
+            allow($logging)->toReceive('handleErrorException')->with($exception, $request);
 
             expect($listener->exceptionError($mvcEvent))->toBeNull();
 
@@ -169,12 +172,15 @@ describe('Mvc', function () {
         it('call logging->handleErrorException() with default console error message if $e->getParam("exception") and display_errors = 0', function () {
 
             Console::overrideIsConsole(true);
+
             Quit::disable();
             $exception = new \Exception('message');
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
-            allow($this->logging)->toReceive('handleErrorException')->with($exception);
+            $request = new ConsoleRequest();
+            allow($mvcEvent)->toReceive('getRequest')->andReturn($request);
+            allow($this->logging)->toReceive('handleErrorException')->with($exception, $request);
 
             $listener =  new Mvc(
                 $this->config,
@@ -194,16 +200,19 @@ describe('Mvc', function () {
 
         it('call logging->handleErrorException() with default view error if $e->getParam("exception") and display_errors = 0 and not a console', function () {
 
+            Console::overrideIsConsole(false);
             $exception = new \Exception('message');
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
-            allow($this->logging)->toReceive('handleErrorException')->with($exception);
+            $request = new Request();
+            allow($mvcEvent)->toReceive('getRequest')->andReturn($request);
+            allow($this->logging)->toReceive('handleErrorException')->with($exception, $request);
 
             ob_start();
             allow($this->renderer)->toReceive('render')->andReturn(include __DIR__ . '/../../view/error-hero-module/error-default.phtml');
             $closure = function () use ($mvcEvent) {
-                $this->listener->exceptionError($mvcEvent);
+                $this->listener->exceptionError($mvcEvent, Double::instance(['extends' => Request::class, 'methods' => '__construct']));
             };
             $content = ob_get_clean();
 
@@ -317,7 +326,6 @@ describe('Mvc', function () {
 
             $logging = new Logging(
                 $logger,
-                Double::instance(['extends' => Request::class, 'methods' => '__construct']),
                 $this->config,
                 $logWritersConfig,
                 null,
