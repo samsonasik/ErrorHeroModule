@@ -116,7 +116,7 @@ class Logging
         $files_data     = $request->getFiles()->toArray();
         $cookie         = $request->getCookie();
 
-        if (false === $cookie) {
+        if ($cookie === false) {
             $cookie = new Cookie([]);
         }
 
