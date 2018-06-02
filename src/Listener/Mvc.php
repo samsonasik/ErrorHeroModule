@@ -7,7 +7,6 @@ namespace ErrorHeroModule\Listener;
 use Assert\Assertion;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\HeroTrait;
-use Zend\Console\Console;
 use Zend\Console\Response as ConsoleResponse;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
