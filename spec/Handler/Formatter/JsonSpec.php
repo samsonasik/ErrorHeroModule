@@ -45,7 +45,7 @@ describe('Json', function () {
                       'body_data' => [],
                       'raw_data' => '',
                       'files_data' => [],
-                      'cookie_data' => (new Cookie([]))->getArrayCopy(),
+                      'cookie_data' => [],
                     ],
                 ],
             ];
