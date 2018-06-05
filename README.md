@@ -209,6 +209,19 @@ return [
                 'view'   => 'error-hero-module/error-default'
             ],
 
+            // for expressive, when container doesn't has \Zend\Expressive\Template\TemplateRendererInterface service
+            // if enable, and display_errors = 0, then show a message under no_template config
+            'no_template' => [
+                'message' => <<<json
+{
+    "type": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html",
+    "title": "Internal Server Error",
+    "status": 500,
+    "detail": "We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience."
+}
+json
+            ],
+
             // if enable and display_errors = 0, the console will bring message
             'console' => [
                 'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',

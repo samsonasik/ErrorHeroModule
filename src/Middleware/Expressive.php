@@ -28,14 +28,14 @@ class Expressive implements MiddlewareInterface
     use HeroTrait;
 
     /**
-     * @var TemplateRendererInterface
+     * @var TemplateRendererInterface|null
      */
     private $renderer;
 
     public function __construct(
         array                     $errorHeroModuleConfig,
         Logging                   $logging,
-        TemplateRendererInterface $renderer
+        TemplateRendererInterface $renderer = null
     ) {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
         $this->logging               = $logging;
@@ -87,24 +87,32 @@ class Expressive implements MiddlewareInterface
         return $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled($request);
     }
 
+    private function responseByConfigMessage($key) : ResponseInterface
+    {
+        $message     = $this->errorHeroModuleConfig['display-settings'][$key]['message'];
+        $contentType = detectAjaxMessageContentType($message);
+
+        $response = new Response();
+        $response->getBody()->write($message);
+        $response = $response->withHeader('Content-type', $contentType);
+
+        return $response->withStatus(500);
+    }
+
     /**
      * It show default view if display_errors setting = 0.
      */
     private function showDefaultViewWhenDisplayErrorSetttingIsDisabled(ServerRequestInterface $request) : ResponseInterface
     {
-        $isXmlHttpRequest = $request->hasHeader('X-Requested-With');
+        if ($this->renderer === null) {
+            return $this->responseByConfigMessage('no_template');
+        }
 
+        $isXmlHttpRequest = $request->hasHeader('X-Requested-With');
         if ($isXmlHttpRequest === true &&
             isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
         ) {
-            $message     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
-            $contentType = detectAjaxMessageContentType($message);
-
-            $response = new Response();
-            $response->getBody()->write($message);
-            $response = $response->withHeader('Content-type', $contentType);
-
-            return $response->withStatus(500);
+            return $this->responseByConfigMessage('ajax');
         }
 
         if ($this->renderer instanceof ZendViewRenderer) {
