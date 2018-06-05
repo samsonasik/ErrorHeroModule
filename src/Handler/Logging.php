@@ -116,12 +116,11 @@ class Logging
         $files_data     = $request->getFiles()->toArray();
         $cookie         = $request->getCookie();
 
-        if ($cookie === false) {
-            $cookie = new Cookie([]);
+        if ($cookie instanceof Cookie) {
+            $cookie_data = $cookie->getArrayCopy();
+        } else {
+            $cookie_data = [];
         }
-
-        Assertion::isInstanceOf($cookie, Cookie::class);
-        $cookie_data = $cookie->getArrayCopy();
 
         return [
             'request_method' => $request_method,
