@@ -34,7 +34,9 @@ class ExpressiveFactory
         return new Expressive(
             $configuration['error-hero-module'],
             $container->get(Logging::class),
-            $container->get(TemplateRendererInterface::class)
+            $container->has(TemplateRendererInterface::class)
+                ? $container->get(TemplateRendererInterface::class)
+                : null
         );
     }
 

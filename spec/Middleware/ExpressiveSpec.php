@@ -11,6 +11,7 @@ use Zend\Db\Adapter\Adapter;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Uri;
+use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\Expressive\ZendView\ZendViewRenderer;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Log\Logger;
@@ -99,6 +100,19 @@ describe('Expressive', function () {
                 'template' => [
                     'layout' => 'layout/layout',
                     'view'   => 'error-hero-module/error-default'
+                ],
+
+                // for expressive, when container doesn't has \Zend\Expressive\Template\TemplateRendererInterface service
+                // if enable, and display_errors = 0, then show a message under no_template config
+                'no_template' => [
+                    'message' => <<<json
+{
+    "type": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html",
+    "title": "Internal Server Error",
+    "status": 500,
+    "detail": "We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience."
+}
+json
                 ],
 
                 'ajax' => [
@@ -329,6 +343,52 @@ json
                     $middleware->process($request, $handler);
                 };
                 expect($closure)->toThrow(new \Exception('message'));
+
+            });
+
+            it('passed renderer is null returns error message on display_errors = 0', function () {
+
+                $config = $this->config;
+                $config['display-settings']['display_errors'] = 0;
+
+                $logging = new Logging(
+                    $this->logger,
+                    $config,
+                    $this->logWritersConfig,
+                    null,
+                    null
+                );
+
+                $request  = new ServerRequest(
+                    [],
+                    [],
+                    new Uri('http://example.com'),
+                    'GET',
+                    'php://memory',
+                    [],
+                    [],
+                    [],
+                    '',
+                    '1.2'
+                );
+                $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
+                $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
+                allow($handler)->toReceive('handle')->with($request)->andRun(function () {
+                    throw new \Exception('message');
+                });
+                $middleware = new Expressive($config, $logging, null);
+
+                $actual = $middleware->process($request, $handler);
+                expect($actual)->toBeAnInstanceOf(Response::class);
+                expect($actual->getBody()->__toString())->toBe(<<<json
+{
+    "type": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html",
+    "title": "Internal Server Error",
+    "status": 500,
+    "detail": "We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience."
+}
+json
+                );
 
             });
 
