@@ -175,8 +175,11 @@ describe('ExpressiveFactory', function () {
             allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
                                                ->andReturn($renderer);
 
+            expect($container->has('ErrorHeroModuleLogger'))->toBeFalsy();
             $actual = $this->factory($container);
             expect($actual)->toBeAnInstanceOf(Expressive::class);
+            expect($container->has('ErrorHeroModuleLogger'))->toBeTruthy();
+
 
         });
 
