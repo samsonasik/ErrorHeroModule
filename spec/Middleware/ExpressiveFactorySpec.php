@@ -80,11 +80,6 @@ describe('ExpressiveFactory', function () {
                         'view'   => 'error-hero-module::error-default'
                     ],
 
-                    // if enable and display_errors = 0, the console will bring message
-                    'console' => [
-                        'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
-                    ],
-
                 ],
                 'logging-settings' => [
                     'same-error-log-time-range' => 86400,
