@@ -6,7 +6,7 @@ namespace ErrorHeroModule;
 
 use Seld\JsonLint\JsonParser;
 
-function detectAjaxMessageContentType(string $message) : string
+function detectMessageContentType(string $message) : string
 {
     return (new JsonParser())->lint($message) === null
         ? 'application/problem+json'

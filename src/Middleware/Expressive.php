@@ -21,7 +21,7 @@ use Zend\Expressive\ZendView\ZendViewRenderer;
 use Zend\Psr7Bridge\Psr7ServerRequest;
 use Zend\View\Model\ViewModel;
 
-use function ErrorHeroModule\detectAjaxMessageContentType;
+use function ErrorHeroModule\detectMessageContentType;
 
 class Expressive implements MiddlewareInterface
 {
@@ -90,7 +90,7 @@ class Expressive implements MiddlewareInterface
     private function responseByConfigMessage($key) : ResponseInterface
     {
         $message     = $this->errorHeroModuleConfig['display-settings'][$key]['message'];
-        $contentType = detectAjaxMessageContentType($message);
+        $contentType = detectMessageContentType($message);
 
         $response = new Response();
         $response->getBody()->write($message);
