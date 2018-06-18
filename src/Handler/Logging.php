@@ -232,7 +232,7 @@ class Logging
 
             $this->logger->log($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra);
         } catch (RuntimeException $e) {
-            $collectedExceptionData = $this->collectErrorExceptionData($t);
+            $collectedExceptionData = $this->collectErrorExceptionData($e);
             $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData, $request);
         }
 
