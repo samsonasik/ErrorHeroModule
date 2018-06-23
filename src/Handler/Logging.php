@@ -115,12 +115,9 @@ class Logging
         $raw_data       = \str_replace(\PHP_EOL, '', $request->getContent());
         $files_data     = $request->getFiles()->toArray();
         $cookie         = $request->getCookie();
-
-        if ($cookie instanceof Cookie) {
-            $cookie_data = $cookie->getArrayCopy();
-        } else {
-            $cookie_data = [];
-        }
+        $cookie_data    = $cookie instanceof Cookie
+            ? $cookie->getArrayCopy()
+            : [];
 
         return [
             'request_method' => $request_method,
