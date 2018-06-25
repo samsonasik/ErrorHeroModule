@@ -52,7 +52,7 @@ class Mvc extends AbstractListenerAggregate
         $this->listeners[] = $events->attach(MvcEvent::EVENT_BOOTSTRAP, [$this, 'phpError']);
     }
 
-    public function phpError(MvcEvent $e)
+    public function phpError(MvcEvent $e) : void
     {
         \register_shutdown_function([$this, 'execOnShutdown']);
         \set_error_handler([$this, 'phpErrorHandler']);
