@@ -30,8 +30,8 @@
         "kahlan/kahlan": "^4.1.1",
         "northwoods/container": "^3.0",
         "php-coveralls/php-coveralls": "^2.0",
-        "phpstan/phpstan": "0.10.xdev",
-        "phpstan/phpstan-beberlei-assert": "0.10.xdev",
+        "phpstan/phpstan": "^0.10",
+        "phpstan/phpstan-beberlei-assert": "^0.10",
         "pimple/pimple": "^3.2",
         "symfony/dependency-injection": "^4.0",
         "zendframework/zend-expressive": "^3.0",
@@ -72,7 +72,5 @@
         "zf": {
             "module": "ErrorHeroModule"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
