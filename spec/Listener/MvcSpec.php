@@ -397,7 +397,7 @@ describe('Mvc', function () {
             // null means use default mvc process
             expect($actual)->toBeNull();
 
-            expect(error_reporting())->toBe(E_ALL | E_STRICT);
+            expect(error_reporting())->toBe(\E_ALL | \E_STRICT);
             expect(ini_get('display_errors'))->toBe("0");
 
         });
