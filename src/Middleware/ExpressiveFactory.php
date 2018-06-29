@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Middleware;
 
 use Aura\Di\Container as AuraContainer;
+use DI\Container as PHPDIContainer;
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Transformer\AuraService;
 use ErrorHeroModule\Transformer\AurynService;
 use ErrorHeroModule\Transformer\Doctrine;
+use ErrorHeroModule\Transformer\PHPDIService;
 use ErrorHeroModule\Transformer\PimpleService;
 use ErrorHeroModule\Transformer\SymfonyService;
 use Northwoods\Container\InjectorContainer as AurynInjectorContainer;
@@ -27,6 +29,7 @@ class ExpressiveFactory
         AuraContainer::class           => AuraService::class,
         AurynInjectorContainer::class  => AurynService::class,
         Psr11PimpleContainer::class    => PimpleService::class,
+        PHPDIContainer::class          => PHPDIService::class,
     ];
 
     private function createMiddlewareInstance(ContainerInterface $container, array $configuration) : Expressive

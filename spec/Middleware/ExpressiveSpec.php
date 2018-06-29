@@ -11,7 +11,6 @@ use Zend\Db\Adapter\Adapter;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Uri;
-use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\Expressive\ZendView\ZendViewRenderer;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Log\Logger;
