@@ -4,7 +4,6 @@ namespace ErrorHeroModule\Spec\Handler\Formatter;
 
 use DateTime;
 use ErrorHeroModule\Handler\Formatter\Json;
-use Zend\Http\Header\Cookie;
 
 describe('Json', function () {
 

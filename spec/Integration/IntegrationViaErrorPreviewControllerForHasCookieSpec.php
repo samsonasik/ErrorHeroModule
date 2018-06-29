@@ -3,12 +3,10 @@
 namespace ErrorHeroModule\Spec;
 
 use ErrorHeroModule;
-use ErrorHeroModule\Controller\ErrorPreviewController;
 use Zend\Console\Console;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
-use Zend\Http\Header\Cookie;
 use Zend\Mvc\Application;
 
 describe('Integration via ErrorPreviewController for has cookie', function () {

@@ -3,7 +3,6 @@
 namespace ErrorHeroModule\Spec;
 
 use ErrorHeroModule;
-use ErrorHeroModule\Controller\ErrorPreviewController;
 use Kahlan\Plugin\Quit;
 use Zend\Console\Console;
 use Zend\Db\Adapter\Adapter;

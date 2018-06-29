@@ -5,6 +5,7 @@ namespace ErrorHeroModule\Spec\Middleware;
 use Aura\Di\Container as AuraContainer;
 use Aura\Di\ContainerBuilder as AuraContainerBuilder;
 use Auryn\Injector as AurynInjector;
+use DI\Container as PHPDIContainer;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
@@ -34,6 +35,7 @@ describe('ExpressiveFactory', function () {
             SymfonyContainerBuilder::class => new SymfonyContainerBuilder(),
             AurynInjectorContainer::class => new AurynInjectorContainer(new AurynInjector()),
             Psr11PimpleContainer::class => new Psr11PimpleContainer(new PimpleContainer()),
+            PHPDIContainer::class => new PHPDIContainer(),
         ];
     });
 

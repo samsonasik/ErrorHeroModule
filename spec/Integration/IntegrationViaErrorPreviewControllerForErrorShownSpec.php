@@ -3,7 +3,6 @@
 namespace ErrorHeroModule\Spec\Integration;
 
 use ErrorHeroModule;
-use ErrorHeroModule\Controller\ErrorPreviewController;
 use Zend\Console\Console;
 use Zend\Mvc\Application;
 
