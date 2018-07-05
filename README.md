@@ -164,6 +164,12 @@ return [
                                 'request_data' => 'request_data'
                             ],
                         ],
+                        'formatter' => [
+                            'name' => 'db',
+                            'options' => [
+                                'dateTimeFormat' => 'Y-m-d H:i:s',
+                            ],
+                        ],
                     ],
                 ],
 
