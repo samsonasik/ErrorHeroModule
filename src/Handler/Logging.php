@@ -26,11 +26,6 @@ class Logging
     private $logger;
 
     /**
-     * @var string
-     */
-    private $serverUrl;
-
-    /**
      * @var array
      */
     private $configLoggingSettings;
@@ -157,23 +152,24 @@ class Logging
     private function collectErrorExceptionExtraData(array $collectedExceptionData, RequestInterface $request) : array
     {
         if ($request instanceof ConsoleRequest) {
-            $this->serverUrl = \php_uname('n');
-            $requestUri      = ':' . \basename((string) \getcwd())
-                    . ' ' . \get_current_user()
-                    . '$ php ' . $request->getScriptName() . ' ' . $request->toString();
+            $serverUrl  = \php_uname('n');
+            $requestUri = ':' . \basename((string) \getcwd())
+                . ' ' . \get_current_user()
+                . '$ php ' . $request->getScriptName() . ' ' . $request->toString();
         } else {
             Assertion::isInstanceOf($request, HttpRequest::class);
-            $uri             = $request->getUri();
-            $this->serverUrl = $uri->getScheme() . '://' . $uri->getHost();
-            $port            = $uri->getPort();
+            $uri       = $request->getUri();
+            $serverUrl = $uri->getScheme() . '://' . $uri->getHost();
+            $port      = $uri->getPort();
             if ($port !== 80) {
-                $this->serverUrl .= ':' . $port;
+                $serverUrl .= ':' . $port;
             }
             $requestUri      = $request->getRequestUri();
         }
 
         return [
-            'url'          => $this->serverUrl . $requestUri,
+            'server_url'   => $serverUrl,
+            'url'          => $serverUrl . $requestUri,
             'file'         => $collectedExceptionData['errorFile'],
             'line'         => $collectedExceptionData['errorLine'],
             'error_type'   => $collectedExceptionData['errorType'],
@@ -213,6 +209,7 @@ class Logging
     {
         $collectedExceptionData = $this->collectErrorExceptionData($t);
         $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData, $request);
+        $serverUrl              = $extra['server_url'];
 
         try {
             if (
@@ -227,12 +224,14 @@ class Logging
                 return;
             }
 
+            unset($extra['server_url']);
             $this->logger->log($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra);
         } catch (RuntimeException $e) {
             $collectedExceptionData = $this->collectErrorExceptionData($e);
             $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData, $request);
+            unset($extra['server_url']);
         }
 
-        $this->sendMail($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra, '['.$this->serverUrl.'] '.$collectedExceptionData['errorType'].' has thrown');
+        $this->sendMail($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra, '['.$serverUrl.'] '.$collectedExceptionData['errorType'].' has thrown');
     }
 }
