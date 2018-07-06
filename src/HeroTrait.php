@@ -47,6 +47,6 @@ trait HeroTrait
             return;
         }
 
-        throw new ErrorException($errorMessage, 500, $errorType, $errorFile, $errorLine);
+        throw new ErrorException($errorMessage, 0, $errorType, $errorFile, $errorLine);
     }
 }

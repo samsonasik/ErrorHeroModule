@@ -41,7 +41,7 @@ describe('ErrorPreviewAction', function () {
             $closure = function () use ($request, $handler) {
                 $this->middleware->process($request, $handler);
             };
-            $exception = new ErrorException('Undefined offset: 1', 500);
+            $exception = new ErrorException('Undefined offset: 1', 0);
             expect($closure)->toThrow($exception);
 
         });
