@@ -34,11 +34,9 @@ describe('Integration via ErrorPreviewConsoleController', function () {
         ]);
         $application->getMvcEvent()->setRequest(new ConsoleRequest());
 
-        $events         = $application->getEventManager();
         $serviceManager = $application->getServiceManager();
-
-        $db  = $serviceManager->get(Adapter::class);
-        $tableGateway = new TableGateway('log', $db, null, new ResultSet());
+        $db             = $serviceManager->get(Adapter::class);
+        $tableGateway   = new TableGateway('log', $db, null, new ResultSet());
         $tableGateway->delete([]);
 
         return $application;
