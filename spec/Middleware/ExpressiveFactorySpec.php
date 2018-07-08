@@ -206,8 +206,7 @@ describe('ExpressiveFactory', function () {
 
         it('throws RuntimeException when using mapped containers but no "db" config', function () {
 
-            foreach ($this->mapCreateContainers as $containerClass => $containerInstance) {
-                $container = $containerInstance;
+            foreach ($this->mapCreateContainers as $containerClass => $container) {
                 allow($container)->toReceive('get')->with('config')
                                                 ->andReturn([]);
 
@@ -236,10 +235,9 @@ describe('ExpressiveFactory', function () {
 
         it('returns Expressive Middleware instance with create service first for mapped containers and db name found in adapters', function () {
 
-            foreach ($this->mapCreateContainers as $containerInstance) {
+            foreach ($this->mapCreateContainers as $container) {
                 $config = $this->config;
                 $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = 'my-adapter';
-                $container = $containerInstance;
                 allow($container)->toReceive('get')->with('config')
                                                 ->andReturn($config);
 
@@ -263,8 +261,7 @@ describe('ExpressiveFactory', function () {
 
         it('returns Expressive Middleware instance with create services first for mapped containers and db name not found in adapters, which means use "Zend\Db\Adapter\Adapter" name', function () {
 
-            foreach ($this->mapCreateContainers as $containerInstance) {
-                $container = $containerInstance;
+            foreach ($this->mapCreateContainers as $container) {
                 allow($container)->toReceive('get')->with('config')
                                                 ->andReturn($this->config);
 
