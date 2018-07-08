@@ -122,7 +122,8 @@ class Mvc extends AbstractListenerAggregate
                 $this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view'])
             );
 
-            $e->setViewModel($layout);
+            $response->setContent($this->renderer->render($layout));
+            $e->setResponse($response);
             $e->stopPropagation(true);
 
             return;
