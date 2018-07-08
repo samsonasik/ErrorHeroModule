@@ -95,16 +95,16 @@ class Mvc extends AbstractListenerAggregate
             Assertion::isInstanceOf($response, Response::class);
             $response->setStatusCode(500);
 
+            $application    = $e->getApplication();
+            $events         = $application->getEventManager();
+            $serviceManager = $application->getServiceManager();
+            $serviceManager->get('SendResponseListener')
+                           ->detach($events);
+
             $isXmlHttpRequest = $request->isXmlHttpRequest();
             if ($isXmlHttpRequest === true &&
                 isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
             ) {
-                $application    = $e->getApplication();
-                $events         = $application->getEventManager();
-                $serviceManager = $application->getServiceManager();
-                $serviceManager->get('SendResponseListener')
-                               ->detach($events);
-
                 $message     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
                 $contentType = detectMessageContentType($message);
 
@@ -122,8 +122,8 @@ class Mvc extends AbstractListenerAggregate
                 $this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view'])
             );
 
-            $e->setViewModel($layout);
-            $e->stopPropagation(true);
+            $response->setContent($this->renderer->render($layout));
+            $response->send();
 
             return;
         }
