@@ -43,7 +43,9 @@ class Mail extends BaseMail
         // Always provide events to mail as plaintext.
         $body = \implode(\PHP_EOL, $this->eventsToMail);
 
-        if (! empty($this->requestData['files_data'])) {
+        if (empty($this->requestData['files_data'])) {
+            $this->mail->setBody($body);
+        } else {
             $mimePart = new MimePart($body);
             $mimePart->type     = Mime::TYPE_TEXT;
             $mimePart->charset  = 'utf-8';
@@ -64,11 +66,9 @@ class Mail extends BaseMail
                     $body = $this->bodyAddPart($body, $upload);
                 }
             }
-        }
 
-        $this->mail->setBody($body);
+            $this->mail->setBody($body);
 
-        if (! empty($this->requestData['files_data'])) {
             $headers = $this->mail->getHeaders();
             /** @var \Zend\Mail\Header\ContentType $contentTypeHeader */
             $contentTypeHeader = $headers->get('Content-Type');
