@@ -92,7 +92,7 @@ class Mail extends BaseMail
 
     private function bodyAddPart(MimeMessage $body, array $data) : MimeMessage
     {
-        foreach ($data as $multiple => $upload) {
+        foreach ($data as $upload) {
             if (\key($upload) === 'name') {
                 $body = $this->singleBodyAddPart($body, $upload);
                 continue;
