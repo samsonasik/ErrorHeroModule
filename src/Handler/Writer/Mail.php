@@ -57,14 +57,12 @@ class Mail extends BaseMail
             foreach ($this->requestData['files_data'] as $key => $row) {
                 if (\key($row) === 'name') {
                     // single upload
-                    $body = $this->bodyAddPart($body, $row);
+                    $body = $this->singleBodyAddPart($body, $row);
                     continue;
                 }
 
                 // collection upload
-                foreach ($row as $multiple => $upload) {
-                    $body = $this->bodyAddPart($body, $upload);
-                }
+                $body = $this->collectionBodyAddPart($body, $row);
             }
 
             $this->mail->setBody($body);
@@ -91,7 +89,7 @@ class Mail extends BaseMail
         }
     }
 
-    private function bodyAddPart(MimeMessage $body, array $data) : MimeMessage
+    private function singleBodyAddPart(MimeMessage $body, array $data) : MimeMessage
     {
         $mimePart              = new MimePart(\fopen($data['tmp_name'], 'r'));
         $mimePart->type        = $data['type'];
@@ -100,5 +98,19 @@ class Mail extends BaseMail
         $mimePart->encoding    = Mime::ENCODING_BASE64;
 
         return $body->addPart($mimePart);
+    }
+
+    private function collectionBodyAddPart(MimeMessage $body, array $data) : MimeMessage
+    {
+        foreach ($data as $multiple => $upload) {
+            if (\key($upload) === 'name') {
+                $body = $this->singleBodyAddPart($body, $upload);
+                continue;
+            }
+
+            $body = $this->collectionBodyAddPart($body, $upload);
+        }
+
+        return $body;
     }
 }
