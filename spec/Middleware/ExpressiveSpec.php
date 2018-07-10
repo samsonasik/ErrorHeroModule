@@ -543,8 +543,8 @@ json
             // null means use default $handler->handle($request)
             expect($actual)->toBeNull();
 
-            expect(error_reporting())->toBe(\E_ALL | \E_STRICT);
-            expect(ini_get('display_errors'))->toBe("0");
+            expect(\error_reporting())->toBe(\E_ALL | \E_STRICT);
+            expect(\ini_get('display_errors'))->toBe("0");
 
         });
 

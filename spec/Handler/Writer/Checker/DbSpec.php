@@ -106,10 +106,10 @@ describe('Db', function () {
 
             $resultSet = Double::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
 
-            $current = date('Y-m-d');
-            $date    = date_create($current);
-            date_sub($date, date_interval_create_from_date_string("40 days"));
-            $date =  date_format($date,"Y-m-d H:i:s");
+            $current = \date('Y-m-d');
+            $date    = \date_create($current);
+            \date_sub($date, \date_interval_create_from_date_string("40 days"));
+            $date =  \date_format($date,"Y-m-d H:i:s");
 
             allow($resultSet)->toReceive('current')->andReturn(
                 [
@@ -139,7 +139,7 @@ describe('Db', function () {
 
             allow($resultSet)->toReceive('current')->andReturn(
                 [
-                    'date' => date('Y-m-d H:i:s'),
+                    'date' => \date('Y-m-d H:i:s'),
                 ]
             );
             allow(TableGateway::class)->toReceive('selectWith')->with($select)->andReturn($resultSet);

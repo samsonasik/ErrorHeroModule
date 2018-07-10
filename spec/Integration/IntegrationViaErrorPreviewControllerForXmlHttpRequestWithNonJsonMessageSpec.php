@@ -22,8 +22,8 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest with non-jso
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    realpath(__DIR__).'/../Fixture/config/autoload-for-xmlhttprequest-with-non-json-message/error-hero-module.local.php',
-                    realpath(__DIR__).'/../Fixture/config/module.local.php',
+                    \realpath(__DIR__).'/../Fixture/config/autoload-for-xmlhttprequest-with-non-json-message/error-hero-module.local.php',
+                    \realpath(__DIR__).'/../Fixture/config/module.local.php',
                 ],
             ],
         ]);
@@ -45,9 +45,9 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest with non-jso
             allow(Request::class)->toReceive('isXmlHttpRequest')->andReturn(true);
             allow(Response::class)->toReceive('getHeaders', 'addHeaderLine');
 
-            ob_start();
+            \ob_start();
             $this->application->run();
-            $content = ob_get_clean();
+            $content = \ob_get_clean();
 
             expect($content)->toBe('We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.');
             expect(Response::class)->toReceive('getHeaders', 'addHeaderLine')

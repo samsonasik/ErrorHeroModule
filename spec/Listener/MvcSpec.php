@@ -188,12 +188,12 @@ describe('Mvc', function () {
                 $this->renderer
             );
 
-            ob_start();
+            \ob_start();
             $closure = function () use ($listener, $mvcEvent) {
                 $listener->exceptionError($mvcEvent);
             };
             expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
-            $content = ob_get_clean();
+            $content = \ob_get_clean();
 
             expect($content)->toContain('|We have encountered a problem');
         });
@@ -209,12 +209,12 @@ describe('Mvc', function () {
             allow($mvcEvent)->toReceive('getRequest')->andReturn($request);
             allow($this->logging)->toReceive('handleErrorException')->with($exception, $request);
 
-            ob_start();
+            \ob_start();
             allow($this->renderer)->toReceive('render')->andReturn(include __DIR__ . '/../../view/error-hero-module/error-default.phtml');
             $closure = function () use ($mvcEvent) {
                 $this->listener->exceptionError($mvcEvent, Double::instance(['extends' => Request::class, 'methods' => '__construct']));
             };
-            $content = ob_get_clean();
+            $content = \ob_get_clean();
 
             expect($content)->toContain('<p>We have encountered a problem');
 
@@ -397,8 +397,8 @@ describe('Mvc', function () {
             // null means use default mvc process
             expect($actual)->toBeNull();
 
-            expect(error_reporting())->toBe(\E_ALL | \E_STRICT);
-            expect(ini_get('display_errors'))->toBe("0");
+            expect(\error_reporting())->toBe(\E_ALL | \E_STRICT);
+            expect(\ini_get('display_errors'))->toBe("0");
 
         });
 

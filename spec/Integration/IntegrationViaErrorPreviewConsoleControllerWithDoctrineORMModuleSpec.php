@@ -26,8 +26,8 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    realpath(__DIR__).'/../Fixture/config/autoload-with-doctrine/error-hero-module.local.php',
-                    realpath(__DIR__).'/../Fixture/config/module.local.php',
+                    \realpath(__DIR__).'/../Fixture/config/autoload-with-doctrine/error-hero-module.local.php',
+                    \realpath(__DIR__).'/../Fixture/config/module.local.php',
                 ],
             ],
         ]);
@@ -57,12 +57,12 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
                 'action' => 'exception',
             ];
 
-            ob_start();
+            \ob_start();
             $closure = function () {
                 $this->application->run();
             };
             expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
-            $content = ob_get_clean();
+            $content = \ob_get_clean();
 
             expect($content)->toContain('|We have encountered a problem and we can not fulfill your request');
 
@@ -83,12 +83,12 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
                 'action' => 'error',
             ];
 
-            ob_start();
+            \ob_start();
             $closure = function () {
                 $this->application->run();
             };
             expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
-            $content = ob_get_clean();
+            $content = \ob_get_clean();
 
             expect($content)->toContain('|We have encountered a problem and we can not fulfill your request');
 

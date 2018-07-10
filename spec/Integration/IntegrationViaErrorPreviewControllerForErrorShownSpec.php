@@ -20,8 +20,8 @@ describe('Integration via ErrorPreviewController for error shown', function () {
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    realpath(__DIR__).'/../Fixture/config/autoload-for-enable-display-errors/error-hero-module.local.php',
-                    realpath(__DIR__).'/../Fixture/config/module.local.php',
+                    \realpath(__DIR__).'/../Fixture/config/autoload-for-enable-display-errors/error-hero-module.local.php',
+                    \realpath(__DIR__).'/../Fixture/config/module.local.php',
                 ],
             ],
         ]);
@@ -44,9 +44,9 @@ describe('Integration via ErrorPreviewController for error shown', function () {
             $request->setUri('http://example.com/error-preview/error');
             $request->setRequestUri('/error-preview/error');
 
-            ob_start();
+            \ob_start();
             $this->application->run();
-            expect(ob_get_clean())->toBe('');
+            expect(\ob_get_clean())->toBe('');
             expect($this->application->getResponse()->getStatusCode())->toBe(500);
 
         });

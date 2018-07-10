@@ -127,7 +127,7 @@ describe('LoggingSpec', function () {
             allow($resultSet)->toReceive('count')->andReturn(1);
             allow($resultSet)->toReceive('current')->andReturn(
                 [
-                    'date' => date('Y-m-d H:i:s'),
+                    'date' => \date('Y-m-d H:i:s'),
                 ]
             );
             allow(TableGateway::class)->toReceive('selectWith')->with($select)->andReturn($resultSet);
@@ -154,7 +154,7 @@ describe('LoggingSpec', function () {
 
             allow($resultSet)->toReceive('current')->andReturn(
                 [
-                    'date' => date('Y-m-d H:i:s'),
+                    'date' => \date('Y-m-d H:i:s'),
                 ]
             );
             allow($resultSet)->toReceive('count')->andReturn(1);

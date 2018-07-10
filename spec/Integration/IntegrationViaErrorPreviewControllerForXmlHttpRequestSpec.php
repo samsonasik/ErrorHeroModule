@@ -22,8 +22,8 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    realpath(__DIR__).'/../Fixture/config/autoload-for-xmlhttprequest/error-hero-module.local.php',
-                    realpath(__DIR__).'/../Fixture/config/module.local.php',
+                    \realpath(__DIR__).'/../Fixture/config/autoload-for-xmlhttprequest/error-hero-module.local.php',
+                    \realpath(__DIR__).'/../Fixture/config/module.local.php',
                 ],
             ],
         ]);
@@ -44,9 +44,9 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
             allow(Request::class)->toReceive('isXmlHttpRequest')->andReturn(true);
             allow(Response::class)->toReceive('getHeaders', 'addHeaderLine');
 
-            ob_start();
+            \ob_start();
             $this->application->run();
-            $content = ob_get_clean();
+            $content = \ob_get_clean();
 
             expect($content)->toBe(<<<json
 {

@@ -23,8 +23,8 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    realpath(__DIR__).'/../Fixture/config/autoload/error-hero-module.local.php',
-                    realpath(__DIR__).'/../Fixture/config/module.local.php',
+                    \realpath(__DIR__).'/../Fixture/config/autoload/error-hero-module.local.php',
+                    \realpath(__DIR__).'/../Fixture/config/module.local.php',
                 ],
             ],
         ]);
@@ -47,22 +47,22 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
         it('show error page', function() {
 
             $this->tableGateway->delete([]);
-            $countBefore = count($this->tableGateway->select());
+            $countBefore = \count($this->tableGateway->select());
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
             $request->setUri('http://example.com/error-preview');
             $request->setRequestUri('/error-preview');
 
-            ob_start();
+            \ob_start();
             $this->application->run();
-            $content = ob_get_clean();
+            $content = \ob_get_clean();
 
             expect($content)->toContain('<title>Error');
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
             expect($this->application->getResponse()->getStatusCode())->toBe(500);
 
-            $countAfter = count($this->tableGateway->select());
+            $countAfter = \count($this->tableGateway->select());
 
             expect($countBefore)->toBe(0);
             expect($countAfter)->toBe(1);
@@ -71,22 +71,22 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
 
         it('show error page, idempotent for error exist check in DB', function() {
 
-            $countBefore = count($this->tableGateway->select());
+            $countBefore = \count($this->tableGateway->select());
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
             $request->setUri('http://example.com/error-preview');
             $request->setRequestUri('/error-preview');
 
-            ob_start();
+            \ob_start();
             $this->application->run();
-            $content = ob_get_clean();
+            $content = \ob_get_clean();
 
             expect($content)->toContain('<title>Error');
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
             expect($this->application->getResponse()->getStatusCode())->toBe(500);
 
-            $countAfter = count($this->tableGateway->select());
+            $countAfter = \count($this->tableGateway->select());
 
             expect($countBefore)->toBe(1);
             expect($countAfter)->toBe(1);
@@ -100,21 +100,21 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
         it('show error page', function() {
 
             $this->tableGateway->delete([]);
-            $countBefore = count($this->tableGateway->select());
+            $countBefore = \count($this->tableGateway->select());
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
             $request->setUri('http://example.com/error-preview/error');
             $request->setRequestUri('/error-preview/error');
 
-            ob_start();
+            \ob_start();
             $this->application->run();
-            $content = ob_get_clean();
+            $content = \ob_get_clean();
 
             expect($content)->toContain('<title>Error');
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
 
-            $countAfter = count($this->tableGateway->select());
+            $countAfter = \count($this->tableGateway->select());
 
             expect($countBefore)->toBe(0);
             expect($countAfter)->toBe(1);
@@ -123,21 +123,21 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
 
         it('show error page, idempotent for error exist check in DB', function() {
 
-            $countBefore = count($this->tableGateway->select());
+            $countBefore = \count($this->tableGateway->select());
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
             $request->setUri('http://example.com/error-preview/error');
             $request->setRequestUri('/error-preview/error');
 
-            ob_start();
+            \ob_start();
             $this->application->run();
-            $content = ob_get_clean();
+            $content = \ob_get_clean();
 
             expect($content)->toContain('<title>Error');
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
 
-            $countAfter = count($this->tableGateway->select());
+            $countAfter = \count($this->tableGateway->select());
 
             expect($countBefore)->toBe(1);
             expect($countAfter)->toBe(1);

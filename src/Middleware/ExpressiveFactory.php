@@ -48,7 +48,7 @@ class ExpressiveFactory
         $configuration = (array) $configuration;
         if (! isset($configuration['db'])) {
             throw new RuntimeException(
-                sprintf(
+                \sprintf(
                     'db config is required for build "ErrorHeroModuleLogger" service by %s Container',
                     $containerClass
                 )
@@ -85,7 +85,7 @@ class ExpressiveFactory
             );
         }
 
-        throw new RuntimeException(sprintf(
+        throw new RuntimeException(\sprintf(
             'container "%s" is unsupported',
             $containerClass
         ));

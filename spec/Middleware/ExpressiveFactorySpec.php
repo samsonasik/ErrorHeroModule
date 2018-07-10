@@ -224,7 +224,7 @@ describe('ExpressiveFactory', function () {
                     $this->factory($container);
                 };
                 expect($actual)->toThrow(new RuntimeException(
-                    sprintf(
+                    \sprintf(
                         'db config is required for build "ErrorHeroModuleLogger" service by %s Container',
                         $containerClass
                     )
@@ -303,9 +303,9 @@ describe('ExpressiveFactory', function () {
                 $this->factory($container);
             };
             expect($actual)->toThrow(
-                new RuntimeException(sprintf(
+                new RuntimeException(\sprintf(
                     'container "%s" is unsupported',
-                    get_class($container)
+                    \get_class($container)
                 ))
             );
 
