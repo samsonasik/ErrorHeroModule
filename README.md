@@ -26,6 +26,7 @@ Features
 - [x] Handle only once log error for same error per configured time range.
 - [x] Set default page (web access) or default message (console access) for error if configured 'display_errors' = 0.
 - [x] Set default content when request is XMLHttpRequest via 'ajax' configuration.
+- [x] Set default content when there is [no template service](https://github.com/zendframework/zend-expressive-template/blob/9b6c2e06f8c1d7e43750f72b64cc749552f2bdbe/src/TemplateRendererInterface.php) via 'no_template' configuration (ZF Expressive 3).
 - [x] Provide request information ( http method, raw data, query data, files data, and cookie data ).
 - [x] Send Mail
   - [x] many receivers to listed configured email
