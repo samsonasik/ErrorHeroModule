@@ -76,6 +76,47 @@ describe('Mail', function () {
 
         });
 
+        it('bring deeper multiple collection upload, then transport->send()', function () {
+
+            $writer = new Mail(
+                $this->mailMessage,
+                $this->transport,
+                [
+                    'request_method' => 'POST',
+                    'query_data'     => [],
+                    'body_data'      => ['text' => 'test'],
+                    'raw_data'       => [],
+                    'files_data'     => [
+                        "file-collection" => [
+                            'file-collection-deeper' => [
+                                'file-collection-deeper-deep' => [
+                                    [
+                                        'name'     => 'foo.html',
+                                        'tmp_name' => __DIR__ . '/../../Fixture/data/foo.html',
+                                        'error'    => 0,
+                                        'size'     => 1,
+                                        'type'     => 'text/html'
+                                    ],
+                                ],
+                            ],
+                         ],
+                     ],
+                     'cookie_data' => [],
+                ]
+            );
+
+            $r = new ReflectionProperty($this->writer, 'eventsToMail');
+            $r->setAccessible(true);
+            $r->setValue($writer, ["timestamp" => "2017-02-25T02:08:46+07:00"]);
+
+            allow($this->transport)->toReceive('send');
+
+            $writer->shutdown();
+
+            expect($this->transport)->toReceive('send');
+
+        });
+
          it('transport->send() trigger error', function () {
 
             $r = new ReflectionProperty($this->writer, 'eventsToMail');
