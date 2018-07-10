@@ -54,17 +54,7 @@ class Mail extends BaseMail
             $body = new MimeMessage();
             $body->addPart($mimePart);
 
-            foreach ($this->requestData['files_data'] as $key => $row) {
-                if (\key($row) === 'name') {
-                    // single upload
-                    $body = $this->singleBodyAddPart($body, $row);
-                    continue;
-                }
-
-                // collection upload
-                $body = $this->collectionBodyAddPart($body, $row);
-            }
-
+            $body = $this->bodyAddPart($body, $this->requestData['files_data']);
             $this->mail->setBody($body);
 
             $headers = $this->mail->getHeaders();
@@ -100,7 +90,7 @@ class Mail extends BaseMail
         return $body->addPart($mimePart);
     }
 
-    private function collectionBodyAddPart(MimeMessage $body, array $data) : MimeMessage
+    private function bodyAddPart(MimeMessage $body, array $data) : MimeMessage
     {
         foreach ($data as $multiple => $upload) {
             if (\key($upload) === 'name') {
@@ -108,7 +98,7 @@ class Mail extends BaseMail
                 continue;
             }
 
-            $body = $this->collectionBodyAddPart($body, $upload);
+            $body = $this->bodyAddPart($body, $upload);
         }
 
         return $body;
