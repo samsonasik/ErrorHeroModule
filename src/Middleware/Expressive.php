@@ -84,7 +84,8 @@ class Expressive implements MiddlewareInterface
             throw $t;
         }
 
-        return $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled($request);
+        // show default view if display_errors setting = 0.
+        return $this->showDefaultView($request);
     }
 
     private function responseByConfigMessage($key) : ResponseInterface
@@ -99,10 +100,7 @@ class Expressive implements MiddlewareInterface
         return $response->withStatus(500);
     }
 
-    /**
-     * It show default view if display_errors setting = 0.
-     */
-    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled(ServerRequestInterface $request) : ResponseInterface
+    private function showDefaultView(ServerRequestInterface $request) : ResponseInterface
     {
         if ($this->renderer === null) {
             return $this->responseByConfigMessage('no_template');

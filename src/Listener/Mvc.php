@@ -82,13 +82,11 @@ class Mvc extends AbstractListenerAggregate
             return;
         }
 
-        $this->showDefaultViewWhenDisplayErrorSetttingIsDisabled($e, $request);
+        // show default view if display_errors setting = 0.
+        $this->showDefaultView($e, $request);
     }
 
-    /**
-     * It show default view if display_errors setting = 0.
-     */
-    private function showDefaultViewWhenDisplayErrorSetttingIsDisabled(MvcEvent $e, RequestInterface $request) : void
+    private function showDefaultView(MvcEvent $e, RequestInterface $request) : void
     {
         if ($request instanceof Request) {
             $response = $e->getResponse();
