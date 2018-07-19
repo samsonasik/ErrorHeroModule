@@ -26,11 +26,6 @@ class Db
      */
     private $logWritersConfig;
 
-    /**
-     * @param DbWriter $dbWriter
-     * @param array    $configLoggingSettings
-     * @param array    $logWritersConfig
-     */
     public function __construct(
         DbWriter $dbWriter,
         array    $configLoggingSettings,
