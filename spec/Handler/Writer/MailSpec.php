@@ -59,6 +59,17 @@ describe('Mail', function () {
                                 'type'     => 'text/html'
                             ],
                          ],
+                         "file-collection2" => [
+                            "name" => [
+                                [
+                                    'name'     => 'foo.html',
+                                    'tmp_name' => __DIR__ . '/../../Fixture/data/foo.html',
+                                    'error'    => 0,
+                                    'size'     => 1,
+                                    'type'     => 'text/html'
+                                ]
+                            ],
+                         ],
                      ],
                      'cookie_data' => [],
                 ]
