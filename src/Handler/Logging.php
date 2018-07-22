@@ -155,7 +155,7 @@ class Logging
             $serverUrl  = \php_uname('n');
             $requestUri = ':' . \basename((string) \getcwd())
                 . ' ' . \get_current_user()
-                . '$ php ' . $request->getScriptName() . ' ' . $request->toString();
+                . '$ ' . \PHP_BINARY . ' ' . $request->getScriptName() . ' ' . $request->toString();
         } else {
             Assertion::isInstanceOf($request, HttpRequest::class);
             $uri       = $request->getUri();
