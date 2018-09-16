@@ -6,3 +6,4 @@
 /phpstan.neon export-ignore
 /spec/ export-ignore
 /CONTRIBUTING.md export-ignore
+/kahlan-config.php export-ignore
