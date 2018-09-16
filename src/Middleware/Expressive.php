@@ -7,6 +7,7 @@ namespace ErrorHeroModule\Middleware;
 use Closure;
 use Error;
 use ErrorHeroModule\Handler\Logging;
+use ErrorHeroModule\HeroAutoload;
 use ErrorHeroModule\HeroTrait;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -60,6 +61,7 @@ class Expressive implements MiddlewareInterface
     {
         \register_shutdown_function([$this, 'execOnShutdown']);
         \set_error_handler([$this, 'phpErrorHandler']);
+        //\spl_autoload_register([HeroAutoload::class, 'handle']);
     }
 
     /**
