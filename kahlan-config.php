@@ -1,17 +1,23 @@
 <?php // kahlan-config.php
 
-use App\Kernel;
 use Kahlan\Filter\Filters;
+use Kahlan\Reporter\Coverage;
+use Kahlan\Reporter\Coverage\Driver\Xdebug;
 
-Filters::apply($this, 'bootstrap', function($next) {
+Filters::apply($this, 'coverage', function($next) {
+    if (! extension_loaded('xdebug')) {
+        return;
+    }
 
-    require __DIR__ . '/vendor/autoload.php';
-
-    $root = $this->suite()->root();
-    $root->beforeAll(function () {
-//        allow('spl_autoload_register')->toBeCalled()->andReturn(null);
-    });
-
-    return $next();
-
+    $reporters = $this->reporters();
+    $coverage = new Coverage([
+        'verbosity' => $this->commandLine()->get('coverage'),
+        'driver'    => new Xdebug(),
+        'path'      => $this->commandLine()->get('src'),
+        'exclude'   => [
+            'src/HeroAutoload.php',
+        ],
+        'colors'    => ! $this->commandLine()->get('no-colors')
+    ]);
+    $reporters->add('coverage', $coverage);
 });

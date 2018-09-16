@@ -61,7 +61,7 @@ class Expressive implements MiddlewareInterface
     {
         \register_shutdown_function([$this, 'execOnShutdown']);
         \set_error_handler([$this, 'phpErrorHandler']);
-        //\spl_autoload_register([HeroAutoload::class, 'handle']);
+        \spl_autoload_register([HeroAutoload::class, 'handle']);
     }
 
     /**

@@ -57,7 +57,7 @@ class Mvc extends AbstractListenerAggregate
     {
         \register_shutdown_function([$this, 'execOnShutdown']);
         \set_error_handler([$this, 'phpErrorHandler']);
-        //\spl_autoload_register([HeroAutoload::class, 'handle']);
+        \spl_autoload_register([HeroAutoload::class, 'handle']);
     }
 
     public function exceptionError(MvcEvent $e) : void
