@@ -12,19 +12,14 @@ class HeroAutoload
             return;
         }
 
-        if (\in_array(
-            $class,
-            [
-                'error_reporting',
-                'error_get_last',
-                'ErrorHeroModuleLogger',
-                'ZendDeveloperTools\\ProfilerEvent',
-                'Zend\Version\Version',
-                'ZF\MvcAuth\MvcAuthEvent',
-                'Zend\EventManager\GlobalEventManager',
-                'Zend\Session\ValidatorChain',
-            ]
-        )) {
+        $debugBacktrace = \debug_backtrace();
+        if (
+            isset($debugBacktrace[1]['function'], $debugBacktrace[2]['function']) &&
+            $debugBacktrace[1]['function'] === 'spl_autoload_call' &&
+            (
+                $debugBacktrace[2]['function'] === 'class_exists' || $debugBacktrace[2]['function'] === 'interface_exists'
+            )
+        ) {
             return;
         }
 
