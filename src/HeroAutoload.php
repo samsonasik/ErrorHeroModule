@@ -23,6 +23,8 @@ class HeroAutoload
                 'ZendDeveloperTools\\ProfilerEvent',
                 'Zend\Version\Version',
                 'ZF\MvcAuth\MvcAuthEvent',
+                'Zend\EventManager\GlobalEventManager',
+                'Zend\Session\ValidatorChain',
             ]
         )) {
             return;
