@@ -10,7 +10,7 @@ class HeroAutoload
 {
     public static function handle(string $class)
     {
-        if (\class_exists($class)) {
+        if (\class_exists($class, false)) {
             return;
         }
 
@@ -21,6 +21,8 @@ class HeroAutoload
                 'error_get_last',
                 'ErrorHeroModuleLogger',
                 'ZendDeveloperTools\\ProfilerEvent',
+                'Zend\Version\Version',
+                'ZF\MvcAuth\MvcAuthEvent',
             ]
         )) {
             return;
