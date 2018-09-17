@@ -18,17 +18,10 @@ class HeroAutoload
         if (
             isset($debugBacktrace[1]['function'], $debugBacktrace[2]['function']) &&
             $debugBacktrace[1]['function'] === 'spl_autoload_call' &&
-            $debugBacktrace[2]['function'] === 'class_exists'
+            (
+                $debugBacktrace[2]['function'] === 'class_exists' || $debugBacktrace[2]['function'] === 'interface_exists'
+            )
         ) {
-            return;
-        }
-
-        if (\in_array(
-            $class,
-            [
-                'ErrorHeroModuleLogger',
-            ]
-        )) {
             return;
         }
 
