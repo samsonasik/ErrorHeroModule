@@ -60,8 +60,6 @@ trait HeroTrait
 
                 if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
                     $this->result = $displayFatalError;
-
-                    return;
                 }
             }
         } catch (ErrorException $t) {
