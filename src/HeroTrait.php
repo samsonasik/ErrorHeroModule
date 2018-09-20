@@ -38,7 +38,6 @@ trait HeroTrait
             return $buffer;
         }
 
-        http_response_code(500);
         return $this->result;
     }
 
