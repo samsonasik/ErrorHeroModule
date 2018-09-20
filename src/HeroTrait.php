@@ -53,18 +53,16 @@ trait HeroTrait
             }
 
             if (property_exists($this, 'mvcEvent')) {
-                if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
-                    $this->result = $displayFatalError;
-
-                    return;
-                }
-
                 ob_start();
                 $this->mvcEvent->setParam('exception', $t);
                 $this->exceptionError($this->mvcEvent);
                 $this->result = ob_get_clean();
 
-                return;
+                if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
+                    $this->result = $displayFatalError;
+
+                    return;
+                }
             }
         } catch (ErrorException $t) {
             $this->result = $displayFatalError;
