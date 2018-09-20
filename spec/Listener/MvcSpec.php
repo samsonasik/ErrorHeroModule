@@ -258,7 +258,7 @@ describe('Mvc', function () {
 
         });
 
-        it('call error_get_last() and return error', function () {
+        it('call error_get_last() and property_exists() after null check passed', function () {
 
             allow('error_get_last')->toBeCalled()->andReturn([
                 'type' => 3,
@@ -266,6 +266,7 @@ describe('Mvc', function () {
                 'file' => '/var/www/zf/module/Application/Module.php',
                 'line' => 2
             ]);
+            allow('property_exists')->toBeCalled()->andReturn(true);
 
             $dbAdapter = new Adapter([
                 'username' => 'root',
@@ -368,8 +369,8 @@ describe('Mvc', function () {
                 $logging,
                 $this->renderer
             );
+            expect('property_exists')->toBeCalled()->once();
             expect($listener->execOnShutdown())->toBeNull();
-
 
         });
 
