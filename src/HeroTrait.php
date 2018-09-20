@@ -48,10 +48,10 @@ trait HeroTrait
             return;
         }
 
-        $t                  = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+        $errorException = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
         try {
             if (property_exists($this, 'request')) {
-                $result = $this->exceptionError($t, $this->request);
+                $result = $this->exceptionError($errorException, $this->request);
                 $this->result = (string) $result->getBody();
 
                 return;
@@ -59,7 +59,7 @@ trait HeroTrait
 
             if (property_exists($this, 'mvcEvent')) {
                 ob_start();
-                $this->mvcEvent->setParam('exception', $t);
+                $this->mvcEvent->setParam('exception', $errorException);
                 $this->exceptionError($this->mvcEvent);
                 $this->result = ob_get_clean();
 
