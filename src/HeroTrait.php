@@ -22,7 +22,7 @@ trait HeroTrait
     /** @var string */
     private $result = '';
 
-    public function phpFatalErrorHandler($buffer): string
+    public function phpFatalErrorHandler($buffer)
     {
         $error = \error_get_last();
         if (! $error) {
