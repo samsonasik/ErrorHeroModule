@@ -22,6 +22,9 @@ class Mvc extends AbstractListenerAggregate
 {
     use HeroTrait;
 
+    /** @var MvcEvent */
+    private $mvcEvent;
+
     /**
      * @param array       $errorHeroModuleConfig
      * @param Logging     $logging
@@ -64,9 +67,11 @@ class Mvc extends AbstractListenerAggregate
      */
     public function phpError(Event $e)
     {
+        $this->mvcEvent = $e;
+
+        \ob_start([$this, 'phpFatalErrorHandler']);
         \register_shutdown_function([$this, 'execOnShutdown']);
         \set_error_handler([$this, 'phpErrorHandler']);
-        \spl_autoload_register([HeroAutoload::class, 'handle']);
     }
 
     /**

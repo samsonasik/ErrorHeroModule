@@ -17,7 +17,9 @@ Filter::register('kahlan.coverage', function($chain) {
         'driver'    => new Xdebug(),
         'path'      => $this->commandLine()->get('src'),
         'exclude'   => [
-            'src/HeroAutoload.php',
+            'src/Controller/ErrorPreviewConsoleController.php',
+            'src/Controller/ErrorPreviewController.php',
+            'src/Middleware/Routed/Preview/ErrorPreviewAction.php',
         ],
         'colors'    => !$this->commandLine()->get('no-colors')
     ]);
