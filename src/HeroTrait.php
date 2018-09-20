@@ -6,6 +6,7 @@ namespace ErrorHeroModule;
 
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
+use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Middleware\Expressive;
 
 trait HeroTrait
@@ -49,7 +50,10 @@ trait HeroTrait
                 $result = $this->exceptionError($t, $this->request);
                 /** @var \Psr\Http\Message\ResponseInterface $result */
                 $this->result = (string) $result->getBody();
-            } else {
+                return;
+            }
+
+            if (static::class === Mvc::class) {
                 if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
                     $this->result = $displayFatalError;
                     return;
