@@ -87,27 +87,4 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
 
     });
 
-    describe('/error-preview/fatal', function() {
-
-        it('show error page for fatal error', function() {
-
-            Quit::disable();
-
-            $request     = $this->application->getRequest();
-            $request->setMethod('GET');
-            $request->setUri('http://example.com/error-preview/fatal');
-            $request->setRequestUri('/error-preview/fatal');
-
-            \ob_start();
-            $this->application->run();
-            $content = \ob_get_clean();
-
-            expect($content)->toContain('<title>Error');
-            expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
-            expect($this->application->getResponse()->getStatusCode())->toBe(500);
-
-        });
-
-    });
-
 });
