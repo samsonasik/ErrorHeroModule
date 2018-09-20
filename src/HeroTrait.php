@@ -29,12 +29,12 @@ trait HeroTrait
             return $buffer;
         }
 
-        if ($error['type'] === \E_ERROR && $this->result) {
-            http_response_code(500);
-            return $this->result;
+        if (0 === strpos($error['message'], 'Uncaught')) {
+            return $buffer;
         }
 
-        return $buffer;
+        http_response_code(500);
+        return $this->result;
     }
 
     public function execOnShutdown() : void
@@ -44,7 +44,7 @@ trait HeroTrait
             return;
         }
 
-        if ($error['type'] === \E_ERROR && false === strpos('Fatal error: ', $error['message'])) {
+        if (0 === strpos($error['message'], 'Uncaught')) {
             return;
         }
 
