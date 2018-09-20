@@ -29,6 +29,11 @@ class Mvc extends AbstractListenerAggregate
      */
     private $renderer;
 
+    /**
+     * @var MvcEvent
+     */
+    private $mvcEvent;
+
     public function __construct(
         array       $errorHeroModuleConfig,
         Logging     $logging,
@@ -55,6 +60,8 @@ class Mvc extends AbstractListenerAggregate
 
     public function phpError(MvcEvent $e) : void
     {
+        $this->mvcEvent = $e;
+
         \ob_start([$this, 'phpFatalErrorHandler']);
         \register_shutdown_function([$this, 'execOnShutdown']);
         \set_error_handler([$this, 'phpErrorHandler']);

@@ -6,6 +6,7 @@ namespace ErrorHeroModule;
 
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
+use ErrorHeroModule\Middleware\Expressive;
 
 trait HeroTrait
 {
@@ -39,10 +40,19 @@ trait HeroTrait
 
         $t      = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
         try {
-            $result = $this->exceptionError($t, $this->request);
-            if (method_exists($result, 'getBody')) {
-                $this->result = (string) $result->getBody();
+            if (static::class === Expressive::class) {
+                $result = $this->exceptionError($t, $this->request);
+                if (method_exists($result, 'getBody')) {
+                    $this->result = (string) $result->getBody();
+                }
+
+                return;
             }
+
+            ob_start();
+            $this->mvcEvent->setParam('exception', $t);
+            $this->exceptionError($this->mvcEvent);
+            $this->result = ob_get_clean();
         } catch (ErrorException $t) {
             $this->result = 'Fatal error: ' . $t->getMessage() . ' in ' . $error['file'] . ' on line ' . $error['line'];
         }
