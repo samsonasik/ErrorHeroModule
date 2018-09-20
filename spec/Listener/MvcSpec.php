@@ -262,7 +262,7 @@ describe('Mvc', function () {
 
             allow('error_get_last')->toBeCalled()->andReturn([
                 'type' => 3,
-                'message' => 'Y cannot implement X - it is not an interface',
+                'message' => 'class@anonymous cannot implement stdClass - it is not an interface',
                 'file' => '/var/www/zf/module/Application/Module.php',
                 'line' => 2
             ]);

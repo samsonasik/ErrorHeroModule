@@ -29,8 +29,12 @@ trait HeroTrait
             return $buffer;
         }
 
-        http_response_code(500);
-        return $this->result;
+        if ($error['type'] === \E_ERROR && $this->result) {
+            http_response_code(500);
+            return $this->result;
+        }
+
+        return $buffer;
     }
 
     public function execOnShutdown() : void
@@ -40,11 +44,19 @@ trait HeroTrait
             return;
         }
 
+        if ($error['type'] === \E_ERROR && false === strpos('Fatal error: ', $error['message'])) {
+            return;
+        }
+
         $t                  = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
         $displayFatalError  = 'Fatal error: ' . $t->getMessage() . ' in ' . $error['file'] . ':' . $error['line'] . PHP_EOL;
         $displayFatalError .= 'Stack trace:' . $t->getTraceAsString();
 
         try {
+            if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
+                $this->result = $displayFatalError;
+            }
+
             if (property_exists($this, 'request')) {
                 $result = $this->exceptionError($t, $this->request);
                 $this->result = (string) $result->getBody();
@@ -57,10 +69,6 @@ trait HeroTrait
                 $this->mvcEvent->setParam('exception', $t);
                 $this->exceptionError($this->mvcEvent);
                 $this->result = ob_get_clean();
-
-                if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
-                    $this->result = $displayFatalError;
-                }
             }
         } catch (ErrorException $t) {
             $this->result = $displayFatalError;
