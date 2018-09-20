@@ -6,8 +6,6 @@ namespace ErrorHeroModule;
 
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
-use ErrorHeroModule\Listener\Mvc;
-use ErrorHeroModule\Middleware\Expressive;
 
 trait HeroTrait
 {
