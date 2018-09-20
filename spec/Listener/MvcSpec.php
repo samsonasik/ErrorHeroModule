@@ -460,8 +460,22 @@ describe('Mvc', function () {
 
             ];
 
+
+            $resolver = new Resolver\AggregateResolver();
+
+            $map = new Resolver\TemplateMapResolver([
+                'error'                           => __DIR__ . '/../Fixture/view/error.phtml',
+                'layout/layout'                   => __DIR__ . '/../Fixture/view/layout/layout.phtml',
+                'error-hero-module/error-default' => __DIR__ . '/../Fixture/view/error-hero-module/error-default.phtml',
+            ]);
+            $resolver->attach($map);
+            $this->renderer->setResolver($resolver);
+
             $logging = new Logging(
                 $logger,
+                'http://serverUrl',
+                Double::instance(['extends' => Request::class, 'methods' => '__construct']),
+                '/',
                 $this->config,
                 $logWritersConfig,
                 null,

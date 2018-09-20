@@ -9,6 +9,7 @@ use Kahlan\Plugin\Double;
 use Zend\Db\Adapter\Adapter;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
+use Zend\Diactoros\Uri;
 use Zend\Expressive\ZendView\ZendViewRenderer;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Log\Logger;
@@ -698,6 +699,9 @@ json
 
             $logging = new Logging(
                 $logger,
+                'http://serverUrl',
+                null,
+                '/',
                 $this->config,
                 $logWritersConfig,
                 null,
@@ -837,6 +841,9 @@ json
 
             $logging = new Logging(
                 $logger,
+                'http://serverUrl',
+                null,
+                '/',
                 $this->config,
                 $logWritersConfig,
                 null,
