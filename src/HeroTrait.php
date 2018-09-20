@@ -6,6 +6,7 @@ namespace ErrorHeroModule;
 
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
+use Psr\Http\Message\ResponseInterface;
 
 trait HeroTrait
 {
@@ -19,6 +20,19 @@ trait HeroTrait
      */
     private $logging;
 
+    private $fatalErrorDelimiter = 'FATAL_ERROR_DETECTED_BY_ERRORHEROMODULE';
+
+    public function phpFatalErrorHandler($buffer): string
+    {
+        $error = \error_get_last();
+        if (! $error) {
+            return $buffer;
+        }
+
+        http_response_code(500);
+        return $this->result;
+    }
+
     public function execOnShutdown() : void
     {
         $error = \error_get_last();
@@ -26,7 +40,15 @@ trait HeroTrait
             return;
         }
 
-        $this->phpErrorHandler($error['type'], $error['message'], $error['file'], $error['line']);
+        $t      = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+        try {
+            $result = $this->exceptionError($t, $this->request);
+            if (method_exists($result, 'getBody')) {
+                $this->result = (string) $result->getBody();
+            }
+        } catch (ErrorException $t) {
+            $this->result = 'Fatal error: ' . $t->getMessage() . ' in ' . $error['file'] . ' on line ' . $error['line'];
+        }
     }
 
     /**
