@@ -20,8 +20,6 @@ trait HeroTrait
      */
     private $logging;
 
-    private $fatalErrorDelimiter = 'FATAL_ERROR_DETECTED_BY_ERRORHEROMODULE';
-
     public function phpFatalErrorHandler($buffer): string
     {
         $error = \error_get_last();
