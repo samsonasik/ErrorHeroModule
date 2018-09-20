@@ -49,9 +49,6 @@ trait HeroTrait
         }
 
         $t                  = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
-        $displayFatalError  = 'Fatal error: ' . $t->getMessage() . ' in ' . $error['file'] . ':' . $error['line'] . PHP_EOL;
-        $displayFatalError .= 'Stack trace: ' . $t->getTraceAsString();
-
         try {
             if (property_exists($this, 'request')) {
                 $result = $this->exceptionError($t, $this->request);
