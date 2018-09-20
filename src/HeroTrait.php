@@ -53,10 +53,6 @@ trait HeroTrait
         $displayFatalError .= 'Stack trace:' . $t->getTraceAsString();
 
         try {
-            if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
-                $this->result = $displayFatalError;
-            }
-
             if (property_exists($this, 'request')) {
                 $result = $this->exceptionError($t, $this->request);
                 $this->result = (string) $result->getBody();
