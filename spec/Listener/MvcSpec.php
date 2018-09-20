@@ -263,6 +263,7 @@ describe('Mvc', function () {
 
             allow('error_get_last')->toBeCalled()->andReturn([
                 'message' => 'Uncaught',
+                'type'    => 3,
             ]);
             expect($this->listener->phpFatalErrorHandler('Uncaught'))->toBe('Uncaught');
 
@@ -291,7 +292,8 @@ describe('Mvc', function () {
         it('call error_get_last() and return nothing on result with "Uncaught" prefix', function () {
 
             allow('error_get_last')->toBeCalled()->andReturn([
-                'message' => 'Uncaught'
+                'message' => 'Uncaught',
+                'type'    => 3,
             ]);
             expect($this->listener->execOnShutdown())->toBeNull();
 
