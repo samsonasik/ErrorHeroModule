@@ -42,7 +42,7 @@ trait HeroTrait
         return $this->result;
     }
 
-    public function execOnShutdown() : void
+    public function execOnShutdown()
     {
         $error = \error_get_last();
         if (! $error) {
@@ -78,7 +78,7 @@ trait HeroTrait
     /**
      * @throws ErrorException when php error happen and error type is not excluded in the config
      */
-    public function phpErrorHandler(int $errorType, string $errorMessage, string $errorFile, int $errorLine) : void
+    public function phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine)
     {
         if (! (\error_reporting() & $errorType)) {
             return;
