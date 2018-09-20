@@ -606,6 +606,7 @@ json
 
             allow('error_get_last')->toBeCalled()->andReturn([
                 'message' => 'Uncaught',
+                'type' => 3,
             ]);
             expect($this->middleware->phpFatalErrorHandler('Uncaught'))->toBe('Uncaught');
 
@@ -927,7 +928,8 @@ json
         it('call error_get_last() and return nothing on result with "Uncaught" prefix', function () {
 
             allow('error_get_last')->toBeCalled()->andReturn([
-                'message' => 'Uncaught'
+                'message' => 'Uncaught',
+                'type' => 3,
             ]);
             expect($this->middleware->execOnShutdown())->toBeNull();
 
