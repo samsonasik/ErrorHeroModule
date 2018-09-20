@@ -47,12 +47,14 @@ trait HeroTrait
             if (property_exists($this, 'request')) {
                 $result = $this->exceptionError($t, $this->request);
                 $this->result = (string) $result->getBody();
+
                 return;
             }
 
             if (property_exists($this, 'mvcEvent')) {
                 if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
                     $this->result = $displayFatalError;
+
                     return;
                 }
 
@@ -60,6 +62,8 @@ trait HeroTrait
                 $this->mvcEvent->setParam('exception', $t);
                 $this->exceptionError($this->mvcEvent);
                 $this->result = ob_get_clean();
+
+                return;
             }
         } catch (ErrorException $t) {
             $this->result = $displayFatalError;
