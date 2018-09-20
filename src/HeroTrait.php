@@ -6,7 +6,6 @@ namespace ErrorHeroModule;
 
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
-use Psr\Http\Message\ResponseInterface;
 
 trait HeroTrait
 {
