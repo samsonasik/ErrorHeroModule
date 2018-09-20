@@ -527,6 +527,35 @@ json
 
     });
 
+    describe('->phpFatalErrorHandler()', function ()  {
+
+        it('returns buffer on no error', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn(null);
+            expect($this->middleware->phpFatalErrorHandler('test'))->toBe('test');
+
+        });
+
+        it('returns buffer on error has "Uncaught" prefix', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'message' => 'Uncaught',
+            ]);
+            expect($this->middleware->phpFatalErrorHandler('Uncaught'))->toBe('Uncaught');
+
+        });
+
+        it('returns result property value on error not has "Uncaught" prefix', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'message' => 'Fatal',
+            ]);
+            expect($this->middleware->phpFatalErrorHandler('Fatal'))->toBe('');
+
+        });
+
+    });
+
     describe('->execOnShutdown()', function ()  {
 
         it('call error_get_last() and return nothing', function () {

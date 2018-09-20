@@ -20,7 +20,7 @@ trait HeroTrait
     private $logging;
 
     /** @var string */
-    private $result;
+    private $result = '';
 
     public function phpFatalErrorHandler($buffer): string
     {
