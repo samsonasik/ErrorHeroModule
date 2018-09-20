@@ -38,7 +38,9 @@ trait HeroTrait
             return;
         }
 
-        $t      = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+        $t                 = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+        $displayFatalError = 'Fatal error: ' . $t->getMessage() . ' in ' . $error['file'] . ' on line ' . $error['line'];
+
         try {
             if (static::class === Expressive::class) {
                 $result = $this->exceptionError($t, $this->request);
@@ -49,12 +51,17 @@ trait HeroTrait
                 return;
             }
 
+            if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
+                $this->result = $displayFatalError;
+                return;
+            }
+
             ob_start();
             $this->mvcEvent->setParam('exception', $t);
             $this->exceptionError($this->mvcEvent);
             $this->result = ob_get_clean();
         } catch (ErrorException $t) {
-            $this->result = 'Fatal error: ' . $t->getMessage() . ' in ' . $error['file'] . ' on line ' . $error['line'];
+            $this->result = $displayFatalError;
         }
     }
 
