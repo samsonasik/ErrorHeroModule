@@ -49,19 +49,17 @@ trait HeroTrait
                 $result = $this->exceptionError($t, $this->request);
                 /** @var \Psr\Http\Message\ResponseInterface $result */
                 $this->result = (string) $result->getBody();
+            } else {
+                if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
+                    $this->result = $displayFatalError;
+                    return;
+                }
 
-                return;
+                ob_start();
+                $this->mvcEvent->setParam('exception', $t);
+                $this->exceptionError($this->mvcEvent);
+                $this->result = ob_get_clean();
             }
-
-            if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
-                $this->result = $displayFatalError;
-                return;
-            }
-
-            ob_start();
-            $this->mvcEvent->setParam('exception', $t);
-            $this->exceptionError($this->mvcEvent);
-            $this->result = ob_get_clean();
         } catch (ErrorException $t) {
             $this->result = $displayFatalError;
         }
