@@ -250,6 +250,35 @@ describe('Mvc', function () {
 
     });
 
+    describe('->phpFatalErrorHandler()', function ()  {
+
+        it('returns buffer on no error', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn(null);
+            expect($this->listener->phpFatalErrorHandler('test'))->toBe('test');
+
+        });
+
+        it('returns buffer on error has "Uncaught" prefix', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'message' => 'Uncaught',
+            ]);
+            expect($this->listener->phpFatalErrorHandler('Uncaught'))->toBe('Uncaught');
+
+        });
+
+        it('returns result property value on error not has "Uncaught" prefix', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'message' => 'Fatal',
+            ]);
+            expect($this->listener->phpFatalErrorHandler('Fatal'))->toBe('');
+
+        });
+
+    });
+
     describe('->execOnShutdown()', function ()  {
 
         it('call error_get_last() and return nothing and no result', function () {
