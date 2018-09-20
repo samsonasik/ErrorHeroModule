@@ -44,9 +44,8 @@ trait HeroTrait
         try {
             if (static::class === Expressive::class) {
                 $result = $this->exceptionError($t, $this->request);
-                if (method_exists($result, 'getBody')) {
-                    $this->result = (string) $result->getBody();
-                }
+                /** @var \Psr\Http\Message\ResponseInterface $result */
+                $this->result = (string) $result->getBody();
 
                 return;
             }

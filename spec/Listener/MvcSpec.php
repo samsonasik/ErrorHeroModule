@@ -261,8 +261,8 @@ describe('Mvc', function () {
         it('call error_get_last() and return error', function () {
 
             allow('error_get_last')->toBeCalled()->andReturn([
-                'type' => 8,
-                'message' => 'Undefined variable: a',
+                'type' => 3,
+                'message' => 'Y cannot implement X - it is not an interface',
                 'file' => '/var/www/zf/module/Application/Module.php',
                 'line' => 2
             ]);
@@ -368,11 +368,7 @@ describe('Mvc', function () {
                 $logging,
                 $this->renderer
             );
-
-            $closure = function () use ($listener) {
-                $listener->execOnShutdown();
-            };
-            expect($closure)->toThrow(new ErrorException('Undefined variable: a', 0, 1, '/var/www/zf/module/Application/Module.php', 2));
+            expect($listener->execOnShutdown())->toBeNull();
 
 
         });
