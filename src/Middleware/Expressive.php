@@ -33,6 +33,11 @@ class Expressive implements MiddlewareInterface
      */
     private $renderer;
 
+    /**
+     * @var ServerRequestInterface
+     */
+    private $request;
+
     public function __construct(
         array                     $errorHeroModuleConfig,
         Logging                   $logging,
