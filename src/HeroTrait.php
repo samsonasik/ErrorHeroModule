@@ -34,7 +34,7 @@ trait HeroTrait
             return $buffer;
         }
 
-        if (0 === strpos($error['message'], 'Uncaught')) {
+        if (0 === strpos($error['message'], 'Uncaught') && $error['type'] !== \E_ERROR) {
             return $buffer;
         }
 
@@ -48,7 +48,7 @@ trait HeroTrait
             return;
         }
 
-        if (0 === strpos($error['message'], 'Uncaught')) {
+        if (0 === strpos($error['message'], 'Uncaught') && $error['type'] !== \E_ERROR) {
             return;
         }
 
