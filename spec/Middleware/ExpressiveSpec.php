@@ -823,6 +823,15 @@ json
 
         });
 
+        it('call error_get_last() and return nothing on result with "Uncaught" prefix', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'message' => 'Uncaught'
+            ]);
+            expect($this->middleware->execOnShutdown())->toBeNull();
+
+        });
+
         it('exclude error type and match', function () {
 
             $actual = $this->middleware->phpErrorHandler(\E_USER_DEPRECATED, 'deprecated', 'file.php', 1);
@@ -831,6 +840,15 @@ json
 
             expect(\error_reporting())->toBe(\E_ALL | \E_STRICT);
             expect(\ini_get('display_errors'))->toBe("0");
+
+        });
+
+        it('throws ErrorException on non excluded php errors', function () {
+
+            $closure = function () {
+                 $this->middleware->phpErrorHandler(\E_WARNING, 'warning', 'file.php', 1);
+            };
+            expect($closure)->toThrow(new \ErrorException('warning', 0, \E_WARNING, 'file.php', 1));
 
         });
 

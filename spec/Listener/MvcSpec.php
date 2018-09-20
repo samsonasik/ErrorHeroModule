@@ -252,9 +252,18 @@ describe('Mvc', function () {
 
     describe('->execOnShutdown()', function ()  {
 
-        it('call error_get_last() and return nothing', function () {
+        it('call error_get_last() and return nothing and no result', function () {
 
             allow('error_get_last')->toBeCalled()->andReturn(null);
+            expect($this->listener->execOnShutdown())->toBeNull();
+
+        });
+
+        it('call error_get_last() and return nothing on result with "Uncaught" prefix', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'message' => 'Uncaught'
+            ]);
             expect($this->listener->execOnShutdown())->toBeNull();
 
         });
@@ -404,6 +413,15 @@ describe('Mvc', function () {
 
             expect(\error_reporting())->toBe(\E_ALL | \E_STRICT);
             expect(\ini_get('display_errors'))->toBe("0");
+
+        });
+
+        it('throws ErrorException on non excluded php errors', function () {
+
+            $closure = function () {
+                 $this->listener->phpErrorHandler(\E_WARNING, 'warning', 'file.php', 1);
+            };
+            expect($closure)->toThrow(new \ErrorException('warning', 0, \E_WARNING, 'file.php', 1));
 
         });
 
