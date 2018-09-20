@@ -46,14 +46,13 @@ trait HeroTrait
         $displayFatalError = 'Fatal error: ' . $t->getMessage() . ' in ' . $error['file'] . ' on line ' . $error['line'];
 
         try {
-            if (static::class === Expressive::class) {
+            if (property_exists($this, 'request')) {
                 $result = $this->exceptionError($t, $this->request);
-                /** @var \Psr\Http\Message\ResponseInterface $result */
                 $this->result = (string) $result->getBody();
                 return;
             }
 
-            if (static::class === Mvc::class) {
+            if (property_exists($this, 'mvcEvent')) {
                 if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
                     $this->result = $displayFatalError;
                     return;
