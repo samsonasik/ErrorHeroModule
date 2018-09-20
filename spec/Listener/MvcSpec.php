@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Spec\Listener;
 
+use Closure;
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
@@ -266,7 +267,6 @@ describe('Mvc', function () {
                 'file' => '/var/www/zf/module/Application/Module.php',
                 'line' => 2
             ]);
-            allow('property_exists')->toBeCalled()->andReturn(true);
 
             $dbAdapter = new Adapter([
                 'username' => 'root',
@@ -369,7 +369,15 @@ describe('Mvc', function () {
                 $logging,
                 $this->renderer
             );
-            expect('property_exists')->toBeCalled()->once();
+            allow('property_exists')->toBeCalled()->with($listener, 'request')->andReturn(false);
+            allow('property_exists')->toBeCalled()->with($listener, 'mvcEvent')->andReturn(true);
+
+            $mvcEvent = & Closure::bind(function & ($listener) {
+                return $listener->mvcEvent;
+            }, null, $listener)($listener);
+            $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
+            allow($mvcEvent)->toReceive('getRequest')->andReturn(new Request());
+
             expect($listener->execOnShutdown())->toBeNull();
 
         });
