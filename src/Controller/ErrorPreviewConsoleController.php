@@ -23,9 +23,4 @@ class ErrorPreviewConsoleController extends AbstractConsoleController
         $array = [];
         $array[1]; // E_NOTICE
     }
-
-    public function fatalAction()
-    {
-        $y = new class implements \stdClass {};
-    }
 }
