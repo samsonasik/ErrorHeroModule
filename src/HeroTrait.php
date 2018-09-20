@@ -50,7 +50,7 @@ trait HeroTrait
 
         $t                  = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
         $displayFatalError  = 'Fatal error: ' . $t->getMessage() . ' in ' . $error['file'] . ':' . $error['line'] . PHP_EOL;
-        $displayFatalError .= 'Stack trace:' . $t->getTraceAsString();
+        $displayFatalError .= 'Stack trace: ' . $t->getTraceAsString();
 
         try {
             if (property_exists($this, 'request')) {
@@ -67,7 +67,7 @@ trait HeroTrait
                 $this->result = ob_get_clean();
             }
         } catch (ErrorException $t) {
-            $this->result = $displayFatalError;
+            throw $t;
         }
     }
 
