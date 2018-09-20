@@ -65,6 +65,8 @@ trait HeroTrait
                 $this->mvcEvent->setParam('exception', $t);
                 $this->exceptionError($this->mvcEvent);
                 $this->result = ob_get_clean();
+
+                return;
             }
         } catch (ErrorException $t) {
             throw $t;
