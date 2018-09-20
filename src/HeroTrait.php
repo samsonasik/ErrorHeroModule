@@ -20,6 +20,9 @@ trait HeroTrait
      */
     private $logging;
 
+    /** @var string */
+    private $result;
+
     public function phpFatalErrorHandler($buffer): string
     {
         $error = \error_get_last();
