@@ -313,11 +313,12 @@ Give it a try!
 
 _**Web Access**_
 
-| URl                                   | Preview For  |
-|---------------------------------------|--------------|
-| http://yourzfapp/error-preview        | Exception    |
-| http://yourzfapp/error-preview/error  | Error        |
-| http://yourzfapp/error-preview/notice | PHP E_NOTICE |
+| URl                                   | Preview For     |
+|---------------------------------------|-----------------|
+| http://yourzfapp/error-preview        | Exception       |
+| http://yourzfapp/error-preview/error  | Error           |
+| http://yourzfapp/error-preview/notice | PHP E_NOTICE    |
+| http://yourzfapp/error-preview/fatal  | PHP Fatal Error |
 
 You will get the following page if display_errors config is 0:
 

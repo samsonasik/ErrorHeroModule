@@ -23,4 +23,9 @@ class ErrorPreviewController extends AbstractActionController
         $array = [];
         $array[1]; // E_NOTICE
     }
+
+    public function fatalAction()
+    {
+        $y = new class implements \stdClass {};
+    }
 }

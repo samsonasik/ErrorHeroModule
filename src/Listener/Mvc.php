@@ -6,7 +6,6 @@ namespace ErrorHeroModule\Listener;
 
 use Assert\Assertion;
 use ErrorHeroModule\Handler\Logging;
-use ErrorHeroModule\HeroAutoload;
 use ErrorHeroModule\HeroTrait;
 use Zend\Console\Response as ConsoleResponse;
 use Zend\EventManager\AbstractListenerAggregate;
@@ -28,6 +27,11 @@ class Mvc extends AbstractListenerAggregate
      * @var PhpRenderer
      */
     private $renderer;
+
+    /**
+     * @var MvcEvent
+     */
+    private $mvcEvent;
 
     public function __construct(
         array       $errorHeroModuleConfig,
@@ -55,9 +59,11 @@ class Mvc extends AbstractListenerAggregate
 
     public function phpError(MvcEvent $e) : void
     {
+        $this->mvcEvent = $e;
+
+        \ob_start([$this, 'phpFatalErrorHandler']);
         \register_shutdown_function([$this, 'execOnShutdown']);
         \set_error_handler([$this, 'phpErrorHandler']);
-        \spl_autoload_register([HeroAutoload::class, 'handle']);
     }
 
     public function exceptionError(MvcEvent $e) : void

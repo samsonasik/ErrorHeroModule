@@ -23,6 +23,10 @@ class ErrorPreviewAction implements MiddlewareInterface
             throw new \Error('a sample error preview');
         }
 
+        if ($action === 'fatal') {
+            $y = new class implements \stdClass {};
+        }
+
         $array = [];
         $array[1]; // E_NOTICE
     }

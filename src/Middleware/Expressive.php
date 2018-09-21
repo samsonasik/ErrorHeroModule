@@ -7,7 +7,6 @@ namespace ErrorHeroModule\Middleware;
 use Closure;
 use Error;
 use ErrorHeroModule\Handler\Logging;
-use ErrorHeroModule\HeroAutoload;
 use ErrorHeroModule\HeroTrait;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -33,6 +32,11 @@ class Expressive implements MiddlewareInterface
      */
     private $renderer;
 
+    /**
+     * @var ServerRequestInterface
+     */
+    private $request;
+
     public function __construct(
         array                     $errorHeroModuleConfig,
         Logging                   $logging,
@@ -50,6 +54,7 @@ class Expressive implements MiddlewareInterface
         }
 
         try {
+            $this->request = $request;
             $this->phpError();
             return $handler->handle($request);
         } catch (Throwable $t) {}
@@ -59,9 +64,9 @@ class Expressive implements MiddlewareInterface
 
     public function phpError() : void
     {
+        \ob_start([$this, 'phpFatalErrorHandler']);
         \register_shutdown_function([$this, 'execOnShutdown']);
         \set_error_handler([$this, 'phpErrorHandler']);
-        \spl_autoload_register([HeroAutoload::class, 'handle']);
     }
 
     /**
