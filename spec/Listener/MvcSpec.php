@@ -366,6 +366,16 @@ describe('Mvc', function () {
 
         });
 
+        it('returns message value on error not has "Uncaught" prefix and result is empty', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'message' => 'Fatal',
+            ]);
+
+            expect($this->listener->phpFatalErrorHandler('Fatal'))->toBe('Fatal');
+
+        });
+
         it('returns result property value on error not has "Uncaught" prefix and result has value', function () {
 
             allow('error_get_last')->toBeCalled()->andReturn([
