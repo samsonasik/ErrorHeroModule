@@ -33,6 +33,10 @@ trait HeroTrait
             return $buffer;
         }
 
+        if ($this->result === '') {
+            return $buffer;
+        }
+
         return $this->result;
     }
 
