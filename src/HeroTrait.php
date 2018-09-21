@@ -24,9 +24,27 @@ trait HeroTrait
      */
     private $renderer;
 
-    /**
-     * @return void
-     */
+    /** @var string */
+    private $result = '';
+
+    public function phpFatalErrorHandler($buffer)
+    {
+        $error = \error_get_last();
+        if (! $error) {
+            return $buffer;
+        }
+
+        if (0 === strpos($error['message'], 'Uncaught')) {
+            return $buffer;
+        }
+
+        if ($this->result === '') {
+            return $buffer;
+        }
+
+        return $this->result;
+    }
+
     public function execOnShutdown()
     {
         $error = \error_get_last();
@@ -34,34 +52,46 @@ trait HeroTrait
             return;
         }
 
-        $this->phpErrorHandler($error['type'], $error['message'], $error['file'], $error['line']);
+        if (0 === strpos($error['message'], 'Uncaught')) {
+            return;
+        }
+
+        $errorException = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+        if (property_exists($this, 'request')) {
+            $result = $this->exceptionError($errorException, $this->request);
+            $this->result = (string) $result->getBody();
+
+            return;
+        }
+
+        if (property_exists($this, 'mvcEvent')) {
+            ob_start();
+            $this->mvcEvent->setParam('exception', $errorException);
+            $this->exceptionError($this->mvcEvent);
+            $this->result = ob_get_clean();
+
+            return;
+        }
     }
 
     /**
-     * @param int    $errorType
-     * @param string $errorMessage
-     * @param string $errorFile
-     * @param int    $errorLine
-     *
      * @throws ErrorException when php error happen and error type is not excluded in the config
-     *
-     * @return mixed
      */
     public function phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine)
     {
-        if (! (error_reporting() & $errorType)) {
+        if (! (\error_reporting() & $errorType)) {
             return;
         }
 
         if (! $this->errorHeroModuleConfig['display-settings']['display_errors']) {
             \error_reporting(\E_ALL | \E_STRICT);
-            \ini_set('display_errors', 0);
+            \ini_set('display_errors', '0');
         }
 
         if (\in_array($errorType, $this->errorHeroModuleConfig['display-settings']['exclude-php-errors'])) {
             return;
         }
 
-        throw new ErrorException($errorMessage, 500, $errorType, $errorFile, $errorLine);
+        throw new ErrorException($errorMessage, 0, $errorType, $errorFile, $errorLine);
     }
 }

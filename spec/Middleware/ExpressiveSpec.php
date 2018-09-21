@@ -2,12 +2,14 @@
 
 namespace ErrorHeroModule\Spec\Middleware;
 
+use Closure;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Expressive;
 use Kahlan\Plugin\Double;
 use Zend\Db\Adapter\Adapter;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
+use Zend\Diactoros\Uri;
 use Zend\Expressive\ZendView\ZendViewRenderer;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Log\Logger;
@@ -591,25 +593,372 @@ json
 
     });
 
+    describe('->phpFatalErrorHandler()', function ()  {
+
+        it('returns buffer on no error', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn(null);
+            expect($this->middleware->phpFatalErrorHandler('test'))->toBe('test');
+
+        });
+
+        it('returns buffer on error has "Uncaught" prefix', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'message' => 'Uncaught',
+                'type' => 3,
+            ]);
+            expect($this->middleware->phpFatalErrorHandler('Uncaught'))->toBe('Uncaught');
+
+        });
+
+        it('returns result property value on error not has "Uncaught" prefix and result has value', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'message' => 'Fatal',
+            ]);
+
+            $middleware = & $this->middleware;
+            $result = & Closure::bind(function & ($middleware) {
+                return $middleware->result;
+            }, null, $middleware)($middleware);
+            $result = 'Fatal error';
+
+            expect($this->middleware->phpFatalErrorHandler('Fatal'))->toBe('Fatal error');
+
+        });
+
+    });
+
+    describe('->execOnShutdown()', function ()  {
+
+        it('call error_get_last() and return nothing', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn(null);
+            expect($this->middleware->execOnShutdown())->toBeNull();
+
+        });
+
+        it('call error_get_last() and property_exists() after null check passed and throws', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'type' => 3,
+                'message' => 'class@anonymous cannot implement stdClass - it is not an interface',
+                'file' => '/var/www/zf/templates/app/home-page.phtml',
+                'line' => 2
+            ]);
+
+            $dbAdapter = new Adapter([
+                'username' => 'root',
+                'password' => '',
+                'driver' => 'Pdo',
+                'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
+                'driver_options' => [
+                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                ],
+            ]);
+
+            $writer = new DbWriter(
+                [
+                    'db' => $dbAdapter,
+                    'table' => 'log',
+                    'column' => [
+                        'timestamp' => 'date',
+                        'priority'  => 'type',
+                        'message'   => 'event',
+                        'extra'     => [
+                            'url'  => 'url',
+                            'file' => 'file',
+                            'line' => 'line',
+                            'error_type' => 'error_type',
+                            'trace'      => 'trace',
+                            'request_data' => 'request_data',
+                        ],
+                    ],
+                ]
+            );
+
+            $logger = new Logger();
+            $logger->addWriter($writer);
+            $logWritersConfig = [
+
+                [
+                    'name' => 'db',
+                    'options' => [
+                        'db'     => Adapter::class,
+                        'table'  => 'log',
+                        'column' => [
+                            'timestamp' => 'date',
+                            'priority'  => 'type',
+                            'message'   => 'event',
+                            'extra'     => [
+                                'url'  => 'url',
+                                'file' => 'file',
+                                'line' => 'line',
+                                'error_type' => 'error_type',
+                                'trace'      => 'trace',
+                                'request_data' => 'request_data',
+                            ],
+                        ],
+                    ],
+                ],
+
+            ];
+
+            $logging = new Logging(
+                $logger,
+                'http://serverUrl',
+                null,
+                '/',
+                $this->config,
+                $logWritersConfig,
+                null,
+                null
+            );
+
+            $errorHeroModuleLocalConfig  = [
+                'enable' => true,
+                'display-settings' => [
+                    'exclude-php-errors' => [
+                        \E_USER_DEPRECATED
+                    ],
+                    'display_errors'  => 1,
+                    'template' => [
+                        'layout' => 'layout/layout',
+                        'view'   => 'error-hero-module/error-default'
+                    ],
+                    'console' => [
+                        'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
+                    ],
+
+                ],
+                'logging-settings' => [
+                    'same-error-log-time-range' => 86400,
+                ],
+                'email-notification-settings' => [
+                    'enable' => false,
+                    'mail-message'   => 'YourMailMessageService',
+                    'mail-transport' => 'YourMailTransportService',
+                    'email-from'    => 'Sender Name <sender@host.com>',
+                    'email-to-send' => [
+                        'developer1@foo.com',
+                        'developer2@foo.com',
+                    ],
+                ],
+            ];
+
+            $middleware = new Expressive(
+                $errorHeroModuleLocalConfig,
+                $logging,
+                $this->renderer
+            );
+
+            allow('property_exists')->toBeCalled()->with($middleware, 'request')->andReturn(true);
+            allow('property_exists')->toBeCalled()->with($middleware, 'mvcEvent')->andReturn(false);
+
+            $request = & Closure::bind(function & ($middleware) {
+                return $middleware->request;
+            }, null, $middleware)($middleware);
+            $request = new ServerRequest(
+                [],
+                [],
+                new Uri('http://example.com'),
+                'GET',
+                'php://memory',
+                [],
+                [],
+                [],
+                '',
+                '1.2'
+            );
+
+            $closure = function () use ($middleware) {
+                $middleware->execOnShutdown();
+            };
+            expect($closure)->toThrow(new \ErrorException(
+                'class@anonymous cannot implement stdClass - it is not an interface'
+            ));
+
+        });
+
+        it('call error_get_last() and property_exists() after null check passed', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'type' => 3,
+                'message' => 'class@anonymous cannot implement stdClass - it is not an interface',
+                'file' => '/var/www/zf/templates/app/home-page.phtml',
+                'line' => 2
+            ]);
+
+            $dbAdapter = new Adapter([
+                'username' => 'root',
+                'password' => '',
+                'driver' => 'Pdo',
+                'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
+                'driver_options' => [
+                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                ],
+            ]);
+
+            $writer = new DbWriter(
+                [
+                    'db' => $dbAdapter,
+                    'table' => 'log',
+                    'column' => [
+                        'timestamp' => 'date',
+                        'priority'  => 'type',
+                        'message'   => 'event',
+                        'extra'     => [
+                            'url'  => 'url',
+                            'file' => 'file',
+                            'line' => 'line',
+                            'error_type' => 'error_type',
+                            'trace'      => 'trace',
+                            'request_data' => 'request_data',
+                        ],
+                    ],
+                ]
+            );
+
+            $logger = new Logger();
+            $logger->addWriter($writer);
+            $logWritersConfig = [
+
+                [
+                    'name' => 'db',
+                    'options' => [
+                        'db'     => Adapter::class,
+                        'table'  => 'log',
+                        'column' => [
+                            'timestamp' => 'date',
+                            'priority'  => 'type',
+                            'message'   => 'event',
+                            'extra'     => [
+                                'url'  => 'url',
+                                'file' => 'file',
+                                'line' => 'line',
+                                'error_type' => 'error_type',
+                                'trace'      => 'trace',
+                                'request_data' => 'request_data',
+                            ],
+                        ],
+                    ],
+                ],
+
+            ];
+
+            $logging = new Logging(
+                $logger,
+                'http://serverUrl',
+                null,
+                '/',
+                $this->config,
+                $logWritersConfig,
+                null,
+                null
+            );
+
+            $errorHeroModuleLocalConfig  = [
+                'enable' => true,
+                'display-settings' => [
+                    'exclude-php-errors' => [
+                        \E_USER_DEPRECATED
+                    ],
+                    'display_errors'  => 0,
+                    'template' => [
+                        'layout' => 'layout/layout',
+                        'view'   => 'error-hero-module/error-default'
+                    ],
+                    'console' => [
+                        'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
+                    ],
+
+                ],
+                'logging-settings' => [
+                    'same-error-log-time-range' => 86400,
+                ],
+                'email-notification-settings' => [
+                    'enable' => false,
+                    'mail-message'   => 'YourMailMessageService',
+                    'mail-transport' => 'YourMailTransportService',
+                    'email-from'    => 'Sender Name <sender@host.com>',
+                    'email-to-send' => [
+                        'developer1@foo.com',
+                        'developer2@foo.com',
+                    ],
+                ],
+            ];
+
+            $middleware = new Expressive(
+                $errorHeroModuleLocalConfig,
+                $logging,
+                $this->renderer
+            );
+
+            allow('property_exists')->toBeCalled()->with($middleware, 'request')->andReturn(true);
+            allow('property_exists')->toBeCalled()->with($middleware, 'mvcEvent')->andReturn(false);
+
+            $request = & Closure::bind(function & ($middleware) {
+                return $middleware->request;
+            }, null, $middleware)($middleware);
+            $request = new ServerRequest(
+                [],
+                [],
+                new Uri('http://example.com'),
+                'GET',
+                'php://memory',
+                [],
+                [],
+                [],
+                '',
+                '1.2'
+            );
+
+            expect($middleware->execOnShutdown())->toBeNull();
+
+        });
+
+
+    });
+
     describe('->phpErrorHandler()', function () {
 
         it('error_reporting() returns 0', function () {
 
             allow('error_reporting')->tobeCalled()->andReturn(0);
             $actual = $this->middleware->phpErrorHandler(2, 'mkdir(): File exists', 'file.php', 6);
-            // null means use default next(req, resp)
+            // null means use default $handler->handle($request)
             expect($actual)->toBeNull();
+
+        });
+
+        it('call error_get_last() and return nothing on result with "Uncaught" prefix', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'message' => 'Uncaught',
+                'type' => 3,
+            ]);
+            expect($this->middleware->execOnShutdown())->toBeNull();
 
         });
 
         it('exclude error type and match', function () {
 
             $actual = $this->middleware->phpErrorHandler(\E_USER_DEPRECATED, 'deprecated', 'file.php', 1);
-            // null means use default next(req, resp)
+            // null means use default $handler->handle($request)
             expect($actual)->toBeNull();
 
-            expect(error_reporting())->toBe(E_ALL | E_STRICT);
-            expect(ini_get('display_errors'))->toBe("0");
+            expect(\error_reporting())->toBe(\E_ALL | \E_STRICT);
+            expect(\ini_get('display_errors'))->toBe("0");
+
+        });
+
+        it('throws ErrorException on non excluded php errors', function () {
+
+            $closure = function () {
+                 $this->middleware->phpErrorHandler(\E_WARNING, 'warning', 'file.php', 1);
+            };
+            expect($closure)->toThrow(new \ErrorException('warning', 0, \E_WARNING, 'file.php', 1));
 
         });
 

@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Spec\Listener;
 
+use Closure;
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
@@ -346,22 +347,61 @@ describe('Mvc', function () {
 
     });
 
-    describe('->execOnShutdown()', function ()  {
+    describe('->phpFatalErrorHandler()', function ()  {
 
-        it('call error_get_last() and return nothing', function () {
+        it('returns buffer on no error', function () {
 
-            allow('error_get_last')->toBeCalled();
-            expect('error_get_last')->toBeCalled();
-
-            $this->listener->execOnShutdown();
+            allow('error_get_last')->toBeCalled()->andReturn(null);
+            expect($this->listener->phpFatalErrorHandler('test'))->toBe('test');
 
         });
 
-        it('call error_get_last() and return error', function () {
+        it('returns buffer on error has "Uncaught" prefix', function () {
 
             allow('error_get_last')->toBeCalled()->andReturn([
-                'type' => 8,
-                'message' => 'Undefined variable: a',
+                'message' => 'Uncaught',
+                'type'  => 3,
+            ]);
+            expect($this->listener->phpFatalErrorHandler('Uncaught'))->toBe('Uncaught');
+
+        });
+
+        it('returns message value on error not has "Uncaught" prefix and result is empty', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'message' => 'Fatal',
+            ]);
+
+            expect($this->listener->phpFatalErrorHandler('Fatal'))->toBe('Fatal');
+
+        });
+
+    });
+
+    describe('->execOnShutdown()', function ()  {
+
+        it('call error_get_last() and return nothing and no result', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn(null);
+            expect($this->listener->execOnShutdown())->toBeNull();
+
+        });
+
+        it('call error_get_last() and return nothing on result with "Uncaught" prefix', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'message' => 'Uncaught',
+                'type' => 3,
+            ]);
+            expect($this->listener->execOnShutdown())->toBeNull();
+
+        });
+
+        it('call error_get_last() and property_exists() after null check passed', function () {
+
+            allow('error_get_last')->toBeCalled()->andReturn([
+                'type' => 3,
+                'message' => 'class@anonymous cannot implement stdClass - it is not an interface',
                 'file' => '/var/www/zf/module/Application/Module.php',
                 'line' => 2
             ]);
@@ -403,7 +443,7 @@ describe('Mvc', function () {
                 [
                     'name' => 'db',
                     'options' => [
-                        'db'     => 'Zend\Db\Adapter\Adapter',
+                        'db'     => Adapter::class,
                         'table'  => 'log',
                         'column' => [
                             'timestamp' => 'date',
@@ -422,6 +462,7 @@ describe('Mvc', function () {
                 ],
 
             ];
+
 
             $resolver = new Resolver\AggregateResolver();
 
@@ -480,12 +521,16 @@ describe('Mvc', function () {
                 $logging,
                 $this->renderer
             );
+            allow('property_exists')->toBeCalled()->with($listener, 'request')->andReturn(false);
+            allow('property_exists')->toBeCalled()->with($listener, 'mvcEvent')->andReturn(true);
 
-            $closure = function () use ($listener) {
-                $listener->execOnShutdown();
-            };
-            expect($closure)->toThrow(new ErrorException('Undefined variable: a', 500, 1, '/var/www/zf/module/Application/Module.php', 2));
+            $mvcEvent = & Closure::bind(function & ($listener) {
+                return $listener->mvcEvent;
+            }, null, $listener)($listener);
+            $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
+            allow($mvcEvent)->toReceive('getRequest')->andReturn(new Request());
 
+            expect($listener->execOnShutdown())->toBeNull();
 
         });
 
@@ -509,8 +554,17 @@ describe('Mvc', function () {
             // null means use default mvc process
             expect($actual)->toBeNull();
 
-            expect(error_reporting())->toBe(E_ALL | E_STRICT);
-            expect(ini_get('display_errors'))->toBe("0");
+            expect(\error_reporting())->toBe(\E_ALL | \E_STRICT);
+            expect(\ini_get('display_errors'))->toBe("0");
+
+        });
+
+        it('throws ErrorException on non excluded php errors', function () {
+
+            $closure = function () {
+                 $this->listener->phpErrorHandler(\E_WARNING, 'warning', 'file.php', 1);
+            };
+            expect($closure)->toThrow(new \ErrorException('warning', 0, \E_WARNING, 'file.php', 1));
 
         });
 
