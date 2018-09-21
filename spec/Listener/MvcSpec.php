@@ -376,22 +376,6 @@ describe('Mvc', function () {
 
         });
 
-        it('returns result property value on error not has "Uncaught" prefix and result has value', function () {
-
-            allow('error_get_last')->toBeCalled()->andReturn([
-                'message' => 'Fatal',
-            ]);
-
-            $listener = & $this->listener;
-            $result = & Closure::bind(function & ($listener) {
-                return $listener->result;
-            }, null, $listener)($listener);
-            $result = 'Fatal error';
-
-            expect($this->listener->phpFatalErrorHandler('Fatal'))->toBe('Fatal error');
-
-        });
-
     });
 
     describe('->execOnShutdown()', function ()  {
