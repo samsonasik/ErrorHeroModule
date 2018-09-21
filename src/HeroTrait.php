@@ -29,7 +29,7 @@ trait HeroTrait
             return $buffer;
         }
 
-        if (0 === strpos($error['message'], 'Uncaught') && $error['type'] !== \E_ERROR) {
+        if (0 === strpos($error['message'], 'Uncaught')) {
             return $buffer;
         }
 
@@ -43,29 +43,25 @@ trait HeroTrait
             return;
         }
 
-        if (0 === strpos($error['message'], 'Uncaught') && $error['type'] !== \E_ERROR) {
+        if (0 === strpos($error['message'], 'Uncaught')) {
             return;
         }
 
         $errorException = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
-        try {
-            if (property_exists($this, 'request')) {
-                $result = $this->exceptionError($errorException, $this->request);
-                $this->result = (string) $result->getBody();
+        if (property_exists($this, 'request')) {
+            $result       = $this->exceptionError($errorException, $this->request);
+            $this->result = (string) $result->getBody();
 
-                return;
-            }
+            return;
+        }
 
-            if (property_exists($this, 'mvcEvent')) {
-                ob_start();
-                $this->mvcEvent->setParam('exception', $errorException);
-                $this->exceptionError($this->mvcEvent);
-                $this->result = ob_get_clean();
+        if (property_exists($this, 'mvcEvent')) {
+            ob_start();
+            $this->mvcEvent->setParam('exception', $errorException);
+            $this->exceptionError($this->mvcEvent);
+            $this->result = ob_get_clean();
 
-                return;
-            }
-        } catch (ErrorException $t) {
-            throw $t;
+            return;
         }
     }
 
