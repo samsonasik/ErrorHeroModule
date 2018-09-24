@@ -50,6 +50,7 @@ describe('Json', function () {
                 ],
             ];
 
+            expect('json_encode')->toBeCalled();
             $actualOld = (new Json())->format($event);
 
             // idempotent format call will use old timestamp
