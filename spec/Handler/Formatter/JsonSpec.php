@@ -45,21 +45,22 @@ describe('Json', function () {
                       'raw_data' => '',
                       'files_data' => [],
                       'cookie_data' => [],
+                      'ip_address'  => '10.1.1.1',
                     ],
                 ],
             ];
 
-            $expected = "{\n    \"timestamp\": \"2016-12-30T00:42:49+07:00\",\n    \"priority\": 3,\n    \"priorityName\": \"ERR\",\n    \"message\": \"1: a sample exception preview\",\n    \"extra\": {\n        \"url\": \"http://localhost/error-preview?foo=bar&page=1\",\n        \"file\": \"/path/to/app/vendor/samsonasik/error-hero-module/src/Controller/ErrorPreviewController.php\",\n        \"line\": 11,\n        \"error_type\": \"Exception\",\n        \"trace\": \"#0 /path/to/app/vendor/zendframework/zend-mvc/src/Controller/AbstractActionController.php(78): ErrorHeroModule\\\\Controller\\\\ErrorPreviewController->exceptionAction()\n                                #1 /path/to/app/vendor/zendframework/zend-eventmanager/src/EventManager.php(322): Zend\\\\Mvc\\\\Controller\\\\AbstractActionController->onDispatch(Object(Zend\\\\Mvc\\\\MvcEvent))\n                                #2 /path/to/app/vendor/zendframework/zend-eventmanager/src/EventManager.php(179): Zend\\\\EventManager\\\\EventManager->triggerListeners(Object(Zend\\\\Mvc\\\\MvcEvent), Object(Closure))\n                                #3 /path/to/app/vendor/zendframework/zend-mvc/src/Controller/AbstractController.php(105): Zend\\\\EventManager\\\\EventManager->triggerEventUntil(Object(Closure), Object(Zend\\\\Mvc\\\\MvcEvent))\n                                #4 /path/to/app/vendor/zendframework/zend-mvc/src/DispatchListener.php(119): Zend\\\\Mvc\\\\Controller\\\\AbstractController->dispatch(Object(Zend\\\\Http\\\\PhpEnvironment\\\\Request), Object(Zend\\\\Http\\\\PhpEnvironment\\\\Response))\n                                #5 /path/to/app/vendor/zendframework/zend-eventmanager/src/EventManager.php(322): Zend\\\\Mvc\\\\DispatchListener->onDispatch(Object(Zend\\\\Mvc\\\\MvcEvent))\n                                #6 /path/to/app/vendor/zendframework/zend-eventmanager/src/EventManager.php(179): Zend\\\\EventManager\\\\EventManager->triggerListeners(Object(Zend\\\\Mvc\\\\MvcEvent), Object(Closure))\n                                #7 /path/to/app/vendor/zendframework/zend-mvc/src/Application.php(332): Zend\\\\EventManager\\\\EventManager->triggerEventUntil(Object(Closure), Object(Zend\\\\Mvc\\\\MvcEvent))\n                                #8 /path/to/app/public/index.php(40): Zend\\\\Mvc\\\\Application->run()\n                                #9 {main}\",\n        \"request_data\": {\n            \"request_method\": \"GET\",\n            \"query_data\": {\n                \"foo\": \"bar\",\n                \"page\": \"1\"\n            },\n            \"body_data\": [],\n            \"raw_data\": \"\",\n            \"files_data\": [],\n            \"cookie_data\": []\n        }\n    }\n}";
+            $actualOld = (new Json())->format($event);
 
-            expect('json_encode')->toBeCalled()->times(2);
-            expect((new Json())->format($event))->toBe($expected);
             // idempotent format call will use old timestamp
             $event['timestamp'] = DateTime::__set_state([
                 'date' => '2016-12-30 00:42:55.558706',
                 'timezone_type' => 3,
                 'timezone' => 'Asia/Jakarta',
             ]);
-            expect((new Json())->format($event))->toBe($expected);
+
+            $actualNew = (new Json())->format($event);
+            expect($actualNew)->toBe($actualOld);
 
         });
 

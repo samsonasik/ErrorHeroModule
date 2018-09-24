@@ -11,6 +11,7 @@ use RuntimeException;
 use Throwable;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\Http\Header\Cookie;
+use Zend\Http\PhpEnvironment\RemoteAddress;
 use Zend\Http\PhpEnvironment\Request as HttpRequest;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db;
@@ -113,6 +114,7 @@ class Logging
         $cookie_data    = $cookie instanceof Cookie
             ? $cookie->getArrayCopy()
             : [];
+        $ip_address     = (new RemoteAddress())->getIpAddress();
 
         return [
             'request_method' => $request_method,
@@ -121,6 +123,7 @@ class Logging
             'raw_data'       => $raw_data,
             'files_data'     => $files_data,
             'cookie_data'    => $cookie_data,
+            'ip_address'     => $ip_address,
         ];
     }
 
