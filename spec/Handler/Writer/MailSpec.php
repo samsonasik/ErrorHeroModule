@@ -33,6 +33,7 @@ describe('Mail', function () {
                      ],
                  ],
                  'cookie_data' => [],
+                 'ip_address'  => '10.1.1.1',
             ]
         );
    });
@@ -90,6 +91,7 @@ describe('Mail', function () {
                          ],
                      ],
                      'cookie_data' => [],
+                     'ip_address'  => '10.1.1.1',
                 ]
             );
 

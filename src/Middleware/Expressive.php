@@ -4,7 +4,6 @@ namespace ErrorHeroModule\Middleware;
 
 use Error;
 use ErrorHeroModule\Handler\Logging;
-use ErrorHeroModule\HeroAutoload;
 use ErrorHeroModule\HeroTrait;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -13,7 +12,6 @@ use ReflectionProperty;
 use Seld\JsonLint\JsonParser;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Expressive\Application;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\View\Model\ViewModel;
 

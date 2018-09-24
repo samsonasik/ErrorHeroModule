@@ -3,7 +3,6 @@
 namespace ErrorHeroModule\Listener;
 
 use ErrorHeroModule\Handler\Logging;
-use ErrorHeroModule\HeroAutoload;
 use ErrorHeroModule\HeroTrait;
 use Seld\JsonLint\JsonParser;
 use Zend\Console\Console;
