@@ -28,7 +28,7 @@
     "require-dev": {
         "aura/di": "^3.4",
         "doctrine/doctrine-orm-module": "^1.1",
-        "kahlan/kahlan": "~4.1.1",
+        "kahlan/kahlan": "^4.1.1",
         "northwoods/container": "^3.0",
         "php-coveralls/php-coveralls": "^2.0",
         "php-di/php-di": "^6.0",
