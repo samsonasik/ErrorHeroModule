@@ -27,7 +27,7 @@
     },
     "require-dev": {
         "aura/di": "^3.4",
-        "doctrine/doctrine-orm-module": "^1.1",
+        "doctrine/doctrine-orm-module": "^2.1",
         "kahlan/kahlan": "^4.1.1",
         "northwoods/container": "^3.0",
         "php-coveralls/php-coveralls": "^2.0",
@@ -43,6 +43,7 @@
         "zendframework/zend-servicemanager": "^3.3"
     },
     "conflict": {
+        "doctrine/doctrine-orm-module": "<2.1",
         "zendframework/zend-expressive": "<3.0 >=4.0",
         "zendframework/zend-mvc": "<3.0 >=4.0",
         "zendframework/zend-servicemanager": "<3.3"
