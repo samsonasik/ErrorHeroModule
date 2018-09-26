@@ -107,9 +107,9 @@ describe('Mvc', function () {
             );
 
             $eventManager = Double::instance(['implements' => EventManagerInterface::class]);
-            expect($eventManager)->not->toReceive('attach')->with(MvcEvent::EVENT_RENDER_ERROR, [$this->listener, 'exceptionError']);
-            expect($eventManager)->not->toReceive('attach')->with(MvcEvent::EVENT_DISPATCH_ERROR, [$this->listener, 'exceptionError'], 100);
-            expect($eventManager)->not->toReceive('attach')->with(MvcEvent::EVENT_BOOTSTRAP, [$this->listener, 'phpError']);
+            expect($eventManager)->not->toReceive('attach')->with(MvcEvent::EVENT_RENDER_ERROR, [$listener, 'exceptionError']);
+            expect($eventManager)->not->toReceive('attach')->with(MvcEvent::EVENT_DISPATCH_ERROR, [$listener, 'exceptionError'], 100);
+            expect($eventManager)->not->toReceive('attach')->with(MvcEvent::EVENT_BOOTSTRAP, [$listener, 'phpError']);
 
             $listener->attach($eventManager);
 
@@ -434,17 +434,6 @@ describe('Mvc', function () {
             $actual = $this->listener->phpErrorHandler(2, 'mkdir(): File exists', 'file.php', 6);
             // null means use default mvc process
             expect($actual)->toBeNull();
-
-        });
-
-        it('exclude error type and match', function () {
-
-            $actual = $this->listener->phpErrorHandler(\E_USER_DEPRECATED, 'deprecated', 'file.php', 1);
-            // null means use default mvc process
-            expect($actual)->toBeNull();
-
-            expect(\error_reporting())->toBe(\E_ALL | \E_STRICT);
-            expect(\ini_get('display_errors'))->toBe("0");
 
         });
 
