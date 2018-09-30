@@ -16,7 +16,6 @@ init:
     - SET ANSICON=121x90 (121x90)
 
 install:
-    - IF EXIST c:\tools\php (SET PHP=0)
     - ps: appveyor-retry cinst -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $Env:php_ver_target | Select-Object -first 1) -replace '[php|]','')
     - cd c:\tools\php
     - copy php.ini-production php.ini
