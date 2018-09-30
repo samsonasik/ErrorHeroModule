@@ -8,7 +8,7 @@ environment:
   MYSQL_DATABASE: errorheromodule
   MYSQL_HOST: localhost
   MYSQL_USER: root
-  MYSQL_PASSWORD:
+  MYSQL_PASSWORD: Password12!
   MYSQL_PATH: C:\Program Files\MySQL\MySQL Server 5.7
 
   matrix:
@@ -31,7 +31,9 @@ init:
     - SET ANSICON=121x90 (121x90)
 
 install:
-    - mysqladmin --host=%MYSQL_HOST% --user=%MYSQL_USER% --password=%MYSQL_PASSWORD% create %MYSQL_DATABASE%
+    - mysqladmin --host=%MYSQL_HOST% --user=%MYSQL_USER% --password=%MYSQL_PASSWORD_ORIGINAL% create %MYSQL_DATABASE%
+    - mysqladmin --host=%MYSQL_HOST% --user=%MYSQL_USER% --password=%MYSQL_PASSWORD% SET PASSWORD FOR 'root'@'localhost' = PASSWORD('')
+    - mysql -u root errorheromodule < spec/Fixture/data/sql.sql
     - IF EXIST c:\tools\php (SET PHP=0)
     - ps: appveyor-retry cinst --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
     - cd c:\tools\php
