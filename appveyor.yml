@@ -1,0 +1,34 @@
+build: false
+platform:
+  - x64
+clone_folder: c:\projects\error-hero-module
+
+environment:
+  matrix:
+    - php_ver_target: 7.1
+    - php_ver_target: 7.2
+
+cache:
+    - '%LOCALAPPDATA%\Composer\files -> composer.lock'
+
+init:
+    - SET PATH=C:\Program Files\OpenSSL;c:\tools\php;%PATH%
+    - SET ANSICON=121x90 (121x90)
+
+install:
+    - IF EXIST c:\tools\php (SET PHP=0)
+    - ps: appveyor-retry cinst -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $Env:php_ver_target | Select-Object -first 1) -replace '[php|]','')
+    - cd c:\tools\php
+    - copy php.ini-production php.ini
+    - echo date.timezone="Asia/Jakarta" >> php.ini
+    - echo extension_dir=ext >> php.ini
+    - echo extension=php_mbstring.dll >> php.ini
+    - echo @php %%~dp0composer.phar %%* > composer.bat
+    - appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
+    - cd c:\projects\error-hero-module
+    - appveyor-retry composer install --prefer-source --no-interaction
+
+test_script:
+    - cd c:\projects\error-hero-module
+    - mkdir -p build/logs
+    - bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml
