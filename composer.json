@@ -2,7 +2,32 @@
     "name": "samsonasik/error-hero-module",
     "type": "library",
     "description": "A Hero for your Zend Framework application to trap php errors & exceptions",
-    "keywords": ["zf2", "zf3", "error", "expressive", "hero", "log", "logger", "logging", "mail", "db", "doctrine", "handler", "psr3", "psr7", "psr11", "psr15", "zend-view", "twig", "plates", "symfony", "aura", "auryn", "pimple", "php-di"],
+    "keywords": [
+        "zf2",
+        "zf3",
+        "error",
+        "expressive",
+        "hero",
+        "log",
+        "logger",
+        "logging",
+        "mail",
+        "db",
+        "doctrine",
+        "handler",
+        "psr3",
+        "psr7",
+        "psr11",
+        "psr15",
+        "zend-view",
+        "twig",
+        "plates",
+        "symfony",
+        "aura",
+        "auryn",
+        "pimple",
+        "php-di"
+    ],
     "homepage": "https://github.com/samsonasik/ErrorHeroModule",
     "license": "MIT",
     "authors": [
@@ -25,6 +50,12 @@
         "zendframework/zend-psr7bridge": "^1.1",
         "zendframework/zend-text": "^2.5"
     },
+    "conflict": {
+        "doctrine/doctrine-orm-module": "<2.1",
+        "zendframework/zend-expressive": "<3.0 >=4.0",
+        "zendframework/zend-mvc": "<3.0 >=4.0",
+        "zendframework/zend-servicemanager": "<3.3"
+    },
     "require-dev": {
         "aura/di": "^3.4",
         "doctrine/doctrine-orm-module": "^2.1",
@@ -42,17 +73,20 @@
         "zendframework/zend-mvc-console": "^1.1",
         "zendframework/zend-servicemanager": "^3.3"
     },
-    "conflict": {
-        "doctrine/doctrine-orm-module": "<2.1",
-        "zendframework/zend-expressive": "<3.0 >=4.0",
-        "zendframework/zend-mvc": "<3.0 >=4.0",
-        "zendframework/zend-servicemanager": "<3.3"
-    },
     "suggest": {
-        "zendframework/zend-mvc-console": "^1.1 for zend-mvc ^3.0 usage to be able to use Console Controller",
-        "zendframework/zend-expressive-zendviewrenderer": "^2.0 to be able to use zend-view template engine in zend-expressive ^3.0",
+        "zendframework/zend-expressive-platesrenderer": "^2.0 to be able to use plates template engine in zend-expressive ^3.0",
         "zendframework/zend-expressive-twigrenderer": "^2.0 to be able to use twig template engine in zend-expressive ^3.0",
-        "zendframework/zend-expressive-platesrenderer": "^2.0 to be able to use plates template engine in zend-expressive ^3.0"
+        "zendframework/zend-expressive-zendviewrenderer": "^2.0 to be able to use zend-view template engine in zend-expressive ^3.0",
+        "zendframework/zend-mvc-console": "^1.1 for zend-mvc ^3.0 usage to be able to use Console Controller"
+    },
+    "config": {
+        "bin-dir": "bin",
+        "sort-packages": true
+    },
+    "extra": {
+        "zf": {
+            "module": "ErrorHeroModule"
+        }
     },
     "autoload": {
         "psr-4": {
@@ -65,15 +99,6 @@
     "autoload-dev": {
         "psr-4": {
             "ErrorHeroModule\\Spec\\": "spec/"
-        }
-    },
-    "config": {
-        "bin-dir": "bin",
-        "sort-packages": true
-    },
-    "extra": {
-        "zf": {
-            "module": "ErrorHeroModule"
         }
     }
 }
