@@ -76,7 +76,6 @@ class ExpressiveFactory
         $containerClass = \get_class($container);
         if (\in_array($containerClass, \array_keys(self::CONTAINERS_TRANSFORM), true)) {
             $configuration = $this->verifyConfig($configuration, $containerClass);
-            /** @var \ErrorHeroModule\Transformer\TransformerInterface $transformer */
             $transformer   = self::CONTAINERS_TRANSFORM[$containerClass];
 
             return $this->createMiddlewareInstance(
