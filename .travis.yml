@@ -1,8 +1,11 @@
 language: php
+dist: trusty
+group: edge
 
 php:
   - 7.1
   - 7.2
+  - 7.3
   - nightly
 
 before_script:
@@ -24,4 +27,5 @@ notifications:
 
 matrix:
   allow_failures:
+    - php: 7.3
     - php: nightly
