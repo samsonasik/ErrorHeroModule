@@ -24,8 +24,3 @@ script:
 
 notifications:
     email: false
-
-matrix:
-  allow_failures:
-    - php: 7.3
-    - php: nightly
