@@ -1,4 +1,4 @@
-<?php // kahlan-config.php
+<?php
 
 use Kahlan\Filter\Filters;
 use Kahlan\Reporter\Coverage;
