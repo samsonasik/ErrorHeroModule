@@ -164,9 +164,11 @@ class Logging
             $uri       = $request->getUri();
             $serverUrl = $uri->getScheme() . '://' . $uri->getHost();
             $port      = $uri->getPort();
-            if ($port !== 80) {
+
+            if (! in_array($port, [80, 443], true)) {
                 $serverUrl .= ':' . $port;
             }
+
             $requestUri      = $request->getRequestUri();
         }
 
