@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Handler;
 
-use Assert\Assertion;
 use ErrorException;
 use ErrorHeroModule\HeroConstant;
 use RuntimeException;
 use Throwable;
+use Webmozart\Assert\Assert;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\Http\Header\Cookie;
 use Zend\Http\PhpEnvironment\RemoteAddress;
@@ -104,7 +104,7 @@ class Logging
             return [];
         }
 
-        Assertion::isInstanceOf($request, HttpRequest::class);
+        Assert::isInstanceOf($request, HttpRequest::class);
         $query_data     = $request->getQuery()->toArray();
         $request_method = $request->getMethod();
         $body_data      = $request->getPost()->toArray();
@@ -160,7 +160,7 @@ class Logging
                 . ' ' . \get_current_user()
                 . '$ ' . \PHP_BINARY . ' ' . $request->getScriptName() . ' ' . $request->toString();
         } else {
-            Assertion::isInstanceOf($request, HttpRequest::class);
+            Assert::isInstanceOf($request, HttpRequest::class);
             $uri       = $request->getUri();
             $serverUrl = $uri->getScheme() . '://' . $uri->getHost();
             $port      = $uri->getPort();

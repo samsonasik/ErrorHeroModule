@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Transformer;
 
-use Assert\Assertion;
 use Doctrine\ORM\EntityManager;
 use Psr\Container\ContainerInterface;
+use Webmozart\Assert\Assert;
 use Zend\ServiceManager\ServiceManager as ZendServiceManager;
 
 class Doctrine extends TransformerAbstract implements TransformerInterface
 {
     public static function transform(ContainerInterface $container, array $configuration) : ContainerInterface
     {
-        Assertion::isInstanceOf($container, ZendServiceManager::class);
+        Assert::isInstanceOf($container, ZendServiceManager::class);
 
         $entityManager          = $container->get(EntityManager::class);
         $doctrineDBALConnection = $entityManager->getConnection();
