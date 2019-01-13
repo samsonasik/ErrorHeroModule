@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Listener;
 
-use Assert\Assertion;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\HeroTrait;
+use Webmozart\Assert\Assert;
 use Zend\Console\Response as ConsoleResponse;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
@@ -103,7 +103,7 @@ class Mvc extends AbstractListenerAggregate
     {
         if ($request instanceof Request) {
             $response = $e->getResponse();
-            Assertion::isInstanceOf($response, Response::class);
+            Assert::isInstanceOf($response, Response::class);
             $response->setStatusCode(500);
 
             $application    = $e->getApplication();
