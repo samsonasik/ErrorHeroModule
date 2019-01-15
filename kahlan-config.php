@@ -14,6 +14,10 @@ Filters::apply($this, 'coverage', function($next) {
         $driver = new Xdebug();
     }
 
+    if (! isset($driver)) {
+        return;
+    }
+
     $reporters = $this->reporters();
     $coverage = new Coverage([
         'verbosity' => $this->commandLine()->get('coverage'),
