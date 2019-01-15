@@ -3,7 +3,6 @@
 namespace ErrorHeroModule\Spec\Listener;
 
 use Closure;
-use ErrorException;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
 use Kahlan\Plugin\Double;
