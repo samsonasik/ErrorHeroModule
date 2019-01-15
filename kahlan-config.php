@@ -2,17 +2,22 @@
 
 use Kahlan\Filter\Filters;
 use Kahlan\Reporter\Coverage;
+use Kahlan\Reporter\Coverage\Driver\Phpdbg;
 use Kahlan\Reporter\Coverage\Driver\Xdebug;
 
 Filters::apply($this, 'coverage', function($next) {
-    if (! extension_loaded('xdebug')) {
-        return;
+    if (\PHP_SAPI === 'phpdbg') {
+        $driver = new Phpdbg();
+    }
+
+    if (! isset($driver) && extension_loaded('xdebug')) {
+        $driver = new Xdebug();
     }
 
     $reporters = $this->reporters();
     $coverage = new Coverage([
         'verbosity' => $this->commandLine()->get('coverage'),
-        'driver'    => new Xdebug(),
+        'driver'    => $driver,
         'path'      => $this->commandLine()->get('src'),
         'exclude'   => [
             'src/Controller/ErrorPreviewConsoleController.php',
