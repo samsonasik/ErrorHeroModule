@@ -10,12 +10,11 @@ Filters::apply($this, 'coverage', function($next) {
         $driver = new Phpdbg();
     }
 
-    if (! isset($driver) && extension_loaded('xdebug')) {
-        $driver = new Xdebug();
-    }
-
     if (! isset($driver)) {
-        return;
+        if (! extension_loaded('xdebug')) {
+            return;
+        }
+        $driver = new Xdebug();
     }
 
     $reporters = $this->reporters();
