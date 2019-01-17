@@ -19,7 +19,7 @@ describe('LoggingSpec', function () {
 
     beforeAll(function () {
         $this->logger  = Double::instance(['extends' => Logger::class]);
-        $this->request = Double::instance(['extends' => Request::class, 'methods' => '__construct']);
+        $this->request = new Request();
         $this->errorHeroModuleLocalConfig = [
             'enable' => true,
             'display-settings' => [

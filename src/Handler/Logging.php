@@ -156,25 +156,19 @@ class Logging
     {
         if ($request instanceof ConsoleRequest) {
             $serverUrl  = \php_uname('n');
-            $requestUri = ':' . \basename((string) \getcwd())
+            $url        = $serverUrl . ':' . \basename((string) \getcwd())
                 . ' ' . \get_current_user()
                 . '$ ' . \PHP_BINARY . ' ' . $request->getScriptName() . ' ' . $request->toString();
         } else {
             Assert::isInstanceOf($request, HttpRequest::class);
             $uri       = $request->getUri();
             $serverUrl = $uri->getScheme() . '://' . $uri->getHost();
-            $port      = $uri->getPort();
-
-            if (! in_array($port, [80, 443], true)) {
-                $serverUrl .= ':' . $port;
-            }
-
-            $requestUri      = $request->getRequestUri();
+            $url       = $uri->toString();
         }
 
         return [
             'server_url'   => $serverUrl,
-            'url'          => $serverUrl . $requestUri,
+            'url'          => $url,
             'file'         => $collectedExceptionData['errorFile'],
             'line'         => $collectedExceptionData['errorLine'],
             'error_type'   => $collectedExceptionData['errorType'],
