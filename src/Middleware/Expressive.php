@@ -69,6 +69,10 @@ class Expressive implements MiddlewareInterface
             \ini_set('display_errors', '0');
         }
 
+        while (\ob_get_level() > 0) {
+            \ob_end_flush();
+        }
+
         \ob_start([$this, 'phpFatalErrorHandler']);
         \register_shutdown_function([$this, 'execOnShutdown']);
         \set_error_handler([$this, 'phpErrorHandler']);
