@@ -16,6 +16,7 @@ use Zend\Http\PhpEnvironment\Request;
 use Zend\Log\Logger;
 use Zend\Log\Writer\Db as DbWriter;
 use Zend\Mvc\MvcEvent;
+use Zend\Uri\Uri;
 use Zend\View\Renderer\PhpRenderer;
 
 describe('Mvc', function () {
@@ -416,7 +417,10 @@ describe('Mvc', function () {
                 return $listener->mvcEvent;
             }, null, $listener)($listener);
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
-            allow($mvcEvent)->toReceive('getRequest')->andReturn(new Request());
+
+            $request = new Request();
+            allow($mvcEvent)->toReceive('getRequest')->andReturn($request);
+            allow($request)->toReceive('getUri')->andReturn(new Uri('http://example.com/'));
 
             expect($listener->execOnShutdown())->toBeNull();
 
