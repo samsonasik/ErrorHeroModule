@@ -33,11 +33,7 @@ trait HeroTrait
             return $buffer;
         }
 
-        if ($this->result === '') {
-            return $buffer;
-        }
-
-        return $this->result;
+        return $this->result === '' ? $buffer : $this->result;
     }
 
     public function execOnShutdown() : void
