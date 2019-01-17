@@ -153,7 +153,7 @@ json
 
     given('logWritersConfig', function () {
 
-        $logWritersConfig = [
+        return [
 
             [
                 'name' => 'db',
@@ -177,8 +177,6 @@ json
             ],
 
         ];
-
-        return $logWritersConfig;
 
     });
 
@@ -247,31 +245,6 @@ json
 
                 $config = $this->config;
                 $config['display-settings']['display_errors'] = 0;
-
-                $this->logWritersConfig = [
-
-                    [
-                        'name' => 'db',
-                        'options' => [
-                            'db'     => Adapter::class,
-                            'table'  => 'log',
-                            'column' => [
-                                'timestamp' => 'date',
-                                'priority'  => 'type',
-                                'message'   => 'event',
-                                'extra'     => [
-                                    'url'  => 'url',
-                                    'file' => 'file',
-                                    'line' => 'line',
-                                    'error_type' => 'error_type',
-                                    'trace'      => 'trace',
-                                    'request_data' => 'request_data',
-                                ],
-                            ],
-                        ],
-                    ],
-
-                ];
 
                 $logging = new Logging(
                     $this->logger,
@@ -614,35 +587,11 @@ json
 
             $logger = new Logger();
             $logger->addWriter($writer);
-            $logWritersConfig = [
-
-                [
-                    'name' => 'db',
-                    'options' => [
-                        'db'     => Adapter::class,
-                        'table'  => 'log',
-                        'column' => [
-                            'timestamp' => 'date',
-                            'priority'  => 'type',
-                            'message'   => 'event',
-                            'extra'     => [
-                                'url'  => 'url',
-                                'file' => 'file',
-                                'line' => 'line',
-                                'error_type' => 'error_type',
-                                'trace'      => 'trace',
-                                'request_data' => 'request_data',
-                            ],
-                        ],
-                    ],
-                ],
-
-            ];
 
             $logging = new Logging(
                 $logger,
                 $this->config,
-                $logWritersConfig,
+                $this->logWritersConfig,
                 null,
                 null
             );
@@ -753,35 +702,11 @@ json
 
             $logger = new Logger();
             $logger->addWriter($writer);
-            $logWritersConfig = [
-
-                [
-                    'name' => 'db',
-                    'options' => [
-                        'db'     => Adapter::class,
-                        'table'  => 'log',
-                        'column' => [
-                            'timestamp' => 'date',
-                            'priority'  => 'type',
-                            'message'   => 'event',
-                            'extra'     => [
-                                'url'  => 'url',
-                                'file' => 'file',
-                                'line' => 'line',
-                                'error_type' => 'error_type',
-                                'trace'      => 'trace',
-                                'request_data' => 'request_data',
-                            ],
-                        ],
-                    ],
-                ],
-
-            ];
 
             $logging = new Logging(
                 $logger,
                 $this->config,
-                $logWritersConfig,
+                $this->logWritersConfig,
                 null,
                 null
             );
