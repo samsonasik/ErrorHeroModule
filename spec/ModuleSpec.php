@@ -20,6 +20,39 @@ describe('Module', function () {
         return new Module();
     });
 
+    given('config', function () {
+        return [
+            'log' => [
+                'ErrorHeroModuleLogger' => [
+                    'writers' => [
+
+                        [
+                            'name' => 'db',
+                            'options' => [
+                                'db'     => Adapter::class,
+                                'table'  => 'error_log',
+                                'column' => [
+                                    'timestamp' => 'date',
+                                    'priority'  => 'type',
+                                    'message'   => 'event',
+                                    'extra'     => [
+                                        'url'  => 'url',
+                                        'file' => 'file',
+                                        'line' => 'line',
+                                        'error_type' => 'error_type',
+                                        'trace'      => 'trace',
+                                        'request_data' => 'request_data',
+                                    ],
+                                ],
+                            ],
+                        ],
+
+                    ],
+                ],
+            ],
+        ];
+    });
+
     describe('->getConfig()', function () {
 
         it('return "config" array', function () {
@@ -91,36 +124,7 @@ describe('Module', function () {
             $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
             allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(true);
-            allow($serviceManager)->toReceive('get')->with('config')->andReturn([
-                'log' => [
-                    'ErrorHeroModuleLogger' => [
-                        'writers' => [
-
-                            [
-                                'name' => 'db',
-                                'options' => [
-                                    'db'     => Adapter::class,
-                                    'table'  => 'error_log',
-                                    'column' => [
-                                        'timestamp' => 'date',
-                                        'priority'  => 'type',
-                                        'message'   => 'event',
-                                        'extra'     => [
-                                            'url'  => 'url',
-                                            'file' => 'file',
-                                            'line' => 'line',
-                                            'error_type' => 'error_type',
-                                            'trace'      => 'trace',
-                                            'request_data' => 'request_data',
-                                        ],
-                                    ],
-                                ],
-                            ],
-
-                        ],
-                    ],
-                ],
-            ]);
+            allow($serviceManager)->toReceive('get')->with('config')->andReturn($this->config);
 
             $entityManager = Double::instance(['extends' => EntityManager::class, 'methods' => '__construct']);
             $connection    = Double::instance(['extends' => Connection::class, 'methods' => '__construct']);
@@ -150,36 +154,7 @@ describe('Module', function () {
             $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
             allow($moduleEvent)->toReceive('getParam')->with('ServiceManager')->andReturn($serviceManager);
             allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(true);
-            allow($serviceManager)->toReceive('get')->with('config')->andReturn([
-                'log' => [
-                    'ErrorHeroModuleLogger' => [
-                        'writers' => [
-
-                            [
-                                'name' => 'db',
-                                'options' => [
-                                    'db'     => Adapter::class,
-                                    'table'  => 'error_log',
-                                    'column' => [
-                                        'timestamp' => 'date',
-                                        'priority'  => 'type',
-                                        'message'   => 'event',
-                                        'extra'     => [
-                                            'url'  => 'url',
-                                            'file' => 'file',
-                                            'line' => 'line',
-                                            'error_type' => 'error_type',
-                                            'trace'      => 'trace',
-                                            'request_data' => 'request_data',
-                                        ],
-                                    ],
-                                ],
-                            ],
-
-                        ],
-                    ],
-                ],
-            ]);
+            allow($serviceManager)->toReceive('get')->with('config')->andReturn($this->config);
 
             $entityManager = Double::instance(['extends' => EntityManager::class, 'methods' => '__construct']);
             $connection    = Double::instance(['extends' => Connection::class, 'methods' => '__construct']);
