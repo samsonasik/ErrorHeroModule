@@ -48,21 +48,17 @@ trait HeroTrait
         }
 
         $errorException = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
-        if (property_exists($this, 'request')) {
+        if ($this instanceof Middleware\Expressive) {
             $result       = $this->exceptionError($errorException, $this->request);
             $this->result = (string) $result->getBody();
 
             return;
         }
 
-        if (property_exists($this, 'mvcEvent')) {
-            ob_start();
-            $this->mvcEvent->setParam('exception', $errorException);
-            $this->exceptionError($this->mvcEvent);
-            $this->result = ob_get_clean();
-
-            return;
-        }
+        ob_start();
+        $this->mvcEvent->setParam('exception', $errorException);
+        $this->exceptionError($this->mvcEvent);
+        $this->result = (string) ob_get_clean();
     }
 
     /**
