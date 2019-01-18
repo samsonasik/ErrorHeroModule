@@ -49,19 +49,19 @@ trait HeroTrait
 
         $errorException = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
 
-        // expressive project
-        if ($this instanceof Middleware\Expressive) {
-            $result       = $this->exceptionError($errorException, $this->request);
-            $this->result = (string) $result->getBody();
+        // mvc project
+        if ($this instanceof Listener\Mvc) {
+            ob_start();
+            $this->mvcEvent->setParam('exception', $errorException);
+            $this->exceptionError($this->mvcEvent);
+            $this->result = (string) ob_get_clean();
 
             return;
         }
 
-        // mvc project
-        ob_start();
-        $this->mvcEvent->setParam('exception', $errorException);
-        $this->exceptionError($this->mvcEvent);
-        $this->result = (string) ob_get_clean();
+        // expressive project
+        $result       = $this->exceptionError($errorException, $this->request);
+        $this->result = (string) $result->getBody();
     }
 
     /**
