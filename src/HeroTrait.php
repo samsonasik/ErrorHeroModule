@@ -49,7 +49,7 @@ trait HeroTrait
 
         $errorException = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
 
-        // mvc project
+        // ZF Mvc project
         if ($this instanceof Listener\Mvc) {
             ob_start();
             $this->mvcEvent->setParam('exception', $errorException);
@@ -59,7 +59,7 @@ trait HeroTrait
             return;
         }
 
-        // expressive project
+        // ZF Expressive project
         $result       = $this->exceptionError($errorException, $this->request);
         $this->result = (string) $result->getBody();
     }
