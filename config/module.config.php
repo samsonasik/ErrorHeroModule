@@ -9,7 +9,6 @@ return [
 
     'controllers' => [
         'factories' => [
-            // sm v3
             Controller\ErrorPreviewController::class           => InvokableFactory::class,
             Controller\ErrorPreviewConsoleController::class    => InvokableFactory::class,
         ],
