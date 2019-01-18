@@ -48,6 +48,8 @@ trait HeroTrait
         }
 
         $errorException = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+
+        // expressive project
         if ($this instanceof Middleware\Expressive) {
             $result       = $this->exceptionError($errorException, $this->request);
             $this->result = (string) $result->getBody();
@@ -55,6 +57,7 @@ trait HeroTrait
             return;
         }
 
+        // mvc project
         ob_start();
         $this->mvcEvent->setParam('exception', $errorException);
         $this->exceptionError($this->mvcEvent);
