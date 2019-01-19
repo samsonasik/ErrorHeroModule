@@ -19,21 +19,13 @@ describe('Mail', function () {
             $this->mailMessage,
             $this->transport,
             [
-                'request_method' => 'POST',
-                'query_data'     => [],
-                'body_data'      => ['text' => 'test'],
-                'raw_data'       => [],
-                'files_data'     => [
-                    "fileupload" => [
-                        'name' => 'foo.html',
-                        'tmp_name' => __DIR__ . '/../../Fixture/data/foo.html',
-                        'error'    => 0,
-                        'size'     => 1,
-                        'type'     => 'text/html'
-                     ],
-                 ],
-                 'cookie_data' => [],
-                 'ip_address'  => '10.1.1.1',
+                "fileupload" => [
+                    'name' => 'foo.html',
+                    'tmp_name' => __DIR__ . '/../../Fixture/data/foo.html',
+                    'error'    => 0,
+                    'size'     => 1,
+                    'type'     => 'text/html'
+                ],
             ]
         );
    });
@@ -46,34 +38,26 @@ describe('Mail', function () {
                 $this->mailMessage,
                 $this->transport,
                 [
-                    'request_method' => 'POST',
-                    'query_data'     => [],
-                    'body_data'      => ['text' => 'test'],
-                    'raw_data'       => [],
-                    'files_data'     => [
-                        "file-collection" => [
+                    "file-collection" => [
+                        [
+                            'name'     => 'foo.html',
+                            'tmp_name' => __DIR__ . '/../../Fixture/data/foo.html',
+                            'error'    => 0,
+                            'size'     => 1,
+                            'type'     => 'text/html'
+                        ],
+                    ],
+                    "file-collection2" => [
+                        "name" => [
                             [
                                 'name'     => 'foo.html',
                                 'tmp_name' => __DIR__ . '/../../Fixture/data/foo.html',
                                 'error'    => 0,
                                 'size'     => 1,
                                 'type'     => 'text/html'
-                            ],
-                         ],
-                         "file-collection2" => [
-                            "name" => [
-                                [
-                                    'name'     => 'foo.html',
-                                    'tmp_name' => __DIR__ . '/../../Fixture/data/foo.html',
-                                    'error'    => 0,
-                                    'size'     => 1,
-                                    'type'     => 'text/html'
-                                ]
-                            ],
-                         ],
-                     ],
-                     'cookie_data' => [],
-                     'ip_address'  => '10.1.1.1',
+                            ]
+                        ],
+                    ],
                 ]
             );
 
@@ -95,27 +79,19 @@ describe('Mail', function () {
                 $this->mailMessage,
                 $this->transport,
                 [
-                    'request_method' => 'POST',
-                    'query_data'     => [],
-                    'body_data'      => ['text' => 'test'],
-                    'raw_data'       => [],
-                    'files_data'     => [
-                        "file-collection" => [
-                            'file-collection-deeper' => [
-                                'file-collection-deeper-deep' => [
-                                    [
-                                        'name'     => 'foo.html',
-                                        'tmp_name' => __DIR__ . '/../../Fixture/data/foo.html',
-                                        'error'    => 0,
-                                        'size'     => 1,
-                                        'type'     => 'text/html'
-                                    ],
+                    "file-collection" => [
+                        'file-collection-deeper' => [
+                            'file-collection-deeper-deep' => [
+                                [
+                                    'name'     => 'foo.html',
+                                    'tmp_name' => __DIR__ . '/../../Fixture/data/foo.html',
+                                    'error'    => 0,
+                                    'size'     => 1,
+                                    'type'     => 'text/html'
                                 ],
                             ],
-                         ],
-                     ],
-                     'cookie_data' => [],
-                     'ip_address'  => '10.1.1.1',
+                        ],
+                    ],
                 ]
             );
 

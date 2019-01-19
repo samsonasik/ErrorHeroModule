@@ -190,12 +190,13 @@ class Logging
         $this->mailMessageService->setFrom($this->emailSender);
         $this->mailMessageService->setSubject($subject);
 
+        $filesData = $extra['request_data']['files_data'];
         foreach ($this->emailReceivers as $key => $email) {
             $this->mailMessageService->setTo($email);
             $writer    = new Writer\Mail(
                 $this->mailMessageService,
                 $this->mailMessageTransport,
-                $extra['request_data']
+                $filesData
             );
             $writer->setFormatter(new Formatter\Json());
 

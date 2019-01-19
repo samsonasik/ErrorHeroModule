@@ -18,7 +18,7 @@ class Mail extends BaseMail
     /**
      * @var array
      */
-    private $requestData;
+    private $filesData;
 
     /**
      * @throws LogException\InvalidArgumentException
@@ -26,11 +26,11 @@ class Mail extends BaseMail
     public function __construct(
         MailMessage                  $mail,
         Transport\TransportInterface $transport,
-        array                        $requestData
+        array                        $filesData
     ) {
         parent::__construct($mail, $transport);
 
-        $this->requestData = $requestData;
+        $this->filesData = $filesData;
     }
 
     /**
@@ -43,7 +43,7 @@ class Mail extends BaseMail
         // Always provide events to mail as plaintext.
         $body = \implode(\PHP_EOL, $this->eventsToMail);
 
-        if (empty($this->requestData['files_data'])) {
+        if (empty($this->filesData)) {
             $this->mail->setBody($body);
         } else {
             $mimePart = new MimePart($body);
@@ -54,7 +54,7 @@ class Mail extends BaseMail
             $body = new MimeMessage();
             $body->addPart($mimePart);
 
-            $body = $this->bodyAddPart($body, $this->requestData['files_data']);
+            $body = $this->bodyAddPart($body, $this->filesData);
             $this->mail->setBody($body);
 
             $headers = $this->mail->getHeaders();
