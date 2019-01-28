@@ -180,6 +180,38 @@ json
 
     });
 
+    given('dbWriter', function () {
+        $dbAdapter = new Adapter([
+            'username' => 'root',
+            'password' => '',
+            'driver' => 'Pdo',
+            'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
+            'driver_options' => [
+                \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+            ],
+        ]);
+
+        return new DbWriter(
+            [
+                'db' => $dbAdapter,
+                'table' => 'log',
+                'column' => [
+                    'timestamp' => 'date',
+                    'priority'  => 'type',
+                    'message'   => 'event',
+                    'extra'     => [
+                        'url'  => 'url',
+                        'file' => 'file',
+                        'line' => 'line',
+                        'error_type' => 'error_type',
+                        'trace'      => 'trace',
+                        'request_data' => 'request_data',
+                    ],
+                ],
+            ]
+        );
+    });
+
     given('middleware', function () {
         return new Expressive(
             $this->config,
@@ -555,38 +587,8 @@ json
                 'line' => 2
             ]);
 
-            $dbAdapter = new Adapter([
-                'username' => 'root',
-                'password' => '',
-                'driver' => 'Pdo',
-                'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
-                'driver_options' => [
-                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
-                ],
-            ]);
-
-            $writer = new DbWriter(
-                [
-                    'db' => $dbAdapter,
-                    'table' => 'log',
-                    'column' => [
-                        'timestamp' => 'date',
-                        'priority'  => 'type',
-                        'message'   => 'event',
-                        'extra'     => [
-                            'url'  => 'url',
-                            'file' => 'file',
-                            'line' => 'line',
-                            'error_type' => 'error_type',
-                            'trace'      => 'trace',
-                            'request_data' => 'request_data',
-                        ],
-                    ],
-                ]
-            );
-
             $logger = new Logger();
-            $logger->addWriter($writer);
+            $logger->addWriter($this->dbWriter);
 
             $logging = new Logging(
                 $logger,
@@ -670,38 +672,8 @@ json
                 'line' => 2
             ]);
 
-            $dbAdapter = new Adapter([
-                'username' => 'root',
-                'password' => '',
-                'driver' => 'Pdo',
-                'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
-                'driver_options' => [
-                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
-                ],
-            ]);
-
-            $writer = new DbWriter(
-                [
-                    'db' => $dbAdapter,
-                    'table' => 'log',
-                    'column' => [
-                        'timestamp' => 'date',
-                        'priority'  => 'type',
-                        'message'   => 'event',
-                        'extra'     => [
-                            'url'  => 'url',
-                            'file' => 'file',
-                            'line' => 'line',
-                            'error_type' => 'error_type',
-                            'trace'      => 'trace',
-                            'request_data' => 'request_data',
-                        ],
-                    ],
-                ]
-            );
-
             $logger = new Logger();
-            $logger->addWriter($writer);
+            $logger->addWriter($this->dbWriter);
 
             $logging = new Logging(
                 $logger,
