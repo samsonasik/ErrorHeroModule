@@ -212,6 +212,23 @@ json
         );
     });
 
+    given('request', function () {
+
+        return new ServerRequest(
+            [],
+            [],
+            new Uri('http://example.com'),
+            'GET',
+            'php://memory',
+            [],
+            [],
+            [],
+            '',
+            '1.2'
+        );
+
+    });
+
     given('middleware', function () {
         return new Expressive(
             $this->config,
@@ -225,48 +242,23 @@ json
         it('returns handle() when not enabled', function () {
 
             $config['enable'] = false;
-
-            $request = new ServerRequest(
-                [],
-                [],
-                new Uri('http://example.com'),
-                'GET',
-                'php://memory',
-                [],
-                [],
-                [],
-                '',
-                '1.2'
-            );
             $handler = Double::instance(['implements' => RequestHandlerInterface::class]);
-            allow($handler)->toReceive('handle')->with($request)->andReturn(new Response());
+            allow($handler)->toReceive('handle')->with($this->request)->andReturn(new Response());
             $middleware = new Expressive($config, $this->logging, $this->renderer);
 
-            $actual = $middleware->process($request, $handler);
+            $actual = $middleware->process($this->request, $handler);
             expect($actual)->toBeAnInstanceOf(ResponseInterface::class);
 
         });
 
         it('returns handle() when no error', function () {
 
-            $request  = new ServerRequest(
-                [],
-                [],
-                new Uri('http://example.com'),
-                'GET',
-                'php://memory',
-                [],
-                [],
-                [],
-                '',
-                '1.2'
-            );
             $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
-            allow($handler)->toReceive('handle')->with($request)->andReturn(new Response());
+            allow($handler)->toReceive('handle')->with($this->request)->andReturn(new Response());
 
-            allow(Logging::class)->toReceive('setServerRequestandRequestUri')->with($request);
+            allow(Logging::class)->toReceive('setServerRequestandRequestUri')->with($this->request);
 
-            $actual = $this->middleware->process($request, $handler);
+            $actual = $this->middleware->process($this->request, $handler);
             expect($actual)->toBeAnInstanceOf(ResponseInterface::class);
 
         });
@@ -286,25 +278,13 @@ json
                     null
                 );
 
-                $request  = new ServerRequest(
-                    [],
-                    [],
-                    new Uri('http://example.com'),
-                    'GET',
-                    'php://memory',
-                    [],
-                    [],
-                    [],
-                    '',
-                    '1.2'
-                );
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
-                allow($handler)->toReceive('handle')->with($request)->andRun(function () {
+                allow($handler)->toReceive('handle')->with($this->request)->andRun(function () {
                     throw new \Exception('message');
                 });
                 $middleware = new Expressive($config, $logging, $this->renderer);
 
-                $actual = $middleware->process($request, $handler);
+                $actual = $middleware->process($this->request, $handler);
                 expect($actual)->toBeAnInstanceOf(Response::class);
 
                 $content = $actual->getBody()->__toString();
@@ -326,26 +306,14 @@ json
                     null
                 );
 
-                $request  = new ServerRequest(
-                    [],
-                    [],
-                    new Uri('http://example.com'),
-                    'GET',
-                    'php://memory',
-                    [],
-                    [],
-                    [],
-                    '',
-                    '1.2'
-                );
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
-                allow($handler)->toReceive('handle')->with($request)->andRun(function () {
+                allow($handler)->toReceive('handle')->with($this->request)->andRun(function () {
                     throw new \Exception('message');
                 });
                 $middleware = new Expressive($config, $logging, $this->renderer);
 
-                $closure = function () use ($middleware, $request, $handler) {
-                    $middleware->process($request, $handler);
+                $closure = function () use ($middleware, $handler) {
+                    $middleware->process($this->request, $handler);
                 };
                 expect($closure)->toThrow(new \Exception('message'));
 
@@ -364,18 +332,7 @@ json
                     null
                 );
 
-                $request  = new ServerRequest(
-                    [],
-                    [],
-                    new Uri('http://example.com'),
-                    'GET',
-                    'php://memory',
-                    [],
-                    [],
-                    [],
-                    '',
-                    '1.2'
-                );
+                $request = $this->request;
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
@@ -410,18 +367,7 @@ json
                     null
                 );
 
-                $request  = new ServerRequest(
-                    [],
-                    [],
-                    new Uri('http://example.com'),
-                    'GET',
-                    'php://memory',
-                    [],
-                    [],
-                    [],
-                    '',
-                    '1.2'
-                );
+                $request  = $this->request;
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
@@ -456,18 +402,7 @@ json
                     null
                 );
 
-                $request  = new ServerRequest(
-                    [],
-                    [],
-                    new Uri('http://example.com'),
-                    'GET',
-                    'php://memory',
-                    [],
-                    [],
-                    [],
-                    '',
-                    '1.2'
-                );
+                $request  = $this->request;
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
@@ -504,18 +439,7 @@ json
                 null
             );
 
-            $request  = new ServerRequest(
-                [],
-                [],
-                new Uri('http://example.com'),
-                'GET',
-                'php://memory',
-                [],
-                [],
-                [],
-                '',
-                '1.2'
-            );
+            $request  = $this->request;
             $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
             $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
             allow($handler)->toReceive('handle')->with($request)->andRun(function () use ($exception) {
@@ -641,18 +565,7 @@ json
             $request = & Closure::bind(function & ($middleware) {
                 return $middleware->request;
             }, null, $middleware)($middleware);
-            $request = new ServerRequest(
-                [],
-                [],
-                new Uri('http://example.com'),
-                'GET',
-                'php://memory',
-                [],
-                [],
-                [],
-                '',
-                '1.2'
-            );
+            $request = $this->request;
 
             $closure = function () use ($middleware) {
                 $middleware->execOnShutdown();
@@ -726,18 +639,7 @@ json
             $request = & Closure::bind(function & ($middleware) {
                 return $middleware->request;
             }, null, $middleware)($middleware);
-            $request = new ServerRequest(
-                [],
-                [],
-                new Uri('http://example.com'),
-                'GET',
-                'php://memory',
-                [],
-                [],
-                [],
-                '',
-                '1.2'
-            );
+            $request = $this->request;
 
             expect($middleware->execOnShutdown())->toBeNull();
 
