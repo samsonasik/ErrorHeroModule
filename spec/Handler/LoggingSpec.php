@@ -20,6 +20,7 @@ describe('LoggingSpec', function () {
     beforeAll(function () {
         $this->logger  = Double::instance(['extends' => Logger::class]);
         $this->request = new Request();
+        $this->request->setUri('http://www.example.com');
         $this->errorHeroModuleLocalConfig = [
             'enable' => true,
             'display-settings' => [

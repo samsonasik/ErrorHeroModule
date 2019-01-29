@@ -171,6 +171,7 @@ class Logging
         } else {
             Assert::isInstanceOf($request, HttpRequest::class);
             $uri       = $request->getUri();
+            $uri->setHost(strtolower($uri->getHost()));
             $serverUrl = $uri->getScheme() . '://' . $uri->getHost();
             $url       = $uri->toString();
         }
