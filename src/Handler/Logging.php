@@ -227,8 +227,7 @@ class Logging
                 $collectedExceptionData['errorMessage'],
                 $extra['url'],
                 $collectedExceptionData['errorType']
-            )
-            ) {
+            )) {
                 return;
             }
 
