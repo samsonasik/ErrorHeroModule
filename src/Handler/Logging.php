@@ -75,13 +75,22 @@ class Logging
     /**
      * @throws RuntimeException when cannot connect to DB in the first place
      */
-    private function isExists(string $errorFile, int $errorLine, string $errorMessage, string $url, string $errorType) : bool
-    {
+    private function isExists(
+        string $errorFile,
+        int    $errorLine,
+        string $errorMessage,
+        string $url,
+        string $errorType
+    ) : bool {
         $writers = $this->logger->getWriters()->toArray();
         foreach ($writers as $writer) {
             if ($writer instanceof Db) {
                 try {
-                    $handlerWriterDb = new Writer\Checker\Db($writer, $this->configLoggingSettings, $this->logWritersConfig);
+                    $handlerWriterDb = new Writer\Checker\Db(
+                        $writer,
+                        $this->configLoggingSettings,
+                        $this->logWritersConfig
+                    );
                     if ($handlerWriterDb->isExists($errorFile, $errorLine, $errorMessage, $url, $errorType)) {
                         return true;
                     }
@@ -212,14 +221,13 @@ class Logging
         $serverUrl              = $extra['server_url'];
 
         try {
-            if (
-                $this->isExists(
-                    $collectedExceptionData['errorFile'],
-                    $collectedExceptionData['errorLine'],
-                    $collectedExceptionData['errorMessage'],
-                    $extra['url'],
-                    $collectedExceptionData['errorType']
-                )
+            if ($this->isExists(
+                $collectedExceptionData['errorFile'],
+                $collectedExceptionData['errorLine'],
+                $collectedExceptionData['errorMessage'],
+                $extra['url'],
+                $collectedExceptionData['errorType']
+            )
             ) {
                 return;
             }
@@ -232,6 +240,11 @@ class Logging
             unset($extra['server_url']);
         }
 
-        $this->sendMail($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra, '['.$serverUrl.'] '.$collectedExceptionData['errorType'].' has thrown');
+        $this->sendMail(
+            $collectedExceptionData['priority'],
+            $collectedExceptionData['errorMessage'],
+            $extra,
+            '[' . $serverUrl . '] ' . $collectedExceptionData['errorType'] . ' has thrown'
+        );
     }
 }

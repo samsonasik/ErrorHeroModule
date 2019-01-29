@@ -26,6 +26,7 @@ class ErrorPreviewController extends AbstractActionController
 
     public function fatalAction()
     {
-        $y = new class implements \stdClass {};
+        $y = new class implements \stdClass {
+        };
     }
 }

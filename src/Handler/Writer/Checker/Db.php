@@ -36,8 +36,13 @@ class Db
         $this->logWritersConfig      = $logWritersConfig;
     }
 
-    public function isExists(string $errorFile, int $errorLine, string $errorMessage, string $errorUrl, string $errorType) : bool
-    {
+    public function isExists(
+        string $errorFile,
+        int    $errorLine,
+        string $errorMessage,
+        string $errorUrl,
+        string $errorType
+    ) : bool {
         // db definition
         $db = Closure::bind(function ($dbWriter) {
             return $dbWriter->db;

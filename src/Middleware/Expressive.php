@@ -57,7 +57,8 @@ class Expressive implements MiddlewareInterface
             $this->request = $request;
             $this->phpError();
             return $handler->handle($request);
-        } catch (Throwable $t) {}
+        } catch (Throwable $t) {
+        }
 
         return $this->exceptionError($t, $request);
     }
