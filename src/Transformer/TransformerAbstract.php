@@ -16,10 +16,14 @@ abstract class TransformerAbstract
 
     protected static function getDbAdapterConfig(array $configuration) : array
     {
-        $adapterName = Adapter::class;
-        $writers     = self::getWriterConfig($configuration);
-        $config      = $configuration['db'];
+        $writers = self::getWriterConfig($configuration);
+        $config  = $configuration['db'];
 
+        if (! isset($config['adapters'])) {
+            return $config;
+        }
+
+        $adapterName = Adapter::class;
         foreach ($writers as $key => $writer) {
             if ($writer['name'] === 'db') {
                 $adapterName = $writer['options']['db'];
@@ -27,12 +31,10 @@ abstract class TransformerAbstract
             }
         }
 
-        if (isset($config['adapters'])) {
-            foreach ($config['adapters'] as $key => $adapterConfig) {
-                if ($adapterName === $key) {
-                    $config = $adapterConfig;
-                    break;
-                }
+        foreach ($config['adapters'] as $key => $adapterConfig) {
+            if ($adapterName === $key) {
+                $config = $adapterConfig;
+                break;
             }
         }
 

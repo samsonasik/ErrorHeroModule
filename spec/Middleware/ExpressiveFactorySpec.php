@@ -233,6 +233,34 @@ describe('ExpressiveFactory', function () {
 
         });
 
+        it('returns Expressive Middleware instance with create service first for mapped containers and config does not has "adapters" key', function () {
+
+            $config = $this->config;
+            unset($config['db']['adapters']);
+
+            foreach ($this->mapCreateContainers as $container) {
+                $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = Adapter::class;
+                allow($container)->toReceive('get')->with('config')
+                                                ->andReturn($config);
+
+                allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
+
+                $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
+                allow($container)->toReceive('get')->with(Logging::class)
+                                                ->andReturn($logging);
+
+                $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
+                allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
+                                                ->andReturn($renderer);
+
+                expect($container->has('ErrorHeroModuleLogger'))->toBeFalsy();
+                $actual = $this->factory($container);
+                expect($actual)->toBeAnInstanceOf(Expressive::class);
+                expect($container->has('ErrorHeroModuleLogger'))->toBeTruthy();
+            }
+
+        });
+
         it('returns Expressive Middleware instance with create service first for mapped containers and db name found in adapters', function () {
 
             foreach ($this->mapCreateContainers as $container) {
