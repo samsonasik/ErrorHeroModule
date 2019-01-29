@@ -7,3 +7,4 @@
 /spec/ export-ignore
 /CONTRIBUTING.md export-ignore
 /kahlan-config.php export-ignore
+/phpcs.xml export-ignore

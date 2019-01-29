@@ -67,6 +67,7 @@
         "phpstan/phpstan-webmozart-assert": "^0.10.0",
         "pimple/pimple": "^3.2",
         "symfony/dependency-injection": "^4.0",
+        "zendframework/zend-coding-standard": "^1.0",
         "zendframework/zend-expressive": "^3.0",
         "zendframework/zend-expressive-zendviewrenderer": "^2.0",
         "zendframework/zend-mvc": "^3.0",
@@ -100,5 +101,9 @@
         "psr-4": {
             "ErrorHeroModule\\Spec\\": "spec/"
         }
+    },
+    "scripts": {
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf"
     }
 }

@@ -21,7 +21,9 @@ class AurynService extends TransformerAbstract implements TransformerInterface
         $injector = & Closure::bind(function & ($container) {
             return $container->injector;
         }, null, $container)($container);
-        $injector->delegate('ErrorHeroModuleLogger', function () use ($logger) { return $logger; });
+        $injector->delegate('ErrorHeroModuleLogger', function () use ($logger) {
+            return $logger;
+        });
 
         return $container;
     }

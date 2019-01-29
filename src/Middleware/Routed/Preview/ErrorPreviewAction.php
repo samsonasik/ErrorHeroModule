@@ -24,7 +24,8 @@ class ErrorPreviewAction implements MiddlewareInterface
         }
 
         if ($action === 'fatal') {
-            $y = new class implements \stdClass {};
+            $y = new class implements \stdClass {
+            };
         }
 
         $array = [];

@@ -17,6 +17,7 @@ before_script:
   - composer dump-autoload -o
 
 script:
+  - composer cs-check
   - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then bin/phpstan analyse src/ --level=max -c phpstan.neon; fi
   - if [[ $TRAVIS_PHP_VERSION != "nightly" ]]; then bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml; fi
   - if [[ $TRAVIS_PHP_VERSION = "nightly" ]]; then bin/kahlan; fi
