@@ -31,7 +31,7 @@ abstract class TransformerAbstract
             }
         }
 
-        if (in_array($adapterName, \array_keys($config['adapters']), true)) {
+        if (\in_array($adapterName, \array_keys($config['adapters']), true)) {
             $config = $config['adapters'][$adapterName];
         }
 
