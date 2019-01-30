@@ -31,11 +31,8 @@ abstract class TransformerAbstract
             }
         }
 
-        foreach ($config['adapters'] as $key => $adapterConfig) {
-            if ($adapterName === $key) {
-                $config = $adapterConfig;
-                break;
-            }
+        if (in_array($adapterName, \array_keys($config['adapters']), true)) {
+            $config = $config['adapters'][$adapterName];
         }
 
         return $config;
