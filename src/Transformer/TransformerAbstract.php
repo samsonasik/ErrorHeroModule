@@ -24,7 +24,7 @@ abstract class TransformerAbstract
         }
 
         $adapterName = Adapter::class;
-        foreach ($writers as $key => $writer) {
+        foreach ($writers as $writer) {
             if ($writer['name'] === 'db') {
                 $adapterName = $writer['options']['db'];
                 break;
@@ -41,9 +41,9 @@ abstract class TransformerAbstract
     protected static function getLoggerInstance(array $configuration, array $dbConfig) : Logger
     {
         $writers = self::getWriterConfig($configuration);
-        foreach ($writers as $key => $writer) {
+        foreach ($writers as & $writer) {
             if ($writer['name'] === 'db') {
-                $writers[$key]['options']['db'] = new Adapter($dbConfig);
+                $writer['options']['db'] = new Adapter($dbConfig);
                 break;
             }
         }
