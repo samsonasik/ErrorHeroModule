@@ -201,7 +201,7 @@ class Logging
         $this->mailMessageService->setSubject($subject);
 
         $filesData = $extra['request_data']['files_data'];
-        foreach ($this->emailReceivers as $key => $email) {
+        foreach ($this->emailReceivers as $email) {
             $this->mailMessageService->setTo($email);
             $writer    = new Writer\Mail(
                 $this->mailMessageService,
