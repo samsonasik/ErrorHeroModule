@@ -32,7 +32,7 @@ abstract class TransformerAbstract
         }
 
         if (\in_array($adapterName, \array_keys($config['adapters']), true)) {
-            $config = $config['adapters'][$adapterName];
+            return $config['adapters'][$adapterName];
         }
 
         return $config;
