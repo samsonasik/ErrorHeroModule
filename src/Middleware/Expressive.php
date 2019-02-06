@@ -124,7 +124,7 @@ class Expressive implements MiddlewareInterface
         }
 
         $isXmlHttpRequest = $request->hasHeader('X-Requested-With')
-            && \in_array('XmlHttpRequest', $request->getHeader('X-Requested-With'), true);
+            && $request->getHeaderLine('X-Requested-With') === 'XmlHttpRequest';
 
         if ($isXmlHttpRequest === true &&
             isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
