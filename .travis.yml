@@ -24,4 +24,8 @@ script:
   - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then bin/php-coveralls -v --exclude-no-stmt; fi
 
 notifications:
-    email: false
+  email: false
+
+matrix:
+  allow_failures:
+    - php: nightly
