@@ -23,7 +23,6 @@ abstract class TransformerAbstract
             return $config;
         }
 
-        $adapterName = Adapter::class;
         foreach ($writers as $writer) {
             if ($writer['name'] === 'db') {
                 $adapterName = $writer['options']['db'];
@@ -31,11 +30,9 @@ abstract class TransformerAbstract
             }
         }
 
-        if (\in_array($adapterName, \array_keys($config['adapters']), true)) {
-            return $config['adapters'][$adapterName];
-        }
-
-        return $config;
+        return isset($adapterName)
+            ? ($config['adapters'][$adapterName] ?? $config)
+            : $config;
     }
 
     protected static function getLoggerInstance(array $configuration, array $dbConfig) : Logger
