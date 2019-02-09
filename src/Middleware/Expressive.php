@@ -120,7 +120,8 @@ class Expressive
      */
     private function showDefaultViewWhenDisplayErrorSetttingIsDisabled()
     {
-        $isXmlHttpRequest = $this->request->hasHeader('X-Requested-With');
+        $isXmlHttpRequest = $this->request->hasHeader('X-Requested-With')
+            && $this->request->getHeaderLine('X-Requested-With') === 'XmlHttpRequest';
 
         if ($isXmlHttpRequest === true &&
             isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
