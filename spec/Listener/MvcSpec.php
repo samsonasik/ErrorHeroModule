@@ -2,13 +2,13 @@
 
 namespace ErrorHeroModule\Spec\Listener;
 
-use Closure;
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
 use Kahlan\Plugin\Double;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
+use ReflectionProperty;
 use Zend\Console\Console;
 use Zend\Db\Adapter\Adapter;
 use Zend\EventManager\EventManagerInterface;
@@ -524,11 +524,11 @@ describe('Mvc', function () {
             allow('property_exists')->toBeCalled()->with($listener, 'request')->andReturn(false);
             allow('property_exists')->toBeCalled()->with($listener, 'mvcEvent')->andReturn(true);
 
-            $mvcEvent = & Closure::bind(function & ($listener) {
-                return $listener->mvcEvent;
-            }, null, $listener)($listener);
+            $r = new ReflectionProperty($listener, 'mvcEvent');
+            $r->setAccessible(true);
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getRequest')->andReturn(new Request());
+            $r->setValue($listener, $mvcEvent);
 
             expect($listener->execOnShutdown())->toBeNull();
 
