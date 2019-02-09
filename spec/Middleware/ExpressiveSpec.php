@@ -2,10 +2,10 @@
 
 namespace ErrorHeroModule\Spec\Middleware;
 
-use Closure;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Expressive;
 use Kahlan\Plugin\Double;
+use ReflectionProperty;
 use Zend\Db\Adapter\Adapter;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
@@ -619,10 +619,9 @@ json
             ]);
 
             $middleware = & $this->middleware;
-            $result = & Closure::bind(function & ($middleware) {
-                return $middleware->result;
-            }, null, $middleware)($middleware);
-            $result = 'Fatal error';
+            $r = new ReflectionProperty($middleware, 'result');
+            $r->setAccessible(true);
+            $r->setValue($middleware, 'Fatal error');
 
             expect($this->middleware->phpFatalErrorHandler('Fatal'))->toBe('Fatal error');
 
@@ -756,10 +755,9 @@ json
             allow('property_exists')->toBeCalled()->with($middleware, 'request')->andReturn(true);
             allow('property_exists')->toBeCalled()->with($middleware, 'mvcEvent')->andReturn(false);
 
-            $request = & Closure::bind(function & ($middleware) {
-                return $middleware->request;
-            }, null, $middleware)($middleware);
-            $request = new ServerRequest(
+            $r = new ReflectionProperty($middleware, 'request');
+            $r->setAccessible(true);
+            $r->setValue($middleware, new ServerRequest(
                 [],
                 [],
                 new Uri('http://example.com'),
@@ -770,7 +768,7 @@ json
                 [],
                 '',
                 '1.2'
-            );
+            ));
 
             $closure = function () use ($middleware) {
                 $middleware->execOnShutdown();
@@ -898,10 +896,9 @@ json
             allow('property_exists')->toBeCalled()->with($middleware, 'request')->andReturn(true);
             allow('property_exists')->toBeCalled()->with($middleware, 'mvcEvent')->andReturn(false);
 
-            $request = & Closure::bind(function & ($middleware) {
-                return $middleware->request;
-            }, null, $middleware)($middleware);
-            $request = new ServerRequest(
+            $r = new ReflectionProperty($middleware, 'request');
+            $r->setAccessible(true);
+            $r->setValue($middleware, new ServerRequest(
                 [],
                 [],
                 new Uri('http://example.com'),
@@ -912,7 +909,7 @@ json
                 [],
                 '',
                 '1.2'
-            );
+            ));
 
             expect($middleware->execOnShutdown())->toBeNull();
 
