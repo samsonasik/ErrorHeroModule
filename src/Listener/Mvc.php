@@ -133,7 +133,7 @@ class Mvc extends AbstractListenerAggregate
             $layout = $e->getViewModel();
             $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
             $layout->setVariable(
-                'content',
+                $layout->captureTo(),
                 $this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view'])
             );
 
