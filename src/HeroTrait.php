@@ -60,7 +60,7 @@ trait HeroTrait
         }
 
         // ZF Expressive project
-        $result       = $this->exceptionError($errorException, $this->request);
+        $result       = $this->exceptionError($errorException);
         $this->result = (string) $result->getBody();
     }
 

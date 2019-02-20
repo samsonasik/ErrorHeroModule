@@ -60,7 +60,7 @@ class Expressive implements MiddlewareInterface
         } catch (Throwable $t) {
         }
 
-        return $this->exceptionError($t, $request);
+        return $this->exceptionError($t);
     }
 
     public function phpError() : void
@@ -83,7 +83,7 @@ class Expressive implements MiddlewareInterface
      * @throws Error      when 'display_errors' config is 1 and Error has thrown
      * @throws Exception  when 'display_errors' config is 1 and Exception has thrown
      */
-    public function exceptionError(Throwable $t, ServerRequestInterface $request) : ResponseInterface
+    public function exceptionError(Throwable $t) : ResponseInterface
     {
         $exceptionOrErrorClass = \get_class($t);
         if (isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions']) &&
@@ -94,7 +94,7 @@ class Expressive implements MiddlewareInterface
 
         $this->logging->handleErrorException(
             $t,
-            Psr7ServerRequest::toZend($request)
+            Psr7ServerRequest::toZend($this->request)
         );
 
         if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
@@ -102,7 +102,7 @@ class Expressive implements MiddlewareInterface
         }
 
         // show default view if display_errors setting = 0.
-        return $this->showDefaultView($request);
+        return $this->showDefaultView();
     }
 
     private function responseByConfigMessage($key) : ResponseInterface
@@ -117,14 +117,14 @@ class Expressive implements MiddlewareInterface
         return $response->withStatus(500);
     }
 
-    private function showDefaultView(ServerRequestInterface $request) : ResponseInterface
+    private function showDefaultView() : ResponseInterface
     {
         if ($this->renderer === null) {
             return $this->responseByConfigMessage('no_template');
         }
 
-        $isXmlHttpRequest = $request->hasHeader('X-Requested-With')
-            && $request->getHeaderLine('X-Requested-With') === 'XmlHttpRequest';
+        $isXmlHttpRequest = $this->request->hasHeader('X-Requested-With')
+            && $this->request->getHeaderLine('X-Requested-With') === 'XmlHttpRequest';
 
         if ($isXmlHttpRequest === true &&
             isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
