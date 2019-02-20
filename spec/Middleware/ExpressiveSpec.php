@@ -419,10 +419,6 @@ json
 
         });
 
-    });
-
-    describe('->process()', function () {
-
         it('do not call logging->handleErrorException() if $e->getParam("exception") and has excluded exception match', function () {
 
             $config = $this->config;
