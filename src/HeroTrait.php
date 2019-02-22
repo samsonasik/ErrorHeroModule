@@ -22,6 +22,11 @@ trait HeroTrait
     /** @var string */
     private $result = '';
 
+    private static function isUncaught(array $error)
+    {
+        return 0 === strpos($error['message'], 'Uncaught');
+    }
+
     public function phpFatalErrorHandler($buffer): string
     {
         $error = \error_get_last();
@@ -29,11 +34,9 @@ trait HeroTrait
             return $buffer;
         }
 
-        if (0 === strpos($error['message'], 'Uncaught')) {
-            return $buffer;
-        }
-
-        return $this->result === '' ? $buffer : $this->result;
+        return self::isUncaught($error) || $this->result === ''
+            ? $buffer
+            : $this->result;
     }
 
     public function execOnShutdown() : void
@@ -43,7 +46,7 @@ trait HeroTrait
             return;
         }
 
-        if (0 === strpos($error['message'], 'Uncaught')) {
+        if (self::isUncaught($error)) {
             return;
         }
 
