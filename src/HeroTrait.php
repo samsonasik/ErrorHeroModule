@@ -79,6 +79,8 @@ trait HeroTrait
 
         // ZF Mvc project
         if ($this instanceof Listener\Mvc) {
+            Assert::isInstanceOf($this->mvcEvent, MvcEvent::class);
+
             ob_start();
             $this->mvcEvent->setParam('exception', $errorException);
             $this->exceptionError($this->mvcEvent);
