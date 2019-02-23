@@ -6,6 +6,8 @@ namespace ErrorHeroModule;
 
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
+use Webmozart\Assert\Assert;
+use Zend\Mvc\MvcEvent;
 
 trait HeroTrait
 {
@@ -21,6 +23,29 @@ trait HeroTrait
 
     /** @var string */
     private $result = '';
+
+    public function phpError() : void
+    {
+        if ($this instanceof Listener\Mvc && \func_get_args()) {
+            Assert::isInstanceOf(
+                $this->mvcEvent = \func_get_arg(0),
+                MvcEvent::class
+            );
+        }
+
+        if (! $this->errorHeroModuleConfig['display-settings']['display_errors']) {
+            \error_reporting(\E_ALL | \E_STRICT);
+            \ini_set('display_errors', '0');
+        }
+
+        while (\ob_get_level() > 0) {
+            \ob_end_flush();
+        }
+
+        \ob_start([$this, 'phpFatalErrorHandler']);
+        \register_shutdown_function([$this, 'execOnShutdown']);
+        \set_error_handler([$this, 'phpErrorHandler']);
+    }
 
     private static function isUncaught(array $error)
     {
