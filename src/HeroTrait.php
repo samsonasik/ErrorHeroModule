@@ -26,11 +26,9 @@ trait HeroTrait
 
     public function phpError() : void
     {
-        if ($this instanceof Listener\Mvc && \func_get_args()) {
-            Assert::isInstanceOf(
-                $this->mvcEvent = \func_get_arg(0),
-                MvcEvent::class
-            );
+        if ($this instanceof Listener\Mvc) {
+            Assert::count($args = \func_get_args(), 1);
+            Assert::isInstanceOf($this->mvcEvent = $args[0], MvcEvent::class);
         }
 
         if (! $this->errorHeroModuleConfig['display-settings']['display_errors']) {
