@@ -45,7 +45,7 @@ trait HeroTrait
         \set_error_handler([$this, 'phpErrorHandler']);
     }
 
-    private static function isUncaught(array $error)
+    private static function isUncaught(array $error) : bool
     {
         return 0 === strpos($error['message'], 'Uncaught');
     }
