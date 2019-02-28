@@ -48,7 +48,8 @@
         "zendframework/zend-log": "^2.5",
         "zendframework/zend-mail": "^2.9",
         "zendframework/zend-psr7bridge": "^1.1",
-        "zendframework/zend-text": "^2.5"
+        "zendframework/zend-text": "^2.5",
+        "zendframework/zend-uri": "^2.7"
     },
     "conflict": {
         "doctrine/doctrine-orm-module": "<2.1",
