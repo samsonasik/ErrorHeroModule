@@ -218,12 +218,12 @@ describe('ExpressiveFactory', function () {
 
             $config = [];
             foreach ($this->mapCreateContainers as $containerClass => $container) {
-                if ($container instanceof PHPDIContainer) {
+                if ($container instanceof AuraContainer) {
                     $config = new ArrayObject($config);
                 }
                 allow($container)->toReceive('get')->with('config')
                                                 ->andReturn($config);
-                if ($container instanceof PHPDIContainer) {
+                if ($container instanceof AuraContainer) {
                     $config = $config->getArrayCopy();
                 }
                 allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
@@ -256,12 +256,12 @@ describe('ExpressiveFactory', function () {
 
             foreach ($this->mapCreateContainers as $container) {
                 $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = Adapter::class;
-                if ($container instanceof PHPDIContainer) {
+                if ($container instanceof AuraContainer) {
                     $config = new ArrayObject($config);
                 }
                 allow($container)->toReceive('get')->with('config')
                                                 ->andReturn($config);
-                if ($container instanceof PHPDIContainer) {
+                if ($container instanceof AuraContainer) {
                     $config = $config->getArrayCopy();
                 }
                 allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
@@ -287,12 +287,12 @@ describe('ExpressiveFactory', function () {
             foreach ($this->mapCreateContainers as $container) {
                 $config = $this->config;
                 $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = 'my-adapter';
-                if ($container instanceof PHPDIContainer) {
+                if ($container instanceof AuraContainer) {
                     $config = new ArrayObject($config);
                 }
                 allow($container)->toReceive('get')->with('config')
                                                 ->andReturn($config);
-                if ($container instanceof PHPDIContainer) {
+                if ($container instanceof AuraContainer) {
                     $config = $config->getArrayCopy();
                 }
                 allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
@@ -317,12 +317,12 @@ describe('ExpressiveFactory', function () {
 
             $config = $this->config;
             foreach ($this->mapCreateContainers as $container) {
-                if ($container instanceof PHPDIContainer) {
+                if ($container instanceof AuraContainer) {
                     $config = new ArrayObject($config);
                 }
                 allow($container)->toReceive('get')->with('config')
                                                 ->andReturn($config);
-                if ($container instanceof PHPDIContainer) {
+                if ($container instanceof AuraContainer) {
                     $config = $config->getArrayCopy();
                 }
                 allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
