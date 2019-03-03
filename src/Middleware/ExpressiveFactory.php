@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Middleware;
 
+use ArrayObject;
 use Aura\Di\Container as AuraContainer;
 use DI\Container as PHPDIContainer;
 use Doctrine\ORM\EntityManager;
@@ -19,6 +20,7 @@ use Pimple\Psr11\Container as Psr11PimpleContainer;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
+use Webmozart\Assert\Assert;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\ServiceManager\ServiceManager;
 
@@ -43,9 +45,13 @@ class ExpressiveFactory
         );
     }
 
-    private function verifyConfig($configuration, string $containerClass) : array
+    private function verifyConfig(iterable $configuration, string $containerClass) : array
     {
-        $configuration = (array) $configuration;
+        if (! is_array($configuration)) {
+            Assert::isInstanceOf($configuration, ArrayObject::class);
+            $configuration = $configuration->getArrayCopy();
+        }
+
         if (! isset($configuration['db'])) {
             throw new RuntimeException(
                 \sprintf(

@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Spec\Middleware;
 
+use ArrayObject;
 use Aura\Di\Container as AuraContainer;
 use Aura\Di\ContainerBuilder as AuraContainerBuilder;
 use Auryn\Injector as AurynInjector;
@@ -206,10 +207,16 @@ describe('ExpressiveFactory', function () {
 
         it('throws RuntimeException when using mapped containers but no "db" config', function () {
 
+            $config = [];
             foreach ($this->mapCreateContainers as $containerClass => $container) {
+                if ($container instanceof PHPDIContainer) {
+                    $config = new ArrayObject($config);
+                }
                 allow($container)->toReceive('get')->with('config')
-                                                ->andReturn([]);
-
+                                                ->andReturn($config);
+                if ($container instanceof PHPDIContainer) {
+                    $config = $config->getArrayCopy();
+                }
                 allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
                 $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
@@ -240,9 +247,14 @@ describe('ExpressiveFactory', function () {
 
             foreach ($this->mapCreateContainers as $container) {
                 $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = Adapter::class;
+                if ($container instanceof PHPDIContainer) {
+                    $config = new ArrayObject($config);
+                }
                 allow($container)->toReceive('get')->with('config')
                                                 ->andReturn($config);
-
+                if ($container instanceof PHPDIContainer) {
+                    $config = $config->getArrayCopy();
+                }
                 allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
                 $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
@@ -266,9 +278,14 @@ describe('ExpressiveFactory', function () {
             foreach ($this->mapCreateContainers as $container) {
                 $config = $this->config;
                 $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = 'my-adapter';
+                if ($container instanceof PHPDIContainer) {
+                    $config = new ArrayObject($config);
+                }
                 allow($container)->toReceive('get')->with('config')
                                                 ->andReturn($config);
-
+                if ($container instanceof PHPDIContainer) {
+                    $config = $config->getArrayCopy();
+                }
                 allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
                 $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
@@ -289,10 +306,16 @@ describe('ExpressiveFactory', function () {
 
         it('returns Expressive Middleware instance with create services first for mapped containers and db name not found in adapters, which means use "Zend\Db\Adapter\Adapter" name', function () {
 
+            $config = $this->config;
             foreach ($this->mapCreateContainers as $container) {
+                if ($container instanceof PHPDIContainer) {
+                    $config = new ArrayObject($config);
+                }
                 allow($container)->toReceive('get')->with('config')
-                                                ->andReturn($this->config);
-
+                                                ->andReturn($config);
+                if ($container instanceof PHPDIContainer) {
+                    $config = $config->getArrayCopy();
+                }
                 allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
                 $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
