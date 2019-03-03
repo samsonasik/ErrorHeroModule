@@ -6,3 +6,5 @@ parameters:
 		- src/Controller/ErrorPreviewConsoleController.php
 		- src/Controller/ErrorPreviewController.php
 		- src/Middleware/Routed/Preview/ErrorPreviewAction.php
+	ignoreErrors:
+		- '#ContainerWrapper not found#'
