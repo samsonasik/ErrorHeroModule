@@ -10,6 +10,7 @@ use DI\Container as PHPDIContainer;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
+use Elie\PHPDI\Config\ContainerWrapper as EliePHPDIv4ContainerWrapper;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Expressive;
 use ErrorHeroModule\Middleware\ExpressiveFactory;
@@ -21,6 +22,7 @@ use Pimple\Psr11\Container as Psr11PimpleContainer;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Zend\Db\Adapter\Adapter;
+use Zend\DI\Config\ContainerWrapper as EliePHPDIv3ContainerWrapper;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\ServiceManager\ServiceManager;
 
@@ -31,13 +33,20 @@ describe('ExpressiveFactory', function () {
     });
 
     given('mapCreateContainers', function () {
-        return [
-            AuraContainer::class => (new AuraContainerBuilder())->newInstance(),
-            SymfonyContainerBuilder::class => new SymfonyContainerBuilder(),
-            AurynInjectorContainer::class => new AurynInjectorContainer(new AurynInjector()),
-            Psr11PimpleContainer::class => new Psr11PimpleContainer(new PimpleContainer()),
-            PHPDIContainer::class => new PHPDIContainer(),
+        $map = [
+            AuraContainer::class               => (new AuraContainerBuilder())->newInstance(),
+            SymfonyContainerBuilder::class     => new SymfonyContainerBuilder(),
+            AurynInjectorContainer::class      => new AurynInjectorContainer(new AurynInjector()),
+            Psr11PimpleContainer::class        => new Psr11PimpleContainer(new PimpleContainer()),
         ];
+
+        $elie29zendphpdiconfigVersion = str_replace('v', '', \PackageVersions\Versions::getVersion("elie29/zend-phpdi-config"));
+        $phpDI = [
+            $elie29zendphpdiconfigVersion >= 4 ? EliePHPDIv4ContainerWrapper::class : EliePHPDIv3ContainerWrapper::class
+                => $elie29zendphpdiconfigVersion >= 4 ? new EliePHPDIv4ContainerWrapper() : new EliePHPDIv3ContainerWrapper()
+        ];
+
+        return $phpDI + $map;
     });
 
     given('config', function () {

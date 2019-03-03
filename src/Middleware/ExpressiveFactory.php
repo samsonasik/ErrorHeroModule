@@ -6,8 +6,8 @@ namespace ErrorHeroModule\Middleware;
 
 use ArrayObject;
 use Aura\Di\Container as AuraContainer;
-use DI\Container as PHPDIContainer;
 use Doctrine\ORM\EntityManager;
+use Elie\PHPDI\Config\ContainerWrapper as EliePHPDIv4ContainerWrapper;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Transformer\AuraService;
 use ErrorHeroModule\Transformer\AurynService;
@@ -21,17 +21,21 @@ use Psr\Container\ContainerInterface;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Webmozart\Assert\Assert;
+use Zend\DI\Config\ContainerWrapper as EliePHPDIv3ContainerWrapper;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\ServiceManager\ServiceManager;
 
 class ExpressiveFactory
 {
     private const CONTAINERS_TRANSFORM = [
-        SymfonyContainerBuilder::class => SymfonyService::class,
-        AuraContainer::class           => AuraService::class,
-        AurynInjectorContainer::class  => AurynService::class,
-        Psr11PimpleContainer::class    => PimpleService::class,
-        PHPDIContainer::class          => PHPDIService::class,
+        SymfonyContainerBuilder::class     => SymfonyService::class,
+        AuraContainer::class               => AuraService::class,
+        AurynInjectorContainer::class      => AurynService::class,
+        Psr11PimpleContainer::class        => PimpleService::class,
+        // elie29/zend-phpdi-config ^v3.0.9
+        EliePHPDIv3ContainerWrapper::class => PHPDIService::class,
+        // elie29/zend-phpdi-config ^v4.0.0
+        EliePHPDIv4ContainerWrapper::class => PHPDIService::class,
     ];
 
     private function createMiddlewareInstance(ContainerInterface $container, array $configuration) : Expressive
