@@ -120,7 +120,7 @@ class Expressive implements MiddlewareInterface
             $layout = new ViewModel();
             $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
 
-            $rendererLayout = & Closure::bind(function & ($renderer) {
+            $rendererLayout = & Closure::bind(static function & ($renderer) {
                 return $renderer->layout;
             }, null, $this->renderer)($this->renderer);
             $rendererLayout = $layout;

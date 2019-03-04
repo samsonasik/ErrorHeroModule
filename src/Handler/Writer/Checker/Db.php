@@ -44,7 +44,7 @@ class Db
         string $errorType
     ) : bool {
         // db definition
-        $db = Closure::bind(function ($dbWriter) {
+        $db = Closure::bind(static function ($dbWriter) {
             return $dbWriter->db;
         }, null, $this->dbWriter)($this->dbWriter);
 

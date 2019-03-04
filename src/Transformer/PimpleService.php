@@ -18,7 +18,7 @@ class PimpleService extends TransformerAbstract implements TransformerInterface
         $dbAdapterConfig = parent::getDbAdapterConfig($configuration);
         $logger          = parent::getLoggerInstance($configuration, $dbAdapterConfig);
 
-        $pimple = & Closure::bind(function & ($container) {
+        $pimple = & Closure::bind(static function & ($container) {
             return $container->pimple;
         }, null, $container)($container);
         $pimple['ErrorHeroModuleLogger'] = $logger;
