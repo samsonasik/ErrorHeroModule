@@ -6,12 +6,11 @@ namespace ErrorHeroModule\Middleware\Routed\Preview;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class ErrorPreviewAction implements MiddlewareInterface
+class ErrorPreviewAction implements RequestHandlerInterface
 {
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    public function handle(ServerRequestInterface $request) : ResponseInterface
     {
         $action = $request->getAttribute('action', 'exception');
 
