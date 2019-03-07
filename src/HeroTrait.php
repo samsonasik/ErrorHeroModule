@@ -6,6 +6,7 @@ namespace ErrorHeroModule;
 
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
+use Psr\Http\Message\ServerRequestInterface;
 use Webmozart\Assert\Assert;
 use Zend\Mvc\MvcEvent;
 
@@ -88,6 +89,8 @@ trait HeroTrait
         }
 
         // ZF Expressive project
+        Assert::implementsInterface($this->request, ServerRequestInterface::class);
+
         $result       = $this->exceptionError($errorException);
         $this->result = (string) $result->getBody();
     }
