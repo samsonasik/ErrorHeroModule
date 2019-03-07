@@ -13,7 +13,7 @@ before_script:
   - mysql -e 'create database IF NOT EXISTS errorheromodule;' -uroot
   - mysql -u root errorheromodule < spec/Fixture/data/sql.sql
   - composer self-update
-  - composer install --prefer-source --no-interaction
+  - COMPOSER_PROCESS_TIMEOUT=5000 composer install --prefer-dist --no-interaction
   - composer dump-autoload -o
 
 script:
