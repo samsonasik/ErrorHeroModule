@@ -302,7 +302,11 @@ $app->pipe(ErrorHeroModule\Middleware\Expressive::class); // here
 and also add `error-preview` routes in `config/routes.php` (optional) :
 
 ```php
+// for use zend-router
 $app->get('/error-preview[/:action]', ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction::class, 'error-preview');
+
+// for use FastRoute
+$app->get('/error-preview[/{action}]', ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction::class, 'error-preview');
 ```
 
 to enable error preview page. To disable error preview page, just remove it from routes.
