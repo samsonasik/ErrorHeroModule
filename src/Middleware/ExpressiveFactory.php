@@ -51,7 +51,7 @@ class ExpressiveFactory
 
     private function verifyConfig(iterable $configuration, string $containerClass) : array
     {
-        if (! is_array($configuration)) {
+        if (! \is_array($configuration)) {
             Assert::isInstanceOf($configuration, ArrayObject::class);
             $configuration = $configuration->getArrayCopy();
         }

@@ -48,7 +48,7 @@ trait HeroTrait
 
     private static function isUncaught(array $error) : bool
     {
-        return 0 === strpos($error['message'], 'Uncaught');
+        return 0 === \strpos($error['message'], 'Uncaught');
     }
 
     public function phpFatalErrorHandler($buffer): string
@@ -80,10 +80,10 @@ trait HeroTrait
         if ($this instanceof Listener\Mvc) {
             Assert::isInstanceOf($this->mvcEvent, MvcEvent::class);
 
-            ob_start();
+            \ob_start();
             $this->mvcEvent->setParam('exception', $errorException);
             $this->exceptionError($this->mvcEvent);
-            $this->result = (string) ob_get_clean();
+            $this->result = (string) \ob_get_clean();
 
             return;
         }

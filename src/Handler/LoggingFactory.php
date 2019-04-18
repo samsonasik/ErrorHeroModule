@@ -30,7 +30,7 @@ class LoggingFactory
         if ($mailConfig['enable'] === true) {
             $mailMessageService   = $container->get($mailConfig['mail-message']);
             if (! $mailMessageService instanceof Message) {
-                throw new RuntimeException(sprintf(
+                throw new RuntimeException(\sprintf(
                     'You are enabling email log writer, your "mail-message" config must be instanceof %s',
                     Message::class
                 ));
@@ -38,7 +38,7 @@ class LoggingFactory
 
             $mailMessageTransport = $container->get($mailConfig['mail-transport']);
             if (! $mailMessageTransport instanceof TransportInterface) {
-                throw new RuntimeException(sprintf(
+                throw new RuntimeException(\sprintf(
                     'You are enabling email log writer, your "mail-transport" config must implements %s',
                     TransportInterface::class
                 ));
