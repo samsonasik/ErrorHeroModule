@@ -167,7 +167,12 @@ class Logging
             $serverUrl  = \php_uname('n');
             $url        = $serverUrl . ':' . \basename((string) \getcwd())
                 . ' ' . \get_current_user()
-                . '$ ' . \PHP_BINARY . ' ' . $request->getScriptName() . ' ' . $request->toString();
+                . '$ ' . \PHP_BINARY . ' ' . $request->getScriptName();
+
+            $params     = $request->getParams()->toArray();
+            unset($params['controller'], $params['middleware'], $params['action']);
+            $request->getParams()->fromArray($params);
+            $url       .= ' ' . $request->toString();
         } else {
             Assert::isInstanceOf($request, HttpRequest::class);
             $uri       = $request->getUri();
