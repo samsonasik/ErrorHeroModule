@@ -170,7 +170,7 @@ class Logging
                 . '$ ' . \PHP_BINARY . ' ' . $request->getScriptName();
 
             $params     = $request->getParams()->toArray();
-            unset($params['controller'], $params['middleware'], $params['action']);
+            unset($params['controller'], $params['action']);
             $request->getParams()->fromArray($params);
             $url       .= ' ' . $request->toString();
         } else {
