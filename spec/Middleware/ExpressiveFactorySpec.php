@@ -6,7 +6,6 @@ use ArrayObject;
 use Aura\Di\Container as AuraContainer;
 use Aura\Di\ContainerBuilder as AuraContainerBuilder;
 use Auryn\Injector as AurynInjector;
-use DI\Container as PHPDIContainer;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
