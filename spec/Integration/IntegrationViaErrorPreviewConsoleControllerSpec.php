@@ -8,7 +8,7 @@ use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Zend\Console\Console;
 use Zend\Console\Request as ConsoleRequest;
-use Zend\Db\Adapter\Adapter;
+use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Mvc\Application;
@@ -35,7 +35,7 @@ describe('Integration via ErrorPreviewConsoleController', function () {
         $application->getMvcEvent()->setRequest(new ConsoleRequest());
 
         $serviceManager = $application->getServiceManager();
-        $db             = $serviceManager->get(Adapter::class);
+        $db             = $serviceManager->get(AdapterInterface::class);
         $tableGateway   = new TableGateway('log', $db, null, new ResultSet());
         $tableGateway->delete([]);
 

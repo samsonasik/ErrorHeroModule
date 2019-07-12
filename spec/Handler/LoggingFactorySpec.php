@@ -7,7 +7,7 @@ use ErrorHeroModule\Handler\LoggingFactory;
 use Kahlan\Plugin\Double;
 use Psr\Container\ContainerInterface;
 use Zend\Console\Console;
-use Zend\Db\Adapter\Adapter;
+use Zend\Db\Adapter\AdapterInterface;
 use Zend\Log\Logger;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
@@ -27,7 +27,7 @@ describe('LoggingFactorySpec', function () {
                         [
                             'name' => 'db',
                             'options' => [
-                                'db'     => Adapter::class,
+                                'db'     => AdapterInterface::class,
                                 'table'  => 'log',
                                 'column' => [
                                     'timestamp' => 'date',

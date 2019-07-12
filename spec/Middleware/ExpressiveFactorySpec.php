@@ -20,7 +20,6 @@ use Pimple\Container as PimpleContainer;
 use Pimple\Psr11\Container as Psr11PimpleContainer;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
-use Zend\Db\Adapter\Adapter;
 use Zend\DI\Config\ContainerWrapper as EliePHPDIv3ContainerWrapper;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\ServiceManager\ServiceManager;
@@ -122,7 +121,7 @@ describe('ExpressiveFactory', function () {
                         [
                             'name' => 'db',
                             'options' => [
-                                'db'     => Adapter::class,
+                                'db'     => AdapterInterface::class,
                                 'table'  => 'error_log',
                                 'column' => [
                                     'timestamp' => 'date',
@@ -254,7 +253,7 @@ describe('ExpressiveFactory', function () {
             unset($config['db']['adapters']);
 
             foreach ($this->mapCreateContainers as $container) {
-                $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = Adapter::class;
+                $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = AdapterInterface::class;
                 if ($container instanceof AuraContainer) {
                     $config = new ArrayObject($config);
                 }

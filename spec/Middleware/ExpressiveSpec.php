@@ -9,6 +9,7 @@ use Kahlan\Plugin\Double;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Db\Adapter\Adapter;
+use Zend\Db\Adapter\AdapterInterface;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Uri;
@@ -158,7 +159,7 @@ json
             [
                 'name' => 'db',
                 'options' => [
-                    'db'     => Adapter::class,
+                    'db'     => AdapterInterface::class,
                     'table'  => 'log',
                     'column' => [
                         'timestamp' => 'date',

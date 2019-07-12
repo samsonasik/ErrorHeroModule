@@ -7,7 +7,7 @@ use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Module;
 use Kahlan\Plugin\Double;
-use Zend\Db\Adapter\Adapter;
+use Zend\Db\Adapter\AdapterInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\ModuleManager\Listener\ConfigListener;
 use Zend\ModuleManager\ModuleEvent;
@@ -29,7 +29,7 @@ describe('Module', function () {
                         [
                             'name' => 'db',
                             'options' => [
-                                'db'     => Adapter::class,
+                                'db'     => AdapterInterface::class,
                                 'table'  => 'error_log',
                                 'column' => [
                                     'timestamp' => 'date',

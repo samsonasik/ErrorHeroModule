@@ -4,7 +4,7 @@ namespace ErrorHeroModule\Spec;
 
 use ErrorHeroModule;
 use Zend\Console\Console;
-use Zend\Db\Adapter\Adapter;
+use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Mvc\Application;
@@ -36,7 +36,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
     given('tableGateway', function () {
 
         $serviceManager = $this->application->getServiceManager();
-        $db             = $serviceManager->get(Adapter::class);
+        $db             = $serviceManager->get(AdapterInterface::class);
 
         return new TableGateway('log', $db, null, new ResultSet());
 

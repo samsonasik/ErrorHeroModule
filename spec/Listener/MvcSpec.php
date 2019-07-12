@@ -11,6 +11,7 @@ use Kahlan\QuitException;
 use Zend\Console\Console;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\Db\Adapter\Adapter;
+use Zend\Db\Adapter\AdapterInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Log\Logger;
@@ -346,7 +347,7 @@ describe('Mvc', function () {
                 [
                     'name' => 'db',
                     'options' => [
-                        'db'     => Adapter::class,
+                        'db'     => AdapterInterface::class,
                         'table'  => 'log',
                         'column' => [
                             'timestamp' => 'date',
