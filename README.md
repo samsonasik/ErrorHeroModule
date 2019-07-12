@@ -141,6 +141,9 @@ When done, you can modify logger service named `ErrorHeroModuleLogger` and `erro
 ```php
 <?php
 // config/autoload/error-hero-module.local.php or config/autoload/expressive-error-hero-module.local.php
+
+use Zend\Db\Adapter\AdapterInterface;
+
 return [
 
     'log' => [
@@ -150,7 +153,7 @@ return [
                 [
                     'name' => 'db',
                     'options' => [
-                        'db'     => 'Zend\Db\Adapter\Adapter',
+                        'db'     => AdapterInterface::class,
                         'table'  => 'log',
                         'column' => [
                             'timestamp' => 'date',

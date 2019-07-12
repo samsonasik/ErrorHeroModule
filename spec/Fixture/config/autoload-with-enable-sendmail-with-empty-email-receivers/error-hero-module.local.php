@@ -1,6 +1,6 @@
 <?php
 
-use Zend\Db\Adapter\Adapter;
+use Zend\Db\Adapter\AdapterInterface;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\InMemory;
 use Zend\ServiceManager\Factory\InvokableFactory;
@@ -31,7 +31,7 @@ return [
                 [
                     'name' => 'db',
                     'options' => [
-                        'db'     => Adapter::class,
+                        'db'     => AdapterInterface::class,
                         'table'  => 'log',
                         'column' => [
                             'timestamp' => 'date',
