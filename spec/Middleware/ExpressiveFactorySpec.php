@@ -9,7 +9,7 @@ use Auryn\Injector as AurynInjector;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
-use Elie\PHPDI\Config\ContainerWrapper as EliePHPDIv4ContainerWrapper;
+use Elie\PHPDI\Config\ContainerWrapper as PHPDIContainerWrapper;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Expressive;
 use ErrorHeroModule\Middleware\ExpressiveFactory;
@@ -20,7 +20,6 @@ use Pimple\Container as PimpleContainer;
 use Pimple\Psr11\Container as Psr11PimpleContainer;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
-use Zend\DI\Config\ContainerWrapper as EliePHPDIv3ContainerWrapper;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\ServiceManager\ServiceManager;
 
@@ -31,20 +30,13 @@ describe('ExpressiveFactory', function () {
     });
 
     given('mapCreateContainers', function () {
-        $map = [
+        return [
             AuraContainer::class               => (new AuraContainerBuilder())->newInstance(),
             SymfonyContainerBuilder::class     => new SymfonyContainerBuilder(),
             AurynInjectorContainer::class      => new AurynInjectorContainer(new AurynInjector()),
             Psr11PimpleContainer::class        => new Psr11PimpleContainer(new PimpleContainer()),
+            PHPDIContainerWrapper::class       => new PHPDIContainerWrapper(),
         ];
-
-        $elie29zendphpdiconfigVersion = str_replace('v', '', \PackageVersions\Versions::getVersion("elie29/zend-phpdi-config"));
-        $phpDI = [
-            $elie29zendphpdiconfigVersion >= 4 ? EliePHPDIv4ContainerWrapper::class : EliePHPDIv3ContainerWrapper::class
-                => $elie29zendphpdiconfigVersion >= 4 ? new EliePHPDIv4ContainerWrapper() : new EliePHPDIv3ContainerWrapper()
-        ];
-
-        return $phpDI + $map;
     });
 
     given('config', function () {
