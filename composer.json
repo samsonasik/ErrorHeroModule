@@ -62,7 +62,7 @@
         "aura/di": "^3.4",
         "doctrine/doctrine-orm-module": "^2.1",
         "elie29/zend-phpdi-config":"^4.0",
-        "kahlan/kahlan": "^4.1.1",
+        "kahlan/kahlan": "dev-dev#9055d4ecd8a54443ab4317ca603408e1283c891b",
         "northwoods/container": "^3.0",
         "php-coveralls/php-coveralls": "^2.0",
         "php-di/php-di": "^6.0",
