@@ -53,7 +53,7 @@
     },
     "conflict": {
         "doctrine/doctrine-orm-module": "<2.1",
-        "elie29/zend-phpdi-config":"<4.0",
+        "elie29/zend-phpdi-config": "<4.0",
         "zendframework/zend-expressive": "<3.0 >=4.0",
         "zendframework/zend-mvc": "<3.0 >=4.0",
         "zendframework/zend-servicemanager": "<3.3"
@@ -61,7 +61,7 @@
     "require-dev": {
         "aura/di": "^3.4",
         "doctrine/doctrine-orm-module": "^2.1",
-        "elie29/zend-phpdi-config":"^4.0",
+        "elie29/zend-phpdi-config": "^4.0",
         "kahlan/kahlan": "dev-dev#9055d4ecd8a54443ab4317ca603408e1283c891b",
         "northwoods/container": "^3.0",
         "php-coveralls/php-coveralls": "^2.0",
@@ -69,6 +69,7 @@
         "phpstan/phpstan": "^0.10",
         "phpstan/phpstan-webmozart-assert": "^0.10.0",
         "pimple/pimple": "^3.2",
+        "squizlabs/php_codesniffer": "3.4.2 as 2.7",
         "symfony/dependency-injection": "^4.0",
         "zendframework/zend-coding-standard": "^1.0",
         "zendframework/zend-expressive": "^3.0",
