@@ -98,7 +98,7 @@ class Logging
                 } catch (RuntimeException $e) {
                     // use \Zend\Db\Adapter\Exception\RuntimeException but do here
                     // to avoid too much deep trace from Zend\Db classes
-                    throw new ${!${''} = \get_class($e)}($e->getMessage());
+                    throw new ${! ${''} = \get_class($e)}($e->getMessage());
                 }
             }
         }
