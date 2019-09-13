@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Handler\Formatter;
 
 use DateTime;
-use Zend\Log\Formatter\Base;
+use Zend\Log\Formatter\Json as BaseJson;
 use Zend\Log\Formatter\FormatterInterface;
 
-class Json extends Base implements FormatterInterface
+class Json extends BaseJson implements FormatterInterface
 {
     /**
      * @param array $event event data
