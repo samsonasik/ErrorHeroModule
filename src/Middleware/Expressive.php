@@ -6,8 +6,10 @@ namespace ErrorHeroModule\Middleware;
 
 use Closure;
 use Error;
+use function ErrorHeroModule\detectMessageContentType;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\HeroTrait;
+use function ErrorHeroModule\isExcludedException;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,10 +20,9 @@ use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\Expressive\ZendView\ZendViewRenderer;
+
 use Zend\Psr7Bridge\Psr7ServerRequest;
 use Zend\View\Model\ViewModel;
-
-use function ErrorHeroModule\detectMessageContentType;
 
 class Expressive implements MiddlewareInterface
 {
@@ -69,10 +70,7 @@ class Expressive implements MiddlewareInterface
      */
     public function exceptionError(Throwable $t) : ResponseInterface
     {
-        $exceptionOrErrorClass = \get_class($t);
-        if (isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions']) &&
-            \in_array($exceptionOrErrorClass, $this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])
-        ) {
+        if (isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions']) && isExcludedException($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'], $t)) {
             throw $t;
         }
 

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Listener;
 
+use function ErrorHeroModule\detectMessageContentType;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\HeroTrait;
+use function ErrorHeroModule\isExcludedException;
 use Webmozart\Assert\Assert;
 use Zend\Console\Response as ConsoleResponse;
 use Zend\EventManager\AbstractListenerAggregate;
@@ -14,10 +16,9 @@ use Zend\Http\PhpEnvironment\Request;
 use Zend\Http\PhpEnvironment\Response;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\RequestInterface;
+
 use Zend\Text\Table;
 use Zend\View\Renderer\PhpRenderer;
-
-use function ErrorHeroModule\detectMessageContentType;
 
 class Mvc extends AbstractListenerAggregate
 {
@@ -64,9 +65,7 @@ class Mvc extends AbstractListenerAggregate
             return;
         }
 
-        $exceptionClass = \get_class($exception);
-        if (isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions']) &&
-            \in_array($exceptionClass, $this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])) {
+        if (isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions']) &&  isExcludedException($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'], $exception)) {
             // rely on original mvc process
             return;
         }

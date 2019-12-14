@@ -104,8 +104,15 @@ trait HeroTrait
             return;
         }
 
-        if (\in_array($errorType, $this->errorHeroModuleConfig['display-settings']['exclude-php-errors'])) {
-            return;
+        \http_response_code(500);
+        foreach ($this->errorHeroModuleConfig['display-settings']['exclude-php-errors'] as $excludePhpError) {
+            if ($errorType === $excludePhpError) {
+                return;
+            }
+
+            if (is_array($excludePhpError) && $excludePhpError[0] === $errorType && $excludePhpError[1] === $errorMessage) {
+                return;
+            }
         }
 
         throw new ErrorException($errorMessage, 0, $errorType, $errorFile, $errorLine);

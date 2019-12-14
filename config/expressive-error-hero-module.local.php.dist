@@ -49,14 +49,29 @@ return [
 
         'display-settings' => [
 
-            // excluded php errors
+            // excluded php errors ( http://www.php.net/manual/en/errorfunc.constants.php )
             'exclude-php-errors' => [
-                \E_USER_DEPRECATED
+
+                // can be specific error
+                \E_USER_DEPRECATED,
+
+                // can be specific error with specific message
+                [\E_WARNING, 'specific error message'],
+
             ],
 
             // excluded exceptions
             'exclude-exceptions' => [
-                \App\Exception\MyException::class, // can be an Exception class or class extends Exception class
+
+                // can be an Exception class or class extends Exception class
+                \App\Exception\MyException::class,
+
+                // can be specific exception with specific message
+                [\RuntimeException::class, 'specific exception message'],
+
+                // or specific Error class with specific message
+                [\Error::class, 'specific error message'],
+
             ],
 
             // show or not error

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Handler\Formatter;
 
 use DateTime;
-use Zend\Log\Formatter\Json as BaseJson;
 use Zend\Log\Formatter\FormatterInterface;
+use Zend\Log\Formatter\Json as BaseJson;
 
 class Json extends BaseJson implements FormatterInterface
 {
