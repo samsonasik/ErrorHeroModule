@@ -110,7 +110,10 @@ trait HeroTrait
                 return;
             }
 
-            if (is_array($excludePhpError) && $excludePhpError[0] === $errorType && $excludePhpError[1] === $errorMessage) {
+            if (is_array($excludePhpError)
+                && $excludePhpError[0] === $errorType
+                && $excludePhpError[1] === $errorMessage
+            ) {
                 return;
             }
         }

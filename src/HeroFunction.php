@@ -23,7 +23,10 @@ function isExcludedException(array $excludeExceptionsConfig, Throwable $t)
             return true;
         }
 
-        if (is_array($excludeException) && $excludeException[0] === $exceptionOrErrorClass && $excludeException[1] === $t->getMessage()) {
+        if (is_array($excludeException)
+            && $excludeException[0] === $exceptionOrErrorClass
+            && $excludeException[1] === $t->getMessage()
+        ) {
             return true;
         }
     }
