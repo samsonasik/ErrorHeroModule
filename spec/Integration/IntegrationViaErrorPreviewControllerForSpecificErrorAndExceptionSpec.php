@@ -54,9 +54,6 @@ describe('Integration via ErrorPreviewController', function () {
             expect(\ob_get_clean())->toBe('');
             expect($this->application->getResponse()->getStatusCode())->toBe(500);
 
-           // $select = $this->tableGateway->getSql()->select();
-           // echo $select->count();
-
         });
 
     });
