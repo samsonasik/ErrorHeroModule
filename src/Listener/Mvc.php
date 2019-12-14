@@ -65,7 +65,9 @@ class Mvc extends AbstractListenerAggregate
             return;
         }
 
-        if (isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions']) &&  isExcludedException($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'], $exception)) {
+        if (isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])
+            && isExcludedException($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'], $exception)
+        ) {
             // rely on original mvc process
             return;
         }

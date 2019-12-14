@@ -70,7 +70,9 @@ class Expressive implements MiddlewareInterface
      */
     public function exceptionError(Throwable $t) : ResponseInterface
     {
-        if (isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions']) && isExcludedException($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'], $t)) {
+        if (isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])
+            && isExcludedException($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'], $t)
+        ) {
             throw $t;
         }
 
