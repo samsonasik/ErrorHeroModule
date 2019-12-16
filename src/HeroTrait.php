@@ -104,7 +104,6 @@ trait HeroTrait
             return;
         }
 
-        \http_response_code(500);
         foreach ($this->errorHeroModuleConfig['display-settings']['exclude-php-errors'] as $excludePhpError) {
             if ($errorType === $excludePhpError) {
                 return;
