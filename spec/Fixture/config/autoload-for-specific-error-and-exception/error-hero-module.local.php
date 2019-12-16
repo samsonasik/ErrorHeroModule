@@ -4,6 +4,16 @@ use Zend\Db\Adapter\AdapterInterface;
 
 return [
 
+    'db' => [
+        'username' => 'root',
+        'password' => '',
+        'driver' => 'Pdo',
+        'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
+        'driver_options' => [
+            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+        ],
+    ],
+
     'log' => [
         'ErrorHeroModuleLogger' => [
             'writers' => [
@@ -26,12 +36,6 @@ return [
                                 'request_data' => 'request_data',
                             ],
                         ],
-                        'formatter' => [
-                            'name' => 'db',
-                            'options' => [
-                                'dateTimeFormat' => 'Y-m-d H:i:s',
-                            ],
-                        ],
                     ],
                 ],
 
@@ -40,42 +44,25 @@ return [
     ],
 
     'error-hero-module' => [
-        // it's for the enable/disable the logger functionality
         'enable' => true,
-
-        // default to true, if set to true, then you can see sample:
-        // 1. /error-preview page ( ErrorHeroModule\Controller\ErrorPreviewController )
-        // 2. error-preview command (ErrorHeroModule\Controller\ErrorPreviewConsoleController) via
-        //       php public/index.php error-preview
-        //
-        // otherwise(false), you can't see them, eg: on production env.
-        'enable-error-preview-page' => true,
-
         'display-settings' => [
 
             // excluded php errors ( http://www.php.net/manual/en/errorfunc.constants.php )
             'exclude-php-errors' => [
 
-                // can be specific error
-                \E_USER_DEPRECATED,
-
                 // can be specific error with specific message
-                [\E_WARNING, 'specific error message'],
+                [\E_NOTICE, 'Undefined offset: 1'],
 
             ],
 
             // excluded exceptions
             'exclude-exceptions' => [
 
-                // can be an Exception class or class extends Exception class
-                \App\Exception\MyException::class,
+                // can be specific exception instance with specific error message
+                [\Exception::class, 'a sample exception preview'],
 
-                // can be specific exception with specific message
-                [\RuntimeException::class, 'specific exception message'],
-
-                // or specific Error class with specific message
-                [\Error::class, 'specific error message'],
-
+                // or Error class
+                [\Error::class, 'a sample error preview'],
             ],
 
             // show or not error
@@ -87,28 +74,13 @@ return [
                 'view'   => 'error-hero-module/error-default'
             ],
 
-            // if enable and display_errors = 0, and on console env, the console will bring message for zend-mvc
+            // if enable and display_errors = 0, the console will bring message
             'console' => [
                 'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
             ],
 
-            // if enable, display_errors = 0, and request XMLHttpRequest
-            // on this case, the "template" key will be ignored.
-            'ajax' => [
-                'message' => <<<json
-{
-    "type": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html",
-    "title": "Internal Server Error",
-    "status": 500,
-    "detail": "We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience."
-}
-json
-            ],
-
         ],
         'logging-settings' => [
-            // time range for same error, file, line, url, message to be re-logged
-            // in seconds range, 86400 means 1 day
             'same-error-log-time-range' => 86400,
         ],
         'email-notification-settings' => [

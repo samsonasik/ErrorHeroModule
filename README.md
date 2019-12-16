@@ -21,8 +21,8 @@ Features
 
 - [x] Save to DB with Db Writer Adapter.
 - [x] Log Exception (dispatch.error and render.error) and PHP Errors in all events process.
-- [x] Support excludes [PHP E_* Error](http://www.php.net/manual/en/errorfunc.constants.php) (eg: exclude E_USER_DEPRECATED) in config settings.
-- [x] Support excludes [PHP Exception](http://php.net/manual/en/spl.exceptions.php) (eg: Exception class or classes that extends it) in config settings.
+- [x] Support excludes [PHP E_* Error](http://www.php.net/manual/en/errorfunc.constants.php) (eg: exclude E_USER_DEPRECATED or specific E_USER_DEPRECATED with specific message) in config settings.
+- [x] Support excludes [PHP Exception](http://php.net/manual/en/spl.exceptions.php) (eg: Exception class or classes that extends it or specific exception class with specific message) in config settings.
 - [x] Handle only once log error for same error per configured time range.
 - [x] Set default page (web access) or default message (console access) for error if configured 'display_errors' = 0.
 - [x] Set default content when request is XMLHttpRequest via 'ajax' configuration.
@@ -200,12 +200,27 @@ return [
 
             // excluded php errors ( http://www.php.net/manual/en/errorfunc.constants.php )
             'exclude-php-errors' => [
+
+                // can be specific error
                 \E_USER_DEPRECATED,
+
+                // can be specific error with specific message
+                [\E_WARNING, 'specific error message'],
+
             ],
 
             // excluded exceptions
             'exclude-exceptions' => [
-                \App\Exception\MyException::class, // can be an Exception class or class extends Exception class
+
+                // can be an Exception class or class extends Exception class
+                \App\Exception\MyException::class,
+
+                // can be specific exception with specific message
+                [\RuntimeException::class, 'specific exception message'],
+
+                // or specific Error class with specific message
+                [\Error::class, 'specific error message'],
+
             ],
 
             // show or not error
