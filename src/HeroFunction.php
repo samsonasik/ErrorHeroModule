@@ -18,18 +18,21 @@ function isExcludedException(array $excludeExceptionsConfig, Throwable $t)
 {
     $exceptionOrErrorClass = \get_class($t);
 
+    $isExcluded = false;
     foreach ($excludeExceptionsConfig as $excludeException) {
         if ($exceptionOrErrorClass === $excludeException) {
-            return true;
+            $isExcluded = true;
+            break;
         }
 
         if (is_array($excludeException)
             && $excludeException[0] === $exceptionOrErrorClass
             && $excludeException[1] === $t->getMessage()
         ) {
-            return true;
+            $isExcluded = true;
+            break;
         }
     }
 
-    return false;
+    return $isExcluded;
 }
