@@ -16,7 +16,6 @@ use Zend\Http\PhpEnvironment\Request;
 use Zend\Http\PhpEnvironment\Response;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\RequestInterface;
-
 use Zend\Text\Table;
 use Zend\View\Renderer\PhpRenderer;
 
