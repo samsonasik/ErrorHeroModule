@@ -141,7 +141,7 @@ describe('MezzioFactory', function () {
 
     describe('__invoke()', function () {
 
-        it('returns Mezzio Middleware instance with doctrine to zend-db conversion', function () {
+        it('returns Mezzio Middleware instance with doctrine to laminas-db conversion', function () {
 
             $config = $this->config;
             unset($config['db']);
@@ -185,7 +185,7 @@ describe('MezzioFactory', function () {
 
         });
 
-        it('returns Mezzio Middleware instance without doctrine to zend-db conversion', function () {
+        it('returns Mezzio Middleware instance without doctrine to laminas-db conversion', function () {
 
             $container = Double::instance(['extends' => ServiceManager::class, 'methods' => '__construct']);
             allow($container)->toReceive('get')->with('config')

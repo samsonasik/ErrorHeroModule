@@ -18,7 +18,7 @@
         "psr7",
         "psr11",
         "psr15",
-        "zend-view",
+        "laminas-view",
         "twig",
         "plates",
         "symfony",
@@ -52,7 +52,7 @@
     },
     "conflict": {
         "doctrine/doctrine-orm-module": "<2.1",
-        "elie29/zend-phpdi-config": "<4.0",
+        "elie29/laminas-phpdi-config": "<4.0",
         "laminas/laminas-mvc": "<3.0 >=4.0",
         "laminas/laminas-servicemanager": "<3.3",
         "mezzio/mezzio": "<3.0 >=4.0"
@@ -60,9 +60,11 @@
     "require-dev": {
         "aura/di": "^3.4",
         "doctrine/doctrine-orm-module": "^2.1",
-        "elie29/zend-phpdi-config": "^4.0",
+        "elie29/laminas-phpdi-config": "^4.0",
         "kahlan/kahlan": "^4.6.4",
+        "laminas/laminas-cache": "^2.9",
         "laminas/laminas-coding-standard": "^2.0",
+        "laminas/laminas-form": "^2.14",
         "laminas/laminas-mvc": "^3.0",
         "laminas/laminas-mvc-console": "^1.1",
         "laminas/laminas-servicemanager": "^3.3",
@@ -78,10 +80,10 @@
         "symfony/dependency-injection": "^4.0"
     },
     "suggest": {
-        "laminas/laminas-mvc-console": "^1.1 for zend-mvc ^3.0 usage to be able to use Console Controller",
-        "mezzio/mezzio-laminasviewrenderer": "^2.0 to be able to use zend-view template engine in zend-expressive ^3.0",
-        "mezzio/mezzio-platesrenderer": "^2.0 to be able to use plates template engine in zend-expressive ^3.0",
-        "mezzio/mezzio-twigrenderer": "^2.0 to be able to use twig template engine in zend-expressive ^3.0"
+        "laminas/laminas-mvc-console": "^1.1 for laminas-mvc ^3.0 usage to be able to use Console Controller",
+        "mezzio/mezzio-laminasviewrenderer": "^2.0 to be able to use laminas-view template engine in mezzio ^3.0",
+        "mezzio/mezzio-platesrenderer": "^2.0 to be able to use plates template engine in mezzio ^3.0",
+        "mezzio/mezzio-twigrenderer": "^2.0 to be able to use twig template engine in mezzio ^3.0"
     },
     "config": {
         "bin-dir": "bin",

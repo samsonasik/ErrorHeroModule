@@ -40,7 +40,7 @@ class MezzioFactory
         PHPDIContainerWrapper::class   => PHPDIService::class,
     ];
 
-    private function createMiddlewareInstance(ContainerInterface $container, array $configuration): Expressive
+    private function createMiddlewareInstance(ContainerInterface $container, array $configuration): Mezzio
     {
         return new Mezzio(
             $configuration['error-hero-module'],
@@ -70,7 +70,7 @@ class MezzioFactory
         return $configuration;
     }
 
-    public function __invoke(ContainerInterface $container): Expressive
+    public function __invoke(ContainerInterface $container): Mezzio
     {
         $configuration = $container->get('config');
 
