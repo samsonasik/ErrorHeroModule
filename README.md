@@ -16,7 +16,7 @@ ErrorHeroModule
 Introduction
 ------------
 
-ErrorHeroModule is a module for Error Logging (DB and Mail) your ZF3 Mvc Application, and ZF Mezzio for Exceptions in 'dispatch.error' or 'render.error' or during request and response, and [PHP E_* Error](http://www.php.net/manual/en/errorfunc.constants.php).
+ErrorHeroModule is a module for Error Logging (DB and Mail) your Laminas Mvc 3 Application, and Mezzio 3 for Exceptions in 'dispatch.error' or 'render.error' or during request and response, and [PHP E_* Error](http://www.php.net/manual/en/errorfunc.constants.php).
 
 Features
 --------
@@ -28,7 +28,7 @@ Features
 - [x] Handle only once log error for same error per configured time range.
 - [x] Set default page (web access) or default message (console access) for error if configured 'display_errors' = 0.
 - [x] Set default content when request is XMLHttpRequest via 'ajax' configuration.
-- [x] Set default content when there is [no template service](https://github.com/mezzio/mezzio-template/blob/9b6c2e06f8c1d7e43750f72b64cc749552f2bdbe/src/TemplateRendererInterface.php) via 'no_template' configuration (ZF Mezzio 3).
+- [x] Set default content when there is [no template service](https://github.com/mezzio/mezzio-template/blob/9b6c2e06f8c1d7e43750f72b64cc749552f2bdbe/src/TemplateRendererInterface.php) via 'no_template' configuration (Mezzio 3).
 - [x] Provide request information ( http method, raw data, body data, query data, files data, cookie data, and ip address).
 - [x] Send Mail
   - [x] many receivers to listed configured email
@@ -370,7 +370,7 @@ You will get the following page if display_errors config is 0:
 
 > For production env, you can disable error-preview sample page with set `['error-hero-module']['enable-error-preview-page']` to false.
 
-> For ZF Mezzio, there is no default console implementation, so, if you want to apply it in your console in ZF Mezzio, you may need to custom implementation error handler that utilize `ErrorHeroModule\Handler\Logging` service (see detailed usage at `ErrorHeroModule\Middleware\Mezzio` class)
+> For Mezzio, there is no default console implementation, so, if you want to apply it in your console in Mezzio, you may need to custom implementation error handler that utilize `ErrorHeroModule\Handler\Logging` service (see detailed usage at `ErrorHeroModule\Middleware\Mezzio` class)
 
 Contributing
 ------------
