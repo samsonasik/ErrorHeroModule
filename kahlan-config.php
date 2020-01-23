@@ -20,6 +20,7 @@ class_alias(Laminas\ServiceManager\AbstractFactoryInterface::class, Zend\Service
 class_alias(Laminas\ServiceManager\ServiceLocatorInterface::class, Zend\ServiceManager\ServiceLocatorInterface::class);
 class_alias(Laminas\ServiceManager\FactoryInterface::class, Zend\ServiceManager\FactoryInterface::class);
 class_alias(Laminas\Db\Adapter\AdapterInterface::class, Zend\Db\Adapter\AdapterInterface::class);
+class_alias(Laminas\Stdlib\AbstractOptions::class, Zend\Stdlib\AbstractOptions::class);
 
 Filters::apply($this, 'coverage', function($next) {
     if (! extension_loaded('xdebug')) {
