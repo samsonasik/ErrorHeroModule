@@ -7,9 +7,9 @@ use ErrorHeroModule;
 use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
-use Zend\Console\Console;
-use Zend\Console\Request as ConsoleRequest;
-use Zend\Mvc\Application;
+use Laminas\Console\Console;
+use Laminas\Console\Request as ConsoleRequest;
+use Laminas\Mvc\Application;
 
 describe('Integration via ErrorPreviewConsoleController with doctrine', function () {
 
@@ -19,7 +19,7 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
 
         $application = Application::init([
             'modules' => [
-                'Zend\Router',
+                'Laminas\Router',
                 'DoctrineModule',
                 'DoctrineORMModule',
                 'ErrorHeroModule',

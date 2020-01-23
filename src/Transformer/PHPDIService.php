@@ -10,7 +10,7 @@ use Webmozart\Assert\Assert;
 
 class PHPDIService extends TransformerAbstract implements TransformerInterface
 {
-    public static function transform(ContainerInterface $container, array $configuration) : ContainerInterface
+    public static function transform(ContainerInterface $container, array $configuration): ContainerInterface
     {
         Assert::isInstanceOf($container, PHPDIContainer::class);
 

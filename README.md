@@ -7,14 +7,16 @@ ErrorHeroModule
 [![PHPStan](https://img.shields.io/badge/style-level%20max-brightgreen.svg?style=flat-square&label=phpstan)](https://github.com/phpstan/phpstan)
 [![Downloads](https://poser.pugx.org/samsonasik/error-hero-module/downloads)](https://packagist.org/packages/samsonasik/error-hero-module)
 
-> This is README for version ^2.0 which only support ZF3 and ZF Expressive version 3 with php ^7.1.
+> This is README for version ^3.0 which only support Laminas Mvc version 3 and Mezzio version 3 with php ^7.1.
 
-> For version 1, you can read at [version 1 readme](https://github.com/samsonasik/ErrorHeroModule/tree/1.x.x) which still support ZF2 and ZF Expressive version 1 and 2 with php ^5.6|^7.0 support.
+> For version ^2.0, you can read at [version 2 readme](https://github.com/samsonasik/ErrorHeroModule/tree/2.x.x) which only support ZF3 and ZF Expressive version 3 with php ^7.1.
+
+> For version 1, you can read at [version 1 readme](https://github.com/samsonasik/ErrorHeroModule/tree/1.x.x) which still support ZF2 and ZF Mezzio version 1 and 2 with php ^5.6|^7.0 support.
 
 Introduction
 ------------
 
-ErrorHeroModule is a module for Error Logging (DB and Mail) your ZF3 Mvc Application, and ZF Expressive for Exceptions in 'dispatch.error' or 'render.error' or during request and response, and [PHP E_* Error](http://www.php.net/manual/en/errorfunc.constants.php).
+ErrorHeroModule is a module for Error Logging (DB and Mail) your ZF3 Mvc Application, and ZF Mezzio for Exceptions in 'dispatch.error' or 'render.error' or during request and response, and [PHP E_* Error](http://www.php.net/manual/en/errorfunc.constants.php).
 
 Features
 --------
@@ -26,7 +28,7 @@ Features
 - [x] Handle only once log error for same error per configured time range.
 - [x] Set default page (web access) or default message (console access) for error if configured 'display_errors' = 0.
 - [x] Set default content when request is XMLHttpRequest via 'ajax' configuration.
-- [x] Set default content when there is [no template service](https://github.com/zendframework/zend-expressive-template/blob/9b6c2e06f8c1d7e43750f72b64cc749552f2bdbe/src/TemplateRendererInterface.php) via 'no_template' configuration (ZF Expressive 3).
+- [x] Set default content when there is [no template service](https://github.com/mezzio/mezzio-template/blob/9b6c2e06f8c1d7e43750f72b64cc749552f2bdbe/src/TemplateRendererInterface.php) via 'no_template' configuration (ZF Mezzio 3).
 - [x] Provide request information ( http method, raw data, body data, query data, files data, cookie data, and ip address).
 - [x] Send Mail
   - [x] many receivers to listed configured email
@@ -55,9 +57,9 @@ CREATE TABLE `log` (
 ```
 > If you use other RDBMS, you may follow the `log` table structure above.
 
-**2. Setup your Zend\Db\Adapter\AdapterInterface service or your Doctrine\ORM\EntityManager service config**
+**2. Setup your Laminas\Db\Adapter\AdapterInterface service or your Doctrine\ORM\EntityManager service config**
 
-You can use 'db' (with _Zend\Db_) config or 'doctrine' (with _DoctrineORMModule_) config that will be transformed to be usable with `Zend\Log\Writer\Db`.
+You can use 'db' (with _Laminas\Db_) config or 'doctrine' (with _DoctrineORMModule_) config that will be transformed to be usable with `Laminas\Log\Writer\Db`.
 
 ```php
 <?php
@@ -112,7 +114,7 @@ composer require samsonasik/error-hero-module
 
 **4. Copy config**
 
-***a. For [ZF3 Mvc](https://zendframework.github.io/tutorials/getting-started/overview/) application, copy `error-hero-module.local.php.dist` config to your local's autoload and configure it***
+***a. For [Laminas Mvc](https://docs.laminas.dev/tutorials/getting-started/overview/) application, copy `error-hero-module.local.php.dist` config to your local's autoload and configure it***
 
 | source                                                                       | destination                                 |
 |------------------------------------------------------------------------------|---------------------------------------------|
@@ -124,25 +126,25 @@ Or run copy command:
 cp vendor/samsonasik/error-hero-module/config/error-hero-module.local.php.dist config/autoload/error-hero-module.local.php
 ```
 
-***b. For [ZF Expressive](https://zendframework.github.io/zend-expressive/) application, copy `expressive-error-hero-module.local.php.dist` config to your local's autoload and configure it***
+***b. For [Mezzio](https://docs.mezzio.dev/mezzio/) application, copy `mezzio-error-hero-module.local.php.dist` config to your local's autoload and configure it***
 
 | source                                                                                  | destination                                            |
 |-----------------------------------------------------------------------------------------|--------------------------------------------------------|
-|  vendor/samsonasik/error-hero-module/config/expressive-error-hero-module.local.php.dist | config/autoload/expressive-error-hero-module.local.php |
+|  vendor/samsonasik/error-hero-module/config/mezzio-error-hero-module.local.php.dist | config/autoload/mezzio-error-hero-module.local.php |
 
 Or run copy command:
 
 ```sh
-cp vendor/samsonasik/error-hero-module/config/expressive-error-hero-module.local.php.dist config/autoload/expressive-error-hero-module.local.php
+cp vendor/samsonasik/error-hero-module/config/mezzio-error-hero-module.local.php.dist config/autoload/mezzio-error-hero-module.local.php
 ```
 
 When done, you can modify logger service named `ErrorHeroModuleLogger` and `error-hero-module` config in your's local config:
 
 ```php
 <?php
-// config/autoload/error-hero-module.local.php or config/autoload/expressive-error-hero-module.local.php
+// config/autoload/error-hero-module.local.php or config/autoload/Mezzio-error-hero-module.local.php
 
-use Zend\Db\Adapter\AdapterInterface;
+use Laminas\Db\Adapter\AdapterInterface;
 
 return [
 
@@ -190,7 +192,7 @@ return [
         // 2. error-preview command (ErrorHeroModule\Controller\ErrorPreviewConsoleController) via
         //       php public/index.php error-preview
         //
-        // for zf-expressive ^3.0.0, the disable error-preview page is by unregister 'error-preview' from config/routes
+        // for Mezzio ^3.0.0, the disable error-preview page is by unregister 'error-preview' from config/routes
         //
         //
         // otherwise(false), you can't see them, eg: on production env.
@@ -228,13 +230,13 @@ return [
 
             // if enable and display_errors = 0, the page will bring layout and view
             'template' => [
-                // non zend-view (plates, twig) for expressive not need a layout definition
+                // non laminas-view (plates, twig) for Mezzio not need a layout definition
                 // as layout defined in the view
                 'layout' => 'layout/layout',
                 'view'   => 'error-hero-module/error-default'
             ],
 
-            // for expressive, when container doesn't has \Zend\Expressive\Template\TemplateRendererInterface service
+            // for Mezzio, when container doesn't has \Mezzio\Template\TemplateRendererInterface service
             // if enable, and display_errors = 0, then show a message under no_template config
             'no_template' => [
                 'message' => <<<json
@@ -247,7 +249,7 @@ return [
 json
             ],
 
-            // if enable and display_errors = 0, the console will bring message for zend-mvc
+            // if enable and display_errors = 0, the console will bring message for laminas-mvc
             'console' => [
                 'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
             ],
@@ -275,10 +277,10 @@ json
             // set to true to activate email notification on log error event
             'enable' => false,
 
-            // Zend\Mail\Message instance registered at service manager
+            // Laminas\Mail\Message instance registered at service manager
             'mail-message'   => 'YourMailMessageService',
 
-            // Zend\Mail\Transport\TransportInterface instance registered at service manager
+            // Laminas\Mail\Transport\TransportInterface instance registered at service manager
             'mail-transport' => 'YourMailTransportService',
 
             // email sender
@@ -296,7 +298,7 @@ json
 
 **5. Lastly, enable it**
 
-***a. For ZF Mvc application***
+***a. For Laminas Mvc application***
 
 ```php
 // config/modules.config.php or config/application.config.php
@@ -306,21 +308,21 @@ return [
 ],
 ```
 
-***b. For ZF Expressive application***
+***b. For Mezzio application***
 
-> You need to use Zend\ServiceManager for service container and Zend\View for template engine.
+> You need to use Laminas\ServiceManager for service container and Laminas\View for template engine.
 
-For [zend-expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton) ^3.0.0, you need to open `config/pipeline.php` and add the `ErrorHeroModule\Middleware\Expressive::class` middleware after default `ErrorHandler::class` registration:
+For [laminas-Mezzio-skeleton](https://github.com/mezzio/mezzio-skeleton) ^3.0.0, you need to open `config/pipeline.php` and add the `ErrorHeroModule\Middleware\Mezzio::class` middleware after default `ErrorHandler::class` registration:
 
 ```php
 $app->pipe(ErrorHandler::class);
-$app->pipe(ErrorHeroModule\Middleware\Expressive::class); // here
+$app->pipe(ErrorHeroModule\Middleware\Mezzio::class); // here
 ```
 
 and also add `error-preview` routes in `config/routes.php` (optional) :
 
 ```php
-// for use zend-router
+// for use laminas-router
 $app->get('/error-preview[/:action]', ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction::class, 'error-preview');
 
 // for use FastRoute
@@ -337,10 +339,10 @@ _**Web Access**_
 
 | URl                                   | Preview For     |
 |---------------------------------------|-----------------|
-| http://yourzfapp/error-preview        | Exception       |
-| http://yourzfapp/error-preview/error  | Error           |
-| http://yourzfapp/error-preview/notice | PHP E_NOTICE    |
-| http://yourzfapp/error-preview/fatal  | PHP Fatal Error |
+| http://yourlaminasormezzioapp/error-preview        | Exception       |
+| http://yourlaminasormezzioapp/error-preview/error  | Error           |
+| http://yourlaminasormezzioapp/error-preview/notice | PHP E_NOTICE    |
+| http://yourlaminasormezzioapp/error-preview/fatal  | PHP Fatal Error |
 
 You will get the following page if display_errors config is 0:
 
@@ -350,10 +352,10 @@ You will get the following page if display_errors config is 0:
 
 _**Console Access**_
 
-> If you use zend-mvc v3, you need to have `zendframework/zend-mvc-console` in your vendor, if you don't have, you can install it via command:
+> If you use laminas-mvc v3, you need to have `laminas/laminas-mvc-console` in your vendor, if you don't have, you can install it via command:
 
 > ```sh
-> composer require zendframework/zend-mvc-console --sort-packages
+> composer require laminas/laminas-mvc-console --sort-packages
 > ```
 
 | Command                                   | Preview For  |
@@ -368,7 +370,7 @@ You will get the following page if display_errors config is 0:
 
 > For production env, you can disable error-preview sample page with set `['error-hero-module']['enable-error-preview-page']` to false.
 
-> For ZF Expressive, there is no default console implementation, so, if you want to apply it in your console in ZF Expressive, you may need to custom implementation error handler that utilize `ErrorHeroModule\Handler\Logging` service (see detailed usage at `ErrorHeroModule\Middleware\Expressive` class)
+> For ZF Mezzio, there is no default console implementation, so, if you want to apply it in your console in ZF Mezzio, you may need to custom implementation error handler that utilize `ErrorHeroModule\Handler\Logging` service (see detailed usage at `ErrorHeroModule\Middleware\Mezzio` class)
 
 Contributing
 ------------

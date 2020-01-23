@@ -2,9 +2,9 @@
 
 namespace ErrorHeroModule;
 
-use Zend\Db\Adapter\AdapterInterface;
-use Zend\Log;
-use Zend\ServiceManager\Factory\InvokableFactory;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Log;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
 
@@ -84,7 +84,7 @@ return [
                 'view'   => 'error-hero-module::error-default'
             ],
 
-            // for expressive, when container doesn't has \Zend\Expressive\Template\TemplateRendererInterface service
+            // for Mezzio, when container doesn't has \Mezzio\Template\TemplateRendererInterface service
             // if enable, and display_errors = 0, then show a message under no_template config
             'no_template' => [
                 'message' => <<<json
@@ -120,10 +120,10 @@ json
             // set to true to activate email notification on log error
             'enable' => false,
 
-            // Zend\Mail\Message instance registered at service manager
+            // Laminas\Mail\Message instance registered at service manager
             'mail-message'   => 'YourMailMessageService',
 
-            // Zend\Mail\Transport\TransportInterface instance registered at service manager
+            // Laminas\Mail\Transport\TransportInterface instance registered at service manager
             'mail-transport' => 'YourMailTransportService',
 
             // email sender
@@ -141,7 +141,7 @@ json
             Log\LoggerAbstractServiceFactory::class,
         ],
         'factories' => [
-            Middleware\Expressive::class => Middleware\ExpressiveFactory::class,
+            Middleware\Mezzio::class => Middleware\MezzioFactory::class,
             ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction::class => InvokableFactory::class,
 
             Handler\Logging::class => Handler\LoggingFactory::class,

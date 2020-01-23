@@ -7,16 +7,20 @@ namespace ErrorHeroModule;
 use Seld\JsonLint\JsonParser;
 use Throwable;
 
-function detectMessageContentType(string $message) : string
+use function get_class;
+use function is_array;
+use function strip_tags;
+
+function detectMessageContentType(string $message): string
 {
     return (new JsonParser())->lint($message) === null
         ? 'application/problem+json'
-        : ((\strip_tags($message) === $message) ? 'text/plain' : 'text/html');
+        : (strip_tags($message) === $message ? 'text/plain' : 'text/html');
 }
 
-function isExcludedException(array $excludeExceptionsConfig, Throwable $t)
+function isExcludedException(array $excludeExceptionsConfig, Throwable $t): bool
 {
-    $exceptionOrErrorClass = \get_class($t);
+    $exceptionOrErrorClass = get_class($t);
 
     $isExcluded = false;
     foreach ($excludeExceptionsConfig as $excludeException) {
@@ -25,7 +29,8 @@ function isExcludedException(array $excludeExceptionsConfig, Throwable $t)
             break;
         }
 
-        if (is_array($excludeException)
+        if (
+            is_array($excludeException)
             && $excludeException[0] === $exceptionOrErrorClass
             && $excludeException[1] === $t->getMessage()
         ) {

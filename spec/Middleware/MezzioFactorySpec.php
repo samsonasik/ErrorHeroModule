@@ -11,8 +11,8 @@ use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
 use Elie\PHPDI\Config\ContainerWrapper as PHPDIContainerWrapper;
 use ErrorHeroModule\Handler\Logging;
-use ErrorHeroModule\Middleware\Expressive;
-use ErrorHeroModule\Middleware\ExpressiveFactory;
+use ErrorHeroModule\Middleware\Mezzio;
+use ErrorHeroModule\Middleware\MezzioFactory;
 use ErrorHeroModule\Spec\Fixture\NotSupportedContainer;
 use Kahlan\Plugin\Double;
 use Northwoods\Container\InjectorContainer as AurynInjectorContainer;
@@ -20,13 +20,13 @@ use Pimple\Container as PimpleContainer;
 use Pimple\Psr11\Container as Psr11PimpleContainer;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
-use Zend\Expressive\Template\TemplateRendererInterface;
-use Zend\ServiceManager\ServiceManager;
+use Mezzio\Template\TemplateRendererInterface;
+use Laminas\ServiceManager\ServiceManager;
 
-describe('ExpressiveFactory', function () {
+describe('MezzioFactory', function () {
 
     given('factory', function () {
-        return new ExpressiveFactory();
+        return new MezzioFactory();
     });
 
     given('mapCreateContainers', function () {
@@ -90,10 +90,10 @@ describe('ExpressiveFactory', function () {
                     // set to true to activate email notification on log error
                     'enable' => false,
 
-                    // Zend\Mail\Message instance registered at service manager
+                    // Laminas\Mail\Message instance registered at service manager
                     'mail-message'   => 'YourMailMessageService',
 
-                    // Zend\Mail\Transport\TransportInterface instance registered at service manager
+                    // Laminas\Mail\Transport\TransportInterface instance registered at service manager
                     'mail-transport' => 'YourMailTransportService',
 
                     // email sender
@@ -141,7 +141,7 @@ describe('ExpressiveFactory', function () {
 
     describe('__invoke()', function () {
 
-        it('returns Expressive Middleware instance with doctrine to zend-db conversion', function () {
+        it('returns Mezzio Middleware instance with doctrine to zend-db conversion', function () {
 
             $config = $this->config;
             unset($config['db']);
@@ -179,13 +179,13 @@ describe('ExpressiveFactory', function () {
 
             expect($container->has('ErrorHeroModuleLogger'))->toBeFalsy();
             $actual = $this->factory($container);
-            expect($actual)->toBeAnInstanceOf(Expressive::class);
+            expect($actual)->toBeAnInstanceOf(Mezzio::class);
             expect($container->has('ErrorHeroModuleLogger'))->toBeTruthy();
 
 
         });
 
-        it('returns Expressive Middleware instance without doctrine to zend-db conversion', function () {
+        it('returns Mezzio Middleware instance without doctrine to zend-db conversion', function () {
 
             $container = Double::instance(['extends' => ServiceManager::class, 'methods' => '__construct']);
             allow($container)->toReceive('get')->with('config')
@@ -200,7 +200,7 @@ describe('ExpressiveFactory', function () {
                                                ->andReturn($renderer);
 
             $actual = $this->factory($container);
-            expect($actual)->toBeAnInstanceOf(Expressive::class);
+            expect($actual)->toBeAnInstanceOf(Mezzio::class);
 
         });
 
@@ -239,7 +239,7 @@ describe('ExpressiveFactory', function () {
 
         });
 
-        it('returns Expressive Middleware instance with create service first for mapped containers and config does not has "adapters" key', function () {
+        it('returns Mezzio Middleware instance with create service first for mapped containers and config does not has "adapters" key', function () {
 
             $config = $this->config;
             unset($config['db']['adapters']);
@@ -266,13 +266,13 @@ describe('ExpressiveFactory', function () {
 
                 expect($container->has('ErrorHeroModuleLogger'))->toBeFalsy();
                 $actual = $this->factory($container);
-                expect($actual)->toBeAnInstanceOf(Expressive::class);
+                expect($actual)->toBeAnInstanceOf(Mezzio::class);
                 expect($container->has('ErrorHeroModuleLogger'))->toBeTruthy();
             }
 
         });
 
-        it('returns Expressive Middleware instance with create service first for mapped containers and db name found in adapters', function () {
+        it('returns Mezzio Middleware instance with create service first for mapped containers and db name found in adapters', function () {
 
             foreach ($this->mapCreateContainers as $container) {
                 $config = $this->config;
@@ -297,13 +297,13 @@ describe('ExpressiveFactory', function () {
 
                 expect($container->has('ErrorHeroModuleLogger'))->toBeFalsy();
                 $actual = $this->factory($container);
-                expect($actual)->toBeAnInstanceOf(Expressive::class);
+                expect($actual)->toBeAnInstanceOf(Mezzio::class);
                 expect($container->has('ErrorHeroModuleLogger'))->toBeTruthy();
             }
 
         });
 
-        it('returns Expressive Middleware instance with create services first for mapped containers and db name not found in adapters, which means use "Zend\Db\Adapter\Adapter" name', function () {
+        it('returns Mezzio Middleware instance with create services first for mapped containers and db name not found in adapters, which means use "Laminas\Db\Adapter\Adapter" name', function () {
 
             $config = $this->config;
             foreach ($this->mapCreateContainers as $container) {
@@ -327,7 +327,7 @@ describe('ExpressiveFactory', function () {
 
                 expect($container->has('ErrorHeroModuleLogger'))->toBeFalsy();
                 $actual = $this->factory($container);
-                expect($actual)->toBeAnInstanceOf(Expressive::class);
+                expect($actual)->toBeAnInstanceOf(Mezzio::class);
                 expect($container->has('ErrorHeroModuleLogger'))->toBeTruthy();
             }
 

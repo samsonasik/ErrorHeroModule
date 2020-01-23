@@ -6,12 +6,12 @@ use ErrorHeroModule;
 use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
-use Zend\Console\Console;
-use Zend\Console\Request as ConsoleRequest;
-use Zend\Db\Adapter\AdapterInterface;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\TableGateway\TableGateway;
-use Zend\Mvc\Application;
+use Laminas\Console\Console;
+use Laminas\Console\Request as ConsoleRequest;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Mvc\Application;
 
 describe('Integration via ErrorPreviewConsoleController', function () {
 
@@ -21,8 +21,8 @@ describe('Integration via ErrorPreviewConsoleController', function () {
 
         $application = Application::init([
             'modules' => [
-                'Zend\Router',
-                'Zend\Db',
+                'Laminas\Router',
+                'Laminas\Db',
                 'ErrorHeroModule',
             ],
             'module_listener_options' => [

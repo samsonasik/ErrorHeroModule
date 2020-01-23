@@ -4,23 +4,23 @@ namespace ErrorHeroModule\Spec\Middleware;
 
 use Closure;
 use ErrorHeroModule\Handler\Logging;
-use ErrorHeroModule\Middleware\Expressive;
+use ErrorHeroModule\Middleware\Mezzio;
 use Kahlan\Plugin\Double;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Adapter\AdapterInterface;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\Uri;
-use Zend\Expressive\ZendView\ZendViewRenderer;
-use Zend\Http\PhpEnvironment\Request;
-use Zend\Log\Logger;
-use Zend\Log\Writer\Db as DbWriter;
-use Zend\View\Renderer\PhpRenderer;
-use Zend\View\Resolver;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\Uri;
+use Mezzio\LaminasView\LaminasViewRenderer;
+use Laminas\Http\PhpEnvironment\Request;
+use Laminas\Log\Logger;
+use Laminas\Log\Writer\Db as DbWriter;
+use Laminas\View\Renderer\PhpRenderer;
+use Laminas\View\Resolver;
 
-describe('Expressive', function () {
+describe('Mezzio', function () {
 
     given('logging', function () {
         return Double::instance([
@@ -41,7 +41,7 @@ describe('Expressive', function () {
         $resolver->attach($map);
         $renderer->setResolver($resolver);
 
-        return new ZendViewRenderer($renderer);
+        return new LaminasViewRenderer($renderer);
 
     });
 
@@ -103,7 +103,7 @@ describe('Expressive', function () {
                     'view'   => 'error-hero-module/error-default'
                 ],
 
-                // for expressive, when container doesn't has \Zend\Expressive\Template\TemplateRendererInterface service
+                // for Mezzio, when container doesn't has \Mezzio\Template\TemplateRendererInterface service
                 // if enable, and display_errors = 0, then show a message under no_template config
                 'no_template' => [
                     'message' => <<<json
@@ -135,10 +135,10 @@ json
                 // set to true to activate email notification on log error
                 'enable' => false,
 
-                // Zend\Mail\Message instance registered at service manager
+                // Laminas\Mail\Message instance registered at service manager
                 'mail-message'   => 'YourMailMessageService',
 
-                // Zend\Mail\Transport\TransportInterface instance registered at service manager
+                // Laminas\Mail\Transport\TransportInterface instance registered at service manager
                 'mail-transport' => 'YourMailTransportService',
 
                 // email sender
@@ -231,7 +231,7 @@ json
     });
 
     given('middleware', function () {
-        return new Expressive(
+        return new Mezzio(
             $this->config,
             $this->logging,
             $this->renderer
@@ -245,7 +245,7 @@ json
             $config['enable'] = false;
             $handler = Double::instance(['implements' => RequestHandlerInterface::class]);
             allow($handler)->toReceive('handle')->with($this->request)->andReturn(new Response());
-            $middleware = new Expressive($config, $this->logging, $this->renderer);
+            $middleware = new Mezzio($config, $this->logging, $this->renderer);
 
             $actual = $middleware->process($this->request, $handler);
             expect($actual)->toBeAnInstanceOf(ResponseInterface::class);
@@ -283,7 +283,7 @@ json
                 allow($handler)->toReceive('handle')->with($this->request)->andRun(function () {
                     throw new \Exception('message');
                 });
-                $middleware = new Expressive($config, $logging, $this->renderer);
+                $middleware = new Mezzio($config, $logging, $this->renderer);
 
                 $actual = $middleware->process($this->request, $handler);
                 expect($actual)->toBeAnInstanceOf(Response::class);
@@ -311,7 +311,7 @@ json
                 allow($handler)->toReceive('handle')->with($this->request)->andRun(function () {
                     throw new \Exception('message');
                 });
-                $middleware = new Expressive($config, $logging, $this->renderer);
+                $middleware = new Mezzio($config, $logging, $this->renderer);
 
                 $closure = function () use ($middleware, $handler) {
                     $middleware->process($this->request, $handler);
@@ -339,7 +339,7 @@ json
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
                     throw new \Exception('message');
                 });
-                $middleware = new Expressive($config, $logging, null);
+                $middleware = new Mezzio($config, $logging, null);
 
                 $actual = $middleware->process($request, $handler);
                 expect($actual)->toBeAnInstanceOf(Response::class);
@@ -374,7 +374,7 @@ json
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
                     throw new \Exception('message');
                 });
-                $middleware = new Expressive($config, $logging, $this->renderer);
+                $middleware = new Mezzio($config, $logging, $this->renderer);
 
                 $actual = $middleware->process($request, $handler);
                 expect($actual)->toBeAnInstanceOf(Response::class);
@@ -409,7 +409,7 @@ json
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
                     throw new \Exception('message');
                 });
-                $middleware = new Expressive($config, $logging, $this->renderer);
+                $middleware = new Mezzio($config, $logging, $this->renderer);
 
                 $closure = function () use ($middleware, $request, $handler) {
                     $middleware->process($request, $handler);
@@ -442,7 +442,7 @@ json
             allow($handler)->toReceive('handle')->with($request)->andRun(function () use ($exception) {
                 throw $exception;
             });
-            $middleware = new Expressive($config, $logging, $this->renderer);
+            $middleware = new Mezzio($config, $logging, $this->renderer);
             $closure = function () use ($middleware, $request, $handler) {
                 $middleware->process($request, $handler);
             };
@@ -550,7 +550,7 @@ json
                 ],
             ];
 
-            $middleware = new Expressive(
+            $middleware = new Mezzio(
                 $errorHeroModuleLocalConfig,
                 $logging,
                 $this->renderer
@@ -624,7 +624,7 @@ json
                 ],
             ];
 
-            $middleware = new Expressive(
+            $middleware = new Mezzio(
                 $errorHeroModuleLocalConfig,
                 $logging,
                 $this->renderer

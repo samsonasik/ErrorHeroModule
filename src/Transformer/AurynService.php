@@ -11,14 +11,14 @@ use Webmozart\Assert\Assert;
 
 class AurynService extends TransformerAbstract implements TransformerInterface
 {
-    public static function transform(ContainerInterface $container, array $configuration) : ContainerInterface
+    public static function transform(ContainerInterface $container, array $configuration): ContainerInterface
     {
         Assert::isInstanceOf($container, AurynInjectorContainer::class);
 
         $dbAdapterConfig = parent::getDbAdapterConfig($configuration);
         $logger          = parent::getLoggerInstance($configuration, $dbAdapterConfig);
 
-        $injector = & Closure::bind(static function & ($container) {
+        $injector = &Closure::bind(static function & ($container) {
             return $container->injector;
         }, null, $container)($container);
         $injector->delegate('ErrorHeroModuleLogger', function () use ($logger) {

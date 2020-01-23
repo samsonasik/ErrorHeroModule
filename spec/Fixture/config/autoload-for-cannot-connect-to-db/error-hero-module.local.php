@@ -1,9 +1,9 @@
 <?php
 
-use Zend\Db\Adapter\AdapterInterface;
-use Zend\Mail\Message;
-use Zend\Mail\Transport\InMemory;
-use Zend\ServiceManager\Factory\InvokableFactory;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\InMemory;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
 
@@ -84,10 +84,10 @@ return [
             // set to true to activate email notification on log error
             'enable' => true,
 
-            // Zend\Mail\Message instance registered at service manager
+            // Laminas\Mail\Message instance registered at service manager
             'mail-message'   => Message::class,
 
-            // Zend\Mail\Transport\TransportInterface instance registered at service manager
+            // Laminas\Mail\Transport\TransportInterface instance registered at service manager
             'mail-transport' => InMemory::class,
 
             // email sender

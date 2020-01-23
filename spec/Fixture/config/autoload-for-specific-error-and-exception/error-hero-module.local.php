@@ -1,6 +1,6 @@
 <?php
 
-use Zend\Db\Adapter\AdapterInterface;
+use Laminas\Db\Adapter\AdapterInterface;
 
 return [
 
@@ -87,10 +87,10 @@ return [
             // set to true to activate email notification on log error
             'enable' => false,
 
-            // Zend\Mail\Message instance registered at service manager
+            // Laminas\Mail\Message instance registered at service manager
             'mail-message'   => 'YourMailMessageService',
 
-            // Zend\Mail\Transport\TransportInterface instance registered at service manager
+            // Laminas\Mail\Transport\TransportInterface instance registered at service manager
             'mail-transport' => 'YourMailTransportService',
 
             // email sender

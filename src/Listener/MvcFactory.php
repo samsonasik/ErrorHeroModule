@@ -9,7 +9,7 @@ use Psr\Container\ContainerInterface;
 
 class MvcFactory
 {
-    public function __invoke(ContainerInterface $container) : Mvc
+    public function __invoke(ContainerInterface $container): Mvc
     {
         $config = $container->get('config');
 

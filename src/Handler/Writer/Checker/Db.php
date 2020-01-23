@@ -5,31 +5,28 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Handler\Writer\Checker;
 
 use Closure;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\TableGateway\TableGateway;
-use Zend\Log\Writer\Db as DbWriter;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Log\Writer\Db as DbWriter;
+
+use function date;
+use function strtotime;
 
 class Db
 {
-    /**
-     * @var DbWriter
-     */
+    /** @var DbWriter */
     private $dbWriter;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $configLoggingSettings;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $logWritersConfig;
 
     public function __construct(
         DbWriter $dbWriter,
-        array    $configLoggingSettings,
-        array    $logWritersConfig
+        array $configLoggingSettings,
+        array $logWritersConfig
     ) {
         $this->dbWriter              = $dbWriter;
         $this->configLoggingSettings = $configLoggingSettings;
@@ -38,11 +35,11 @@ class Db
 
     public function isExists(
         string $errorFile,
-        int    $errorLine,
+        int $errorLine,
         string $errorMessage,
         string $errorUrl,
         string $errorType
-    ) : bool {
+    ): bool {
         // db definition
         $db = Closure::bind(static function ($dbWriter) {
             return $dbWriter->db;
@@ -71,7 +68,7 @@ class Db
                     $file       => $errorFile,
                     $error_type => $errorType,
                 ]);
-                $select->order($timestamp.' DESC');
+                $select->order($timestamp . ' DESC');
                 $select->limit(1);
 
                 /** @var ResultSet $result */
@@ -81,9 +78,9 @@ class Db
                 }
 
                 $first = $current[$timestamp];
-                $last  = \date('Y-m-d H:i:s');
+                $last  = date('Y-m-d H:i:s');
 
-                $diff = \strtotime($last) - \strtotime($first);
+                $diff = strtotime($last) - strtotime($first);
                 if ($diff <= $this->configLoggingSettings['same-error-log-time-range']) {
                     return true;
                 }

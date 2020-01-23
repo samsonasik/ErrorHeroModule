@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Handler;
 
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\TransportInterface;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
-use Zend\Mail\Message;
-use Zend\Mail\Transport\TransportInterface;
+
+use function sprintf;
 
 class LoggingFactory
 {
     /**
-     * @throws RuntimeException when mail config is enabled
-     * but mail-message and/or mail-transport config is not a service instance of Message
+     * @throws RuntimeException When mail config is enabled
+     * but mail-message and/or mail-transport config is not a service instance of Message.
      */
-    public function __invoke(ContainerInterface $container) : Logging
+    public function __invoke(ContainerInterface $container): Logging
     {
         $config                = $container->get('config');
         $errorHeroModuleLogger = $container->get('ErrorHeroModuleLogger');
@@ -28,9 +30,9 @@ class LoggingFactory
         $mailMessageTransport = null;
 
         if ($mailConfig['enable'] === true) {
-            $mailMessageService   = $container->get($mailConfig['mail-message']);
+            $mailMessageService = $container->get($mailConfig['mail-message']);
             if (! $mailMessageService instanceof Message) {
-                throw new RuntimeException(\sprintf(
+                throw new RuntimeException(sprintf(
                     'You are enabling email log writer, your "mail-message" config must be instanceof %s',
                     Message::class
                 ));
@@ -38,7 +40,7 @@ class LoggingFactory
 
             $mailMessageTransport = $container->get($mailConfig['mail-transport']);
             if (! $mailMessageTransport instanceof TransportInterface) {
-                throw new RuntimeException(\sprintf(
+                throw new RuntimeException(sprintf(
                     'You are enabling email log writer, your "mail-transport" config must implements %s',
                     TransportInterface::class
                 ));

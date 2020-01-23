@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Error;
+use Exception;
+use Laminas\Mvc\Controller\AbstractActionController;
+use stdClass;
 
 class ErrorPreviewController extends AbstractActionController
 {
     public function exceptionAction()
     {
-        throw new \Exception('a sample exception preview');
+        throw new Exception('a sample exception preview');
     }
 
     public function errorAction()
     {
-        throw new \Error('a sample error preview');
+        throw new Error('a sample error preview');
     }
 
     public function noticeAction()
@@ -26,7 +29,7 @@ class ErrorPreviewController extends AbstractActionController
 
     public function fatalAction()
     {
-        $y = new class implements \stdClass {
+        $y = new class implements stdClass {
         };
     }
 }

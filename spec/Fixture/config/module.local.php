@@ -2,8 +2,8 @@
 
 namespace ErrorHeroModule;
 
-use Zend\Log;
-use Zend\ServiceManager\Factory\InvokableFactory;
+use Laminas\Log;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
 

@@ -6,8 +6,8 @@ use ErrorHeroModule\Handler\Writer\Mail;
 use Exception;
 use Kahlan\Plugin\Double;
 use ReflectionProperty;
-use Zend\Mail\Message;
-use Zend\Mail\Transport\TransportInterface;
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\TransportInterface;
 
 describe('Mail', function () {
 
