@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Transformer;
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Log\Logger;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Log\Logger;
 
 abstract class TransformerAbstract
 {
-    private static function getWriterConfig(array $configuration) : array
+    private static function getWriterConfig(array $configuration): array
     {
         return $configuration['log']['ErrorHeroModuleLogger']['writers'];
     }
 
-    protected static function getDbAdapterConfig(array $configuration) : array
+    protected static function getDbAdapterConfig(array $configuration): array
     {
         $writers = self::getWriterConfig($configuration);
         $config  = $configuration['db'];
@@ -35,7 +35,7 @@ abstract class TransformerAbstract
             : $config;
     }
 
-    protected static function getLoggerInstance(array $configuration, array $dbConfig) : Logger
+    protected static function getLoggerInstance(array $configuration, array $dbConfig): Logger
     {
         $writers = self::getWriterConfig($configuration);
         foreach ($writers as & $writer) {

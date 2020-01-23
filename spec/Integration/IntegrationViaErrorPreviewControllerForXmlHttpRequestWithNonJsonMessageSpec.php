@@ -3,10 +3,10 @@
 namespace ErrorHeroModule\Spec\Integration;
 
 use ErrorHeroModule;
-use Zend\Console\Console;
-use Zend\Http\PhpEnvironment\Request;
-use Zend\Http\PhpEnvironment\Response;
-use Zend\Mvc\Application;
+use Laminas\Console\Console;
+use Laminas\Http\PhpEnvironment\Request;
+use Laminas\Http\PhpEnvironment\Response;
+use Laminas\Mvc\Application;
 
 describe('Integration via ErrorPreviewController for XmlHttpRequest with non-json message', function () {
 
@@ -16,8 +16,8 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest with non-jso
 
         $application = Application::init([
             'modules' => [
-                'Zend\Router',
-                'Zend\Db',
+                'Laminas\Router',
+                'Laminas\Db',
                 'ErrorHeroModule',
             ],
             'module_listener_options' => [

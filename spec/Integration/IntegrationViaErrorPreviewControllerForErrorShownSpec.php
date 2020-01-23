@@ -3,8 +3,8 @@
 namespace ErrorHeroModule\Spec\Integration;
 
 use ErrorHeroModule;
-use Zend\Console\Console;
-use Zend\Mvc\Application;
+use Laminas\Console\Console;
+use Laminas\Mvc\Application;
 
 describe('Integration via ErrorPreviewController for error shown', function () {
 
@@ -14,8 +14,8 @@ describe('Integration via ErrorPreviewController for error shown', function () {
 
         $application = Application::init([
             'modules' => [
-                'Zend\Router',
-                'Zend\Db',
+                'Laminas\Router',
+                'Laminas\Db',
                 'ErrorHeroModule',
             ],
             'module_listener_options' => [

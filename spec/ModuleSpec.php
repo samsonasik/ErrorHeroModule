@@ -7,12 +7,12 @@ use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Module;
 use Kahlan\Plugin\Double;
-use Zend\Db\Adapter\AdapterInterface;
-use Zend\EventManager\EventManagerInterface;
-use Zend\ModuleManager\Listener\ConfigListener;
-use Zend\ModuleManager\ModuleEvent;
-use Zend\ModuleManager\ModuleManager;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\ModuleManager\Listener\ConfigListener;
+use Laminas\ModuleManager\ModuleEvent;
+use Laminas\ModuleManager\ModuleManager;
+use Laminas\ServiceManager\ServiceManager;
 
 describe('Module', function () {
 
@@ -143,8 +143,8 @@ describe('Module', function () {
             allow($entityManager)->toReceive('getConnection')->andReturn($connection);
             allow($serviceManager)->toReceive('get')->with(EntityManager::class)->andReturn($entityManager);
 
+            expect($moduleEvent)->toReceive('getParam')->with('ServiceManager');
             $this->module->doctrineTransform($moduleEvent);
-            expect($serviceManager)->toReceive('get')->with(EntityManager::class);
 
         });
 
@@ -177,8 +177,8 @@ describe('Module', function () {
             allow($entityManager)->toReceive('getConnection')->andReturn($connection);
             allow($serviceManager)->toReceive('get')->with(EntityManager::class)->andReturn($entityManager);
 
+            expect($moduleEvent)->toReceive('getParam')->with('ServiceManager');
             $this->module->doctrineTransform($moduleEvent);
-            expect($serviceManager)->toReceive('get')->with(EntityManager::class);
 
         });
 

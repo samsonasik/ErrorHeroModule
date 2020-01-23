@@ -3,7 +3,7 @@ CONTRIBUTING
 To contribute, you can send pull requests with :
 
 - Typo fix.
-- Use [Zend Coding Standard](https://github.com/zendframework/zend-coding-standard).
+- Use [Laminas Coding Standard](https://github.com/laminas/laminas-coding-standard).
 - patch(es) need new/updated test(s).
 - new feature(s) need test(s).
 

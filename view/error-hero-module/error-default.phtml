@@ -1,9 +1,9 @@
 <?php
 
-use Zend\Expressive\ZendView\ZendViewRenderer as ExpressiveZendViewRenderer;
-use Zend\View\Renderer\PhpRenderer as MvcZendViewRenderer;
+use Mezzio\LaminasView\LaminasViewRenderer as MezzioLaminasViewRenderer;
+use Laminas\View\Renderer\PhpRenderer as MvcLaminasViewRenderer;
 
-if (! ($this instanceof ExpressiveZendViewRenderer || $this instanceof MvcZendViewRenderer)) {
+if (! ($this instanceof MezzioLaminasViewRenderer || $this instanceof MvcLaminasViewRenderer)) {
     if (method_exists($this, 'layout')) {
         $this->layout('layout::default', ['title' => 'Error']);
     }

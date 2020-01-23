@@ -3,8 +3,8 @@
 namespace ErrorHeroModule\Spec;
 
 use ErrorHeroModule;
-use Zend\Console\Console;
-use Zend\Mvc\Application;
+use Laminas\Console\Console;
+use Laminas\Mvc\Application;
 
 describe('Integration via ErrorPreviewController for Cannot connect to DB', function () {
 
@@ -14,8 +14,8 @@ describe('Integration via ErrorPreviewController for Cannot connect to DB', func
 
         $application = Application::init([
             'modules' => [
-                'Zend\Router',
-                'Zend\Db',
+                'Laminas\Router',
+                'Laminas\Db',
                 'ErrorHeroModule',
             ],
             'module_listener_options' => [

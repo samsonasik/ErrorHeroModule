@@ -5,15 +5,15 @@ namespace ErrorHeroModule\Spec\Handler;
 use ErrorHeroModule\Handler\Logging;
 use Kahlan\Plugin\Double;
 use ReflectionProperty;
-use Zend\Db\Adapter\AdapterInterface;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Sql;
-use Zend\Db\TableGateway\TableGateway;
-use Zend\Http\PhpEnvironment\Request;
-use Zend\Log\Logger;
-use Zend\Log\Writer\Db as DbWriter;
-use Zend\Mail\Message;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\Sql\Select;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Http\PhpEnvironment\Request;
+use Laminas\Log\Logger;
+use Laminas\Log\Writer\Db as DbWriter;
+use Laminas\Mail\Message;
 
 describe('LoggingSpec', function () {
 
@@ -52,10 +52,10 @@ describe('LoggingSpec', function () {
                 // set to true to activate email notification on log error
                 'enable' => false,
 
-                // Zend\Mail\Message instance registered at service manager
+                // Laminas\Mail\Message instance registered at service manager
                 'mail-message'   => 'YourMailMessageService',
 
-                // Zend\Mail\Transport\TransportInterface instance registered at service manager
+                // Laminas\Mail\Transport\TransportInterface instance registered at service manager
                 'mail-transport' => 'YourMailTransportService',
 
                 // email sender

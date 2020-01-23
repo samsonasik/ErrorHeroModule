@@ -15,16 +15,22 @@ use ErrorHeroModule\Transformer\Doctrine;
 use ErrorHeroModule\Transformer\PHPDIService;
 use ErrorHeroModule\Transformer\PimpleService;
 use ErrorHeroModule\Transformer\SymfonyService;
+use Laminas\ServiceManager\ServiceManager;
+use Mezzio\Template\TemplateRendererInterface;
 use Northwoods\Container\InjectorContainer as AurynInjectorContainer;
 use Pimple\Psr11\Container as Psr11PimpleContainer;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Webmozart\Assert\Assert;
-use Zend\Expressive\Template\TemplateRendererInterface;
-use Zend\ServiceManager\ServiceManager;
 
-class ExpressiveFactory
+use function array_keys;
+use function get_class;
+use function in_array;
+use function is_array;
+use function sprintf;
+
+class MezzioFactory
 {
     private const CONTAINERS_TRANSFORM = [
         SymfonyContainerBuilder::class => SymfonyService::class,
@@ -34,9 +40,9 @@ class ExpressiveFactory
         PHPDIContainerWrapper::class   => PHPDIService::class,
     ];
 
-    private function createMiddlewareInstance(ContainerInterface $container, array $configuration) : Expressive
+    private function createMiddlewareInstance(ContainerInterface $container, array $configuration): Mezzio
     {
-        return new Expressive(
+        return new Mezzio(
             $configuration['error-hero-module'],
             $container->get(Logging::class),
             $container->has(TemplateRendererInterface::class)
@@ -45,16 +51,16 @@ class ExpressiveFactory
         );
     }
 
-    private function verifyConfig(iterable $configuration, string $containerClass) : array
+    private function verifyConfig(iterable $configuration, string $containerClass): array
     {
-        if (! \is_array($configuration)) {
+        if (! is_array($configuration)) {
             Assert::isInstanceOf($configuration, ArrayObject::class);
             $configuration = $configuration->getArrayCopy();
         }
 
         if (! isset($configuration['db'])) {
             throw new RuntimeException(
-                \sprintf(
+                sprintf(
                     'db config is required for build "ErrorHeroModuleLogger" service by %s Container',
                     $containerClass
                 )
@@ -64,7 +70,7 @@ class ExpressiveFactory
         return $configuration;
     }
 
-    public function __invoke(ContainerInterface $container) : Expressive
+    public function __invoke(ContainerInterface $container): Mezzio
     {
         $configuration = $container->get('config');
 
@@ -79,8 +85,8 @@ class ExpressiveFactory
             return $this->createMiddlewareInstance($container, $configuration);
         }
 
-        $containerClass = \get_class($container);
-        if (\in_array($containerClass, \array_keys(self::CONTAINERS_TRANSFORM), true)) {
+        $containerClass = get_class($container);
+        if (in_array($containerClass, array_keys(self::CONTAINERS_TRANSFORM), true)) {
             $configuration = $this->verifyConfig($configuration, $containerClass);
             $transformer   = self::CONTAINERS_TRANSFORM[$containerClass];
 
@@ -90,7 +96,7 @@ class ExpressiveFactory
             );
         }
 
-        throw new RuntimeException(\sprintf(
+        throw new RuntimeException(sprintf(
             'container "%s" is unsupported',
             $containerClass
         ));

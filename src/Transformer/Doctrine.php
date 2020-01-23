@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Transformer;
 
 use Doctrine\ORM\EntityManager;
+use Laminas\ServiceManager\ServiceManager as ZendServiceManager;
 use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;
-use Zend\ServiceManager\ServiceManager as ZendServiceManager;
 
 class Doctrine extends TransformerAbstract implements TransformerInterface
 {
-    public static function transform(ContainerInterface $container, array $configuration) : ContainerInterface
+    public static function transform(ContainerInterface $container, array $configuration): ContainerInterface
     {
         Assert::isInstanceOf($container, ZendServiceManager::class);
 
@@ -31,7 +31,7 @@ class Doctrine extends TransformerAbstract implements TransformerInterface
             'driver_options' => $driverOptions,
         ];
 
-        $logger   = parent::getLoggerInstance($configuration, $dbAdapterConfig);
+        $logger = parent::getLoggerInstance($configuration, $dbAdapterConfig);
 
         return $container->configure([
             'services' => [

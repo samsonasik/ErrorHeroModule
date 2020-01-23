@@ -6,11 +6,11 @@ use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
 use Kahlan\Plugin\Double;
 use Psr\Container\ContainerInterface;
-use Zend\Console\Console;
-use Zend\Db\Adapter\AdapterInterface;
-use Zend\Log\Logger;
-use Zend\Mail\Message;
-use Zend\Mail\Transport\TransportInterface;
+use Laminas\Console\Console;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Log\Logger;
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\TransportInterface;
 
 describe('LoggingFactorySpec', function () {
 
@@ -80,10 +80,10 @@ describe('LoggingFactorySpec', function () {
                     // set to true to activate email notification on log error
                     'enable' => false,
 
-                    // Zend\Mail\Message instance registered at service manager
+                    // Laminas\Mail\Message instance registered at service manager
                     'mail-message'   => 'MailMessageService',
 
-                    // Zend\Mail\Transport\TransportInterface instance registered at service manager
+                    // Laminas\Mail\Transport\TransportInterface instance registered at service manager
                     'mail-transport' => 'MailTransportService',
 
                     // email sender
@@ -120,7 +120,7 @@ describe('LoggingFactorySpec', function () {
 
         });
 
-        it('instance of Logging without bring Zend\Mail\Message and Zend\Mail\Transport if email-notification-settings is disabled', function () {
+        it('instance of Logging without bring Laminas\Mail\Message and Laminas\Mail\Transport if email-notification-settings is disabled', function () {
 
             $config = $this->config;
 
@@ -137,7 +137,7 @@ describe('LoggingFactorySpec', function () {
 
         });
 
-        it('throw RuntimeException if Logging try bring non-existence Zend\Mail\Message service while email-notification-settings is enabled', function () {
+        it('throw RuntimeException if Logging try bring non-existence Laminas\Mail\Message service while email-notification-settings is enabled', function () {
 
             $config = $this->config;
             $config['error-hero-module']['email-notification-settings']['enable'] = true;
@@ -158,7 +158,7 @@ describe('LoggingFactorySpec', function () {
 
         });
 
-        it('throw RuntimeException if Logging try bring non-existence Zend\Mail\Transport\TransportInterface service while email-notification-settings is enabled', function () {
+        it('throw RuntimeException if Logging try bring non-existence Laminas\Mail\Transport\TransportInterface service while email-notification-settings is enabled', function () {
 
             $config = $this->config;
             $config['error-hero-module']['email-notification-settings']['enable'] = true;
@@ -182,7 +182,7 @@ describe('LoggingFactorySpec', function () {
 
         });
 
-        it('instance of Logging with bring Zend\Mail\Message and Zend\Mail\Transport if email-notification-settings is enabled and both services exist', function () {
+        it('instance of Logging with bring Laminas\Mail\Message and Laminas\Mail\Transport if email-notification-settings is enabled and both services exist', function () {
 
             $config = $this->config;
             $config['error-hero-module']['email-notification-settings']['enable'] = true;

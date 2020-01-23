@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Controller;
 
-use Zend\Mvc\Console\Controller\AbstractConsoleController;
+use Error;
+use Exception;
+use Laminas\Mvc\Console\Controller\AbstractConsoleController;
 
 class ErrorPreviewConsoleController extends AbstractConsoleController
 {
     public function exceptionAction()
     {
-        throw new \Exception('a sample exception preview');
+        throw new Exception('a sample exception preview');
     }
 
     public function errorAction()
     {
-        throw new \Error('a sample error preview');
+        throw new Error('a sample error preview');
     }
 
     public function noticeAction()

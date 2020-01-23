@@ -4,38 +4,35 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Listener;
 
-use function ErrorHeroModule\detectMessageContentType;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\HeroTrait;
-use function ErrorHeroModule\isExcludedException;
+use Laminas\Console\Response as ConsoleResponse;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Http\PhpEnvironment\Request;
+use Laminas\Http\PhpEnvironment\Response;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Stdlib\RequestInterface;
+use Laminas\Text\Table;
+use Laminas\View\Renderer\PhpRenderer;
 use Webmozart\Assert\Assert;
-use Zend\Console\Response as ConsoleResponse;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
-use Zend\Http\PhpEnvironment\Request;
-use Zend\Http\PhpEnvironment\Response;
-use Zend\Mvc\MvcEvent;
-use Zend\Stdlib\RequestInterface;
-use Zend\Text\Table;
-use Zend\View\Renderer\PhpRenderer;
+
+use function ErrorHeroModule\detectMessageContentType;
+use function ErrorHeroModule\isExcludedException;
 
 class Mvc extends AbstractListenerAggregate
 {
     use HeroTrait;
 
-    /**
-     * @var PhpRenderer
-     */
+    /** @var PhpRenderer */
     private $renderer;
 
-    /**
-     * @var MvcEvent
-     */
+    /** @var MvcEvent */
     private $mvcEvent;
 
     public function __construct(
-        array       $errorHeroModuleConfig,
-        Logging     $logging,
+        array $errorHeroModuleConfig,
+        Logging $logging,
         PhpRenderer $renderer
     ) {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
@@ -43,7 +40,10 @@ class Mvc extends AbstractListenerAggregate
         $this->renderer              = $renderer;
     }
 
-    public function attach(EventManagerInterface $events, $priority = 1) : void
+    /**
+     * @param int $priority
+     */
+    public function attach(EventManagerInterface $events, $priority = 1): void
     {
         if (! $this->errorHeroModuleConfig['enable']) {
             return;
@@ -57,14 +57,15 @@ class Mvc extends AbstractListenerAggregate
         $this->listeners[] = $events->attach(MvcEvent::EVENT_BOOTSTRAP, [$this, 'phpError']);
     }
 
-    public function exceptionError(MvcEvent $e) : void
+    public function exceptionError(MvcEvent $e): void
     {
         $exception = $e->getParam('exception');
         if (! $exception) {
             return;
         }
 
-        if (isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])
+        if (
+            isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])
             && isExcludedException($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'], $exception)
         ) {
             // rely on original mvc process
@@ -85,7 +86,7 @@ class Mvc extends AbstractListenerAggregate
         $this->showDefaultView($e, $request);
     }
 
-    private function showDefaultView(MvcEvent $e, RequestInterface $request) : void
+    private function showDefaultView(MvcEvent $e, RequestInterface $request): void
     {
         if ($request instanceof Request) {
             $response = $e->getResponse();
@@ -99,7 +100,8 @@ class Mvc extends AbstractListenerAggregate
                            ->detach($events);
 
             $isXmlHttpRequest = $request->isXmlHttpRequest();
-            if ($isXmlHttpRequest === true &&
+            if (
+                $isXmlHttpRequest === true &&
                 isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
             ) {
                 $message     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];

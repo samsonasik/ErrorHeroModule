@@ -8,17 +8,17 @@ use ErrorHeroModule\Listener\Mvc;
 use Kahlan\Plugin\Double;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
-use Zend\Console\Console;
-use Zend\Console\Request as ConsoleRequest;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Adapter\AdapterInterface;
-use Zend\EventManager\EventManagerInterface;
-use Zend\Http\PhpEnvironment\Request;
-use Zend\Log\Logger;
-use Zend\Log\Writer\Db as DbWriter;
-use Zend\Mvc\MvcEvent;
-use Zend\Uri\Uri;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\Console\Console;
+use Laminas\Console\Request as ConsoleRequest;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Http\PhpEnvironment\Request;
+use Laminas\Log\Logger;
+use Laminas\Log\Writer\Db as DbWriter;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Uri\Uri;
+use Laminas\View\Renderer\PhpRenderer;
 
 describe('Mvc', function () {
 
@@ -65,10 +65,10 @@ describe('Mvc', function () {
                 // set to true to activate email notification on log error
                 'enable' => false,
 
-                // Zend\Mail\Message instance registered at service manager
+                // Laminas\Mail\Message instance registered at service manager
                 'mail-message'   => 'YourMailMessageService',
 
-                // Zend\Mail\Transport\TransportInterface instance registered at service manager
+                // Laminas\Mail\Transport\TransportInterface instance registered at service manager
                 'mail-transport' => 'YourMailTransportService',
 
                 // email sender

@@ -5,32 +5,33 @@ declare(strict_types=1);
 namespace ErrorHeroModule;
 
 use Doctrine\ORM\EntityManager;
-use Zend\ModuleManager\ModuleEvent;
-use Zend\ModuleManager\ModuleManager;
+use Laminas\ModuleManager\Listener\ConfigListener;
+use Laminas\ModuleManager\ModuleEvent;
+use Laminas\ModuleManager\ModuleManager;
 
 class Module
 {
-    public function init(ModuleManager $moduleManager) : void
+    public function init(ModuleManager $moduleManager): void
     {
         $eventManager = $moduleManager->getEventManager();
         $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'doctrineTransform']);
         $eventManager->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'errorPreviewPageHandler'], 101);
     }
 
-    public function doctrineTransform(ModuleEvent $event) : void
+    public function doctrineTransform(ModuleEvent $event): void
     {
         $container = $event->getParam('ServiceManager');
         if (! $container->has(EntityManager::class)) {
             return;
         }
 
-        $configuration  = $container->get('config');
+        $configuration = $container->get('config');
         $configuration['db'] ?? Transformer\Doctrine::transform($container, $configuration);
     }
 
-    public function errorPreviewPageHandler(ModuleEvent $event) : void
+    public function errorPreviewPageHandler(ModuleEvent $event): void
     {
-        /** @var \Zend\ModuleManager\Listener\ConfigListener $configListener */
+        /** @var ConfigListener $configListener */
         $configListener = $event->getConfigListener();
         $configuration  = $configListener->getMergedConfig(false);
 
@@ -52,8 +53,8 @@ class Module
         $configListener->setMergedConfig($configuration);
     }
 
-    public function getConfig() : array
+    public function getConfig(): array
     {
-        return include __DIR__.'/../config/module.config.php';
+        return include __DIR__ . '/../config/module.config.php';
     }
 }
