@@ -308,8 +308,6 @@ return [
 
 ***b. For ZF Expressive application***
 
-> You need to use Zend\ServiceManager for service container and Zend\View for template engine.
-
 For [zend-expressive-skeleton](https://github.com/zendframework/zend-expressive-skeleton) ^3.0.0, you need to open `config/pipeline.php` and add the `ErrorHeroModule\Middleware\Expressive::class` middleware after default `ErrorHandler::class` registration:
 
 ```php
