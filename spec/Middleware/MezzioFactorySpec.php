@@ -141,6 +141,19 @@ describe('MezzioFactory', function () {
 
     describe('__invoke()', function () {
 
+        it('returns Mezzio Middleware instance without TemplateRendererInterface instance', function () {
+
+            $container = new ServiceManager();
+            $container->setService('config', $this->config);
+
+            $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
+            $container->setService(Logging::class, $logging);
+
+            $actual = $this->factory($container);
+            expect($actual)->toBeAnInstanceOf(Mezzio::class);
+
+        });
+
         it('returns Mezzio Middleware instance with doctrine to laminas-db conversion', function () {
 
             $config = $this->config;
@@ -148,10 +161,10 @@ describe('MezzioFactory', function () {
             $container = new ServiceManager();
             $container->setService('config', $config);
 
-            allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(true);
             $entityManager = Double::instance(['extends' => EntityManager::class, 'methods' => '__construct']);
-            $connection    = Double::instance(['extends' => Connection::class, 'methods' => '__construct']);
+            $container->setService(EntityManager::class, $entityManager);
 
+            $connection    = Double::instance(['extends' => Connection::class, 'methods' => '__construct']);
             $driver = Double::instance(['extends' => Driver::class, 'methods' => '__construct']);
             allow($driver)->toReceive('getName')->andReturn('pdo_mysql');
 
