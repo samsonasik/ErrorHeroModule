@@ -310,8 +310,6 @@ return [
 
 ***b. For Mezzio application***
 
-> You need to use Laminas\ServiceManager for service container and Laminas\View for template engine.
-
 For [laminas-Mezzio-skeleton](https://github.com/mezzio/mezzio-skeleton) ^3.0.0, you need to open `config/pipeline.php` and add the `ErrorHeroModule\Middleware\Mezzio::class` middleware after default `ErrorHandler::class` registration:
 
 ```php
