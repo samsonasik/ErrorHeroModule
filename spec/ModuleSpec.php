@@ -143,8 +143,8 @@ describe('Module', function () {
             allow($entityManager)->toReceive('getConnection')->andReturn($connection);
             allow($serviceManager)->toReceive('get')->with(EntityManager::class)->andReturn($entityManager);
 
+            expect($moduleEvent)->toReceive('getParam')->with('ServiceManager');
             $this->module->doctrineTransform($moduleEvent);
-            expect($serviceManager)->toReceive('get')->with(EntityManager::class);
 
         });
 
@@ -177,8 +177,8 @@ describe('Module', function () {
             allow($entityManager)->toReceive('getConnection')->andReturn($connection);
             allow($serviceManager)->toReceive('get')->with(EntityManager::class)->andReturn($entityManager);
 
+            expect($moduleEvent)->toReceive('getParam')->with('ServiceManager');
             $this->module->doctrineTransform($moduleEvent);
-            expect($serviceManager)->toReceive('get')->with(EntityManager::class);
 
         });
 

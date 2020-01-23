@@ -145,9 +145,8 @@ describe('MezzioFactory', function () {
 
             $config = $this->config;
             unset($config['db']);
-            $container = Double::instance(['extends' => ServiceManager::class, 'methods' => '__construct']);
-            allow($container)->toReceive('get')->with('config')
-                                               ->andReturn($config);
+            $container = new ServiceManager();
+            $container->setService('config', $config);
 
             allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(true);
             $entityManager = Double::instance(['extends' => EntityManager::class, 'methods' => '__construct']);
@@ -170,34 +169,27 @@ describe('MezzioFactory', function () {
             );
 
             $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
-            allow($container)->toReceive('get')->with(Logging::class)
-                                               ->andReturn($logging);
+            $container->setService(Logging::class, $logging);
 
             $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
             allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
                                                ->andReturn($renderer);
 
-            expect($container->has('ErrorHeroModuleLogger'))->toBeFalsy();
             $actual = $this->factory($container);
             expect($actual)->toBeAnInstanceOf(Mezzio::class);
-            expect($container->has('ErrorHeroModuleLogger'))->toBeTruthy();
-
 
         });
 
         it('returns Mezzio Middleware instance without doctrine to laminas-db conversion', function () {
 
-            $container = Double::instance(['extends' => ServiceManager::class, 'methods' => '__construct']);
-            allow($container)->toReceive('get')->with('config')
-                                               ->andReturn($this->config);
+            $container = new ServiceManager();
+            $container->setService('config', $this->config);
 
             $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
-            allow($container)->toReceive('get')->with(Logging::class)
-                                               ->andReturn($logging);
+            $container->setService(Logging::class, $logging);
 
             $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
-            allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
-                                               ->andReturn($renderer);
+            $container->setService(TemplateRendererInterface::class, $renderer);
 
             $actual = $this->factory($container);
             expect($actual)->toBeAnInstanceOf(Mezzio::class);
