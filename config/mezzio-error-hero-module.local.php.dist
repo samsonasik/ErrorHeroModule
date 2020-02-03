@@ -79,7 +79,7 @@ return [
 
             // if enable and display_errors = 0, the page will bring layout and view
             'template' => [
-                // 'layout' config only when using Zend View Template Engine
+                // 'layout' config only when using Laminas View Template Engine
                 'layout' => 'layout::default',
                 'view'   => 'error-hero-module::error-default'
             ],
