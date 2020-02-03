@@ -75,7 +75,7 @@ class Mezzio implements MiddlewareInterface
 
         $this->logging->handleErrorException(
             $t,
-            Psr7ServerRequest::toZend($this->request)
+            Psr7ServerRequest::toLaminas($this->request)
         );
 
         if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
