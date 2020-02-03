@@ -142,7 +142,7 @@ When done, you can modify logger service named `ErrorHeroModuleLogger` and `erro
 
 ```php
 <?php
-// config/autoload/error-hero-module.local.php or config/autoload/Mezzio-error-hero-module.local.php
+// config/autoload/error-hero-module.local.php or config/autoload/mezzio-error-hero-module.local.php
 
 use Laminas\Db\Adapter\AdapterInterface;
 
