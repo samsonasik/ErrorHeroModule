@@ -11,7 +11,7 @@ ErrorHeroModule
 
 > For version ^2.0, you can read at [version 2 readme](https://github.com/samsonasik/ErrorHeroModule/tree/2.x.x) which only support ZF3 and ZF Expressive version 3 with php ^7.1.
 
-> For version 1, you can read at [version 1 readme](https://github.com/samsonasik/ErrorHeroModule/tree/1.x.x) which still support ZF2 and ZF Mezzio version 1 and 2 with php ^5.6|^7.0 support.
+> For version 1, you can read at [version 1 readme](https://github.com/samsonasik/ErrorHeroModule/tree/1.x.x) which still support ZF2 and ZF Expressive version 1 and 2 with php ^5.6|^7.0 support.
 
 Introduction
 ------------
@@ -310,7 +310,7 @@ return [
 
 ***b. For Mezzio application***
 
-For [laminas-Mezzio-skeleton](https://github.com/mezzio/mezzio-skeleton) ^3.0.0, you need to open `config/pipeline.php` and add the `ErrorHeroModule\Middleware\Mezzio::class` middleware after default `ErrorHandler::class` registration:
+For [laminas-mezzio-skeleton](https://github.com/mezzio/mezzio-skeleton) ^3.0.0, you need to open `config/pipeline.php` and add the `ErrorHeroModule\Middleware\Mezzio::class` middleware after default `ErrorHandler::class` registration:
 
 ```php
 $app->pipe(ErrorHandler::class);
