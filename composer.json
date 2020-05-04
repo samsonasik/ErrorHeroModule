@@ -76,7 +76,6 @@
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-webmozart-assert": "^0.12",
         "pimple/pimple": "^3.2",
-        "squizlabs/php_codesniffer": "3.5.3 as 2.7",
         "symfony/dependency-injection": "^4.0"
     },
     "suggest": {
