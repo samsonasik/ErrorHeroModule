@@ -32,7 +32,7 @@ Features
 - [x] Provide request information ( http method, raw data, body data, query data, files data, cookie data, and ip address).
 - [x] Send Mail
   - [x] many receivers to listed configured email
-  - [x] with include $_FILES into attachments on upload error.
+  - [x] with include $_FILES into attachments on upload error (configurable to be included or not).
 
 Installation
 ------------
@@ -285,6 +285,9 @@ json
 
             // email sender
             'email-from'    => 'Sender Name <sender@host.com>',
+
+            // to include or not $_FILES on send mail
+            'include-files-to-attachments' => true,
 
             'email-to-send' => [
                 'developer1@foo.com',

@@ -61,6 +61,9 @@ describe('LoggingSpec', function () {
                 // email sender
                 'email-from'    => 'Sender Name <sender@host.com>',
 
+                // to include or not $_FILES on send mail
+                'include-files-to-attachments' => true,
+
                 'email-to-send' => [
                     'developer1@foo.com',
                     'developer2@foo.com',
