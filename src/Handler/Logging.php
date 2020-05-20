@@ -61,7 +61,7 @@ class Logging
         array $logWritersConfig,
         ?Message $mailMessageService = null,
         ?TransportInterface $mailMessageTransport = null,
-        $includeFilesToAttachments = true
+        bool $includeFilesToAttachments = true
     ) {
         $this->logger                    = $logger;
         $this->configLoggingSettings     = $errorHeroModuleLocalConfig['logging-settings'];
