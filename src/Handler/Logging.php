@@ -52,20 +52,25 @@ class Logging
     /** @var string */
     private $emailSender;
 
+    /** @var bool */
+    private $includeFilesToAttachments;
+
     public function __construct(
         Logger $logger,
         array $errorHeroModuleLocalConfig,
         array $logWritersConfig,
         ?Message $mailMessageService = null,
-        ?TransportInterface $mailMessageTransport = null
+        ?TransportInterface $mailMessageTransport = null,
+        bool $includeFilesToAttachments = true
     ) {
-        $this->logger                = $logger;
-        $this->configLoggingSettings = $errorHeroModuleLocalConfig['logging-settings'];
-        $this->logWritersConfig      = $logWritersConfig;
-        $this->mailMessageService    = $mailMessageService;
-        $this->mailMessageTransport  = $mailMessageTransport;
-        $this->emailReceivers        = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
-        $this->emailSender           = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
+        $this->logger                    = $logger;
+        $this->configLoggingSettings     = $errorHeroModuleLocalConfig['logging-settings'];
+        $this->logWritersConfig          = $logWritersConfig;
+        $this->mailMessageService        = $mailMessageService;
+        $this->mailMessageTransport      = $mailMessageTransport;
+        $this->emailReceivers            = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
+        $this->emailSender               = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
+        $this->includeFilesToAttachments = $includeFilesToAttachments;
     }
 
     /**
@@ -113,7 +118,9 @@ class Logging
         $request_method = $request->getMethod();
         $body_data      = $request->getPost()->toArray();
         $raw_data       = str_replace(PHP_EOL, '', $request->getContent());
-        $files_data     = $request->getFiles()->toArray();
+        $files_data     = $this->includeFilesToAttachments
+            ? $request->getFiles()->toArray()
+            : [];
         $cookie         = $request->getCookie();
         $cookie_data    = $cookie instanceof Cookie
             ? $cookie->getArrayCopy()

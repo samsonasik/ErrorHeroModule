@@ -47,12 +47,15 @@ class LoggingFactory
             }
         }
 
+        $includeFilesToAttachments = $mailConfig['include-files-to-attachments'] ?? true;
+
         return new Logging(
             $errorHeroModuleLogger,
             $errorHeroModuleLocalConfig,
             $logWritersConfig,
             $mailMessageService,
-            $mailMessageTransport
+            $mailMessageTransport,
+            $includeFilesToAttachments
         );
     }
 }

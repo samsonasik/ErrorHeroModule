@@ -93,6 +93,9 @@ return [
             // email sender
             'email-from'    => 'Sender Name <sender@host.com>',
 
+            // to include or not $_FILES on send mail
+            'include-files-to-attachments' => true,
+
             'email-to-send' => [
                 // no email in the list
             ],
