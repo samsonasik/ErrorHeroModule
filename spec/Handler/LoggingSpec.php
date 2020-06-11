@@ -184,7 +184,7 @@ describe('LoggingSpec', function () {
             ];
 
             foreach ($requests as $request) {
-                $this->logging->handleErrorException($exception, $this->request);
+                $this->logging->handleErrorException($exception, $request);
             }
 
         });
