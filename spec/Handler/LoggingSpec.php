@@ -5,6 +5,7 @@ namespace ErrorHeroModule\Spec\Handler;
 use ErrorHeroModule\Handler\Logging;
 use Kahlan\Plugin\Double;
 use ReflectionProperty;
+use Laminas\Console\Request as ConsoleRequest;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\Sql\Select;
@@ -139,7 +140,15 @@ describe('LoggingSpec', function () {
             expect($this->logger)->not->toReceive('log');
 
             $exception = new \Exception();
-            $this->logging->handleErrorException($exception, $this->request);
+            $requests = [
+                $this->request,
+                new ConsoleRequest(),
+                null
+            ];
+
+            foreach ($requests as $request) {
+                $this->logging->handleErrorException($exception, $request);
+            }
 
         });
 
@@ -167,7 +176,16 @@ describe('LoggingSpec', function () {
             expect($this->logger)->not->toReceive('log');
 
             $exception = new \ErrorException();
-            $this->logging->handleErrorException($exception, $this->request);
+
+            $requests = [
+                $this->request,
+                new ConsoleRequest(),
+                null
+            ];
+
+            foreach ($requests as $request) {
+                $this->logging->handleErrorException($exception, $this->request);
+            }
 
         });
 

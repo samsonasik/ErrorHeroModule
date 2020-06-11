@@ -23,6 +23,7 @@ use function basename;
 use function get_class;
 use function get_current_user;
 use function getcwd;
+use function implode;
 use function php_uname;
 use function str_replace;
 
@@ -107,9 +108,9 @@ class Logging
         return false;
     }
 
-    private function getRequestData(RequestInterface $request): array
+    private function getRequestData(?RequestInterface $request = null): array
     {
-        if ($request instanceof ConsoleRequest) {
+        if ($request instanceof ConsoleRequest || $request === null) {
             return [];
         }
 
@@ -163,18 +164,27 @@ class Logging
         ];
     }
 
-    private function collectErrorExceptionExtraData(array $collectedExceptionData, RequestInterface $request): array
-    {
-        if ($request instanceof ConsoleRequest) {
+    private function collectErrorExceptionExtraData(
+        array $collectedExceptionData,
+        ?RequestInterface $request = null
+    ): array {
+        if ($request instanceof ConsoleRequest || $request === null) {
             $serverUrl = php_uname('n');
             $url       = $serverUrl . ':' . basename((string) getcwd())
                 . ' ' . get_current_user()
-                . '$ ' . PHP_BINARY . ' ' . $request->getScriptName();
+                . '$ ' . PHP_BINARY . ' ';
 
-            $params = $request->getParams()->toArray();
-            unset($params['controller'], $params['action']);
-            $request->getParams()->fromArray($params);
-            $url .= ' ' . $request->toString();
+            if ($request instanceof ConsoleRequest) {
+                $url   .= $request->getScriptName();
+                $params = $request->getParams()->toArray();
+                unset($params['controller'], $params['action']);
+                $request->getParams()->fromArray($params);
+                $url .= ' ' . $request->toString();
+            }
+
+            if ($request === null) {
+                $url .= implode(' ', $_SERVER['argv'] ?? []);
+            }
         } else {
             Assert::isInstanceOf($request, HttpRequest::class);
             $uri       = $request->getUri();
@@ -221,7 +231,7 @@ class Logging
         }
     }
 
-    public function handleErrorException(Throwable $t, RequestInterface $request): void
+    public function handleErrorException(Throwable $t, ?RequestInterface $request = null): void
     {
         $collectedExceptionData = $this->collectErrorExceptionData($t);
         $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData, $request);
