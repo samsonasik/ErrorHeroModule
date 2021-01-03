@@ -1,9 +1,10 @@
 language: php
-dist: trusty
-group: edge
 
 env:
   - XDEBUG_MODE=coverage
+
+services:
+  - mysql
 
 php:
   - 7.3
