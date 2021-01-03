@@ -38,7 +38,7 @@
         }
     ],
     "require": {
-        "php": "^7.1 | ^8.0",
+        "php": "^7.3 | ~8.0",
         "laminas/laminas-db": "^2.5",
         "laminas/laminas-diactoros": "^2.0",
         "laminas/laminas-log": "^2.10",
@@ -61,7 +61,7 @@
         "aura/di": "^3.4",
         "doctrine/doctrine-orm-module": "^2.1",
         "elie29/zend-phpdi-config": "^4.0",
-        "kahlan/kahlan": "^4.6.4",
+        "kahlan/kahlan": "^5.0",
         "laminas/laminas-cache": "^2.9",
         "laminas/laminas-coding-standard": "^2.0",
         "laminas/laminas-form": "^2.14",
