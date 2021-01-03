@@ -149,7 +149,7 @@ describe('MezzioFactory', function () {
             $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
             $container->setService(Logging::class, $logging);
 
-            $actual = $this->factory($container);
+            $actual = $this->factory->__invoke($container);
             expect($actual)->toBeAnInstanceOf(Mezzio::class);
 
         });
@@ -188,7 +188,7 @@ describe('MezzioFactory', function () {
             allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
                                                ->andReturn($renderer);
 
-            $actual = $this->factory($container);
+            $actual = $this->factory->__invoke($container);
             expect($actual)->toBeAnInstanceOf(Mezzio::class);
 
         });
@@ -204,7 +204,7 @@ describe('MezzioFactory', function () {
             $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
             $container->setService(TemplateRendererInterface::class, $renderer);
 
-            $actual = $this->factory($container);
+            $actual = $this->factory->__invoke($container);
             expect($actual)->toBeAnInstanceOf(Mezzio::class);
 
         });
@@ -232,7 +232,7 @@ describe('MezzioFactory', function () {
                                                 ->andReturn($renderer);
 
                 $actual = function () use ($container) {
-                    $this->factory($container);
+                    $this->factory->__invoke($container);
                 };
                 expect($actual)->toThrow(new RuntimeException(
                     \sprintf(
@@ -270,7 +270,7 @@ describe('MezzioFactory', function () {
                                                 ->andReturn($renderer);
 
                 expect($container->has('ErrorHeroModuleLogger'))->toBeFalsy();
-                $actual = $this->factory($container);
+                $actual = $this->factory->__invoke($container);
                 expect($actual)->toBeAnInstanceOf(Mezzio::class);
                 expect($container->has('ErrorHeroModuleLogger'))->toBeTruthy();
             }
@@ -301,7 +301,7 @@ describe('MezzioFactory', function () {
                                                 ->andReturn($renderer);
 
                 expect($container->has('ErrorHeroModuleLogger'))->toBeFalsy();
-                $actual = $this->factory($container);
+                $actual = $this->factory->__invoke($container);
                 expect($actual)->toBeAnInstanceOf(Mezzio::class);
                 expect($container->has('ErrorHeroModuleLogger'))->toBeTruthy();
             }
@@ -331,7 +331,7 @@ describe('MezzioFactory', function () {
                                                 ->andReturn($renderer);
 
                 expect($container->has('ErrorHeroModuleLogger'))->toBeFalsy();
-                $actual = $this->factory($container);
+                $actual = $this->factory->__invoke($container);
                 expect($actual)->toBeAnInstanceOf(Mezzio::class);
                 expect($container->has('ErrorHeroModuleLogger'))->toBeTruthy();
             }
@@ -355,7 +355,7 @@ describe('MezzioFactory', function () {
                                                ->andReturn($renderer);
 
             $actual = function () use ($container) {
-                $this->factory($container);
+                $this->factory->__invoke($container);
             };
             expect($actual)->toThrow(
                 new RuntimeException(\sprintf(
