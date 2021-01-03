@@ -1,6 +1,7 @@
 language: php
-dist: trusty
-group: edge
+
+env:
+  - XDEBUG_MODE=coverage
 
 php:
   - 7.3
