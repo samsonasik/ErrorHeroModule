@@ -1,0 +1,44 @@
+name: "ci build"
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  build:
+    name: PHP ${{ matrix.php-versions }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: [7.3', '7.4', '8.0']
+    steps:
+      - name: Setup PHP Action
+        uses: shivammathur/setup-php@1.8.2
+        with:
+          extensions: intl
+          php-version: "${{ matrix.php-versions }}"
+          coverage: xdebug
+      - name: Shutdown Ubuntu MySQL (SUDO)
+        run: sudo service mysql stop
+      - name: Setup MySQL
+        uses: samin/mysql-action@v1.3
+        with:
+          mysql version: 5.7
+          mysql password: root
+          mysql user:
+          mysql database: errorheromodule
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: "Validate composer.json and composer.lock"
+        run: "composer validate"
+      - name: "Install dependencies"
+        run: "COMPOSER_PROCESS_TIMEOUT=5000 composer install --prefer-dist --no-interaction --ignore-platform-req=php"
+      - name: "CS Check"
+        run: "composer cs-check"
+      - name: "Code analyze"
+        run: "composer analyze"
+      - name: "Run test suite"
+        run: "bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml"
