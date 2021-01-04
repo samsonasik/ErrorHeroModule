@@ -17,7 +17,7 @@ before_script:
   - mysql -u root errorheromodule < spec/Fixture/data/sql.sql
   - composer self-update
   - if [[ $TRAVIS_PHP_VERSION != 8.0 ]]; then COMPOSER_PROCESS_TIMEOUT=5000 composer install --prefer-dist --no-interaction; fi
-  - if [[ $TRAVIS_PHP_VERSION = 8.0 ]]; then COMPOSER_PROCESS_TIMEOUT=5000 composer install --prefer-dist --no-interaction --ignore-platform-reqs php; fi
+  - if [[ $TRAVIS_PHP_VERSION = 8.0 ]]; then COMPOSER_PROCESS_TIMEOUT=5000 composer install --prefer-dist --no-interaction --ignore-platform-req=php; fi
   - composer dump-autoload -o
 
 script:
