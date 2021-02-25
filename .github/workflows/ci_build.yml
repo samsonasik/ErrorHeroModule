@@ -44,6 +44,6 @@ jobs:
       - name: "Code analyze"
         run: "bin/phpstan analyse src/ --level=max -c phpstan.neon"
       - name: "Import DB"
-        run: "mysql -u test errorheromodule < spec/Fixture/data/sql.sql -ptest"
+        run: "mysql -u test errorheromodule < spec/Fixture/data/sql.sql -ptest -h 127.0.0.1"
       - name: "Run test suite"
         run: "bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml"
