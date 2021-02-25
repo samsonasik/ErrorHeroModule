@@ -9,6 +9,7 @@ return [
         'password' => 'test',
         'driver' => 'Pdo',
         'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
+        'port' => 13306,
         'driver_options' => [
             \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
         ],
