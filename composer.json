@@ -39,7 +39,7 @@
     ],
     "require": {
         "php": "^7.3 | ~8.0",
-        "laminas/laminas-db": "^2.5",
+        "laminas/laminas-db": "^2.12",
         "laminas/laminas-diactoros": "^2.0",
         "laminas/laminas-log": "^2.10",
         "laminas/laminas-mail": "^2.9",

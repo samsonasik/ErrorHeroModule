@@ -35,7 +35,7 @@ jobs:
       - name: "Validate composer.json and composer.lock"
         run: "composer validate"
       - name: "Install dependencies"
-        run: "COMPOSER_PROCESS_TIMEOUT=5000 composer install --prefer-dist --no-interaction --ignore-platform-req=php"
+        run: "COMPOSER_PROCESS_TIMEOUT=5000 composer install --prefer-dist --no-interaction --ignore-platform-reqs"
       - name: "CS Check"
         run: "composer cs-check"
       - name: "Code analyze"
