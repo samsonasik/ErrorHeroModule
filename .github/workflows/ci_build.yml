@@ -43,5 +43,7 @@ jobs:
         run: "composer cs-check"
       - name: "Code analyze"
         run: "bin/phpstan analyse src/ --level=max -c phpstan.neon"
+      - name: "Import DB"
+        run: "mysql -u test errorheromodule < spec/Fixture/data/sql.sql -ptest"
       - name: "Run test suite"
         run: "bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml"
