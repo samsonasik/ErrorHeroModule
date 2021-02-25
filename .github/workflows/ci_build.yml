@@ -39,6 +39,6 @@ jobs:
       - name: "CS Check"
         run: "composer cs-check"
       - name: "Code analyze"
-        run: "composer analyze"
+        run: "bin/phpstan analyse src/ --level=max -c phpstan.neon"
       - name: "Run test suite"
         run: "bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml"
