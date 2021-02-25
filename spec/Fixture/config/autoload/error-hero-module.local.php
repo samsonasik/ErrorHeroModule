@@ -5,8 +5,8 @@ use Laminas\Db\Adapter\AdapterInterface;
 return [
 
     'db' => [
-        'username' => 'root',
-        'password' => '',
+        'username' => 'test',
+        'password' => 'test',
         'driver' => 'Pdo',
         'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
         'driver_options' => [
