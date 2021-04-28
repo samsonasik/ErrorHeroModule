@@ -117,7 +117,7 @@ class Logging
         $query_data     = $request->getQuery()->toArray();
         $request_method = $request->getMethod();
         $body_data      = $request->getPost()->toArray();
-        $raw_data       = str_replace(PHP_EOL, '', $request->getContent());
+        $raw_data       = str_replace(PHP_EOL, '', (string) $request->getContent());
         $files_data     = $this->includeFilesToAttachments
             ? $request->getFiles()->toArray()
             : [];
