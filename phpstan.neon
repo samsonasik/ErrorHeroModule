@@ -8,5 +8,7 @@ parameters:
 		- src/Controller/ErrorPreviewController.php
 		- src/Middleware/Routed/Preview/ErrorPreviewAction.php
 	checkMissingIterableValueType: false
+	reportUnmatchedIgnoredErrors: false
 	ignoreErrors:
 		- '#function set_error_handler expects (callable(int, string, string, int, array): bool)*#'
+		- '#Invalid type object to throw#'
