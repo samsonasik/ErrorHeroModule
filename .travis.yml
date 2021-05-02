@@ -1,4 +1,5 @@
 language: php
+group: edge
 
 env:
   global:
