@@ -2,6 +2,10 @@ language: php
 dist: trusty
 group: edge
 
+env:
+  global:
+    - XDEBUG_MODE=coverage
+
 php:
   - 7.3
   - 7.4
