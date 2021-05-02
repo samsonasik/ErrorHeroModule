@@ -3,10 +3,9 @@ dist: trusty
 group: edge
 
 php:
-  - 7.1
-  - 7.2
   - 7.3
   - 7.4
+  - 8.0
 
 before_script:
   - mkdir -p build/logs
@@ -18,9 +17,9 @@ before_script:
 
 script:
   - composer cs-check
-  - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then bin/phpstan analyse src/ --level=max -c phpstan.neon; fi
+  - if [[ $TRAVIS_PHP_VERSION = 7.3 ]]; then bin/phpstan analyse src/ --level=max -c phpstan.neon; fi
   - bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml
-  - if [[ $TRAVIS_PHP_VERSION = 7.1 ]]; then bin/php-coveralls -v --exclude-no-stmt; fi
+  - if [[ $TRAVIS_PHP_VERSION = 7.3 ]]; then bin/php-coveralls -v --exclude-no-stmt; fi
 
 notifications:
   email: false

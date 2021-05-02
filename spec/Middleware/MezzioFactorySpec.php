@@ -9,7 +9,6 @@ use Auryn\Injector as AurynInjector;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
-use Elie\PHPDI\Config\ContainerWrapper as PHPDIContainerWrapper;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Mezzio;
 use ErrorHeroModule\Middleware\MezzioFactory;
@@ -35,7 +34,6 @@ describe('MezzioFactory', function () {
             SymfonyContainerBuilder::class     => new SymfonyContainerBuilder(),
             AurynInjectorContainer::class      => new AurynInjectorContainer(new AurynInjector()),
             Psr11PimpleContainer::class        => new Psr11PimpleContainer(new PimpleContainer()),
-            PHPDIContainerWrapper::class       => new PHPDIContainerWrapper(),
         ];
     });
 

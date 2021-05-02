@@ -38,7 +38,7 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.3 || ^8.0",
         "laminas/laminas-db": "^2.5",
         "laminas/laminas-diactoros": "^2.0",
         "laminas/laminas-log": "^2.10",
@@ -51,18 +51,17 @@
         "webmozart/assert": "^1.4"
     },
     "conflict": {
-        "doctrine/doctrine-orm-module": "<2.1",
-        "elie29/zend-phpdi-config": "<4.0",
+        "doctrine/doctrine-orm-module": "<4.0",
+        "elie29/zend-phpdi-config": "*",
         "laminas/laminas-mvc": "<3.0 >=4.0",
         "laminas/laminas-servicemanager": "<3.3",
         "mezzio/mezzio": "<3.0 >=4.0"
     },
     "require-dev": {
         "aura/di": "^3.4",
-        "doctrine/doctrine-orm-module": "^2.1",
-        "elie29/zend-phpdi-config": "^4.0",
-        "kahlan/kahlan": "^4.6.4",
-        "laminas/laminas-cache": "^2.9",
+        "doctrine/doctrine-orm-module": "^4.0",
+        "doctrine/doctrine-module": "^4.1.2",
+        "kahlan/kahlan": "^5.1",
         "laminas/laminas-coding-standard": "^2.0",
         "laminas/laminas-form": "^2.14",
         "laminas/laminas-mvc": "^3.0",
