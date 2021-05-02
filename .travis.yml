@@ -1,6 +1,4 @@
 language: php
-dist: trusty
-group: edge
 
 env:
   global:
