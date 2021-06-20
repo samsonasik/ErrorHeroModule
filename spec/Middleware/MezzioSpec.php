@@ -53,7 +53,7 @@ describe('Mezzio', function () {
     given('logger', function () {
 
         $dbAdapter = new Adapter([
-            'username' => 'root',
+            'username' => 'test',
             'password' => '',
             'driver' => 'Pdo',
             'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
@@ -188,7 +188,7 @@ json
 
     given('dbWriter', function () {
         $dbAdapter = new Adapter([
-            'username' => 'root',
+            'username' => 'test',
             'password' => '',
             'driver' => 'Pdo',
             'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',

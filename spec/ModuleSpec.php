@@ -106,7 +106,7 @@ describe('Module', function () {
             allow($serviceManager)->toReceive('has')->with(EntityManager::class)->andReturn(true);
             allow($serviceManager)->toReceive('get')->with('config')->andReturn([
                 'db' => [
-                    'username' => 'root',
+                    'username' => 'test',
                     'password' => '',
                     'driver'   => 'pdo_mysql',
                     'database' => 'mydb',
@@ -134,7 +134,7 @@ describe('Module', function () {
             allow($driver)->toReceive('getName')->andReturn('pdo_mysql');
 
             allow($connection)->toReceive('getParams')->andReturn([]);
-            allow($connection)->toReceive('getUsername')->andReturn('root');
+            allow($connection)->toReceive('getUsername')->andReturn('test');
             allow($connection)->toReceive('getPassword')->andReturn('');
             allow($connection)->toReceive('getDriver')->andReturn($driver);
             allow($connection)->toReceive('getDatabase')->andReturn('mydb');
@@ -168,7 +168,7 @@ describe('Module', function () {
                     PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
                 ],
             ]);
-            allow($connection)->toReceive('getUsername')->andReturn('root');
+            allow($connection)->toReceive('getUsername')->andReturn('test');
             allow($connection)->toReceive('getPassword')->andReturn('');
             allow($connection)->toReceive('getDriver')->andReturn($driver);
             allow($connection)->toReceive('getDatabase')->andReturn('mydb');

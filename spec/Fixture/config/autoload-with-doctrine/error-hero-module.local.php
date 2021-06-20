@@ -9,7 +9,7 @@ return [
             'orm_default' => [
                 'driverClass' =>'Doctrine\DBAL\Driver\PDOMySql\Driver',
                 'params' => [
-                    'user'     => 'root',
+                    'user'     => 'test',
                     'password' => '',
                     'dbname'   => 'errorheromodule',
                     'host'     => '127.0.0.1',

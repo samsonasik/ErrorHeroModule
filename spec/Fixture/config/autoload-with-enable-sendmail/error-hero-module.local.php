@@ -15,7 +15,7 @@ return [
     ],
 
     'db' => [
-        'username' => 'root',
+        'username' => 'test',
         'password' => '',
         'driver' => 'Pdo',
         'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',

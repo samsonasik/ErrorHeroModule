@@ -27,13 +27,13 @@ jobs:
         uses: samin/mysql-action@v1.3
         with:
           mysql version: 5.7
-          mysql password: root
-          mysql user:
+          mysql password: test
+          mysql user: test
           mysql database: errorheromodule
       - name: Checkout
         uses: actions/checkout@v2
       - name: Import DB
-        run: "mysql -u root errorheromodule < spec/Fixture/data/sql.sql"
+        run: "mysql -u test -ptest errorheromodule < spec/Fixture/data/sql.sql"
       - name: "Validate composer.json and composer.lock"
         run: "composer validate"
       - name: "Install dependencies"
