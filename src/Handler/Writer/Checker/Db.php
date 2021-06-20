@@ -14,8 +14,11 @@ use function strtotime;
 
 class Db
 {
-    public function __construct(private DbWriter $dbWriter, private array $configLoggingSettings, private array $logWritersConfig)
-    {
+    public function __construct(
+        private DbWriter $dbWriter,
+        private array $configLoggingSettings,
+        private array $logWritersConfig
+    ) {
     }
 
     public function isExists(

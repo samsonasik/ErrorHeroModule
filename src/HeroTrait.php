@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule;
 
-use ErrorHeroModule\Listener\Mvc;
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
+use ErrorHeroModule\Listener\Mvc;
 use Laminas\Mvc\MvcEvent;
 use Psr\Http\Message\ServerRequestInterface;
 use Webmozart\Assert\Assert;
@@ -22,7 +22,7 @@ use function ob_get_level;
 use function ob_start;
 use function register_shutdown_function;
 use function set_error_handler;
-use function strpos;
+use function str_starts_with;
 
 use const E_ALL;
 use const E_STRICT;

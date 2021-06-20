@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Handler;
 
-use ErrorHeroModule\Handler\Writer\Mail;
-use ErrorHeroModule\Handler\Formatter\Json;
 use ErrorException;
+use ErrorHeroModule\Handler\Formatter\Json;
+use ErrorHeroModule\Handler\Writer\Mail;
 use ErrorHeroModule\HeroConstant;
 use Laminas\Console\Request as ConsoleRequest;
 use Laminas\Http\Header\Cookie;
@@ -22,7 +22,6 @@ use Throwable;
 use Webmozart\Assert\Assert;
 
 use function basename;
-use function get_class;
 use function get_current_user;
 use function getcwd;
 use function php_uname;
@@ -50,9 +49,9 @@ class Logging
         private ?TransportInterface $mailMessageTransport = null,
         private bool $includeFilesToAttachments = true
     ) {
-        $this->configLoggingSettings     = $errorHeroModuleLocalConfig['logging-settings'];
-        $this->emailReceivers            = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
-        $this->emailSender               = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
+        $this->configLoggingSettings = $errorHeroModuleLocalConfig['logging-settings'];
+        $this->emailReceivers        = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
+        $this->emailSender           = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
     }
 
     /**

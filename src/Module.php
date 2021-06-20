@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule;
 
-use ErrorHeroModule\Transformer\Doctrine;
-use ErrorHeroModule\Controller\ErrorPreviewController;
-use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
 use Doctrine\ORM\EntityManager;
+use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
+use ErrorHeroModule\Controller\ErrorPreviewController;
+use ErrorHeroModule\Transformer\Doctrine;
 use Laminas\ModuleManager\Listener\ConfigListener;
 use Laminas\ModuleManager\ModuleEvent;
 use Laminas\ModuleManager\ModuleManager;

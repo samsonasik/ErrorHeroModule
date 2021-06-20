@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Handler\Writer;
 
-use Laminas\Mail\Transport\TransportInterface;
 use Exception;
 use Laminas\Log\Exception as LogException;
 use Laminas\Log\Writer\Mail as BaseMail;
 use Laminas\Mail\Header\ContentType;
 use Laminas\Mail\Message as MailMessage;
-use Laminas\Mail\Transport;
+use Laminas\Mail\Transport\TransportInterface;
 use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Mime;
 use Laminas\Mime\Part as MimePart;
 
 use function fopen;
-use function get_class;
 use function implode;
 use function is_array;
 use function key;

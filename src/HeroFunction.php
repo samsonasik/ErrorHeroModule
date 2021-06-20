@@ -7,7 +7,6 @@ namespace ErrorHeroModule;
 use Seld\JsonLint\JsonParser;
 use Throwable;
 
-use function get_class;
 use function is_array;
 use function strip_tags;
 
