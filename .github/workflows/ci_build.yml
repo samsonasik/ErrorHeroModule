@@ -33,7 +33,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Import DB
-        run: "mysql -u test -ptest errorheromodule < spec/Fixture/data/sql.sql"
+        run: "mysql -u test -ptest -h 127.0.0.1 errorheromodule < spec/Fixture/data/sql.sql"
       - name: "Validate composer.json and composer.lock"
         run: "composer validate"
       - name: "Install dependencies"
