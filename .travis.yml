@@ -1,6 +1,4 @@
 language: php
-dist: trusty
-group: edge
 
 php:
   - 8.0
