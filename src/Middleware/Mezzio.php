@@ -28,20 +28,16 @@ class Mezzio implements MiddlewareInterface
 {
     use HeroTrait;
 
-    /** @var TemplateRendererInterface|null */
-    private $renderer;
-
     /** @var ServerRequestInterface */
     private $request;
 
     public function __construct(
         array $errorHeroModuleConfig,
         Logging $logging,
-        ?TemplateRendererInterface $renderer
+        private ?TemplateRendererInterface $renderer
     ) {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
         $this->logging               = $logging;
-        $this->renderer              = $renderer;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

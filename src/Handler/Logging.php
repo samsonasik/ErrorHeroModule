@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Handler;
 
 use ErrorException;
+use ErrorHeroModule\Handler\Formatter\Json;
+use ErrorHeroModule\Handler\Writer\Mail;
 use ErrorHeroModule\HeroConstant;
 use Laminas\Console\Request as ConsoleRequest;
 use Laminas\Http\Header\Cookie;
@@ -20,7 +22,6 @@ use Throwable;
 use Webmozart\Assert\Assert;
 
 use function basename;
-use function get_class;
 use function get_current_user;
 use function getcwd;
 use function php_uname;
@@ -31,20 +32,8 @@ use const PHP_EOL;
 
 class Logging
 {
-    /** @var Logger */
-    private $logger;
-
     /** @var array */
     private $configLoggingSettings;
-
-    /** @var array */
-    private $logWritersConfig;
-
-    /** @var Message|null */
-    private $mailMessageService;
-
-    /** @var TransportInterface|null */
-    private $mailMessageTransport;
 
     /** @var array */
     private $emailReceivers;
@@ -52,25 +41,17 @@ class Logging
     /** @var string */
     private $emailSender;
 
-    /** @var bool */
-    private $includeFilesToAttachments;
-
     public function __construct(
-        Logger $logger,
+        private Logger $logger,
         array $errorHeroModuleLocalConfig,
-        array $logWritersConfig,
-        ?Message $mailMessageService = null,
-        ?TransportInterface $mailMessageTransport = null,
-        bool $includeFilesToAttachments = true
+        private array $logWritersConfig,
+        private ?Message $mailMessageService = null,
+        private ?TransportInterface $mailMessageTransport = null,
+        private bool $includeFilesToAttachments = true
     ) {
-        $this->logger                    = $logger;
-        $this->configLoggingSettings     = $errorHeroModuleLocalConfig['logging-settings'];
-        $this->logWritersConfig          = $logWritersConfig;
-        $this->mailMessageService        = $mailMessageService;
-        $this->mailMessageTransport      = $mailMessageTransport;
-        $this->emailReceivers            = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
-        $this->emailSender               = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
-        $this->includeFilesToAttachments = $includeFilesToAttachments;
+        $this->configLoggingSettings = $errorHeroModuleLocalConfig['logging-settings'];
+        $this->emailReceivers        = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
+        $this->emailSender           = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
     }
 
     /**
@@ -99,7 +80,7 @@ class Logging
                 } catch (RuntimeException $e) {
                     // use \Laminas\Db\Adapter\Exception\RuntimeException but do here
                     // to avoid too much deep trace from Laminas\Db classes
-                    throw new ${! ${''} = get_class($e)}($e->getMessage());
+                    throw new ${! ${''} = $e::class}($e->getMessage());
                 }
             }
         }
@@ -145,7 +126,7 @@ class Logging
             $errorType = HeroConstant::ERROR_TYPE[$severity];
         } else {
             $priority  = Logger::ERR;
-            $errorType = get_class($t);
+            $errorType = $t::class;
         }
 
         $errorFile    = $t->getFile();
@@ -209,12 +190,12 @@ class Logging
         $filesData = $extra['request_data']['files_data'] ?? [];
         foreach ($this->emailReceivers as $email) {
             $this->mailMessageService->setTo($email);
-            $writer = new Writer\Mail(
+            $writer = new Mail(
                 $this->mailMessageService,
                 $this->mailMessageTransport,
                 $filesData
             );
-            $writer->setFormatter(new Formatter\Json());
+            $writer->setFormatter(new Json());
 
             (new Logger())->addWriter($writer)
                           ->log($priority, $errorMessage, $extra);

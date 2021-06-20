@@ -9,13 +9,12 @@ use Laminas\Log\Exception as LogException;
 use Laminas\Log\Writer\Mail as BaseMail;
 use Laminas\Mail\Header\ContentType;
 use Laminas\Mail\Message as MailMessage;
-use Laminas\Mail\Transport;
+use Laminas\Mail\Transport\TransportInterface;
 use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Mime;
 use Laminas\Mime\Part as MimePart;
 
 use function fopen;
-use function get_class;
 use function implode;
 use function is_array;
 use function key;
@@ -26,20 +25,15 @@ use const PHP_EOL;
 
 class Mail extends BaseMail
 {
-    /** @var array */
-    private $filesData;
-
     /**
      * @throws LogException\InvalidArgumentException
      */
     public function __construct(
         MailMessage $mail,
-        Transport\TransportInterface $transport,
-        array $filesData
+        TransportInterface $transport,
+        private array $filesData
     ) {
         parent::__construct($mail, $transport);
-
-        $this->filesData = $filesData;
     }
 
     /**
@@ -82,7 +76,7 @@ class Mail extends BaseMail
                 "unable to send log entries via email; "
                 . "message = {$e->getMessage()}; "
                 . "code = {$e->getCode()}; "
-                . "exception class = " . get_class($e),
+                . "exception class = " . $e::class,
                 E_USER_WARNING
             );
         }

@@ -6,6 +6,7 @@ namespace ErrorHeroModule;
 
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
+use ErrorHeroModule\Listener\Mvc;
 use Laminas\Mvc\MvcEvent;
 use Psr\Http\Message\ServerRequestInterface;
 use Webmozart\Assert\Assert;
@@ -21,7 +22,7 @@ use function ob_get_level;
 use function ob_start;
 use function register_shutdown_function;
 use function set_error_handler;
-use function strpos;
+use function str_starts_with;
 
 use const E_ALL;
 use const E_STRICT;
@@ -39,7 +40,7 @@ trait HeroTrait
 
     public function phpError(): void
     {
-        if ($this instanceof Listener\Mvc) {
+        if ($this instanceof Mvc) {
             Assert::count($args = func_get_args(), 1);
             Assert::isInstanceOf($this->mvcEvent = $args[0], MvcEvent::class);
         }
@@ -60,7 +61,7 @@ trait HeroTrait
 
     private static function isUncaught(array $error): bool
     {
-        return 0 === strpos($error['message'], 'Uncaught');
+        return str_starts_with($error['message'], 'Uncaught');
     }
 
     /** @param string $buffer */
@@ -90,7 +91,7 @@ trait HeroTrait
         $errorException = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
 
         // Laminas Mvc project
-        if ($this instanceof Listener\Mvc) {
+        if ($this instanceof Mvc) {
             Assert::isInstanceOf($this->mvcEvent, MvcEvent::class);
 
             ob_start();

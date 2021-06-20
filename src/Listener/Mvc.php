@@ -24,20 +24,16 @@ class Mvc extends AbstractListenerAggregate
 {
     use HeroTrait;
 
-    /** @var PhpRenderer */
-    private $renderer;
-
     /** @var MvcEvent */
     private $mvcEvent;
 
     public function __construct(
         array $errorHeroModuleConfig,
         Logging $logging,
-        PhpRenderer $renderer
+        private PhpRenderer $renderer
     ) {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
         $this->logging               = $logging;
-        $this->renderer              = $renderer;
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace ErrorHeroModule\Spec\Handler;
 
+use Exception;
+use ErrorException;
 use ErrorHeroModule\Handler\Logging;
 use Kahlan\Plugin\Double;
 use ReflectionProperty;
@@ -138,7 +140,7 @@ describe('LoggingSpec', function () {
 
             expect($this->logger)->not->toReceive('log');
 
-            $exception = new \Exception();
+            $exception = new Exception();
             $this->logging->handleErrorException($exception, $this->request);
 
         });
@@ -166,7 +168,7 @@ describe('LoggingSpec', function () {
 
             expect($this->logger)->not->toReceive('log');
 
-            $exception = new \ErrorException();
+            $exception = new ErrorException();
             $this->logging->handleErrorException($exception, $this->request);
 
         });

@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Spec\Middleware;
 
+use PDO;
 use ArrayObject;
 use Aura\Di\Container as AuraContainer;
 use Aura\Di\ContainerBuilder as AuraContainerBuilder;
@@ -9,7 +10,6 @@ use Auryn\Injector as AurynInjector;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
-use Elie\PHPDI\Config\ContainerWrapper as PHPDIContainerWrapper;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Mezzio;
 use ErrorHeroModule\Middleware\MezzioFactory;
@@ -35,7 +35,6 @@ describe('MezzioFactory', function () {
             SymfonyContainerBuilder::class     => new SymfonyContainerBuilder(),
             AurynInjectorContainer::class      => new AurynInjectorContainer(new AurynInjector()),
             Psr11PimpleContainer::class        => new Psr11PimpleContainer(new PimpleContainer()),
-            PHPDIContainerWrapper::class       => new PHPDIContainerWrapper(),
         ];
     });
 
@@ -49,7 +48,7 @@ describe('MezzioFactory', function () {
                 'driver'   => 'pdo_mysql',
                 'dsn'      => 'mysql:host=localhost;dbname=errorheromodule',
                 'driver_options' => [
-                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
                 ],
                 'adapters' => [
                     'my-adapter' => [
@@ -58,7 +57,7 @@ describe('MezzioFactory', function () {
                         'username' => 'root',
                         'password' => '',
                         'driver_options' => [
-                            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
                         ],
                     ],
                 ],
@@ -360,7 +359,7 @@ describe('MezzioFactory', function () {
             expect($actual)->toThrow(
                 new RuntimeException(\sprintf(
                     'container "%s" is unsupported',
-                    \get_class($container)
+                    $container::class
                 ))
             );
 

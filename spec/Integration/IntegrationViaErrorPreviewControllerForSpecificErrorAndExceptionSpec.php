@@ -75,8 +75,7 @@ describe('Integration via ErrorPreviewController', function () {
             $content = \ob_get_clean();
 
             expect(\ob_get_clean())->toBe('');
-            // yes, excluded E_* error means it ignored, means it passed, means it is 200 status code
-            expect($this->application->getResponse()->getStatusCode())->toBe(200);
+            expect($this->application->getResponse()->getStatusCode())->toBe(500);
 
             unlink(__DIR__ . '/../Fixture/view/error-hero-module/error-preview/notice.phtml');
             rmdir(__DIR__ . '/../Fixture/view/error-hero-module/error-preview');

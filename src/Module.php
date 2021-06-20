@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace ErrorHeroModule;
 
 use Doctrine\ORM\EntityManager;
+use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
+use ErrorHeroModule\Controller\ErrorPreviewController;
+use ErrorHeroModule\Transformer\Doctrine;
 use Laminas\ModuleManager\Listener\ConfigListener;
 use Laminas\ModuleManager\ModuleEvent;
 use Laminas\ModuleManager\ModuleManager;
@@ -26,7 +29,7 @@ class Module
         }
 
         $configuration = $container->get('config');
-        $configuration['db'] ?? Transformer\Doctrine::transform($container, $configuration);
+        $configuration['db'] ?? Doctrine::transform($container, $configuration);
     }
 
     public function errorPreviewPageHandler(ModuleEvent $event): void
@@ -44,8 +47,8 @@ class Module
         }
 
         unset(
-            $configuration['controllers']['factories'][Controller\ErrorPreviewController::class],
-            $configuration['controllers']['factories'][Controller\ErrorPreviewConsoleController::class],
+            $configuration['controllers']['factories'][ErrorPreviewController::class],
+            $configuration['controllers']['factories'][ErrorPreviewConsoleController::class],
             $configuration['router']['routes']['error-preview'],
             $configuration['console']['router']['routes']['error-preview-console']
         );

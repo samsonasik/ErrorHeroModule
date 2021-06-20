@@ -10,7 +10,7 @@ return [
         'driver' => 'Pdo',
         'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
         'driver_options' => [
-            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
         ],
     ],
 
@@ -59,10 +59,10 @@ return [
             'exclude-exceptions' => [
 
                 // can be specific exception instance with specific error message
-                [\Exception::class, 'a sample exception preview'],
+                [Exception::class, 'a sample exception preview'],
 
                 // or Error class
-                [\Error::class, 'a sample error preview'],
+                [Error::class, 'a sample error preview'],
             ],
 
             // show or not error

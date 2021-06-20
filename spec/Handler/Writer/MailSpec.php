@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Spec\Handler\Writer;
 
+use Throwable;
 use ErrorHeroModule\Handler\Writer\Mail;
 use Exception;
 use Kahlan\Plugin\Double;
@@ -113,12 +114,12 @@ describe('Mail', function () {
             $r->setAccessible(true);
             $r->setValue($this->writer, ["timestamp" => "2017-02-25T02:08:46+07:00"]);
 
-            allow($this->transport)->toReceive('send')->andRun(function () { throw new Exception('test'); });
+            allow($this->transport)->toReceive('send')->andRun(function () { throw new Exception('root'); });
 
             try {
                 $this->writer->shutdown();
                 expect($this->transport)->toReceive('send');
-            } catch (\Throwable $t) {
+            } catch (Throwable $t) {
                 expect($t)->toBeAnInstanceOf(Exception::class);
             }
 
