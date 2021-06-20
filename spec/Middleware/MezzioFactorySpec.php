@@ -44,7 +44,7 @@ describe('MezzioFactory', function () {
 
             'db' => [
                 'username' => 'test',
-                'password' => '',
+                'password' => 'test',
                 'driver'   => 'pdo_mysql',
                 'dsn'      => 'mysql:host=localhost;dbname=errorheromodule',
                 'driver_options' => [
@@ -55,7 +55,7 @@ describe('MezzioFactory', function () {
                         'driver' => 'pdo_mysql',
                         'dsn' => 'mysql:host=localhost;dbname=errorheromodule',
                         'username' => 'test',
-                        'password' => '',
+                        'password' => 'test',
                         'driver_options' => [
                             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
                         ],

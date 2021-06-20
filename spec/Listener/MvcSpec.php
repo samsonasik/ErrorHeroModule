@@ -315,7 +315,7 @@ describe('Mvc', function () {
 
             $dbAdapter = new Adapter([
                 'username' => 'test',
-                'password' => '',
+                'password' => 'test',
                 'driver' => 'Pdo',
                 'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
                 'driver_options' => [

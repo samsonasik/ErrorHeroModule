@@ -107,7 +107,7 @@ describe('Module', function () {
             allow($serviceManager)->toReceive('get')->with('config')->andReturn([
                 'db' => [
                     'username' => 'test',
-                    'password' => '',
+                    'password' => 'test',
                     'driver'   => 'pdo_mysql',
                     'database' => 'mydb',
                     'host'     => 'localhost',
