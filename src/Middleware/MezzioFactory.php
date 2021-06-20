@@ -7,12 +7,10 @@ namespace ErrorHeroModule\Middleware;
 use ArrayObject;
 use Aura\Di\Container as AuraContainer;
 use Doctrine\ORM\EntityManager;
-use Elie\PHPDI\Config\ContainerWrapper as PHPDIContainerWrapper;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Transformer\AuraService;
 use ErrorHeroModule\Transformer\AurynService;
 use ErrorHeroModule\Transformer\Doctrine;
-use ErrorHeroModule\Transformer\PHPDIService;
 use ErrorHeroModule\Transformer\PimpleService;
 use ErrorHeroModule\Transformer\SymfonyService;
 use Laminas\ServiceManager\ServiceManager;
@@ -37,7 +35,6 @@ class MezzioFactory
         AuraContainer::class           => AuraService::class,
         AurynInjectorContainer::class  => AurynService::class,
         Psr11PimpleContainer::class    => PimpleService::class,
-        PHPDIContainerWrapper::class   => PHPDIService::class,
     ];
 
     private function createMiddlewareInstance(ContainerInterface $container, array $configuration): Mezzio
@@ -85,7 +82,7 @@ class MezzioFactory
             return $this->createMiddlewareInstance($container, $configuration);
         }
 
-        $containerClass = get_class($container);
+        $containerClass = $container::class;
         if (in_array($containerClass, array_keys(self::CONTAINERS_TRANSFORM), true)) {
             $configuration = $this->verifyConfig($configuration, $containerClass);
             $transformer   = self::CONTAINERS_TRANSFORM[$containerClass];

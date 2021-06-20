@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Spec\Handler\Writer;
 
+use Throwable;
 use ErrorHeroModule\Handler\Writer\Mail;
 use Exception;
 use Kahlan\Plugin\Double;
@@ -118,7 +119,7 @@ describe('Mail', function () {
             try {
                 $this->writer->shutdown();
                 expect($this->transport)->toReceive('send');
-            } catch (\Throwable $t) {
+            } catch (Throwable $t) {
                 expect($t)->toBeAnInstanceOf(Exception::class);
             }
 

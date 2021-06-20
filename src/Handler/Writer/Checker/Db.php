@@ -14,23 +14,8 @@ use function strtotime;
 
 class Db
 {
-    /** @var DbWriter */
-    private $dbWriter;
-
-    /** @var array */
-    private $configLoggingSettings;
-
-    /** @var array */
-    private $logWritersConfig;
-
-    public function __construct(
-        DbWriter $dbWriter,
-        array $configLoggingSettings,
-        array $logWritersConfig
-    ) {
-        $this->dbWriter              = $dbWriter;
-        $this->configLoggingSettings = $configLoggingSettings;
-        $this->logWritersConfig      = $logWritersConfig;
+    public function __construct(private DbWriter $dbWriter, private array $configLoggingSettings, private array $logWritersConfig)
+    {
     }
 
     public function isExists(

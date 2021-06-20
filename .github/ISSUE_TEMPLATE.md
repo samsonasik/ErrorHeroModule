@@ -16,11 +16,14 @@ What PHP version you're using?
 - [ ] PHP 7.2
 - [ ] PHP 7.3
 - [ ] PHP 7.4
+- [ ] PHP 8.0
 
 What ErrorHeroModule version you're using?
 
 - [ ] ^1.0
 - [ ] ^2.0
+- [ ] ^3.0
+- [ ] ^4.0
 
 What Database you're using?
 

@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Spec\Handler;
 
+use RuntimeException;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
 use Kahlan\Plugin\Double;
@@ -157,7 +158,7 @@ describe('LoggingFactorySpec', function () {
                 $this->factory($container);
             };
 
-            expect($closure)->toThrow(new \RuntimeException());
+            expect($closure)->toThrow(new RuntimeException());
 
         });
 
@@ -181,7 +182,7 @@ describe('LoggingFactorySpec', function () {
                 $this->factory($container);
             };
 
-            expect($closure)->toThrow(new \RuntimeException());
+            expect($closure)->toThrow(new RuntimeException());
 
         });
 

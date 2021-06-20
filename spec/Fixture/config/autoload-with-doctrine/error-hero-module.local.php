@@ -15,7 +15,7 @@ return [
                     'host'     => '127.0.0.1',
                     'port'     => '3306',
                     'driverOptions' => [
-                        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
                     ],
                 ],
             ],

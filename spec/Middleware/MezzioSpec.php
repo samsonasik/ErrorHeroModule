@@ -2,6 +2,11 @@
 
 namespace ErrorHeroModule\Spec\Middleware;
 
+use Laminas\View\Resolver\AggregateResolver;
+use Laminas\View\Resolver\TemplateMapResolver;
+use PDO;
+use Exception;
+use ErrorException;
 use Closure;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Mezzio;
@@ -32,9 +37,9 @@ describe('Mezzio', function () {
     given('renderer', function () {
 
         $renderer = new PhpRenderer();
-        $resolver = new Resolver\AggregateResolver();
+        $resolver = new AggregateResolver();
 
-        $map = new Resolver\TemplateMapResolver([
+        $map = new TemplateMapResolver([
             'layout/layout'                   => __DIR__ . '/../Fixture/view/layout/layout.phtml',
             'error-hero-module/error-default' => __DIR__ . '/../../view/error-hero-module/error-default.phtml',
         ]);
@@ -53,7 +58,7 @@ describe('Mezzio', function () {
             'driver' => 'Pdo',
             'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
             'driver_options' => [
-                \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
             ],
         ]);
 
@@ -188,7 +193,7 @@ json
             'driver' => 'Pdo',
             'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
             'driver_options' => [
-                \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
             ],
         ]);
 
@@ -281,7 +286,7 @@ json
 
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($this->request)->andRun(function () {
-                    throw new \Exception('message');
+                    throw new Exception('message');
                 });
                 $middleware = new Mezzio($config, $logging, $this->renderer);
 
@@ -309,14 +314,14 @@ json
 
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($this->request)->andRun(function () {
-                    throw new \Exception('message');
+                    throw new Exception('message');
                 });
                 $middleware = new Mezzio($config, $logging, $this->renderer);
 
                 $closure = function () use ($middleware, $handler) {
                     $middleware->process($this->request, $handler);
                 };
-                expect($closure)->toThrow(new \Exception('message'));
+                expect($closure)->toThrow(new Exception('message'));
 
             });
 
@@ -337,7 +342,7 @@ json
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
-                    throw new \Exception('message');
+                    throw new Exception('message');
                 });
                 $middleware = new Mezzio($config, $logging, null);
 
@@ -372,7 +377,7 @@ json
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
-                    throw new \Exception('message');
+                    throw new Exception('message');
                 });
                 $middleware = new Mezzio($config, $logging, $this->renderer);
 
@@ -407,14 +412,14 @@ json
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
-                    throw new \Exception('message');
+                    throw new Exception('message');
                 });
                 $middleware = new Mezzio($config, $logging, $this->renderer);
 
                 $closure = function () use ($middleware, $request, $handler) {
                     $middleware->process($request, $handler);
                 };
-                expect($closure)->toThrow(new \Exception('message'));
+                expect($closure)->toThrow(new Exception('message'));
 
             });
 
@@ -424,9 +429,9 @@ json
 
             $config = $this->config;
             $config['display-settings']['exclude-exceptions'] = [
-                \Exception::class
+                Exception::class
             ];
-            $exception = new \Exception('message');
+            $exception = new Exception('message');
 
             $logging = new Logging(
                 $this->logger,
@@ -567,7 +572,7 @@ json
             $closure = function () use ($middleware) {
                 $middleware->execOnShutdown();
             };
-            expect($closure)->toThrow(new \ErrorException(
+            expect($closure)->toThrow(new ErrorException(
                 'class@anonymous cannot implement stdClass - it is not an interface'
             ));
 
@@ -682,7 +687,7 @@ json
             $closure = function () {
                  $this->middleware->phpErrorHandler(\E_WARNING, 'warning', 'file.php', 1);
             };
-            expect($closure)->toThrow(new \ErrorException('warning', 0, \E_WARNING, 'file.php', 1));
+            expect($closure)->toThrow(new ErrorException('warning', 0, \E_WARNING, 'file.php', 1));
 
         });
 

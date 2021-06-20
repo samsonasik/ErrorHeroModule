@@ -2,6 +2,9 @@
 
 namespace ErrorHeroModule\Spec\Listener;
 
+use Exception;
+use PDO;
+use ErrorException;
 use Closure;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
@@ -159,7 +162,7 @@ describe('Mvc', function () {
                 $renderer
             );
 
-            $exception = new \Exception('message');
+            $exception = new Exception('message');
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
@@ -176,7 +179,7 @@ describe('Mvc', function () {
             Console::overrideIsConsole(true);
 
             Quit::disable();
-            $exception = new \Exception('message');
+            $exception = new Exception('message');
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
@@ -203,7 +206,7 @@ describe('Mvc', function () {
         it('call logging->handleErrorException() with default view error if $e->getParam("exception") and display_errors = 0 and not a console', function () {
 
             Console::overrideIsConsole(false);
-            $exception = new \Exception('message');
+            $exception = new Exception('message');
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
@@ -225,7 +228,7 @@ describe('Mvc', function () {
         it('do not call logging->handleErrorException() if $e->getParam("exception") and has excluded exception match', function () {
 
             $config = $this->config;
-            $config['display-settings']['exclude-exceptions'] = [\Exception::class];
+            $config['display-settings']['exclude-exceptions'] = [Exception::class];
 
             $logging = Double::instance([
                 'extends' => Logging::class,
@@ -240,7 +243,7 @@ describe('Mvc', function () {
                 $renderer
             );
 
-            $exception = new \Exception('message');
+            $exception = new Exception('message');
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
@@ -316,7 +319,7 @@ describe('Mvc', function () {
                 'driver' => 'Pdo',
                 'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
                 'driver_options' => [
-                    \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
                 ],
             ]);
 
@@ -446,7 +449,7 @@ describe('Mvc', function () {
             $closure = function () {
                  $this->listener->phpErrorHandler(\E_WARNING, 'warning', 'file.php', 1);
             };
-            expect($closure)->toThrow(new \ErrorException('warning', 0, \E_WARNING, 'file.php', 1));
+            expect($closure)->toThrow(new ErrorException('warning', 0, \E_WARNING, 'file.php', 1));
 
         });
 
