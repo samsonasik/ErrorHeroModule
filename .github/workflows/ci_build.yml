@@ -29,7 +29,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Import DB
-        run: "mysql -u root -h 127.0.0.1 errorheromodule < spec/Fixture/data/sql.sql"
+        run: "create database errorheromodule -u root -h 127.0.0.1 && mysql -u root -h 127.0.0.1 errorheromodule < spec/Fixture/data/sql.sql"
       - name: "Validate composer.json and composer.lock"
         run: "composer validate"
       - name: "Install dependencies"
