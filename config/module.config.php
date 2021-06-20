@@ -2,6 +2,13 @@
 
 namespace ErrorHeroModule;
 
+use ErrorHeroModule\Controller\ErrorPreviewController;
+use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
+use Laminas\Log\LoggerAbstractServiceFactory;
+use ErrorHeroModule\Listener\Mvc;
+use ErrorHeroModule\Listener\MvcFactory;
+use ErrorHeroModule\Handler\Logging;
+use ErrorHeroModule\Handler\LoggingFactory;
 use Laminas\Log;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
@@ -9,8 +16,8 @@ return [
 
     'controllers' => [
         'factories' => [
-            Controller\ErrorPreviewController::class           => InvokableFactory::class,
-            Controller\ErrorPreviewConsoleController::class    => InvokableFactory::class,
+            ErrorPreviewController::class           => InvokableFactory::class,
+            ErrorPreviewConsoleController::class    => InvokableFactory::class,
         ],
     ],
 
@@ -22,7 +29,7 @@ return [
                 'options' => [
                     'route' => '/error-preview[/][:action]',
                     'defaults' => [
-                        'controller' => Controller\ErrorPreviewController::class,
+                        'controller' => ErrorPreviewController::class,
                         'action'     => 'exception',
                     ],
                 ],
@@ -38,7 +45,7 @@ return [
                     'options' => [
                         'route'    => 'error-preview [<action>]',
                         'defaults' => [
-                            'controller' => Controller\ErrorPreviewConsoleController::class,
+                            'controller' => ErrorPreviewConsoleController::class,
                             'action'     => 'exception'
                         ],
                     ],
@@ -49,16 +56,16 @@ return [
 
     'service_manager' => [
         'abstract_factories' => [
-            Log\LoggerAbstractServiceFactory::class,
+            LoggerAbstractServiceFactory::class,
         ],
         'factories' => [
-            Listener\Mvc::class    => Listener\MvcFactory::class,
-            Handler\Logging::class => Handler\LoggingFactory::class,
+            Mvc::class    => MvcFactory::class,
+            Logging::class => LoggingFactory::class,
         ],
     ],
 
     'listeners' => [
-        Listener\Mvc::class,
+        Mvc::class,
     ],
 
     'view_manager' => [
