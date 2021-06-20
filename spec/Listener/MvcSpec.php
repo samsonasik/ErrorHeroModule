@@ -259,7 +259,7 @@ describe('Mvc', function () {
         it('returns buffer on no error', function () {
 
             allow('error_get_last')->toBeCalled()->andReturn(null);
-            expect($this->listener->phpFatalErrorHandler('test'))->toBe('test');
+            expect($this->listener->phpFatalErrorHandler('root'))->toBe('root');
 
         });
 
@@ -314,8 +314,8 @@ describe('Mvc', function () {
             ]);
 
             $dbAdapter = new Adapter([
-                'username' => 'test',
-                'password' => 'test',
+                'username' => 'root',
+                'password' => '',
                 'driver' => 'Pdo',
                 'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
                 'driver_options' => [

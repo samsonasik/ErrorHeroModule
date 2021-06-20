@@ -53,8 +53,8 @@ describe('Mezzio', function () {
     given('logger', function () {
 
         $dbAdapter = new Adapter([
-            'username' => 'test',
-            'password' => 'test',
+            'username' => 'root',
+            'password' => '',
             'driver' => 'Pdo',
             'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
             'driver_options' => [
@@ -188,8 +188,8 @@ json
 
     given('dbWriter', function () {
         $dbAdapter = new Adapter([
-            'username' => 'test',
-            'password' => 'test',
+            'username' => 'root',
+            'password' => '',
             'driver' => 'Pdo',
             'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
             'driver_options' => [
@@ -463,7 +463,7 @@ json
         it('returns buffer on no error', function () {
 
             allow('error_get_last')->toBeCalled()->andReturn(null);
-            expect($this->middleware->phpFatalErrorHandler('test'))->toBe('test');
+            expect($this->middleware->phpFatalErrorHandler('root'))->toBe('root');
 
         });
 

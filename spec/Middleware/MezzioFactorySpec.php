@@ -43,8 +43,8 @@ describe('MezzioFactory', function () {
         return [
 
             'db' => [
-                'username' => 'test',
-                'password' => 'test',
+                'username' => 'root',
+                'password' => '',
                 'driver'   => 'pdo_mysql',
                 'dsn'      => 'mysql:host=localhost;dbname=errorheromodule',
                 'driver_options' => [
@@ -54,8 +54,8 @@ describe('MezzioFactory', function () {
                     'my-adapter' => [
                         'driver' => 'pdo_mysql',
                         'dsn' => 'mysql:host=localhost;dbname=errorheromodule',
-                        'username' => 'test',
-                        'password' => 'test',
+                        'username' => 'root',
+                        'password' => '',
                         'driver_options' => [
                             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
                         ],
@@ -168,7 +168,7 @@ describe('MezzioFactory', function () {
             allow($driver)->toReceive('getName')->andReturn('pdo_mysql');
 
             allow($connection)->toReceive('getParams')->andReturn([]);
-            allow($connection)->toReceive('getUsername')->andReturn('test');
+            allow($connection)->toReceive('getUsername')->andReturn('root');
             allow($connection)->toReceive('getPassword')->andReturn('');
             allow($connection)->toReceive('getDriver')->andReturn($driver);
             allow($connection)->toReceive('getDatabase')->andReturn('mydb');

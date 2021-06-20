@@ -114,7 +114,7 @@ describe('Mail', function () {
             $r->setAccessible(true);
             $r->setValue($this->writer, ["timestamp" => "2017-02-25T02:08:46+07:00"]);
 
-            allow($this->transport)->toReceive('send')->andRun(function () { throw new Exception('test'); });
+            allow($this->transport)->toReceive('send')->andRun(function () { throw new Exception('root'); });
 
             try {
                 $this->writer->shutdown();

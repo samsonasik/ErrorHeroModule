@@ -15,8 +15,8 @@ return [
     ],
 
     'db' => [
-        'username' => 'test',
-        'password' => 'test',
+        'username' => 'root',
+        'password' => '',
         'driver' => 'Pdo',
         'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
         'driver_options' => [
