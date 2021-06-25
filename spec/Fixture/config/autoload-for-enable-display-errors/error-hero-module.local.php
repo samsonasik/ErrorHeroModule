@@ -60,7 +60,7 @@ return [
             // excluded php errors
             'exclude-php-errors' => [
                 \E_USER_DEPRECATED,
-                \E_NOTICE,
+                \E_WARNING,
             ],
 
             // show or not error

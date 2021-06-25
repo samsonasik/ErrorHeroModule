@@ -58,26 +58,27 @@ describe('Integration via ErrorPreviewController', function () {
 
     });
 
-    describe('/error-preview/notice', function() {
+    describe('/error-preview/warning', function() {
 
         it('empty as rely to original mvc process to handle', function() {
 
             @mkdir(__DIR__ . '/../Fixture/view/error-hero-module/error-preview', 0755, true);
-            file_put_contents(__DIR__ . '/../Fixture/view/error-hero-module/error-preview/notice.phtml', '');
+            file_put_contents(__DIR__ . '/../Fixture/view/error-hero-module/error-preview/warning.phtml', '');
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
-            $request->setUri('http://example.com/error-preview/notice');
-            $request->setRequestUri('/error-preview/notice');
+            $request->setUri('http://example.com/error-preview/warning');
+            $request->setRequestUri('/error-preview/warning');
 
             \ob_start();
             $this->application->run();
             $content = \ob_get_clean();
 
             expect(\ob_get_clean())->toBe('');
-            expect($this->application->getResponse()->getStatusCode())->toBe(500);
+            // yes, excluded E_* error means it ignored, means it passed, means it is 200 status code
+            expect($this->application->getResponse()->getStatusCode())->toBe(200);
 
-            unlink(__DIR__ . '/../Fixture/view/error-hero-module/error-preview/notice.phtml');
+            unlink(__DIR__ . '/../Fixture/view/error-hero-module/error-preview/warning.phtml');
             rmdir(__DIR__ . '/../Fixture/view/error-hero-module/error-preview');
             rmdir(__DIR__ . '/../Fixture/view/error-hero-module');
 

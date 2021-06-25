@@ -340,12 +340,12 @@ Give it a try!
 
 _**Web Access**_
 
-| URl                                   | Preview For     |
-|---------------------------------------|-----------------|
-| http://yourlaminasormezzioapp/error-preview        | Exception       |
-| http://yourlaminasormezzioapp/error-preview/error  | Error           |
-| http://yourlaminasormezzioapp/error-preview/notice | PHP E_NOTICE    |
-| http://yourlaminasormezzioapp/error-preview/fatal  | PHP Fatal Error |
+| URl                                                 | Preview For     |
+|-----------------------------------------------------|-----------------|
+| http://yourlaminasormezzioapp/error-preview         | Exception       |
+| http://yourlaminasormezzioapp/error-preview/error   | Error           |
+| http://yourlaminasormezzioapp/error-preview/warning | PHP E_WARNING   |
+| http://yourlaminasormezzioapp/error-preview/fatal   | PHP Fatal Error |
 
 You will get the following page if display_errors config is 0:
 

@@ -51,7 +51,7 @@ return [
             'exclude-php-errors' => [
 
                 // can be specific error with specific message
-                [\E_NOTICE, 'Undefined offset: 1'],
+                [\E_WARNING, 'Undefined array key 1'],
 
             ],
 
