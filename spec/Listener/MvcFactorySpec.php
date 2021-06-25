@@ -11,9 +11,7 @@ use Laminas\View\Renderer\PhpRenderer;
 
 describe('MvcFactory', function () {
 
-    given('factory', function () {
-        return new MvcFactory();
-    });
+    given('factory', fn() => new MvcFactory());
 
     describe('__invoke()', function () {
 

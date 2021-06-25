@@ -18,9 +18,7 @@ class AuraService extends TransformerAbstract implements TransformerInterface
         $dbAdapterConfig = parent::getDbAdapterConfig($configuration);
         $logger          = parent::getLoggerInstance($configuration, $dbAdapterConfig);
 
-        $containerLocked = &Closure::bind(static function & ($container) {
-            return $container->locked;
-        }, null, $container)($container);
+        $containerLocked = &Closure::bind(static fn&($container) => $container->locked, null, $container)($container);
         $containerLocked = false;
 
         return $container->set('ErrorHeroModuleLogger', $logger);

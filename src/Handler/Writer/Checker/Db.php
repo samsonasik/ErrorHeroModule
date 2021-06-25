@@ -29,9 +29,7 @@ class Db
         string $errorType
     ): bool {
         // db definition
-        $db = Closure::bind(static function ($dbWriter) {
-            return $dbWriter->db;
-        }, null, $this->dbWriter)($this->dbWriter);
+        $db = Closure::bind(static fn($dbWriter) => $dbWriter->db, null, $this->dbWriter)($this->dbWriter);
 
         foreach ($this->logWritersConfig as $writerConfig) {
             if ($writerConfig['name'] === 'db') {

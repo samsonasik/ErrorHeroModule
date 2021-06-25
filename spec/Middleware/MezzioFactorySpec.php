@@ -25,118 +25,110 @@ use Laminas\ServiceManager\ServiceManager;
 
 describe('MezzioFactory', function () {
 
-    given('factory', function () {
-        return new MezzioFactory();
-    });
+    given('factory', fn() => new MezzioFactory());
 
-    given('mapCreateContainers', function () {
-        return [
-            AuraContainer::class               => (new AuraContainerBuilder())->newInstance(),
-            SymfonyContainerBuilder::class     => new SymfonyContainerBuilder(),
-            AurynInjectorContainer::class      => new AurynInjectorContainer(new AurynInjector()),
-            Psr11PimpleContainer::class        => new Psr11PimpleContainer(new PimpleContainer()),
-        ];
-    });
+    given('mapCreateContainers', fn() => [
+        AuraContainer::class               => (new AuraContainerBuilder())->newInstance(),
+        SymfonyContainerBuilder::class     => new SymfonyContainerBuilder(),
+        AurynInjectorContainer::class      => new AurynInjectorContainer(new AurynInjector()),
+        Psr11PimpleContainer::class        => new Psr11PimpleContainer(new PimpleContainer()),
+    ]);
 
-    given('config', function () {
+    given('config', fn() => [
 
-        return [
-
-            'db' => [
-                'username' => 'root',
-                'password' => '',
-                'driver'   => 'pdo_mysql',
-                'dsn'      => 'mysql:host=localhost;dbname=errorheromodule',
-                'driver_options' => [
-                    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
-                ],
-                'adapters' => [
-                    'my-adapter' => [
-                        'driver' => 'pdo_mysql',
-                        'dsn' => 'mysql:host=localhost;dbname=errorheromodule',
-                        'username' => 'root',
-                        'password' => '',
-                        'driver_options' => [
-                            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
-                        ],
+        'db' => [
+            'username' => 'root',
+            'password' => '',
+            'driver'   => 'pdo_mysql',
+            'dsn'      => 'mysql:host=localhost;dbname=errorheromodule',
+            'driver_options' => [
+                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+            ],
+            'adapters' => [
+                'my-adapter' => [
+                    'driver' => 'pdo_mysql',
+                    'dsn' => 'mysql:host=localhost;dbname=errorheromodule',
+                    'username' => 'root',
+                    'password' => '',
+                    'driver_options' => [
+                        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
                     ],
                 ],
             ],
+        ],
 
-            'error-hero-module' => [
-                'enable' => true,
-                'display-settings' => [
+        'error-hero-module' => [
+            'enable' => true,
+            'display-settings' => [
 
-                    // excluded php errors
-                    'exclude-php-errors' => [
-                        \E_USER_DEPRECATED
-                    ],
-
-                    // show or not error
-                    'display_errors'  => 0,
-
-                    // if enable and display_errors = 0, the page will bring layout and view
-                    'template' => [
-                        'layout' => 'layout::default',
-                        'view'   => 'error-hero-module::error-default'
-                    ],
-
+                // excluded php errors
+                'exclude-php-errors' => [
+                    \E_USER_DEPRECATED
                 ],
-                'logging-settings' => [
-                    'same-error-log-time-range' => 86400,
+
+                // show or not error
+                'display_errors'  => 0,
+
+                // if enable and display_errors = 0, the page will bring layout and view
+                'template' => [
+                    'layout' => 'layout::default',
+                    'view'   => 'error-hero-module::error-default'
                 ],
-                'email-notification-settings' => [
-                    // set to true to activate email notification on log error
-                    'enable' => false,
 
-                    // Laminas\Mail\Message instance registered at service manager
-                    'mail-message'   => 'YourMailMessageService',
+            ],
+            'logging-settings' => [
+                'same-error-log-time-range' => 86400,
+            ],
+            'email-notification-settings' => [
+                // set to true to activate email notification on log error
+                'enable' => false,
 
-                    // Laminas\Mail\Transport\TransportInterface instance registered at service manager
-                    'mail-transport' => 'YourMailTransportService',
+                // Laminas\Mail\Message instance registered at service manager
+                'mail-message'   => 'YourMailMessageService',
 
-                    // email sender
-                    'email-from'    => 'Sender Name <sender@host.com>',
+                // Laminas\Mail\Transport\TransportInterface instance registered at service manager
+                'mail-transport' => 'YourMailTransportService',
 
-                    'email-to-send' => [
-                        'developer1@foo.com',
-                        'developer2@foo.com',
-                    ],
+                // email sender
+                'email-from'    => 'Sender Name <sender@host.com>',
+
+                'email-to-send' => [
+                    'developer1@foo.com',
+                    'developer2@foo.com',
                 ],
             ],
+        ],
 
-            'log' => [
-                'ErrorHeroModuleLogger' => [
-                    'writers' => [
+        'log' => [
+            'ErrorHeroModuleLogger' => [
+                'writers' => [
 
-                        [
-                            'name' => 'db',
-                            'options' => [
-                                'db'     => AdapterInterface::class,
-                                'table'  => 'error_log',
-                                'column' => [
-                                    'timestamp' => 'date',
-                                    'priority'  => 'type',
-                                    'message'   => 'event',
-                                    'extra'     => [
-                                        'url'  => 'url',
-                                        'file' => 'file',
-                                        'line' => 'line',
-                                        'error_type' => 'error_type',
-                                        'trace'      => 'trace',
-                                        'request_data' => 'request_data',
-                                    ],
+                    [
+                        'name' => 'db',
+                        'options' => [
+                            'db'     => AdapterInterface::class,
+                            'table'  => 'error_log',
+                            'column' => [
+                                'timestamp' => 'date',
+                                'priority'  => 'type',
+                                'message'   => 'event',
+                                'extra'     => [
+                                    'url'  => 'url',
+                                    'file' => 'file',
+                                    'line' => 'line',
+                                    'error_type' => 'error_type',
+                                    'trace'      => 'trace',
+                                    'request_data' => 'request_data',
                                 ],
                             ],
                         ],
-
                     ],
+
                 ],
             ],
+        ],
 
-        ];
-
-    });
+    ]);
 
     describe('__invoke()', function () {
 

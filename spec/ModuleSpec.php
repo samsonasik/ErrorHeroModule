@@ -17,42 +17,38 @@ use Laminas\ServiceManager\ServiceManager;
 
 describe('Module', function () {
 
-    given('module', function() {
-        return new Module();
-    });
+    given('module', fn() => new Module());
 
-    given('config', function () {
-        return [
-            'log' => [
-                'ErrorHeroModuleLogger' => [
-                    'writers' => [
+    given('config', fn() => [
+        'log' => [
+            'ErrorHeroModuleLogger' => [
+                'writers' => [
 
-                        [
-                            'name' => 'db',
-                            'options' => [
-                                'db'     => AdapterInterface::class,
-                                'table'  => 'error_log',
-                                'column' => [
-                                    'timestamp' => 'date',
-                                    'priority'  => 'type',
-                                    'message'   => 'event',
-                                    'extra'     => [
-                                        'url'  => 'url',
-                                        'file' => 'file',
-                                        'line' => 'line',
-                                        'error_type' => 'error_type',
-                                        'trace'      => 'trace',
-                                        'request_data' => 'request_data',
-                                    ],
+                    [
+                        'name' => 'db',
+                        'options' => [
+                            'db'     => AdapterInterface::class,
+                            'table'  => 'error_log',
+                            'column' => [
+                                'timestamp' => 'date',
+                                'priority'  => 'type',
+                                'message'   => 'event',
+                                'extra'     => [
+                                    'url'  => 'url',
+                                    'file' => 'file',
+                                    'line' => 'line',
+                                    'error_type' => 'error_type',
+                                    'trace'      => 'trace',
+                                    'request_data' => 'request_data',
                                 ],
                             ],
                         ],
-
                     ],
+
                 ],
             ],
-        ];
-    });
+        ],
+    ]);
 
     describe('->getConfig()', function () {
 

@@ -50,13 +50,11 @@ describe('Db', function () {
         ];
     });
 
-    given('writerHandler', function () {
-        return new Db(
-            $this->dbWriter,
-            $this->configLoggingSettings,
-            $this->logWritersConfig
-        );
-    });
+    given('writerHandler', fn() => new Db(
+        $this->dbWriter,
+        $this->configLoggingSettings,
+        $this->logWritersConfig
+    ));
 
     describe('__construct', function () {
 

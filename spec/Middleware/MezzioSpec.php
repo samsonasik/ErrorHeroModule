@@ -27,12 +27,10 @@ use Laminas\View\Resolver;
 
 describe('Mezzio', function () {
 
-    given('logging', function () {
-        return Double::instance([
-            'extends' => Logging::class,
-            'methods' => '__construct'
-        ]);
-    });
+    given('logging', fn() => Double::instance([
+        'extends' => Logging::class,
+        'methods' => '__construct'
+    ]));
 
     given('renderer', function () {
 
@@ -89,29 +87,28 @@ describe('Mezzio', function () {
 
     });
 
-    given('config', function () {
-        return [
-            'enable' => true,
-            'display-settings' => [
+    given('config', fn() => [
+        'enable' => true,
+        'display-settings' => [
 
-                // excluded php errors
-                'exclude-php-errors' => [
-                    \E_USER_DEPRECATED
-                ],
+            // excluded php errors
+            'exclude-php-errors' => [
+                \E_USER_DEPRECATED
+            ],
 
-                // show or not error
-                'display_errors'  => 0,
+            // show or not error
+            'display_errors'  => 0,
 
-                // if enable and display_errors = 0, the page will bring layout and view
-                'template' => [
-                    'layout' => 'layout/layout',
-                    'view'   => 'error-hero-module/error-default'
-                ],
+            // if enable and display_errors = 0, the page will bring layout and view
+            'template' => [
+                'layout' => 'layout/layout',
+                'view'   => 'error-hero-module/error-default'
+            ],
 
-                // for Mezzio, when container doesn't has \Mezzio\Template\TemplateRendererInterface service
-                // if enable, and display_errors = 0, then show a message under no_template config
-                'no_template' => [
-                    'message' => <<<json
+            // for Mezzio, when container doesn't has \Mezzio\Template\TemplateRendererInterface service
+            // if enable, and display_errors = 0, then show a message under no_template config
+            'no_template' => [
+                'message' => <<<json
 {
     "type": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html",
     "title": "Internal Server Error",
@@ -119,10 +116,10 @@ describe('Mezzio', function () {
     "detail": "We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience."
 }
 json
-                ],
+            ],
 
-                'ajax' => [
-                    'message' => <<<json
+            'ajax' => [
+                'message' => <<<json
 {
     "type": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html",
     "title": "Internal Server Error",
@@ -130,61 +127,56 @@ json
     "detail": "We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience."
 }
 json
-                ],
-
             ],
-            'logging-settings' => [
-                'same-error-log-time-range' => 86400,
+
+        ],
+        'logging-settings' => [
+            'same-error-log-time-range' => 86400,
+        ],
+        'email-notification-settings' => [
+            // set to true to activate email notification on log error
+            'enable' => false,
+
+            // Laminas\Mail\Message instance registered at service manager
+            'mail-message'   => 'YourMailMessageService',
+
+            // Laminas\Mail\Transport\TransportInterface instance registered at service manager
+            'mail-transport' => 'YourMailTransportService',
+
+            // email sender
+            'email-from'    => 'Sender Name <sender@host.com>',
+
+            'email-to-send' => [
+                'developer1@foo.com',
+                'developer2@foo.com',
             ],
-            'email-notification-settings' => [
-                // set to true to activate email notification on log error
-                'enable' => false,
+        ],
+    ]);
 
-                // Laminas\Mail\Message instance registered at service manager
-                'mail-message'   => 'YourMailMessageService',
+    given('logWritersConfig', fn() => [
 
-                // Laminas\Mail\Transport\TransportInterface instance registered at service manager
-                'mail-transport' => 'YourMailTransportService',
-
-                // email sender
-                'email-from'    => 'Sender Name <sender@host.com>',
-
-                'email-to-send' => [
-                    'developer1@foo.com',
-                    'developer2@foo.com',
-                ],
-            ],
-        ];
-    });
-
-    given('logWritersConfig', function () {
-
-        return [
-
-            [
-                'name' => 'db',
-                'options' => [
-                    'db'     => AdapterInterface::class,
-                    'table'  => 'log',
-                    'column' => [
-                        'timestamp' => 'date',
-                        'priority'  => 'type',
-                        'message'   => 'event',
-                        'extra'     => [
-                            'url'  => 'url',
-                            'file' => 'file',
-                            'line' => 'line',
-                            'error_type' => 'error_type',
-                            'trace'      => 'trace',
-                            'request_data' => 'request_data',
-                        ],
+        [
+            'name' => 'db',
+            'options' => [
+                'db'     => AdapterInterface::class,
+                'table'  => 'log',
+                'column' => [
+                    'timestamp' => 'date',
+                    'priority'  => 'type',
+                    'message'   => 'event',
+                    'extra'     => [
+                        'url'  => 'url',
+                        'file' => 'file',
+                        'line' => 'line',
+                        'error_type' => 'error_type',
+                        'trace'      => 'trace',
+                        'request_data' => 'request_data',
                     ],
                 ],
             ],
+        ],
 
-        ];
-
-    });
+    ]);
 
     given('dbWriter', function () {
         $dbAdapter = new Adapter([
@@ -218,30 +210,24 @@ json
         );
     });
 
-    given('request', function () {
+    given('request', fn() => new ServerRequest(
+        [],
+        [],
+        new Uri('http://example.com'),
+        'GET',
+        'php://memory',
+        [],
+        [],
+        [],
+        '',
+        '1.2'
+    ));
 
-        return new ServerRequest(
-            [],
-            [],
-            new Uri('http://example.com'),
-            'GET',
-            'php://memory',
-            [],
-            [],
-            [],
-            '',
-            '1.2'
-        );
-
-    });
-
-    given('middleware', function () {
-        return new Mezzio(
-            $this->config,
-            $this->logging,
-            $this->renderer
-        );
-    });
+    given('middleware', fn() => new Mezzio(
+        $this->config,
+        $this->logging,
+        $this->renderer
+    ));
 
     describe('->process()', function () {
 
@@ -484,9 +470,7 @@ json
             ]);
 
             $middleware = & $this->middleware;
-            $result = & Closure::bind(function & ($middleware) {
-                return $middleware->result;
-            }, null, $middleware)($middleware);
+            $result = & Closure::bind(fn&($middleware) => $middleware->result, null, $middleware)($middleware);
             $result = 'Fatal error';
 
             expect($this->middleware->phpFatalErrorHandler('Fatal'))->toBe('Fatal error');
@@ -564,9 +548,7 @@ json
             allow('property_exists')->toBeCalled()->with($middleware, 'request')->andReturn(true);
             allow('property_exists')->toBeCalled()->with($middleware, 'mvcEvent')->andReturn(false);
 
-            $request = & Closure::bind(function & ($middleware) {
-                return $middleware->request;
-            }, null, $middleware)($middleware);
+            $request = & Closure::bind(fn&($middleware) => $middleware->request, null, $middleware)($middleware);
             $request = $this->request;
 
             $closure = function () use ($middleware) {
@@ -638,9 +620,7 @@ json
             allow('property_exists')->toBeCalled()->with($middleware, 'request')->andReturn(true);
             allow('property_exists')->toBeCalled()->with($middleware, 'mvcEvent')->andReturn(false);
 
-            $request = & Closure::bind(function & ($middleware) {
-                return $middleware->request;
-            }, null, $middleware)($middleware);
+            $request = & Closure::bind(fn&($middleware) => $middleware->request, null, $middleware)($middleware);
             $request = $this->request;
 
             expect($middleware->execOnShutdown())->toBeNull();

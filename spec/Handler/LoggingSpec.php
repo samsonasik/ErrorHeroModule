@@ -105,15 +105,13 @@ describe('LoggingSpec', function () {
         $this->logger->addWriter($this->dbWriter);
     });
 
-    given('logging', function ()  {
-        return new Logging(
-            $this->logger,
-            $this->errorHeroModuleLocalConfig,
-            $this->logWritersConfig,
-            null,
-            null
-        );
-    });
+    given('logging', fn() => new Logging(
+        $this->logger,
+        $this->errorHeroModuleLocalConfig,
+        $this->logWritersConfig,
+        null,
+        null
+    ));
 
     describe('->handleErrorException()', function ()  {
 

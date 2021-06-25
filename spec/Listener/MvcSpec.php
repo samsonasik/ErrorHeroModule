@@ -25,73 +25,65 @@ use Laminas\View\Renderer\PhpRenderer;
 
 describe('Mvc', function () {
 
-    given('logging', function () {
-        return Double::instance([
-            'extends' => Logging::class,
-            'methods' => '__construct'
-        ]);
-    });
+    given('logging', fn() => Double::instance([
+        'extends' => Logging::class,
+        'methods' => '__construct'
+    ]));
 
-    given('renderer', function () {
-        return Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']);
-    });
+    given('renderer', fn() => Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']));
 
-    given('config', function () {
-        return [
-            'enable' => true,
-            'display-settings' => [
+    given('config', fn() => [
+        'enable' => true,
+        'display-settings' => [
 
-                // excluded php errors
-                'exclude-php-errors' => [
-                    \E_USER_DEPRECATED
-                ],
-
-                // show or not error
-                'display_errors'  => 0,
-
-                // if enable and display_errors = 0, the page will bring layout and view
-                'template' => [
-                    'layout' => 'layout/layout',
-                    'view'   => 'error-hero-module/error-default'
-                ],
-
-                // if enable and display_errors = 0, the console will bring message
-                'console' => [
-                    'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
-                ],
-
+            // excluded php errors
+            'exclude-php-errors' => [
+                \E_USER_DEPRECATED
             ],
-            'logging-settings' => [
-                'same-error-log-time-range' => 86400,
+
+            // show or not error
+            'display_errors'  => 0,
+
+            // if enable and display_errors = 0, the page will bring layout and view
+            'template' => [
+                'layout' => 'layout/layout',
+                'view'   => 'error-hero-module/error-default'
             ],
-            'email-notification-settings' => [
-                // set to true to activate email notification on log error
-                'enable' => false,
 
-                // Laminas\Mail\Message instance registered at service manager
-                'mail-message'   => 'YourMailMessageService',
-
-                // Laminas\Mail\Transport\TransportInterface instance registered at service manager
-                'mail-transport' => 'YourMailTransportService',
-
-                // email sender
-                'email-from'    => 'Sender Name <sender@host.com>',
-
-                'email-to-send' => [
-                    'developer1@foo.com',
-                    'developer2@foo.com',
-                ],
+            // if enable and display_errors = 0, the console will bring message
+            'console' => [
+                'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
             ],
-        ];
-    });
 
-    given('listener', function () {
-        return new Mvc(
-            $this->config,
-            $this->logging,
-            $this->renderer
-        );
-    });
+        ],
+        'logging-settings' => [
+            'same-error-log-time-range' => 86400,
+        ],
+        'email-notification-settings' => [
+            // set to true to activate email notification on log error
+            'enable' => false,
+
+            // Laminas\Mail\Message instance registered at service manager
+            'mail-message'   => 'YourMailMessageService',
+
+            // Laminas\Mail\Transport\TransportInterface instance registered at service manager
+            'mail-transport' => 'YourMailTransportService',
+
+            // email sender
+            'email-from'    => 'Sender Name <sender@host.com>',
+
+            'email-to-send' => [
+                'developer1@foo.com',
+                'developer2@foo.com',
+            ],
+        ],
+    ]);
+
+    given('listener', fn() => new Mvc(
+        $this->config,
+        $this->logging,
+        $this->renderer
+    ));
 
     describe('->attach()', function () {
 
@@ -417,9 +409,7 @@ describe('Mvc', function () {
             allow('property_exists')->toBeCalled()->with($listener, 'request')->andReturn(false);
             allow('property_exists')->toBeCalled()->with($listener, 'mvcEvent')->andReturn(true);
 
-            $mvcEvent = & Closure::bind(function & ($listener) {
-                return $listener->mvcEvent;
-            }, null, $listener)($listener);
+            $mvcEvent = & Closure::bind(fn&($listener) => $listener->mvcEvent, null, $listener)($listener);
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
 
             $request = new Request();
