@@ -361,11 +361,11 @@ _**Console Access**_
 > composer require laminas/laminas-mvc-console --sort-packages
 > ```
 
-| Command                                   | Preview For  |
-|-------------------------------------------|--------------|
-| php public/index.php error-preview        | Exception    |
-| php public/index.php error-preview error  | Error        |
-| php public/index.php error-preview notice | PHP E_NOTICE |
+| Command                                    | Preview For   |
+|--------------------------------------------|---------------|
+| php public/index.php error-preview         | Exception     |
+| php public/index.php error-preview error   | Error         |
+| php public/index.php error-preview warning | PHP E_WARNING |
 
 You will get the following page if display_errors config is 0:
 

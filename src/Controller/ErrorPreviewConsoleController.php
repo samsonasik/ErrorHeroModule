@@ -20,9 +20,9 @@ class ErrorPreviewConsoleController extends AbstractConsoleController
         throw new Error('a sample error preview');
     }
 
-    public function noticeAction()
+    public function warningAction()
     {
         $array = [];
-        $array[1]; // E_NOTICE
+        $array[1]; // E_WARNING
     }
 }
