@@ -101,7 +101,7 @@ class Mezzio implements MiddlewareInterface
         }
 
         /** @var  ServerRequestInterface $request */
-        $request = $this->request;
+        $request          = $this->request;
         $isXmlHttpRequest = $request->hasHeader('X-Requested-With')
             && $request->getHeaderLine('X-Requested-With') === 'XmlHttpRequest';
 

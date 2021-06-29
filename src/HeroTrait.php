@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ErrorHeroModule;
 
 use ErrorException;
-use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
 use Laminas\Mvc\MvcEvent;
 use Psr\Http\Message\ServerRequestInterface;
