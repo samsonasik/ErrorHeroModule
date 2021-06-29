@@ -28,16 +28,14 @@ class Mezzio implements MiddlewareInterface
 {
     use HeroTrait;
 
-    /** @var ServerRequestInterface */
-    private $request;
+    private ?ServerRequestInterface $request = null;
 
     public function __construct(
-        array $errorHeroModuleConfig,
-        Logging $logging,
+        private array $errorHeroModuleConfig,
+        private Logging $logging,
         private ?TemplateRendererInterface $renderer
     ) {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
-        $this->logging               = $logging;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -69,9 +67,11 @@ class Mezzio implements MiddlewareInterface
             throw $t;
         }
 
+        /** @var  ServerRequestInterface $request */
+        $request = $this->request;
         $this->logging->handleErrorException(
             $t,
-            Psr7ServerRequest::toLaminas($this->request)
+            Psr7ServerRequest::toLaminas($request)
         );
 
         if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
@@ -100,8 +100,10 @@ class Mezzio implements MiddlewareInterface
             return $this->responseByConfigMessage('no_template');
         }
 
-        $isXmlHttpRequest = $this->request->hasHeader('X-Requested-With')
-            && $this->request->getHeaderLine('X-Requested-With') === 'XmlHttpRequest';
+        /** @var  ServerRequestInterface $request */
+        $request = $this->request;
+        $isXmlHttpRequest = $request->hasHeader('X-Requested-With')
+            && $request->getHeaderLine('X-Requested-With') === 'XmlHttpRequest';
 
         if (
             $isXmlHttpRequest === true &&

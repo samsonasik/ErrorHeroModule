@@ -29,12 +29,6 @@ use const E_STRICT;
 
 trait HeroTrait
 {
-    /** @var array */
-    private $errorHeroModuleConfig;
-
-    /** @var Logging */
-    private $logging;
-
     /** @var string */
     private $result = '';
 
