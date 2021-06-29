@@ -14,7 +14,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::PATHS, [__DIR__ . '/config', __DIR__ . '/src', __DIR__ . '/spec']);
 
     $parameters->set(Option::AUTO_IMPORT_NAMES, true);
-    $parameters->set(Option::ENABLE_CACHE, true);
     $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_80);
 
     $parameters->set(Option::SKIP, [
