@@ -21,7 +21,7 @@ use Laminas\Diactoros\Uri;
 use Mezzio\LaminasView\LaminasViewRenderer;
 use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Log\Logger;
-use Laminas\Log\Writer\Db as DbWriter;
+use Laminas\Log\Writer\Db;
 use Laminas\View\Renderer\PhpRenderer;
 use Laminas\View\Resolver;
 
@@ -56,11 +56,11 @@ describe('Mezzio', function () {
             'driver' => 'Pdo',
             'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
             'driver_options' => [
-                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
             ],
         ]);
 
-        $writer = new DbWriter(
+        $writer = new Db(
             [
                 'db' => $dbAdapter,
                 'table' => 'log',
@@ -185,11 +185,11 @@ json
             'driver' => 'Pdo',
             'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
             'driver_options' => [
-                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
             ],
         ]);
 
-        return new DbWriter(
+        return new Db(
             [
                 'db' => $dbAdapter,
                 'table' => 'log',
@@ -326,6 +326,7 @@ json
 
                 $request = $this->request;
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
+
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
                     throw new Exception('message');
@@ -361,6 +362,7 @@ json
 
                 $request  = $this->request;
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
+
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
                     throw new Exception('message');
@@ -396,6 +398,7 @@ json
 
                 $request  = $this->request;
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
+
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($request)->andRun(function () {
                     throw new Exception('message');
@@ -429,6 +432,7 @@ json
 
             $request  = $this->request;
             $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
+
             $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
             allow($handler)->toReceive('handle')->with($request)->andRun(function () use ($exception) {
                 throw $exception;

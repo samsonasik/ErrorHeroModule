@@ -12,12 +12,13 @@ use Laminas\Mail\Message as MailMessage;
 use Laminas\Mail\Transport\TransportInterface;
 use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Mime;
-use Laminas\Mime\Part as MimePart;
+use Laminas\Mime\Part;
 
 use function fopen;
 use function implode;
 use function is_array;
 use function key;
+use function sprintf;
 use function trigger_error;
 
 use const E_USER_WARNING;
@@ -49,7 +50,7 @@ class Mail extends BaseMail
         if (empty($this->filesData)) {
             $this->mail->setBody($body);
         } else {
-            $mimePart           = new MimePart($body);
+            $mimePart           = new Part($body);
             $mimePart->type     = Mime::TYPE_TEXT;
             $mimePart->charset  = 'utf-8';
             $mimePart->encoding = Mime::ENCODING_8BIT;
@@ -71,12 +72,12 @@ class Mail extends BaseMail
         // stack frame.
         try {
             $this->transport->send($this->mail);
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             trigger_error(
                 "unable to send log entries via email; "
-                . "message = {$e->getMessage()}; "
-                . "code = {$e->getCode()}; "
-                . "exception class = " . $e::class,
+                . sprintf('message = %s; ', $exception->getMessage())
+                . sprintf('code = %s; ', $exception->getCode())
+                . "exception class = " . $exception::class,
                 E_USER_WARNING
             );
         }
@@ -84,7 +85,7 @@ class Mail extends BaseMail
 
     private function singleBodyAddPart(MimeMessage $body, array $data): MimeMessage
     {
-        $mimePart              = new MimePart(fopen($data['tmp_name'], 'r'));
+        $mimePart              = new Part(fopen($data['tmp_name'], 'r'));
         $mimePart->type        = $data['type'];
         $mimePart->filename    = $data['name'];
         $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;

@@ -48,10 +48,10 @@ class Mezzio implements MiddlewareInterface
             $this->request = $request;
             $this->phpError();
             return $handler->handle($request);
-        } catch (Throwable $t) {
+        } catch (Throwable $throwable) {
         }
 
-        return $this->exceptionError($t);
+        return $this->exceptionError($throwable);
     }
 
     /**

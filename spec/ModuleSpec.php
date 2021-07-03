@@ -161,7 +161,7 @@ describe('Module', function () {
 
             allow($connection)->toReceive('getParams')->andReturn([
                 'driverOptions' => [
-                    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
                 ],
             ]);
             allow($connection)->toReceive('getUsername')->andReturn('root');

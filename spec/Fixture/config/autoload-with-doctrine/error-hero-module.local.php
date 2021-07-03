@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Laminas\Db\Adapter\AdapterInterface;
 
 return [
@@ -7,7 +8,7 @@ return [
     'doctrine' => [
         'connection' => [
             'orm_default' => [
-                'driverClass' =>'Doctrine\DBAL\Driver\PDOMySql\Driver',
+                'driverClass' =>Driver::class,
                 'params' => [
                     'user'     => 'root',
                     'password' => '',
@@ -15,7 +16,7 @@ return [
                     'host'     => '127.0.0.1',
                     'port'     => '3306',
                     'driverOptions' => [
-                        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
                     ],
                 ],
             ],

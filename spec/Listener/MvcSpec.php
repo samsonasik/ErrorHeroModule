@@ -18,7 +18,7 @@ use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Log\Logger;
-use Laminas\Log\Writer\Db as DbWriter;
+use Laminas\Log\Writer\Db;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Uri\Uri;
 use Laminas\View\Renderer\PhpRenderer;
@@ -311,11 +311,11 @@ describe('Mvc', function () {
                 'driver' => 'Pdo',
                 'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
                 'driver_options' => [
-                    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
+                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
                 ],
             ]);
 
-            $writer = new DbWriter(
+            $writer = new Db(
                 [
                     'db' => $dbAdapter,
                     'table' => 'log',
@@ -337,6 +337,7 @@ describe('Mvc', function () {
 
             $logger = new Logger();
             $logger->addWriter($writer);
+
             $logWritersConfig = [
 
                 [

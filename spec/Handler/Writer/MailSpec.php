@@ -119,8 +119,8 @@ describe('Mail', function () {
             try {
                 $this->writer->shutdown();
                 expect($this->transport)->toReceive('send');
-            } catch (Throwable $t) {
-                expect($t)->toBeAnInstanceOf(Exception::class);
+            } catch (Throwable $throwable) {
+                expect($throwable)->toBeAnInstanceOf(Exception::class);
             }
 
         });

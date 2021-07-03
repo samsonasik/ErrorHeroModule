@@ -8,7 +8,7 @@ use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Laminas\Console\Console;
-use Laminas\Console\Request as ConsoleRequest;
+use Laminas\Console\Request;
 use Laminas\Mvc\Application;
 
 describe('Integration via ErrorPreviewConsoleController with doctrine', function () {
@@ -31,7 +31,7 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
                 ],
             ],
         ]);
-        $application->getMvcEvent()->setRequest(new ConsoleRequest());
+        $application->getMvcEvent()->setRequest(new Request());
 
         $events         = $application->getEventManager();
         $serviceManager = $application->getServiceManager();

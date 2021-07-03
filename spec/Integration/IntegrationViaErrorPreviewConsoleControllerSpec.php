@@ -7,7 +7,7 @@ use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
 use Laminas\Console\Console;
-use Laminas\Console\Request as ConsoleRequest;
+use Laminas\Console\Request;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
@@ -32,7 +32,7 @@ describe('Integration via ErrorPreviewConsoleController', function () {
                 ],
             ],
         ]);
-        $application->getMvcEvent()->setRequest(new ConsoleRequest());
+        $application->getMvcEvent()->setRequest(new Request());
 
         $serviceManager = $application->getServiceManager();
         $db             = $serviceManager->get(AdapterInterface::class);

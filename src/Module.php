@@ -23,8 +23,9 @@ class Module
 
     public function doctrineTransform(ModuleEvent $event): void
     {
-        $container = $event->getParam('ServiceManager');
-        if (! $container->has(EntityManager::class)) {
+        $container        = $event->getParam('ServiceManager');
+        $hasEntityManager = $container->has(EntityManager::class);
+        if (! $hasEntityManager) {
             return;
         }
 

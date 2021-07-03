@@ -32,14 +32,9 @@ use const PHP_EOL;
 
 class Logging
 {
-    /** @var array */
-    private $configLoggingSettings;
-
-    /** @var array */
-    private $emailReceivers;
-
-    /** @var string */
-    private $emailSender;
+    private array $configLoggingSettings = [];
+    private array $emailReceivers        = [];
+    private string $emailSender;
 
     public function __construct(
         private Logger $logger,
@@ -77,10 +72,10 @@ class Logging
                         return true;
                     }
                     break;
-                } catch (RuntimeException $e) {
+                } catch (RuntimeException $runtimeException) {
                     // use \Laminas\Db\Adapter\Exception\RuntimeException but do here
                     // to avoid too much deep trace from Laminas\Db classes
-                    throw new ${! ${''} = $e::class}($e->getMessage());
+                    throw new ${! ${''} = $runtimeException::class}($runtimeException->getMessage());
                 }
             }
         }
