@@ -30,7 +30,7 @@ use function sprintf;
 class MezzioFactory
 {
     /**
-     * @var array<string, class-string>
+     * @var array<class-string, class-string>
      */
     private const CONTAINERS_TRANSFORM = [
         SymfonyContainerBuilder::class => SymfonyService::class,
