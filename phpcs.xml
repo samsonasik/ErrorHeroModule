@@ -4,6 +4,7 @@
 
     <!-- Paths to check -->
     <file>src</file>
+    <file>rector.php</file>
 
     <rule ref="WebimpressCodingStandard.NamingConventions.AbstractClass">
         <exclude name="WebimpressCodingStandard.NamingConventions.AbstractClass"/>
