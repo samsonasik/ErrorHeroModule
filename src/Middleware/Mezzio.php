@@ -82,18 +82,6 @@ class Mezzio implements MiddlewareInterface
         return $this->showDefaultView();
     }
 
-    private function responseByConfigMessage(string $key): ResponseInterface
-    {
-        $message     = $this->errorHeroModuleConfig['display-settings'][$key]['message'];
-        $contentType = detectMessageContentType($message);
-
-        $response = new Response();
-        $response->getBody()->write($message);
-        $response = $response->withHeader('Content-type', $contentType);
-
-        return $response->withStatus(500);
-    }
-
     private function showDefaultView(): ResponseInterface
     {
         if ($this->renderer === null) {
@@ -128,5 +116,17 @@ class Mezzio implements MiddlewareInterface
             $this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view']),
             500
         );
+    }
+
+    private function responseByConfigMessage(string $key): ResponseInterface
+    {
+        $message     = $this->errorHeroModuleConfig['display-settings'][$key]['message'];
+        $contentType = detectMessageContentType($message);
+
+        $response = new Response();
+        $response->getBody()->write($message);
+        $response = $response->withHeader('Content-type', $contentType);
+
+        return $response->withStatus(500);
     }
 }

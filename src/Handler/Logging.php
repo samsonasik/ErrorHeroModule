@@ -49,40 +49,6 @@ class Logging
         $this->emailSender           = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
     }
 
-    /**
-     * @throws RuntimeException When cannot connect to DB in the first place.
-     */
-    private function isExists(
-        string $errorFile,
-        int $errorLine,
-        string $errorMessage,
-        string $url,
-        string $errorType
-    ): bool {
-        $writers = $this->logger->getWriters()->toArray();
-        foreach ($writers as $writer) {
-            if ($writer instanceof Db) {
-                try {
-                    $handlerWriterDb = new Writer\Checker\Db(
-                        $writer,
-                        $this->configLoggingSettings,
-                        $this->logWritersConfig
-                    );
-                    if ($handlerWriterDb->isExists($errorFile, $errorLine, $errorMessage, $url, $errorType)) {
-                        return true;
-                    }
-                    break;
-                } catch (RuntimeException $runtimeException) {
-                    // use \Laminas\Db\Adapter\Exception\RuntimeException but do here
-                    // to avoid too much deep trace from Laminas\Db classes
-                    throw new ${! ${''} = $runtimeException::class}($runtimeException->getMessage());
-                }
-            }
-        }
-
-        return false;
-    }
-
     private function getRequestData(RequestInterface $request): array
     {
         if ($request instanceof ConsoleRequest) {
@@ -167,6 +133,40 @@ class Logging
             'trace'        => $collectedExceptionData['trace'],
             'request_data' => $this->getRequestData($request),
         ];
+    }
+
+    /**
+     * @throws RuntimeException When cannot connect to DB in the first place.
+     */
+    private function isExists(
+        string $errorFile,
+        int $errorLine,
+        string $errorMessage,
+        string $url,
+        string $errorType
+    ): bool {
+        $writers = $this->logger->getWriters()->toArray();
+        foreach ($writers as $writer) {
+            if ($writer instanceof Db) {
+                try {
+                    $handlerWriterDb = new Writer\Checker\Db(
+                        $writer,
+                        $this->configLoggingSettings,
+                        $this->logWritersConfig
+                    );
+                    if ($handlerWriterDb->isExists($errorFile, $errorLine, $errorMessage, $url, $errorType)) {
+                        return true;
+                    }
+                    break;
+                } catch (RuntimeException $runtimeException) {
+                    // use \Laminas\Db\Adapter\Exception\RuntimeException but do here
+                    // to avoid too much deep trace from Laminas\Db classes
+                    throw new ${! ${''} = $runtimeException::class}($runtimeException->getMessage());
+                }
+            }
+        }
+
+        return false;
     }
 
     private function sendMail(int $priority, string $errorMessage, array $extra, string $subject): void

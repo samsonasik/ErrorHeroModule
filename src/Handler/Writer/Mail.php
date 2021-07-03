@@ -83,17 +83,6 @@ class Mail extends BaseMail
         }
     }
 
-    private function singleBodyAddPart(MimeMessage $body, array $data): MimeMessage
-    {
-        $mimePart              = new Part(fopen($data['tmp_name'], 'r'));
-        $mimePart->type        = $data['type'];
-        $mimePart->filename    = $data['name'];
-        $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
-        $mimePart->encoding    = Mime::ENCODING_BASE64;
-
-        return $body->addPart($mimePart);
-    }
-
     private function bodyAddPart(MimeMessage $body, array $data): MimeMessage
     {
         foreach ($data as $upload) {
@@ -106,5 +95,16 @@ class Mail extends BaseMail
         }
 
         return $body;
+    }
+
+    private function singleBodyAddPart(MimeMessage $body, array $data): MimeMessage
+    {
+        $mimePart              = new Part(fopen($data['tmp_name'], 'r'));
+        $mimePart->type        = $data['type'];
+        $mimePart->filename    = $data['name'];
+        $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
+        $mimePart->encoding    = Mime::ENCODING_BASE64;
+
+        return $body->addPart($mimePart);
     }
 }
