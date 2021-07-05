@@ -62,7 +62,7 @@ trait HeroTrait
     public function phpFatalErrorHandler(string $buffer): string
     {
         $error = error_get_last();
-        if (! $error) {
+        if ($error === null) {
             return $buffer;
         }
 
@@ -74,7 +74,7 @@ trait HeroTrait
     public function execOnShutdown(): void
     {
         $error = error_get_last();
-        if (! $error) {
+        if ($error === null) {
             return;
         }
 
