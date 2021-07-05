@@ -32,7 +32,7 @@ class ErrorPreviewAction implements RequestHandlerInterface
         }
 
         $array = [];
-        $array[1]; // E_NOTICE
+        $array[1]; // E_WARNING
 
         return new Response();
     }
