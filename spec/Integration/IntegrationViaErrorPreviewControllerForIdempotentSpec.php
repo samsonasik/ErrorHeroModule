@@ -47,7 +47,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
         it('show error page', function() {
 
             $this->tableGateway->delete([]);
-            $countBefore = \count($this->tableGateway->select());
+            $countBefore = $this->tableGateway->select()->count();
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
@@ -62,7 +62,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
             expect($this->application->getResponse()->getStatusCode())->toBe(500);
 
-            $countAfter = \count($this->tableGateway->select());
+            $countAfter = $this->tableGateway->select()->count();
 
             expect($countBefore)->toBe(0);
             expect($countAfter)->toBe(1);
@@ -71,7 +71,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
 
         it('show error page, idempotent for error exist check in DB', function() {
 
-            $countBefore = \count($this->tableGateway->select());
+            $countBefore = $this->tableGateway->select()->count();
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
@@ -86,7 +86,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
             expect($this->application->getResponse()->getStatusCode())->toBe(500);
 
-            $countAfter = \count($this->tableGateway->select());
+            $countAfter = $this->tableGateway->select()->count();
 
             expect($countBefore)->toBe(1);
             expect($countAfter)->toBe(1);
@@ -100,7 +100,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
         it('show error page', function() {
 
             $this->tableGateway->delete([]);
-            $countBefore = \count($this->tableGateway->select());
+            $countBefore = $this->tableGateway->select()->count();
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
@@ -114,7 +114,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
             expect($content)->toContain('<title>Error');
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
 
-            $countAfter = \count($this->tableGateway->select());
+            $countAfter = $this->tableGateway->select()->count();
 
             expect($countBefore)->toBe(0);
             expect($countAfter)->toBe(1);
@@ -123,7 +123,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
 
         it('show error page, idempotent for error exist check in DB', function() {
 
-            $countBefore = \count($this->tableGateway->select());
+            $countBefore = $this->tableGateway->select()->count();
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
@@ -137,7 +137,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
             expect($content)->toContain('<title>Error');
             expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
 
-            $countAfter = \count($this->tableGateway->select());
+            $countAfter = $this->tableGateway->select()->count();
 
             expect($countBefore)->toBe(1);
             expect($countAfter)->toBe(1);
