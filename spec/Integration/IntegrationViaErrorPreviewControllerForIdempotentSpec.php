@@ -15,7 +15,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
 
         Console::overrideIsConsole(false);
 
-        $application = Application::init([
+        return Application::init([
             'modules' => [
                 'Laminas\Router',
                 'Laminas\Db',
@@ -28,8 +28,6 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
                 ],
             ],
         ]);
-
-        return $application;
 
     });
 

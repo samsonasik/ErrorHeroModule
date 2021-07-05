@@ -12,7 +12,6 @@ use Webmozart\Assert\Assert;
 
 use function error_get_last;
 use function error_reporting;
-use function func_get_args;
 use function ini_set;
 use function is_array;
 use function ob_end_flush;
@@ -31,10 +30,13 @@ trait HeroTrait
     /** @var string */
     private $result = '';
 
-    public function phpError(): void
+    /**
+     * @param mixed $args
+     */
+    public function phpError(...$args): void
     {
         if ($this instanceof Mvc) {
-            Assert::count($args = func_get_args(), 1);
+            Assert::count($args, 1);
             Assert::isInstanceOf($this->mvcEvent = $args[0], MvcEvent::class);
         }
 

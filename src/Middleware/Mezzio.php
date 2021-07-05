@@ -97,7 +97,7 @@ class Mezzio implements MiddlewareInterface
             && $request->getHeaderLine('X-Requested-With') === 'XmlHttpRequest';
 
         if (
-            $isXmlHttpRequest === true &&
+            $isXmlHttpRequest &&
             isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
         ) {
             return $this->responseByConfigMessage('ajax');

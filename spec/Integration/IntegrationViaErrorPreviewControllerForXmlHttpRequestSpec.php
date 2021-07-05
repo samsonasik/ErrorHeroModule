@@ -14,7 +14,7 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
 
         Console::overrideIsConsole(false);
 
-        $application = Application::init([
+        return Application::init([
             'modules' => [
                 'Laminas\Router',
                 'Laminas\Db',
@@ -27,8 +27,6 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
                 ],
             ],
         ]);
-
-        return $application;
 
     });
 
