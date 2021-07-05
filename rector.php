@@ -29,9 +29,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_80);
 
     $parameters->set(Option::SKIP, [
-        CallableThisArrayToAnonymousFunctionRector::class => [
-            __DIR__ . '/spec',
-        ],
+        CallableThisArrayToAnonymousFunctionRector::class,
         UnSpreadOperatorRector::class,
     ]);
 };

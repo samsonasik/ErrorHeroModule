@@ -49,11 +49,9 @@ trait HeroTrait
             ob_end_flush();
         }
 
-        ob_start(fn(string $buffer): string => $this->phpFatalErrorHandler($buffer));
+        ob_start([$this, 'phpFatalErrorHandler']);
         register_shutdown_function([$this, 'execOnShutdown']);
-        set_error_handler(function (int $errorType, string $errorMessage, string $errorFile, int $errorLine): void {
-            $this->phpErrorHandler($errorType, $errorMessage, $errorFile, $errorLine);
-        });
+        set_error_handler([$this, 'phpErrorHandler']);
     }
 
     private static function isUncaught(array $error): bool

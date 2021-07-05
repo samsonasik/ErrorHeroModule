@@ -43,17 +43,11 @@ class Mvc extends AbstractListenerAggregate
         }
 
         // exceptions
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, function (MvcEvent $e): void {
-            $this->exceptionError($e);
-        });
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, function (MvcEvent $e): void {
-            $this->exceptionError($e);
-        }, 100);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'exceptionError']);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'exceptionError'], 100);
 
         // php errors
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_BOOTSTRAP, function ($args): void {
-            $this->phpError($args);
-        });
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_BOOTSTRAP, [$this, 'phpError']);
     }
 
     public function exceptionError(MvcEvent $e): void
