@@ -9,11 +9,17 @@ use Laminas\Log\Logger;
 
 abstract class TransformerAbstract
 {
+    /**
+     * @return mixed[]
+     */
     private static function getWriterConfig(array $configuration): array
     {
         return $configuration['log']['ErrorHeroModuleLogger']['writers'];
     }
 
+    /**
+     * @return mixed[]
+     */
     protected static function getDbAdapterConfig(array $configuration): array
     {
         $writers = self::getWriterConfig($configuration);

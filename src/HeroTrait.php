@@ -57,8 +57,7 @@ trait HeroTrait
         return str_starts_with($error['message'], 'Uncaught');
     }
 
-    /** @param string $buffer */
-    public function phpFatalErrorHandler($buffer): string
+    public function phpFatalErrorHandler(string $buffer): string
     {
         $error = error_get_last();
         if (! $error) {

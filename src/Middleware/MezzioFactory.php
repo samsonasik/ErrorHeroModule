@@ -50,6 +50,9 @@ class MezzioFactory
         );
     }
 
+    /**
+     * @return mixed[]
+     */
     private function verifyConfig(iterable $configuration, string $containerClass): array
     {
         if (! is_array($configuration)) {

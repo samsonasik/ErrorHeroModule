@@ -30,6 +30,9 @@ class Mezzio implements MiddlewareInterface
 
     private ?ServerRequestInterface $request = null;
 
+    /**
+     * @param mixed[] $errorHeroModuleConfig
+     */
     public function __construct(
         private array $errorHeroModuleConfig,
         private Logging $logging,
@@ -58,7 +61,7 @@ class Mezzio implements MiddlewareInterface
      * @throws Error      When 'display_errors' config is 1 and Error has thrown.
      * @throws Exception  When 'display_errors' config is 1 and Exception has thrown.
      */
-    public function exceptionError(Throwable $t): ResponseInterface
+    public function exceptionError(Throwable $t): Response
     {
         if (
             isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])
@@ -82,7 +85,7 @@ class Mezzio implements MiddlewareInterface
         return $this->showDefaultView();
     }
 
-    private function showDefaultView(): ResponseInterface
+    private function showDefaultView(): Response|HtmlResponse
     {
         if ($this->renderer === null) {
             return $this->responseByConfigMessage('no_template');
@@ -118,7 +121,7 @@ class Mezzio implements MiddlewareInterface
         );
     }
 
-    private function responseByConfigMessage(string $key): ResponseInterface
+    private function responseByConfigMessage(string $key): Response
     {
         $message     = $this->errorHeroModuleConfig['display-settings'][$key]['message'];
         $contentType = detectMessageContentType($message);

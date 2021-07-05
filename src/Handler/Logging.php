@@ -49,6 +49,9 @@ class Logging
         $this->emailSender           = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function getRequestData(RequestInterface $request): array
     {
         if ($request instanceof ConsoleRequest) {
@@ -80,6 +83,9 @@ class Logging
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function collectErrorExceptionData(Throwable $t): array
     {
         if ($t instanceof ErrorException && isset(Logger::$errorPriorityMap[$severity = $t->getSeverity()])) {
@@ -105,6 +111,9 @@ class Logging
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function collectErrorExceptionExtraData(array $collectedExceptionData, RequestInterface $request): array
     {
         if ($request instanceof ConsoleRequest) {
