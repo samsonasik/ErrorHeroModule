@@ -88,7 +88,7 @@ class MezzioFactory
         }
 
         $containerClass = $container::class;
-        if (in_array($containerClass, array_keys(self::CONTAINERS_TRANSFORM), true)) {
+        if (array_key_exists($containerClass, self::CONTAINERS_TRANSFORM)) {
             $configuration = $this->verifyConfig($configuration, $containerClass);
             $transformer   = self::CONTAINERS_TRANSFORM[$containerClass];
 

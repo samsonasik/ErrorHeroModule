@@ -94,7 +94,7 @@ class Mvc extends AbstractListenerAggregate
 
             $isXmlHttpRequest = $request->isXmlHttpRequest();
             if (
-                $isXmlHttpRequest === true &&
+                $isXmlHttpRequest &&
                 isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
             ) {
                 $message     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
