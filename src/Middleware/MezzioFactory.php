@@ -22,8 +22,7 @@ use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Webmozart\Assert\Assert;
 
-use function array_keys;
-use function in_array;
+use function array_key_exists;
 use function is_array;
 use function sprintf;
 
