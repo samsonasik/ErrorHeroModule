@@ -26,6 +26,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_80);
 
     $parameters->set(Option::SKIP, [
-        CountOnNullRector::class,
+        CountOnNullRector::class => __DIR__ . '/spec'
     ]);
 };
