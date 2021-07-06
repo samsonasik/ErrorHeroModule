@@ -59,26 +59,26 @@ class Logging
         }
 
         Assert::isInstanceOf($request, HttpRequest::class);
-        $query_data     = $request->getQuery()->toArray();
-        $request_method = $request->getMethod();
-        $body_data      = $request->getPost()->toArray();
-        $raw_data       = str_replace(PHP_EOL, '', (string) $request->getContent());
-        $files_data     = $this->includeFilesToAttachments
+        $queryData     = $request->getQuery()->toArray();
+        $requestMethod = $request->getMethod();
+        $bodyData      = $request->getPost()->toArray();
+        $rawData       = str_replace(PHP_EOL, '', (string) $request->getContent());
+        $filesData     = $this->includeFilesToAttachments
             ? $request->getFiles()->toArray()
             : [];
         $cookie         = $request->getCookie();
-        $cookie_data    = $cookie instanceof Cookie
+        $cookieData    = $cookie instanceof Cookie
             ? $cookie->getArrayCopy()
             : [];
         $ipAddress      = (new RemoteAddress())->getIpAddress();
 
         return [
-            'request_method' => $request_method,
-            'query_data'     => $query_data,
-            'body_data'      => $body_data,
-            'raw_data'       => $raw_data,
-            'files_data'     => $files_data,
-            'cookie_data'    => $cookie_data,
+            'request_method' => $requestMethod,
+            'query_data'     => $queryData,
+            'body_data'      => $bodyData,
+            'raw_data'       => $rawData,
+            'files_data'     => $filesData,
+            'cookie_data'    => $cookieData,
             'ip_address'     => $ipAddress,
         ];
     }
