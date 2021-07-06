@@ -13,6 +13,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::CODE_QUALITY);
     $containerConfigurator->import(SetList::CODE_QUALITY_STRICT);
     $containerConfigurator->import(SetList::CODING_STYLE);
+    $containerConfigurator->import(SetList::NAMING);
     $containerConfigurator->import(SetList::ORDER);
     $containerConfigurator->import(SetList::PHP_70);
     $containerConfigurator->import(SetList::PHP_71);

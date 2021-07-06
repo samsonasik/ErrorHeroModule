@@ -30,9 +30,7 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
             ],
         ]);
 
-        $events         = $application->getEventManager();
         $serviceManager = $application->getServiceManager();
-
         $db  = $serviceManager->get(AdapterInterface::class);
         $tableGateway = new TableGateway('log', $db, null, new ResultSet());
         $tableGateway->delete([]);

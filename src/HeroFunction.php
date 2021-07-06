@@ -23,16 +23,16 @@ function isExcludedException(array $excludeExceptionsConfig, Throwable $t): bool
     $exceptionOrErrorClass = $t::class;
 
     $isExcluded = false;
-    foreach ($excludeExceptionsConfig as $excludeException) {
-        if ($exceptionOrErrorClass === $excludeException) {
+    foreach ($excludeExceptionsConfig as $excludeExceptionConfig) {
+        if ($exceptionOrErrorClass === $excludeExceptionConfig) {
             $isExcluded = true;
             break;
         }
 
         if (
-            is_array($excludeException)
-            && $excludeException[0] === $exceptionOrErrorClass
-            && $excludeException[1] === $t->getMessage()
+            is_array($excludeExceptionConfig)
+            && $excludeExceptionConfig[0] === $exceptionOrErrorClass
+            && $excludeExceptionConfig[1] === $t->getMessage()
         ) {
             $isExcluded = true;
             break;

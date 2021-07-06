@@ -33,9 +33,7 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
         ]);
         $application->getMvcEvent()->setRequest(new Request());
 
-        $events         = $application->getEventManager();
         $serviceManager = $application->getServiceManager();
-
         $entityManager  = $serviceManager->get(EntityManager::class);
         $stmt = $entityManager->getConnection()->prepare('DELETE FROM log');
         $stmt->execute();

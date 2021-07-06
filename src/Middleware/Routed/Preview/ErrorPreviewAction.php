@@ -14,9 +14,9 @@ use stdClass;
 
 class ErrorPreviewAction implements RequestHandlerInterface
 {
-    public function handle(ServerRequestInterface $request): ResponseInterface
+    public function handle(ServerRequestInterface $serverRequest): ResponseInterface
     {
-        $action = $request->getAttribute('action', 'exception');
+        $action = $serverRequest->getAttribute('action', 'exception');
 
         if ($action === 'exception') {
             throw new Exception('a sample exception preview');

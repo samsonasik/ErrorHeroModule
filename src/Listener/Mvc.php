@@ -29,30 +29,30 @@ class Mvc extends AbstractListenerAggregate
     public function __construct(
         private array $errorHeroModuleConfig,
         private Logging $logging,
-        private PhpRenderer $renderer
+        private PhpRenderer $phpRenderer
     ) {
     }
 
     /**
      * @param int $priority
      */
-    public function attach(EventManagerInterface $events, $priority = 1): void
+    public function attach(EventManagerInterface $eventManager, $priority = 1): void
     {
         if (! $this->errorHeroModuleConfig['enable']) {
             return;
         }
 
         // exceptions
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'exceptionError']);
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'exceptionError'], 100);
+        $this->listeners[] = $eventManager->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'exceptionError']);
+        $this->listeners[] = $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'exceptionError'], 100);
 
         // php errors
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_BOOTSTRAP, [$this, 'phpError']);
+        $this->listeners[] = $eventManager->attach(MvcEvent::EVENT_BOOTSTRAP, [$this, 'phpError']);
     }
 
-    public function exceptionError(MvcEvent $e): void
+    public function exceptionError(MvcEvent $mvcEvent): void
     {
-        $exception = $e->getParam('exception');
+        $exception = $mvcEvent->getParam('exception');
         if (! $exception) {
             return;
         }
@@ -67,7 +67,7 @@ class Mvc extends AbstractListenerAggregate
 
         $this->logging->handleErrorException(
             $exception,
-            $request = $e->getRequest()
+            $request = $mvcEvent->getRequest()
         );
 
         if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
@@ -76,21 +76,21 @@ class Mvc extends AbstractListenerAggregate
         }
 
         // show default view if display_errors setting = 0.
-        $this->showDefaultView($e, $request);
+        $this->showDefaultView($mvcEvent, $request);
     }
 
-    private function showDefaultView(MvcEvent $e, RequestInterface $request): void
+    private function showDefaultView(MvcEvent $mvcEvent, RequestInterface $request): void
     {
         if ($request instanceof Request) {
-            $response = $e->getResponse();
+            $response = $mvcEvent->getResponse();
             Assert::isInstanceOf($response, Response::class);
             $response->setStatusCode(500);
 
-            $application    = $e->getApplication();
-            $events         = $application->getEventManager();
-            $serviceManager = $application->getServiceManager();
-            $serviceManager->get('SendResponseListener')
-                           ->detach($events);
+            $application    = $mvcEvent->getApplication();
+            $eventManager   = $application->getEventManager();
+            $serviceLocator = $application->getServiceManager();
+            $serviceLocator->get('SendResponseListener')
+                           ->detach($eventManager);
 
             $isXmlHttpRequest = $request->isXmlHttpRequest();
             if (
@@ -107,14 +107,14 @@ class Mvc extends AbstractListenerAggregate
                 return;
             }
 
-            $layout = $e->getViewModel();
-            $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
-            $layout->setVariable(
-                $layout->captureTo(),
-                $this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view'])
+            $model = $mvcEvent->getViewModel();
+            $model->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
+            $model->setVariable(
+                $model->captureTo(),
+                $this->phpRenderer->render($this->errorHeroModuleConfig['display-settings']['template']['view'])
             );
 
-            $response->setContent($this->renderer->render($layout));
+            $response->setContent($this->phpRenderer->render($model));
             $response->send();
 
             return;

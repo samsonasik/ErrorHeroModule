@@ -30,11 +30,11 @@ class Mail extends BaseMail
      * @throws LogException\InvalidArgumentException
      */
     public function __construct(
-        MailMessage $mail,
+        MailMessage $mailMessage,
         TransportInterface $transport,
         private array $filesData
     ) {
-        parent::__construct($mail, $transport);
+        parent::__construct($mailMessage, $transport);
     }
 
     /**
@@ -83,21 +83,21 @@ class Mail extends BaseMail
         }
     }
 
-    private function bodyAddPart(MimeMessage $body, array $data): MimeMessage
+    private function bodyAddPart(MimeMessage $mimeMessage, array $data): MimeMessage
     {
-        foreach ($data as $upload) {
-            if (key($upload) === 'name' && ! is_array($upload['name'])) {
-                $body = $this->singleBodyAddPart($body, $upload);
+        foreach ($data as $singleData) {
+            if (key($singleData) === 'name' && ! is_array($singleData['name'])) {
+                $mimeMessage = $this->singleBodyAddPart($mimeMessage, $singleData);
                 continue;
             }
 
-            $body = $this->bodyAddPart($body, $upload);
+            $mimeMessage = $this->bodyAddPart($mimeMessage, $singleData);
         }
 
-        return $body;
+        return $mimeMessage;
     }
 
-    private function singleBodyAddPart(MimeMessage $body, array $data): MimeMessage
+    private function singleBodyAddPart(MimeMessage $mimeMessage, array $data): MimeMessage
     {
         $mimePart              = new Part(fopen($data['tmp_name'], 'r'));
         $mimePart->type        = $data['type'];
@@ -105,6 +105,6 @@ class Mail extends BaseMail
         $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
         $mimePart->encoding    = Mime::ENCODING_BASE64;
 
-        return $body->addPart($mimePart);
+        return $mimeMessage->addPart($mimePart);
     }
 }

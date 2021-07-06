@@ -26,10 +26,10 @@ describe('Integration via ErrorPreviewController for error shown', function () {
             ],
         ]);
 
-        $events         = $application->getEventManager();
+        $eventManager         = $application->getEventManager();
         $serviceManager = $application->getServiceManager();
         $serviceManager->get('SendResponseListener')
-                       ->detach($events);
+                       ->detach($eventManager);
 
         return $application;
 

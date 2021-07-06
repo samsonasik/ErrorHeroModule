@@ -31,18 +31,18 @@ class Db
         // db definition
         $db = Closure::bind(static fn($dbWriter) => $dbWriter->db, null, $this->dbWriter)($this->dbWriter);
 
-        foreach ($this->logWritersConfig as $writerConfig) {
-            if ($writerConfig['name'] === 'db') {
+        foreach ($this->logWritersConfig as $logWriterConfig) {
+            if ($logWriterConfig['name'] === 'db') {
                 // table definition
-                $table = $writerConfig['options']['table'];
+                $table = $logWriterConfig['options']['table'];
 
                 // columns definition
-                $timestamp  = $writerConfig['options']['column']['timestamp'];
-                $message    = $writerConfig['options']['column']['message'];
-                $file       = $writerConfig['options']['column']['extra']['file'];
-                $line       = $writerConfig['options']['column']['extra']['line'];
-                $url        = $writerConfig['options']['column']['extra']['url'];
-                $error_type = $writerConfig['options']['column']['extra']['error_type'];
+                $timestamp  = $logWriterConfig['options']['column']['timestamp'];
+                $message    = $logWriterConfig['options']['column']['message'];
+                $file       = $logWriterConfig['options']['column']['extra']['file'];
+                $line       = $logWriterConfig['options']['column']['extra']['line'];
+                $url        = $logWriterConfig['options']['column']['extra']['url'];
+                $error_type = $logWriterConfig['options']['column']['extra']['error_type'];
 
                 $tableGateway = new TableGateway($table, $db, null, new ResultSet());
                 $select       = $tableGateway->getSql()->select();

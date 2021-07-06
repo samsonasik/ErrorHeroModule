@@ -40,7 +40,7 @@ class Logging
         private Logger $logger,
         array $errorHeroModuleLocalConfig,
         private array $logWritersConfig,
-        private ?Message $mailMessageService = null,
+        private ?Message $message = null,
         private ?TransportInterface $mailMessageTransport = null,
         private bool $includeFilesToAttachments = true
     ) {
@@ -70,7 +70,7 @@ class Logging
         $cookie_data    = $cookie instanceof Cookie
             ? $cookie->getArrayCopy()
             : [];
-        $ip_address     = (new RemoteAddress())->getIpAddress();
+        $ipAddress      = (new RemoteAddress())->getIpAddress();
 
         return [
             'request_method' => $request_method,
@@ -79,34 +79,37 @@ class Logging
             'raw_data'       => $raw_data,
             'files_data'     => $files_data,
             'cookie_data'    => $cookie_data,
-            'ip_address'     => $ip_address,
+            'ip_address'     => $ipAddress,
         ];
     }
 
     /**
      * @return array<string, mixed>
      */
-    private function collectErrorExceptionData(Throwable $t): array
+    private function collectErrorExceptionData(Throwable $throwable): array
     {
-        if ($t instanceof ErrorException && isset(Logger::$errorPriorityMap[$severity = $t->getSeverity()])) {
+        if (
+            $throwable instanceof ErrorException
+            && isset(Logger::$errorPriorityMap[$severity = $throwable->getSeverity()])
+        ) {
             $priority  = Logger::$errorPriorityMap[$severity];
             $errorType = HeroConstant::ERROR_TYPE[$severity];
         } else {
             $priority  = Logger::ERR;
-            $errorType = $t::class;
+            $errorType = $throwable::class;
         }
 
-        $errorFile    = $t->getFile();
-        $errorLine    = $t->getLine();
-        $trace        = $t->getTraceAsString();
-        $errorMessage = $t->getMessage();
+        $errorFile     = $throwable->getFile();
+        $errorLine     = $throwable->getLine();
+        $traceAsString = $throwable->getTraceAsString();
+        $errorMessage  = $throwable->getMessage();
 
         return [
             'priority'     => $priority,
             'errorType'    => $errorType,
             'errorFile'    => $errorFile,
             'errorLine'    => $errorLine,
-            'trace'        => $trace,
+            'trace'        => $traceAsString,
             'errorMessage' => $errorMessage,
         ];
     }
@@ -180,7 +183,7 @@ class Logging
 
     private function sendMail(int $priority, string $errorMessage, array $extra, string $subject): void
     {
-        if (! $this->mailMessageService || ! $this->mailMessageTransport) {
+        if (! $this->message || ! $this->mailMessageTransport) {
             return;
         }
 
@@ -188,14 +191,14 @@ class Logging
             return;
         }
 
-        $this->mailMessageService->setFrom($this->emailSender);
-        $this->mailMessageService->setSubject($subject);
+        $this->message->setFrom($this->emailSender);
+        $this->message->setSubject($subject);
 
         $filesData = $extra['request_data']['files_data'] ?? [];
-        foreach ($this->emailReceivers as $email) {
-            $this->mailMessageService->setTo($email);
+        foreach ($this->emailReceivers as $emailReceiver) {
+            $this->message->setTo($emailReceiver);
             $writer = new Mail(
-                $this->mailMessageService,
+                $this->message,
                 $this->mailMessageTransport,
                 $filesData
             );
@@ -206,9 +209,9 @@ class Logging
         }
     }
 
-    public function handleErrorException(Throwable $t, RequestInterface $request): void
+    public function handleErrorException(Throwable $throwable, RequestInterface $request): void
     {
-        $collectedExceptionData = $this->collectErrorExceptionData($t);
+        $collectedExceptionData = $this->collectErrorExceptionData($throwable);
         $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData, $request);
         $serverUrl              = $extra['server_url'];
 

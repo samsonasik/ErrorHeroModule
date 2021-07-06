@@ -21,9 +21,9 @@ class Module
         $eventManager->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'errorPreviewPageHandler'], 101);
     }
 
-    public function doctrineTransform(ModuleEvent $event): void
+    public function doctrineTransform(ModuleEvent $moduleEvent): void
     {
-        $container        = $event->getParam('ServiceManager');
+        $container        = $moduleEvent->getParam('ServiceManager');
         $hasEntityManager = $container->has(EntityManager::class);
         if (! $hasEntityManager) {
             return;
@@ -33,10 +33,10 @@ class Module
         $configuration['db'] ?? Doctrine::transform($container, $configuration);
     }
 
-    public function errorPreviewPageHandler(ModuleEvent $event): void
+    public function errorPreviewPageHandler(ModuleEvent $moduleEvent): void
     {
         /** @var ConfigListener $configListener */
-        $configListener = $event->getConfigListener();
+        $configListener = $moduleEvent->getConfigListener();
         $configuration  = $configListener->getMergedConfig(false);
 
         if (! isset($configuration['error-hero-module']['enable-error-preview-page'])) {

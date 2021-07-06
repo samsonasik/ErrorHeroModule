@@ -36,21 +36,23 @@ class Mezzio implements MiddlewareInterface
     public function __construct(
         private array $errorHeroModuleConfig,
         private Logging $logging,
-        private ?TemplateRendererInterface $renderer
+        private ?TemplateRendererInterface $templateRenderer
     ) {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
     }
 
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-    {
+    public function process(
+        ServerRequestInterface $serverRequest,
+        RequestHandlerInterface $requestHandler
+    ): ResponseInterface {
         if (! $this->errorHeroModuleConfig['enable']) {
-            return $handler->handle($request);
+            return $requestHandler->handle($serverRequest);
         }
 
         try {
-            $this->request = $request;
+            $this->request = $serverRequest;
             $this->phpError();
-            return $handler->handle($request);
+            return $requestHandler->handle($serverRequest);
         } catch (Throwable $throwable) {
         }
 
@@ -61,24 +63,24 @@ class Mezzio implements MiddlewareInterface
      * @throws Error      When 'display_errors' config is 1 and Error has thrown.
      * @throws Exception  When 'display_errors' config is 1 and Exception has thrown.
      */
-    public function exceptionError(Throwable $t): Response
+    public function exceptionError(Throwable $throwable): Response
     {
         if (
             isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])
-            && isExcludedException($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'], $t)
+            && isExcludedException($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'], $throwable)
         ) {
-            throw $t;
+            throw $throwable;
         }
 
         /** @var  ServerRequestInterface $request */
         $request = $this->request;
         $this->logging->handleErrorException(
-            $t,
+            $throwable,
             Psr7ServerRequest::toLaminas($request)
         );
 
         if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
-            throw $t;
+            throw $throwable;
         }
 
         // show default view if display_errors setting = 0.
@@ -87,7 +89,7 @@ class Mezzio implements MiddlewareInterface
 
     private function showDefaultView(): Response|HtmlResponse
     {
-        if ($this->renderer === null) {
+        if ($this->templateRenderer === null) {
             return $this->responseByConfigMessage('no_template');
         }
 
@@ -103,20 +105,20 @@ class Mezzio implements MiddlewareInterface
             return $this->responseByConfigMessage('ajax');
         }
 
-        if ($this->renderer instanceof LaminasViewRenderer) {
-            $layout = new ViewModel();
-            $layout->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
+        if ($this->templateRenderer instanceof LaminasViewRenderer) {
+            $viewModel = new ViewModel();
+            $viewModel->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
 
             $rendererLayout = &Closure::bind(
                 static fn&($renderer) => $renderer->layout,
                 null,
-                $this->renderer
-            )($this->renderer);
-            $rendererLayout = $layout;
+                $this->templateRenderer
+            )($this->templateRenderer);
+            $rendererLayout = $viewModel;
         }
 
         return new HtmlResponse(
-            $this->renderer->render($this->errorHeroModuleConfig['display-settings']['template']['view']),
+            $this->templateRenderer->render($this->errorHeroModuleConfig['display-settings']['template']['view']),
             500
         );
     }
