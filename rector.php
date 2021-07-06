@@ -9,6 +9,7 @@ use Rector\Core\ValueObject\PhpVersion;
 use Rector\DeadCode\Rector\Assign\RemoveUnusedVariableAssignRector;
 use Rector\DeadCode\Rector\Expression\RemoveDeadStmtRector;
 use Rector\Set\ValueObject\SetList;
+use Rector\TypeDeclaration\Rector\FunctionLike\ReturnTypeDeclarationRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -43,5 +44,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/src/Controller',
             __DIR__ . '/src/Middleware/Routed/Preview',
         ],
+        ReturnTypeDeclarationRector::class => [
+            __DIR__ . '/src/Controller',
+            __DIR__ . '/spec/Fixture/NotSupportedContainer.php',
+        ]
     ]);
 };
