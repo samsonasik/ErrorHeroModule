@@ -44,9 +44,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/src/Controller',
             __DIR__ . '/src/Middleware/Routed/Preview',
         ],
-        ReturnTypeDeclarationRector::class => [
+        ReturnTypeDeclarationRector::class      => [
             __DIR__ . '/src/Controller',
             __DIR__ . '/spec/Fixture/NotSupportedContainer.php',
-        ]
+        ],
     ]);
 };
