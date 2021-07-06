@@ -6,6 +6,8 @@ use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
+use Rector\DeadCode\Rector\Assign\RemoveUnusedVariableAssignRector;
+use Rector\DeadCode\Rector\Expression\RemoveDeadStmtRector;
 use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -13,6 +15,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::CODE_QUALITY);
     $containerConfigurator->import(SetList::CODE_QUALITY_STRICT);
     $containerConfigurator->import(SetList::CODING_STYLE);
+    $containerConfigurator->import(SetList::DEAD_CODE);
     $containerConfigurator->import(SetList::NAMING);
     $containerConfigurator->import(SetList::ORDER);
     $containerConfigurator->import(SetList::PHP_70);
@@ -32,5 +35,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::SKIP, [
         CallableThisArrayToAnonymousFunctionRector::class,
         UnSpreadOperatorRector::class,
+        RemoveUnusedVariableAssignRector::class => [
+            __DIR__ . '/src/Controller',
+            __DIR__ . '/src/Middleware/Routed/Preview',
+        ],
+        RemoveDeadStmtRector::class => [
+            __DIR__ . '/src/Controller',
+            __DIR__ . '/src/Middleware/Routed/Preview',
+        ],
     ]);
 };
