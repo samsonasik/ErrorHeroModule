@@ -66,11 +66,11 @@ class Logging
         $filesData     = $this->includeFilesToAttachments
             ? $request->getFiles()->toArray()
             : [];
-        $cookie         = $request->getCookie();
+        $cookie        = $request->getCookie();
         $cookieData    = $cookie instanceof Cookie
             ? $cookie->getArrayCopy()
             : [];
-        $ipAddress      = (new RemoteAddress())->getIpAddress();
+        $ipAddress     = (new RemoteAddress())->getIpAddress();
 
         return [
             'request_method' => $requestMethod,
