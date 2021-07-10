@@ -6,8 +6,10 @@ namespace ErrorHeroModule\Middleware;
 
 use Closure;
 use Error;
+use function ErrorHeroModule\detectMessageContentType;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\HeroTrait;
+use function ErrorHeroModule\isExcludedException;
 use Exception;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\Response\HtmlResponse;
@@ -18,11 +20,9 @@ use Mezzio\Template\TemplateRendererInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
+
 use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
-
-use function ErrorHeroModule\detectMessageContentType;
-use function ErrorHeroModule\isExcludedException;
 
 class Mezzio implements MiddlewareInterface
 {

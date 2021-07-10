@@ -4,13 +4,13 @@ namespace ErrorHeroModule\Spec\Handler\Writer\Checker;
 
 use ErrorHeroModule\Handler\Writer\Checker\Db;
 use Kahlan\Plugin\Double;
-use ReflectionProperty;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Sql;
 use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Log\Writer\Db as DbWriter;
+use ReflectionProperty;
 
 describe('Db', function () {
 

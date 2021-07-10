@@ -2,7 +2,6 @@
 
 namespace ErrorHeroModule\Spec\Middleware;
 
-use PDO;
 use ArrayObject;
 use Aura\Di\Container as AuraContainer;
 use Aura\Di\ContainerBuilder as AuraContainerBuilder;
@@ -15,13 +14,14 @@ use ErrorHeroModule\Middleware\Mezzio;
 use ErrorHeroModule\Middleware\MezzioFactory;
 use ErrorHeroModule\Spec\Fixture\NotSupportedContainer;
 use Kahlan\Plugin\Double;
+use Laminas\ServiceManager\ServiceManager;
+use Mezzio\Template\TemplateRendererInterface;
 use Northwoods\Container\InjectorContainer as AurynInjectorContainer;
+use PDO;
 use Pimple\Container as PimpleContainer;
 use Pimple\Psr11\Container as Psr11PimpleContainer;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
-use Mezzio\Template\TemplateRendererInterface;
-use Laminas\ServiceManager\ServiceManager;
 
 describe('MezzioFactory', function () {
 

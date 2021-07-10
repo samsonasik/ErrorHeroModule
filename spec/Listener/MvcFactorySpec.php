@@ -6,8 +6,8 @@ use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
 use Kahlan\Plugin\Double;
-use Psr\Container\ContainerInterface;
 use Laminas\View\Renderer\PhpRenderer;
+use Psr\Container\ContainerInterface;
 
 describe('MvcFactory', function () {
 

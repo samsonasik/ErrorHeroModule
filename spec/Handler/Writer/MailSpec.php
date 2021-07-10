@@ -2,13 +2,13 @@
 
 namespace ErrorHeroModule\Spec\Handler\Writer;
 
-use Throwable;
 use ErrorHeroModule\Handler\Writer\Mail;
 use Exception;
 use Kahlan\Plugin\Double;
-use ReflectionProperty;
 use Laminas\Mail\Message;
 use Laminas\Mail\Transport\TransportInterface;
+use ReflectionProperty;
+use Throwable;
 
 describe('Mail', function () {
 

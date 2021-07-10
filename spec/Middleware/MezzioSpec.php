@@ -2,28 +2,26 @@
 
 namespace ErrorHeroModule\Spec\Middleware;
 
-use Laminas\View\Resolver\AggregateResolver;
-use Laminas\View\Resolver\TemplateMapResolver;
-use PDO;
-use Exception;
-use ErrorException;
 use Closure;
+use ErrorException;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Mezzio;
+use Exception;
 use Kahlan\Plugin\Double;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\Uri;
-use Mezzio\LaminasView\LaminasViewRenderer;
-use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Log\Logger;
 use Laminas\Log\Writer\Db;
 use Laminas\View\Renderer\PhpRenderer;
-use Laminas\View\Resolver;
+use Laminas\View\Resolver\AggregateResolver;
+use Laminas\View\Resolver\TemplateMapResolver;
+use Mezzio\LaminasView\LaminasViewRenderer;
+use PDO;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 describe('Mezzio', function () {
 

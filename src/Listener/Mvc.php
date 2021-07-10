@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Listener;
 
+use function ErrorHeroModule\detectMessageContentType;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\HeroTrait;
+use function ErrorHeroModule\isExcludedException;
 use Laminas\Console\Response as ConsoleResponse;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventManagerInterface;
@@ -14,11 +16,9 @@ use Laminas\Http\PhpEnvironment\Response;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Stdlib\RequestInterface;
 use Laminas\Text\Table;
+
 use Laminas\View\Renderer\PhpRenderer;
 use Webmozart\Assert\Assert;
-
-use function ErrorHeroModule\detectMessageContentType;
-use function ErrorHeroModule\isExcludedException;
 
 class Mvc extends AbstractListenerAggregate
 {

@@ -2,7 +2,6 @@
 
 namespace ErrorHeroModule\Spec;
 
-use PDO;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDOMySql\Driver;
 use Doctrine\ORM\EntityManager;
@@ -14,6 +13,7 @@ use Laminas\ModuleManager\Listener\ConfigListener;
 use Laminas\ModuleManager\ModuleEvent;
 use Laminas\ModuleManager\ModuleManager;
 use Laminas\ServiceManager\ServiceManager;
+use PDO;
 
 describe('Module', function () {
 

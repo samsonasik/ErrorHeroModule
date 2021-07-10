@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Handler;
 
+use function basename;
 use ErrorException;
 use ErrorHeroModule\Handler\Formatter\Json;
 use ErrorHeroModule\Handler\Writer\Mail;
 use ErrorHeroModule\HeroConstant;
+use function get_current_user;
+use function getcwd;
 use Laminas\Console\Request as ConsoleRequest;
 use Laminas\Http\Header\Cookie;
 use Laminas\Http\PhpEnvironment\RemoteAddress;
@@ -17,18 +20,15 @@ use Laminas\Log\Writer\Db;
 use Laminas\Mail\Message;
 use Laminas\Mail\Transport\TransportInterface;
 use Laminas\Stdlib\RequestInterface;
-use RuntimeException;
-use Throwable;
-use Webmozart\Assert\Assert;
-
-use function basename;
-use function get_current_user;
-use function getcwd;
-use function php_uname;
-use function str_replace;
 
 use const PHP_BINARY;
 use const PHP_EOL;
+use function php_uname;
+use RuntimeException;
+use function str_replace;
+
+use Throwable;
+use Webmozart\Assert\Assert;
 
 class Logging
 {

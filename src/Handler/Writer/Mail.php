@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Handler\Writer;
 
+use const E_USER_WARNING;
 use Exception;
+use function fopen;
+use function implode;
+use function is_array;
+use function key;
 use Laminas\Log\Exception as LogException;
 use Laminas\Log\Writer\Mail as BaseMail;
 use Laminas\Mail\Header\ContentType;
+
 use Laminas\Mail\Message as MailMessage;
 use Laminas\Mail\Transport\TransportInterface;
 use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Mime;
 use Laminas\Mime\Part;
+use const PHP_EOL;
 
-use function fopen;
-use function implode;
-use function is_array;
-use function key;
 use function sprintf;
 use function trigger_error;
-
-use const E_USER_WARNING;
-use const PHP_EOL;
 
 class Mail extends BaseMail
 {

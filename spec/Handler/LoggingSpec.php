@@ -2,11 +2,10 @@
 
 namespace ErrorHeroModule\Spec\Handler;
 
-use Exception;
 use ErrorException;
 use ErrorHeroModule\Handler\Logging;
+use Exception;
 use Kahlan\Plugin\Double;
-use ReflectionProperty;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\Sql\Select;
@@ -16,6 +15,7 @@ use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Log\Logger;
 use Laminas\Log\Writer\Db as DbWriter;
 use Laminas\Mail\Message;
+use ReflectionProperty;
 
 describe('LoggingSpec', function () {
 

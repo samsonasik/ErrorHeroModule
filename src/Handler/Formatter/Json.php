@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Handler\Formatter;
 
 use DateTime;
-use Laminas\Log\Formatter\FormatterInterface;
-use Laminas\Log\Formatter\Json as BaseJson;
-
 use function json_encode;
-use function str_replace;
-
 use const JSON_PRETTY_PRINT;
+
 use const JSON_UNESCAPED_SLASHES;
 use const JSON_UNESCAPED_UNICODE;
+
+use Laminas\Log\Formatter\FormatterInterface;
+use Laminas\Log\Formatter\Json as BaseJson;
 use const PHP_EOL;
+use function str_replace;
 
 class Json extends BaseJson implements FormatterInterface
 {

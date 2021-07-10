@@ -2,16 +2,16 @@
 
 namespace ErrorHeroModule\Spec\Handler;
 
-use RuntimeException;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
 use Kahlan\Plugin\Double;
-use Psr\Container\ContainerInterface;
 use Laminas\Console\Console;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Log\Logger;
 use Laminas\Mail\Message;
 use Laminas\Mail\Transport\TransportInterface;
+use Psr\Container\ContainerInterface;
+use RuntimeException;
 
 describe('LoggingFactorySpec', function () {
 

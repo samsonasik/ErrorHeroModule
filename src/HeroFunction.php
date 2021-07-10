@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule;
 
-use Seld\JsonLint\JsonParser;
-use Throwable;
-
 use function is_array;
+use Seld\JsonLint\JsonParser;
+
 use function strip_tags;
+use Throwable;
 
 function detectMessageContentType(string $message): string
 {

@@ -2,7 +2,6 @@
 
 namespace ErrorHeroModule\Spec\Integration;
 
-use ErrorHeroModule;
 use Laminas\Console\Console;
 use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Http\PhpEnvironment\Response;

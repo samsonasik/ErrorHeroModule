@@ -3,12 +3,11 @@
 namespace ErrorHeroModule;
 
 use ErrorHeroModule\Controller\ErrorPreviewController;
-use Laminas\Log\LoggerAbstractServiceFactory;
-use ErrorHeroModule\Listener\Mvc;
-use ErrorHeroModule\Listener\MvcFactory;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
-use Laminas\Log;
+use ErrorHeroModule\Listener\Mvc;
+use ErrorHeroModule\Listener\MvcFactory;
+use Laminas\Log\LoggerAbstractServiceFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [

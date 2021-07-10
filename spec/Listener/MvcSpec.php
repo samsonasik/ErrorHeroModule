@@ -2,12 +2,11 @@
 
 namespace ErrorHeroModule\Spec\Listener;
 
-use Exception;
-use PDO;
-use ErrorException;
 use Closure;
+use ErrorException;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
+use Exception;
 use Kahlan\Plugin\Double;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
@@ -22,6 +21,7 @@ use Laminas\Log\Writer\Db;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Uri\Uri;
 use Laminas\View\Renderer\PhpRenderer;
+use PDO;
 
 describe('Mvc', function () {
 
