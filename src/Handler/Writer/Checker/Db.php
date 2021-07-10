@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Handler\Writer\Checker;
 
 use Closure;
-use function date;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
-
 use Laminas\Log\Writer\Db as DbWriter;
+
+use function date;
 use function strtotime;
 
 class Db

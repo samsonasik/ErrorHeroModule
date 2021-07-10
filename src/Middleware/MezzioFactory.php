@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Middleware;
 
-use function array_key_exists;
 use ArrayObject;
 use Aura\Di\Container as AuraContainer;
 use Doctrine\ORM\EntityManager;
@@ -14,17 +13,18 @@ use ErrorHeroModule\Transformer\AurynService;
 use ErrorHeroModule\Transformer\Doctrine;
 use ErrorHeroModule\Transformer\PimpleService;
 use ErrorHeroModule\Transformer\SymfonyService;
-use function is_array;
 use Laminas\ServiceManager\ServiceManager;
 use Mezzio\Template\TemplateRendererInterface;
 use Northwoods\Container\InjectorContainer as AurynInjectorContainer;
 use Pimple\Psr11\Container as Psr11PimpleContainer;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
-
-use function sprintf;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Webmozart\Assert\Assert;
+
+use function array_key_exists;
+use function is_array;
+use function sprintf;
 
 class MezzioFactory
 {

@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule;
 
-use const E_ALL;
-use const E_STRICT;
+use ErrorException;
+use ErrorHeroModule\Listener\Mvc;
+use Laminas\Mvc\MvcEvent;
+use Psr\Http\Message\ServerRequestInterface;
+use Webmozart\Assert\Assert;
+
 use function error_get_last;
 use function error_reporting;
-use ErrorException;
-
-use ErrorHeroModule\Listener\Mvc;
 use function ini_set;
 use function is_array;
-use Laminas\Mvc\MvcEvent;
 use function ob_end_flush;
 use function ob_get_clean;
 use function ob_get_level;
 use function ob_start;
-use Psr\Http\Message\ServerRequestInterface;
 use function register_shutdown_function;
 use function set_error_handler;
-
 use function str_starts_with;
-use Webmozart\Assert\Assert;
+
+use const E_ALL;
+use const E_STRICT;
 
 trait HeroTrait
 {
