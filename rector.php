@@ -8,6 +8,7 @@ use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\DeadCode\Rector\Assign\RemoveUnusedVariableAssignRector;
 use Rector\DeadCode\Rector\Expression\RemoveDeadStmtRector;
+use Rector\PSR4\Rector\FileWithoutNamespace\NormalizeNamespaceByPSR4ComposerAutoloadRector;
 use Rector\Set\ValueObject\SetList;
 use Rector\TypeDeclaration\Rector\FunctionLike\ReturnTypeDeclarationRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -25,6 +26,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::PHP_73);
     $containerConfigurator->import(SetList::PHP_74);
     $containerConfigurator->import(SetList::PHP_80);
+    $containerConfigurator->import(SetList::PSR_4);
     $containerConfigurator->import(SetList::TYPE_DECLARATION);
 
     $parameters = $containerConfigurator->parameters();
@@ -36,17 +38,20 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::SKIP, [
         CallableThisArrayToAnonymousFunctionRector::class,
         UnSpreadOperatorRector::class,
-        RemoveUnusedVariableAssignRector::class => [
+        RemoveUnusedVariableAssignRector::class               => [
             __DIR__ . '/src/Controller',
             __DIR__ . '/src/Middleware/Routed/Preview',
         ],
-        RemoveDeadStmtRector::class             => [
+        RemoveDeadStmtRector::class                           => [
             __DIR__ . '/src/Controller',
             __DIR__ . '/src/Middleware/Routed/Preview',
         ],
-        ReturnTypeDeclarationRector::class      => [
+        ReturnTypeDeclarationRector::class                    => [
             __DIR__ . '/src/Controller',
             __DIR__ . '/spec/Fixture/NotSupportedContainer.php',
+        ],
+        NormalizeNamespaceByPSR4ComposerAutoloadRector::class => [
+            __DIR__ . '/spec/Fixture/config',
         ],
     ]);
 };

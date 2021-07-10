@@ -1,8 +1,7 @@
 <?php
 
-namespace ErrorHeroModule\Spec;
+namespace ErrorHeroModule\Spec\Integration;
 
-use ErrorHeroModule;
 use Laminas\Console\Console;
 use Laminas\Mvc\Application;
 

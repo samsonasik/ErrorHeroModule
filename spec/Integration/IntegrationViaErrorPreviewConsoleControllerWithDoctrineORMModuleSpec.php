@@ -1,9 +1,8 @@
 <?php
 
-namespace ErrorHeroModule\Spec;
+namespace ErrorHeroModule\Spec\Integration;
 
 use Doctrine\ORM\EntityManager;
-use ErrorHeroModule;
 use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
 use Kahlan\Plugin\Quit;
 use Kahlan\QuitException;
