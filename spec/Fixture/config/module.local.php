@@ -1,6 +1,6 @@
 <?php
 
-namespace ErrorHeroModule;
+namespace ErrorHeroModule\Spec\Fixture\config;
 
 use ErrorHeroModule\Controller\ErrorPreviewController;
 use ErrorHeroModule\Handler\Logging;

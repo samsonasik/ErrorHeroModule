@@ -50,8 +50,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/src/Controller',
             __DIR__ . '/spec/Fixture/NotSupportedContainer.php',
         ],
-        NormalizeNamespaceByPSR4ComposerAutoloadRector::class => [
-            __DIR__ . '/spec/Fixture/config',
-        ],
     ]);
 };

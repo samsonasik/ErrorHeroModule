@@ -1,7 +1,9 @@
 <?php
 
-use Laminas\Db\Adapter\AdapterInterface;
+namespace ErrorHeroModule\Spec\Fixture\config\autoload;
 
+use PDO;
+use Laminas\Db\Adapter\AdapterInterface;
 return [
 
     'db' => [
