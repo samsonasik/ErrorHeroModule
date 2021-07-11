@@ -47,7 +47,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
         ReturnTypeDeclarationRector::class      => [
             __DIR__ . '/src/Controller',
-            __DIR__ . '/spec/Fixture/NotSupportedContainer.php',
         ],
     ]);
 };

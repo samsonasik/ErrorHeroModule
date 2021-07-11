@@ -7,12 +7,17 @@ use stdClass;
 
 class NotSupportedContainer implements ContainerInterface
 {
-    /**
-     * @return stdClass
-     */
-    public function get($id) { return new stdClass(); }
-    /**
-     * @return bool
-     */
-    public function has($id) { return true; }
+    public function get($id): stdClass|array
+    {
+        if (random_int(0, 1) !== 0) {
+            return new stdClass();
+        }
+
+        return [];
+    }
+
+    public function has($id): bool
+    {
+        return true;
+    }
 }
