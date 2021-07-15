@@ -34,9 +34,9 @@ describe('Integration via ErrorPreviewController for error shown', function () {
 
     });
 
-    describe('/error-preview/error', function() {
+    describe('/error-preview/error', function(): void {
 
-        it('empty as rely to original mvc process to handle', function() {
+        it('empty as rely to original mvc process to handle', function(): void {
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');

@@ -23,7 +23,7 @@ use Pimple\Psr11\Container as Psr11PimpleContainer;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 
-describe('MezzioFactory', function () {
+describe('MezzioFactory', function (): void {
 
     given('factory', fn() => new MezzioFactory());
 
@@ -130,9 +130,9 @@ describe('MezzioFactory', function () {
 
     ]);
 
-    describe('__invoke()', function () {
+    describe('__invoke()', function (): void {
 
-        it('returns Mezzio Middleware instance without TemplateRendererInterface instance', function () {
+        it('returns Mezzio Middleware instance without TemplateRendererInterface instance', function (): void {
 
             $container = new ServiceManager();
             $container->setService('config', $this->config);
@@ -145,7 +145,7 @@ describe('MezzioFactory', function () {
 
         });
 
-        it('returns Mezzio Middleware instance with doctrine to laminas-db conversion', function () {
+        it('returns Mezzio Middleware instance with doctrine to laminas-db conversion', function (): void {
 
             $config = $this->config;
             unset($config['db']);
@@ -184,7 +184,7 @@ describe('MezzioFactory', function () {
 
         });
 
-        it('returns Mezzio Middleware instance without doctrine to laminas-db conversion', function () {
+        it('returns Mezzio Middleware instance without doctrine to laminas-db conversion', function (): void {
 
             $container = new ServiceManager();
             $container->setService('config', $this->config);
@@ -200,7 +200,7 @@ describe('MezzioFactory', function () {
 
         });
 
-        it('throws RuntimeException when using mapped containers but no "db" config', function () {
+        it('throws RuntimeException when using mapped containers but no "db" config', function (): void {
 
             $config = [];
             foreach ($this->mapCreateContainers as $containerClass => $container) {
@@ -222,7 +222,7 @@ describe('MezzioFactory', function () {
                 allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
                                                 ->andReturn($renderer);
 
-                $actual = function () use ($container) {
+                $actual = function () use ($container): void {
                     $this->factory($container);
                 };
                 expect($actual)->toThrow(new RuntimeException(
@@ -235,7 +235,7 @@ describe('MezzioFactory', function () {
 
         });
 
-        it('returns Mezzio Middleware instance with create service first for mapped containers and config does not has "adapters" key', function () {
+        it('returns Mezzio Middleware instance with create service first for mapped containers and config does not has "adapters" key', function (): void {
 
             $config = $this->config;
             unset($config['db']['adapters']);
@@ -268,7 +268,7 @@ describe('MezzioFactory', function () {
 
         });
 
-        it('returns Mezzio Middleware instance with create service first for mapped containers and db name found in adapters', function () {
+        it('returns Mezzio Middleware instance with create service first for mapped containers and db name found in adapters', function (): void {
 
             foreach ($this->mapCreateContainers as $container) {
                 $config = $this->config;
@@ -299,7 +299,7 @@ describe('MezzioFactory', function () {
 
         });
 
-        it('returns Mezzio Middleware instance with create services first for mapped containers and db name not found in adapters, which means use "Laminas\Db\Adapter\Adapter" name', function () {
+        it('returns Mezzio Middleware instance with create services first for mapped containers and db name not found in adapters, which means use "Laminas\Db\Adapter\Adapter" name', function (): void {
 
             $config = $this->config;
             foreach ($this->mapCreateContainers as $container) {
@@ -329,7 +329,7 @@ describe('MezzioFactory', function () {
 
         });
 
-        it('throws RuntimeException on not supported container', function () {
+        it('throws RuntimeException on not supported container', function (): void {
 
             $container = new NotSupportedContainer();
             allow($container)->toReceive('get')->with('config')
@@ -345,7 +345,7 @@ describe('MezzioFactory', function () {
             allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
                                                ->andReturn($renderer);
 
-            $actual = function () use ($container) {
+            $actual = function () use ($container): void {
                 $this->factory($container);
             };
             expect($actual)->toThrow(

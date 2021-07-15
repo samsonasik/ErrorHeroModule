@@ -17,9 +17,9 @@ use Laminas\Log\Writer\Db as DbWriter;
 use Laminas\Mail\Message;
 use ReflectionProperty;
 
-describe('LoggingSpec', function () {
+describe('LoggingSpec', function (): void {
 
-    beforeAll(function () {
+    beforeAll(function (): void {
         $this->logger  = Double::instance(['extends' => Logger::class]);
         $this->request = new Request();
         $this->request->setUri('http://www.example.com');
@@ -114,9 +114,9 @@ describe('LoggingSpec', function () {
         null
     ));
 
-    describe('->handleErrorException()', function ()  {
+    describe('->handleErrorException()', function (): void  {
 
-        it('not log if exists', function ()  {
+        it('not log if exists', function (): void  {
 
             $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
@@ -144,7 +144,7 @@ describe('LoggingSpec', function () {
 
         });
 
-        it('not log if exists and exception instanceof ErrorException', function ()  {
+        it('not log if exists and exception instanceof ErrorException', function (): void  {
 
             $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);

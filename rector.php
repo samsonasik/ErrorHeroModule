@@ -6,10 +6,7 @@ use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
-use Rector\DeadCode\Rector\Assign\RemoveUnusedVariableAssignRector;
-use Rector\DeadCode\Rector\Expression\RemoveDeadStmtRector;
 use Rector\Set\ValueObject\SetList;
-use Rector\TypeDeclaration\Rector\FunctionLike\ReturnTypeDeclarationRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -27,6 +24,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::PHP_80);
     $containerConfigurator->import(SetList::PSR_4);
     $containerConfigurator->import(SetList::TYPE_DECLARATION);
+    $containerConfigurator->import(SetList::TYPE_DECLARATION_STRICT);
 
     $parameters = $containerConfigurator->parameters();
     $parameters->set(Option::PATHS, [__DIR__ . '/config', __DIR__ . '/src', __DIR__ . '/spec']);
@@ -35,18 +33,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_80);
 
     $parameters->set(Option::SKIP, [
+        __DIR__ . '/src/Controller',
+        __DIR__ . '/src/Middleware/Routed/Preview',
         CallableThisArrayToAnonymousFunctionRector::class,
         UnSpreadOperatorRector::class,
-        RemoveUnusedVariableAssignRector::class => [
-            __DIR__ . '/src/Controller',
-            __DIR__ . '/src/Middleware/Routed/Preview',
-        ],
-        RemoveDeadStmtRector::class             => [
-            __DIR__ . '/src/Controller',
-            __DIR__ . '/src/Middleware/Routed/Preview',
-        ],
-        ReturnTypeDeclarationRector::class      => [
-            __DIR__ . '/src/Controller',
-        ],
     ]);
 };

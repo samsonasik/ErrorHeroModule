@@ -229,7 +229,7 @@ json
 
     describe('->process()', function () {
 
-        it('returns handle() when not enabled', function () {
+        it('returns handle() when not enabled', function (): void {
 
             $config['enable'] = false;
             $handler = Double::instance(['implements' => RequestHandlerInterface::class]);
@@ -241,7 +241,7 @@ json
 
         });
 
-        it('returns handle() when no error', function () {
+        it('returns handle() when no error', function (): void {
 
             $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
             allow($handler)->toReceive('handle')->with($this->request)->andReturn(new Response());
@@ -302,7 +302,7 @@ json
                 });
                 $middleware = new Mezzio($config, $logging, $this->renderer);
 
-                $closure = function () use ($middleware, $handler) {
+                $closure = function () use ($middleware, $handler): void {
                     $middleware->process($this->request, $handler);
                 };
                 expect($closure)->toThrow(new Exception('message'));
@@ -403,7 +403,7 @@ json
                 });
                 $middleware = new Mezzio($config, $logging, $this->renderer);
 
-                $closure = function () use ($middleware, $request, $handler) {
+                $closure = function () use ($middleware, $request, $handler): void {
                     $middleware->process($request, $handler);
                 };
                 expect($closure)->toThrow(new Exception('message'));
@@ -436,7 +436,7 @@ json
                 throw $exception;
             });
             $middleware = new Mezzio($config, $logging, $this->renderer);
-            $closure = function () use ($middleware, $request, $handler) {
+            $closure = function () use ($middleware, $request, $handler): void {
                 $middleware->process($request, $handler);
             };
             expect($closure)->toThrow($exception);
@@ -446,16 +446,16 @@ json
 
     });
 
-    describe('->phpFatalErrorHandler()', function ()  {
+    describe('->phpFatalErrorHandler()', function (): void  {
 
-        it('returns buffer on no error', function () {
+        it('returns buffer on no error', function (): void {
 
             allow('error_get_last')->toBeCalled()->andReturn(null);
             expect($this->middleware->phpFatalErrorHandler('root'))->toBe('root');
 
         });
 
-        it('returns buffer on error has "Uncaught" prefix', function () {
+        it('returns buffer on error has "Uncaught" prefix', function (): void {
 
             allow('error_get_last')->toBeCalled()->andReturn([
                 'message' => 'Uncaught',
@@ -465,7 +465,7 @@ json
 
         });
 
-        it('returns result property value on error not has "Uncaught" prefix and result has value', function () {
+        it('returns result property value on error not has "Uncaught" prefix and result has value', function (): void {
 
             allow('error_get_last')->toBeCalled()->andReturn([
                 'message' => 'Fatal',
@@ -481,16 +481,16 @@ json
 
     });
 
-    describe('->execOnShutdown()', function ()  {
+    describe('->execOnShutdown()', function (): void  {
 
-        it('call error_get_last() and return nothing', function () {
+        it('call error_get_last() and return nothing', function (): void {
 
             allow('error_get_last')->toBeCalled()->andReturn(null);
             expect($this->middleware->execOnShutdown())->toBeNull();
 
         });
 
-        it('call error_get_last() and property_exists() after null check passed and throws', function () {
+        it('call error_get_last() and property_exists() after null check passed and throws', function (): void {
 
             allow('error_get_last')->toBeCalled()->andReturn([
                 'type' => 3,
@@ -553,7 +553,7 @@ json
             $request = & Closure::bind(fn&($middleware) => $middleware->request, null, $middleware)($middleware);
             $request = $this->request;
 
-            $closure = function () use ($middleware) {
+            $closure = function () use ($middleware): void {
                 $middleware->execOnShutdown();
             };
             expect($closure)->toThrow(new ErrorException(
@@ -562,7 +562,7 @@ json
 
         });
 
-        it('call error_get_last() and property_exists() after null check passed', function () {
+        it('call error_get_last() and property_exists() after null check passed', function (): void {
 
             allow('error_get_last')->toBeCalled()->andReturn([
                 'type' => 3,
@@ -632,9 +632,9 @@ json
 
     });
 
-    describe('->phpErrorHandler()', function () {
+    describe('->phpErrorHandler()', function (): void {
 
-        it('error_reporting() returns 0', function () {
+        it('error_reporting() returns 0', function (): void {
 
             allow('error_reporting')->tobeCalled()->andReturn(0);
             $actual = $this->middleware->phpErrorHandler(2, 'mkdir(): File exists', 'file.php', 6);
@@ -643,7 +643,7 @@ json
 
         });
 
-        it('call error_get_last() and return nothing on result with "Uncaught" prefix', function () {
+        it('call error_get_last() and return nothing on result with "Uncaught" prefix', function (): void {
 
             allow('error_get_last')->toBeCalled()->andReturn([
                 'message' => 'Uncaught',
@@ -653,7 +653,7 @@ json
 
         });
 
-        it('exclude error type and match', function () {
+        it('exclude error type and match', function (): void {
 
             $actual = $this->middleware->phpErrorHandler(\E_USER_DEPRECATED, 'deprecated', 'file.php', 1);
             // null means use default $handler->handle($request)
@@ -664,9 +664,9 @@ json
 
         });
 
-        it('throws ErrorException on non excluded php errors', function () {
+        it('throws ErrorException on non excluded php errors', function (): void {
 
-            $closure = function () {
+            $closure = function (): void {
                  $this->middleware->phpErrorHandler(\E_WARNING, 'warning', 'file.php', 1);
             };
             expect($closure)->toThrow(new ErrorException('warning', 0, \E_WARNING, 'file.php', 1));

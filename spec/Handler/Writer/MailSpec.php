@@ -12,7 +12,7 @@ use Throwable;
 
 describe('Mail', function () {
 
-   beforeAll(function () {
+   beforeAll(function (): void {
         $this->mailMessage   = Double::instance(['extends' => Message::class]);
         $this->transport = Double::instance(['implements' => TransportInterface::class]);
 
@@ -33,7 +33,7 @@ describe('Mail', function () {
 
    describe('->shutdown', function () {
 
-        it('bring multiple collection upload, then transport->send()', function () {
+        it('bring multiple collection upload, then transport->send()', function (): void {
 
             $writer = new Mail(
                 $this->mailMessage,
@@ -74,7 +74,7 @@ describe('Mail', function () {
 
         });
 
-        it('bring deeper multiple collection upload, then transport->send()', function () {
+        it('bring deeper multiple collection upload, then transport->send()', function (): void {
 
             $writer = new Mail(
                 $this->mailMessage,

@@ -15,7 +15,7 @@ use Laminas\ModuleManager\ModuleManager;
 use Laminas\ServiceManager\ServiceManager;
 use PDO;
 
-describe('Module', function () {
+describe('Module', function (): void {
 
     given('module', fn() => new Module());
 
@@ -50,9 +50,9 @@ describe('Module', function () {
         ],
     ]);
 
-    describe('->getConfig()', function () {
+    describe('->getConfig()', function (): void {
 
-        it('return "config" array', function () {
+        it('return "config" array', function (): void {
 
             $moduleConfig = include __DIR__.'/../config/module.config.php';
 
@@ -63,9 +63,9 @@ describe('Module', function () {
 
     });
 
-    describe('->init()', function () {
+    describe('->init()', function (): void {
 
-        it('receive ModuleManager that get Eventmanager that attach ModuleEvent::EVENT_LOAD_MODULES_POST', function () {
+        it('receive ModuleManager that get Eventmanager that attach ModuleEvent::EVENT_LOAD_MODULES_POST', function (): void {
 
             $moduleManager = Double::instance(['extends' => ModuleManager::class, 'methods' => '__construct']);
             $eventManager    = Double::instance(['implements' => EventManagerInterface::class]);
@@ -80,9 +80,9 @@ describe('Module', function () {
 
     });
 
-    describe('->doctrineTransform()', function () {
+    describe('->doctrineTransform()', function (): void {
 
-        it('does not has EntityManager service', function () {
+        it('does not has EntityManager service', function (): void {
 
             $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
             $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
@@ -94,7 +94,7 @@ describe('Module', function () {
 
         });
 
-        it('has EntityManager service but already has db config', function () {
+        it('has EntityManager service but already has db config', function (): void {
 
             $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
             $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
@@ -115,7 +115,7 @@ describe('Module', function () {
 
         });
 
-        it('has EntityManager service but already does not has db config not isset driverOptions', function () {
+        it('has EntityManager service but already does not has db config not isset driverOptions', function (): void {
 
             $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
             $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
@@ -145,7 +145,7 @@ describe('Module', function () {
 
         });
 
-        it('has EntityManager service but already does not has db config with isset driverOptions', function () {
+        it('has EntityManager service but already does not has db config with isset driverOptions', function (): void {
 
             $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
             $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
@@ -181,9 +181,9 @@ describe('Module', function () {
 
     });
 
-    describe('->errorPreviewPageHandler()', function () {
+    describe('->errorPreviewPageHandler()', function (): void {
 
-        it('does not has enable-error-preview-page', function () {
+        it('does not has enable-error-preview-page', function (): void {
 
             $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
 
@@ -200,7 +200,7 @@ describe('Module', function () {
 
         });
 
-        it('has enable-error-preview-page and enabled', function () {
+        it('has enable-error-preview-page and enabled', function (): void {
 
             $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
             $serviceManager  = Double::instance(['extends' => ServiceManager::class]);
@@ -220,7 +220,7 @@ describe('Module', function () {
 
         });
 
-        it('has enable-error-preview-page and disabled', function () {
+        it('has enable-error-preview-page and disabled', function (): void {
 
             $moduleEvent = Double::instance(['extends' => ModuleEvent::class, 'methods' => '__construct']);
             $serviceManager  = Double::instance(['extends' => ServiceManager::class]);

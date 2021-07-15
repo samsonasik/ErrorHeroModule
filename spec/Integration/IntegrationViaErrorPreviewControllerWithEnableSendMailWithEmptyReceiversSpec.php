@@ -38,9 +38,9 @@ describe('Integration via ErrorPreviewController with enable send mail with empt
 
     });
 
-    describe('/error-preview', function() {
+    describe('/error-preview', function(): void {
 
-        it('show error page for exception', function() {
+        it('show error page for exception', function(): void {
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
@@ -59,9 +59,9 @@ describe('Integration via ErrorPreviewController with enable send mail with empt
 
     });
 
-    describe('/error-preview/error', function() {
+    describe('/error-preview/error', function(): void {
 
-        it('show error page for E_* error', function() {
+        it('show error page for E_* error', function(): void {
 
             Quit::disable();
 

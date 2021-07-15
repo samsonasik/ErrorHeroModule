@@ -23,7 +23,7 @@ use Laminas\Uri\Uri;
 use Laminas\View\Renderer\PhpRenderer;
 use PDO;
 
-describe('Mvc', function () {
+describe('Mvc', function (): void {
 
     given('logging', fn() => Double::instance([
         'extends' => Logging::class,
@@ -85,9 +85,9 @@ describe('Mvc', function () {
         $this->renderer
     ));
 
-    describe('->attach()', function () {
+    describe('->attach()', function (): void {
 
-        it('does not attach dispatch.error, render.error, and bootstrap if config[enable] = false', function () {
+        it('does not attach dispatch.error, render.error, and bootstrap if config[enable] = false', function (): void {
 
             $logging = Double::instance([
                 'extends' => Logging::class,
@@ -111,7 +111,7 @@ describe('Mvc', function () {
 
         });
 
-        it('attach dispatch.error, render.error, and bootstrap', function () {
+        it('attach dispatch.error, render.error, and bootstrap', function (): void {
 
             $eventManager = Double::instance(['implements' => EventManagerInterface::class]);
             expect($eventManager)->toReceive('attach')->with(MvcEvent::EVENT_RENDER_ERROR, [$this->listener, 'exceptionError']);
@@ -124,9 +124,9 @@ describe('Mvc', function () {
 
     });
 
-    describe('->exceptionError()', function () {
+    describe('->exceptionError()', function (): void {
 
-        it('return null for !$e->getParam("exception")', function () {
+        it('return null for !$e->getParam("exception")', function (): void {
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
             allow($mvcEvent)->toReceive('getParam')->andReturn(null);
@@ -136,7 +136,7 @@ describe('Mvc', function () {
 
         });
 
-        it('call logging->handleErrorException() if $e->getParam("exception") and display_errors = 1', function () {
+        it('call logging->handleErrorException() if $e->getParam("exception") and display_errors = 1', function (): void {
 
             $config = $this->config;
             $config['display-settings']['display_errors'] = 1;
@@ -166,7 +166,7 @@ describe('Mvc', function () {
 
         });
 
-        it('call logging->handleErrorException() with default console error message if $e->getParam("exception") and display_errors = 0', function () {
+        it('call logging->handleErrorException() with default console error message if $e->getParam("exception") and display_errors = 0', function (): void {
 
             Console::overrideIsConsole(true);
 
@@ -186,7 +186,7 @@ describe('Mvc', function () {
             );
 
             \ob_start();
-            $closure = function () use ($listener, $mvcEvent) {
+            $closure = function () use ($listener, $mvcEvent): void {
                 $listener->exceptionError($mvcEvent);
             };
             expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
@@ -195,7 +195,7 @@ describe('Mvc', function () {
             expect($content)->toContain('|We have encountered a problem');
         });
 
-        it('call logging->handleErrorException() with default view error if $e->getParam("exception") and display_errors = 0 and not a console', function () {
+        it('call logging->handleErrorException() with default view error if $e->getParam("exception") and display_errors = 0 and not a console', function (): void {
 
             Console::overrideIsConsole(false);
             $exception = new Exception('message');
@@ -208,7 +208,7 @@ describe('Mvc', function () {
 
             \ob_start();
             allow($this->renderer)->toReceive('render')->andReturn(include __DIR__ . '/../../view/error-hero-module/error-default.phtml');
-            $closure = function () use ($mvcEvent) {
+            $closure = function () use ($mvcEvent): void {
                 $this->listener->exceptionError($mvcEvent, Double::instance(['extends' => Request::class, 'methods' => '__construct']));
             };
             $content = \ob_get_clean();
@@ -217,7 +217,7 @@ describe('Mvc', function () {
 
         });
 
-        it('do not call logging->handleErrorException() if $e->getParam("exception") and has excluded exception match', function () {
+        it('do not call logging->handleErrorException() if $e->getParam("exception") and has excluded exception match', function (): void {
 
             $config = $this->config;
             $config['display-settings']['exclude-exceptions'] = [Exception::class];
@@ -246,16 +246,16 @@ describe('Mvc', function () {
 
     });
 
-    describe('->phpFatalErrorHandler()', function ()  {
+    describe('->phpFatalErrorHandler()', function (): void  {
 
-        it('returns buffer on no error', function () {
+        it('returns buffer on no error', function (): void {
 
             allow('error_get_last')->toBeCalled()->andReturn(null);
             expect($this->listener->phpFatalErrorHandler('root'))->toBe('root');
 
         });
 
-        it('returns buffer on error has "Uncaught" prefix', function () {
+        it('returns buffer on error has "Uncaught" prefix', function (): void {
 
             allow('error_get_last')->toBeCalled()->andReturn([
                 'message' => 'Uncaught',
@@ -265,7 +265,7 @@ describe('Mvc', function () {
 
         });
 
-        it('returns message value on error not has "Uncaught" prefix and result is empty', function () {
+        it('returns message value on error not has "Uncaught" prefix and result is empty', function (): void {
 
             allow('error_get_last')->toBeCalled()->andReturn([
                 'message' => 'Fatal',
@@ -277,16 +277,16 @@ describe('Mvc', function () {
 
     });
 
-    describe('->execOnShutdown()', function ()  {
+    describe('->execOnShutdown()', function (): void  {
 
-        it('call error_get_last() and return nothing and no result', function () {
+        it('call error_get_last() and return nothing and no result', function (): void {
 
             allow('error_get_last')->toBeCalled()->andReturn(null);
             expect($this->listener->execOnShutdown())->toBeNull();
 
         });
 
-        it('call error_get_last() and return nothing on result with "Uncaught" prefix', function () {
+        it('call error_get_last() and return nothing on result with "Uncaught" prefix', function (): void {
 
             allow('error_get_last')->toBeCalled()->andReturn([
                 'message' => 'Uncaught',
@@ -296,7 +296,7 @@ describe('Mvc', function () {
 
         });
 
-        it('call error_get_last() and property_exists() after null check passed', function () {
+        it('call error_get_last() and property_exists() after null check passed', function (): void {
 
             allow('error_get_last')->toBeCalled()->andReturn([
                 'type' => 3,
@@ -424,9 +424,9 @@ describe('Mvc', function () {
 
     });
 
-    describe('->phpErrorHandler()', function () {
+    describe('->phpErrorHandler()', function (): void {
 
-        it('error_reporting() returns 0', function () {
+        it('error_reporting() returns 0', function (): void {
 
             allow('error_reporting')->tobeCalled()->andReturn(0);
             $actual = $this->listener->phpErrorHandler(2, 'mkdir(): File exists', 'file.php', 6);
@@ -435,9 +435,9 @@ describe('Mvc', function () {
 
         });
 
-        it('throws ErrorException on non excluded php errors', function () {
+        it('throws ErrorException on non excluded php errors', function (): void {
 
-            $closure = function () {
+            $closure = function (): void {
                  $this->listener->phpErrorHandler(\E_WARNING, 'warning', 'file.php', 1);
             };
             expect($closure)->toThrow(new ErrorException('warning', 0, \E_WARNING, 'file.php', 1));

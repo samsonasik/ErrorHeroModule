@@ -12,9 +12,9 @@ use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Log\Writer\Db as DbWriter;
 use ReflectionProperty;
 
-describe('Db', function () {
+describe('Db', function (): void {
 
-    beforeAll(function () {
+    beforeAll(function (): void {
 
         $this->dbWriter = Double::instance(['extends' => DbWriter::class, 'methods' => '__construct']);
         $reflectionProperty = new ReflectionProperty($this->dbWriter, 'db');
@@ -56,9 +56,9 @@ describe('Db', function () {
         $this->logWritersConfig
     ));
 
-    describe('__construct', function () {
+    describe('__construct', function (): void {
 
-        it('instanceof '. Db::class, function () {
+        it('instanceof '. Db::class, function (): void {
 
             $actual = $this->writerHandler;
             expect($actual)->toBeAnInstanceOf(Db::class);
@@ -67,9 +67,9 @@ describe('Db', function () {
 
     });
 
-    describe('->isExists()', function () {
+    describe('->isExists()', function (): void {
 
-        it('return false if no current data', function () {
+        it('return false if no current data', function (): void {
 
             $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
@@ -90,7 +90,7 @@ describe('Db', function () {
 
         });
 
-        it('return false if has current data but timestamp is expired', function () {
+        it('return false if has current data but timestamp is expired', function (): void {
 
             $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
@@ -121,7 +121,7 @@ describe('Db', function () {
 
         });
 
-        it('return true if has current data but timestamp === current time', function () {
+        it('return true if has current data but timestamp === current time', function (): void {
 
             $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
             allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);

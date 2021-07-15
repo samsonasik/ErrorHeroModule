@@ -38,9 +38,9 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
 
     });
 
-    describe('/error-preview', function() {
+    describe('/error-preview', function(): void {
 
-        it('show error page at for exception', function() {
+        it('show error page at for exception', function(): void {
 
             Quit::disable();
 
@@ -61,9 +61,9 @@ describe('Integration via ErrorPreviewController with enable send mail', functio
 
     });
 
-    describe('/error-preview/error', function() {
+    describe('/error-preview/error', function(): void {
 
-        it('show error page for E_* error', function() {
+        it('show error page for E_* error', function(): void {
 
             Quit::disable();
 

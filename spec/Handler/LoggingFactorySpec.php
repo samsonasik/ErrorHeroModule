@@ -13,7 +13,7 @@ use Laminas\Mail\Transport\TransportInterface;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 
-describe('LoggingFactorySpec', function () {
+describe('LoggingFactorySpec', function (): void {
 
     given('factory', fn() => new LoggingFactory());
 
@@ -98,9 +98,9 @@ describe('LoggingFactorySpec', function () {
         ],
     ]);
 
-    describe('__invoke()', function () {
+    describe('__invoke()', function (): void {
 
-        it('instance of Logging on non-console with container does not has "Request" service', function () {
+        it('instance of Logging on non-console with container does not has "Request" service', function (): void {
 
             Console::overrideIsConsole(false);
             $config = $this->config;
@@ -120,7 +120,7 @@ describe('LoggingFactorySpec', function () {
 
         });
 
-        it('instance of Logging without bring Laminas\Mail\Message and Laminas\Mail\Transport if email-notification-settings is disabled', function () {
+        it('instance of Logging without bring Laminas\Mail\Message and Laminas\Mail\Transport if email-notification-settings is disabled', function (): void {
 
             $config = $this->config;
 
@@ -137,7 +137,7 @@ describe('LoggingFactorySpec', function () {
 
         });
 
-        it('throw RuntimeException if Logging try bring non-existence Laminas\Mail\Message service while email-notification-settings is enabled', function () {
+        it('throw RuntimeException if Logging try bring non-existence Laminas\Mail\Message service while email-notification-settings is enabled', function (): void {
 
             $config = $this->config;
             $config['error-hero-module']['email-notification-settings']['enable'] = true;
@@ -150,7 +150,7 @@ describe('LoggingFactorySpec', function () {
             allow($container)->toReceive('get')->with('ErrorHeroModuleLogger')
                                                ->andReturn($logger);
 
-            $closure = function () use ($container) {
+            $closure = function () use ($container): void {
                 $this->factory($container);
             };
 
@@ -158,7 +158,7 @@ describe('LoggingFactorySpec', function () {
 
         });
 
-        it('throw RuntimeException if Logging try bring non-existence Laminas\Mail\Transport\TransportInterface service while email-notification-settings is enabled', function () {
+        it('throw RuntimeException if Logging try bring non-existence Laminas\Mail\Transport\TransportInterface service while email-notification-settings is enabled', function (): void {
 
             $config = $this->config;
             $config['error-hero-module']['email-notification-settings']['enable'] = true;
@@ -174,7 +174,7 @@ describe('LoggingFactorySpec', function () {
             allow($container)->toReceive('get')->with('MailMessageService')
                                                ->andReturn(new Message());
 
-            $closure = function () use ($container) {
+            $closure = function () use ($container): void {
                 $this->factory($container);
             };
 
@@ -182,7 +182,7 @@ describe('LoggingFactorySpec', function () {
 
         });
 
-        it('instance of Logging with bring Laminas\Mail\Message and Laminas\Mail\Transport if email-notification-settings is enabled and both services exist', function () {
+        it('instance of Logging with bring Laminas\Mail\Message and Laminas\Mail\Transport if email-notification-settings is enabled and both services exist', function (): void {
 
             $config = $this->config;
             $config['error-hero-module']['email-notification-settings']['enable'] = true;

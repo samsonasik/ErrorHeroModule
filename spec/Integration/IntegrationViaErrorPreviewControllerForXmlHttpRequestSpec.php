@@ -9,7 +9,7 @@ use Laminas\Mvc\Application;
 
 describe('Integration via ErrorPreviewController for XmlHttpRequest', function () {
 
-    given('application', function () {
+    given('application', function (): Application {
 
         Console::overrideIsConsole(false);
 
@@ -29,9 +29,9 @@ describe('Integration via ErrorPreviewController for XmlHttpRequest', function (
 
     });
 
-    describe('/error-preview', function() {
+    describe('/error-preview', function(): void {
 
-        it('show error page', function() {
+        it('show error page', function(): void {
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');

@@ -5,11 +5,11 @@ namespace ErrorHeroModule\Spec\Handler\Formatter;
 use DateTime;
 use ErrorHeroModule\Handler\Formatter\Json;
 
-describe('Json', function () {
+describe('Json', function (): void {
 
-    describe('->format()', function () {
+    describe('->format()', function (): void {
 
-        it('format json', function () {
+        it('format json', function (): void {
 
             $event = [
               'timestamp' => DateTime::__set_state([

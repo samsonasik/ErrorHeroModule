@@ -9,13 +9,13 @@ use Kahlan\Plugin\Double;
 use Laminas\View\Renderer\PhpRenderer;
 use Psr\Container\ContainerInterface;
 
-describe('MvcFactory', function () {
+describe('MvcFactory', function (): void {
 
     given('factory', fn() => new MvcFactory());
 
-    describe('__invoke()', function () {
+    describe('__invoke()', function (): void {
 
-        it('return Mvc Listener instance', function () {
+        it('return Mvc Listener instance', function (): void {
 
             $config = [
                 'error-hero-module' => [

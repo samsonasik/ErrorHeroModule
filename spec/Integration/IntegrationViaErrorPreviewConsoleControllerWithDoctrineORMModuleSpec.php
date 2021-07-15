@@ -41,9 +41,9 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
 
     });
 
-    describe('error-preview', function() {
+    describe('error-preview', function(): void {
 
-        it('show error page', function() {
+        it('show error page', function(): void {
 
             Quit::disable();
 
@@ -55,7 +55,7 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
             ];
 
             \ob_start();
-            $closure = function () {
+            $closure = function (): void {
                 $this->application->run();
             };
             expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
@@ -67,9 +67,9 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
 
     });
 
-    describe('error-preview error', function() {
+    describe('error-preview error', function(): void {
 
-        it('show error page', function() {
+        it('show error page', function(): void {
 
             Quit::disable();
 
@@ -81,7 +81,7 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
             ];
 
             \ob_start();
-            $closure = function () {
+            $closure = function (): void {
                 $this->application->run();
             };
             expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));

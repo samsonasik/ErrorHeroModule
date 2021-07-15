@@ -10,7 +10,7 @@ use Laminas\Mvc\Application;
 
 describe('Integration via ErrorPreviewController For Idempotent Spec', function () {
 
-    given('application', function () {
+    given('application', function (): Application {
 
         Console::overrideIsConsole(false);
 
@@ -39,9 +39,9 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
 
     });
 
-    describe('/error-preview', function() {
+    describe('/error-preview', function(): void {
 
-        it('show error page', function() {
+        it('show error page', function(): void {
 
             $this->tableGateway->delete([]);
             $countBefore = $this->tableGateway->select()->count();
@@ -66,7 +66,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
 
         });
 
-        it('show error page, idempotent for error exist check in DB', function() {
+        it('show error page, idempotent for error exist check in DB', function(): void {
 
             $countBefore = $this->tableGateway->select()->count();
 
@@ -92,9 +92,9 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
 
     });
 
-    describe('/error-preview/error', function() {
+    describe('/error-preview/error', function(): void {
 
-        it('show error page', function() {
+        it('show error page', function(): void {
 
             $this->tableGateway->delete([]);
             $countBefore = $this->tableGateway->select()->count();
@@ -118,7 +118,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
 
         });
 
-        it('show error page, idempotent for error exist check in DB', function() {
+        it('show error page, idempotent for error exist check in DB', function(): void {
 
             $countBefore = $this->tableGateway->select()->count();
 

@@ -34,9 +34,9 @@ describe('Integration via ErrorPreviewController', function () {
 
     });
 
-    describe('/error-preview', function() {
+    describe('/error-preview', function(): void {
 
-        it('empty as rely to original mvc process to handle', function() {
+        it('empty as rely to original mvc process to handle', function(): void {
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
@@ -54,9 +54,9 @@ describe('Integration via ErrorPreviewController', function () {
 
     });
 
-    describe('/error-preview/warning', function() {
+    describe('/error-preview/warning', function(): void {
 
-        it('empty as rely to original mvc process to handle', function() {
+        it('empty as rely to original mvc process to handle', function(): void {
 
             @mkdir(__DIR__ . '/../Fixture/view/error-hero-module/error-preview', 0755, true);
             file_put_contents(__DIR__ . '/../Fixture/view/error-hero-module/error-preview/warning.phtml', '');
@@ -82,9 +82,9 @@ describe('Integration via ErrorPreviewController', function () {
 
     });
 
-    describe('/error-preview/error', function() {
+    describe('/error-preview/error', function(): void {
 
-        it('empty as rely to original mvc process to handle', function() {
+        it('empty as rely to original mvc process to handle', function(): void {
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');

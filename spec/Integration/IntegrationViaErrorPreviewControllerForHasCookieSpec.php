@@ -39,9 +39,9 @@ describe('Integration via ErrorPreviewController for has cookie', function () {
 
     });
 
-    describe('/error-preview', function() {
+    describe('/error-preview', function(): void {
 
-        it('show error page', function() {
+        it('show error page', function(): void {
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
@@ -60,9 +60,9 @@ describe('Integration via ErrorPreviewController for has cookie', function () {
 
     });
 
-    describe('/error-preview/error', function() {
+    describe('/error-preview/error', function(): void {
 
-        it('show error page', function() {
+        it('show error page', function(): void {
 
             $request     = $this->application->getRequest();
             $request->setMethod('GET');
