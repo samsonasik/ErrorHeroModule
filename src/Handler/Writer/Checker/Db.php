@@ -14,6 +14,21 @@ use function strtotime;
 
 class Db
 {
+    /**
+     * @var string
+     */
+    private const OPTIONS = 'options';
+
+    /**
+     * @var string
+     */
+    private const COLUMN = 'column';
+
+    /**
+     * @var string
+     */
+    private const EXTRA = 'extra';
+
     public function __construct(
         private DbWriter $dbWriter,
         private array $configLoggingSettings,
@@ -34,15 +49,15 @@ class Db
         foreach ($this->logWritersConfig as $logWriterConfig) {
             if ($logWriterConfig['name'] === 'db') {
                 // table definition
-                $table = $logWriterConfig['options']['table'];
+                $table = $logWriterConfig[self::OPTIONS]['table'];
 
                 // columns definition
-                $timestamp  = $logWriterConfig['options']['column']['timestamp'];
-                $message    = $logWriterConfig['options']['column']['message'];
-                $file       = $logWriterConfig['options']['column']['extra']['file'];
-                $line       = $logWriterConfig['options']['column']['extra']['line'];
-                $url        = $logWriterConfig['options']['column']['extra']['url'];
-                $error_type = $logWriterConfig['options']['column']['extra']['error_type'];
+                $timestamp  = $logWriterConfig[self::OPTIONS][self::COLUMN]['timestamp'];
+                $message    = $logWriterConfig[self::OPTIONS][self::COLUMN]['message'];
+                $file       = $logWriterConfig[self::OPTIONS][self::COLUMN][self::EXTRA]['file'];
+                $line       = $logWriterConfig[self::OPTIONS][self::COLUMN][self::EXTRA]['line'];
+                $url        = $logWriterConfig[self::OPTIONS][self::COLUMN][self::EXTRA]['url'];
+                $error_type = $logWriterConfig[self::OPTIONS][self::COLUMN][self::EXTRA]['error_type'];
 
                 $tableGateway = new TableGateway($table, $db, null, new ResultSet());
                 $select       = $tableGateway->getSql()->select();

@@ -19,6 +19,11 @@ use const PHP_EOL;
 class Json extends BaseJson implements FormatterInterface
 {
     /**
+     * @var string
+     */
+    private const TIMESTAMP = 'timestamp';
+
+    /**
      * @param array $event event data
      * @return string formatted line to write to the log
      */
@@ -26,10 +31,10 @@ class Json extends BaseJson implements FormatterInterface
     {
         static $timestamp;
 
-        if (! $timestamp && isset($event['timestamp']) && $event['timestamp'] instanceof DateTime) {
-            $timestamp = $event['timestamp']->format($this->getDateTimeFormat());
+        if (! $timestamp && isset($event[self::TIMESTAMP]) && $event[self::TIMESTAMP] instanceof DateTime) {
+            $timestamp = $event[self::TIMESTAMP]->format($this->getDateTimeFormat());
         }
-        $event['timestamp'] = $timestamp;
+        $event[self::TIMESTAMP] = $timestamp;
 
         return str_replace(
             '\n',

@@ -35,6 +35,40 @@ class Logging
     private array $configLoggingSettings = [];
     private array $emailReceivers        = [];
     private string $emailSender;
+    /**
+     * @var string
+     */
+    private const PRIORITY = 'priority';
+
+    /**
+     * @var string
+     */
+    private const ERROR_TYPE = 'errorType';
+
+    /**
+     * @var string
+     */
+    private const ERROR_FILE = 'errorFile';
+
+    /**
+     * @var string
+     */
+    private const ERROR_LINE = 'errorLine';
+
+    /**
+     * @var string
+     */
+    private const TRACE = 'trace';
+
+    /**
+     * @var string
+     */
+    private const ERROR_MESSAGE = 'errorMessage';
+
+    /**
+     * @var string
+     */
+    private const SERVER_URL = 'server_url';
 
     public function __construct(
         private Logger $logger,
@@ -105,12 +139,12 @@ class Logging
         $errorMessage  = $throwable->getMessage();
 
         return [
-            'priority'     => $priority,
-            'errorType'    => $errorType,
-            'errorFile'    => $errorFile,
-            'errorLine'    => $errorLine,
-            'trace'        => $traceAsString,
-            'errorMessage' => $errorMessage,
+            self::PRIORITY      => $priority,
+            self::ERROR_TYPE    => $errorType,
+            self::ERROR_FILE    => $errorFile,
+            self::ERROR_LINE    => $errorLine,
+            self::TRACE         => $traceAsString,
+            self::ERROR_MESSAGE => $errorMessage,
         ];
     }
 
@@ -137,13 +171,13 @@ class Logging
         }
 
         return [
-            'server_url'   => $serverUrl,
-            'url'          => $url,
-            'file'         => $collectedExceptionData['errorFile'],
-            'line'         => $collectedExceptionData['errorLine'],
-            'error_type'   => $collectedExceptionData['errorType'],
-            'trace'        => $collectedExceptionData['trace'],
-            'request_data' => $this->getRequestData($request),
+            self::SERVER_URL => $serverUrl,
+            'url'            => $url,
+            'file'           => $collectedExceptionData[self::ERROR_FILE],
+            'line'           => $collectedExceptionData[self::ERROR_LINE],
+            'error_type'     => $collectedExceptionData[self::ERROR_TYPE],
+            self::TRACE      => $collectedExceptionData[self::TRACE],
+            'request_data'   => $this->getRequestData($request),
         ];
     }
 
@@ -213,34 +247,38 @@ class Logging
     {
         $collectedExceptionData = $this->collectErrorExceptionData($throwable);
         $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData, $request);
-        $serverUrl              = $extra['server_url'];
+        $serverUrl              = $extra[self::SERVER_URL];
 
         try {
             if (
                 $this->isExists(
-                    $collectedExceptionData['errorFile'],
-                    $collectedExceptionData['errorLine'],
-                    $collectedExceptionData['errorMessage'],
+                    $collectedExceptionData[self::ERROR_FILE],
+                    $collectedExceptionData[self::ERROR_LINE],
+                    $collectedExceptionData[self::ERROR_MESSAGE],
                     $extra['url'],
-                    $collectedExceptionData['errorType']
+                    $collectedExceptionData[self::ERROR_TYPE]
                 )
             ) {
                 return;
             }
 
-            unset($extra['server_url']);
-            $this->logger->log($collectedExceptionData['priority'], $collectedExceptionData['errorMessage'], $extra);
+            unset($extra[self::SERVER_URL]);
+            $this->logger->log(
+                $collectedExceptionData[self::PRIORITY],
+                $collectedExceptionData[self::ERROR_MESSAGE],
+                $extra
+            );
         } catch (RuntimeException $e) {
             $collectedExceptionData = $this->collectErrorExceptionData($e);
             $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData, $request);
-            unset($extra['server_url']);
+            unset($extra[self::SERVER_URL]);
         }
 
         $this->sendMail(
-            $collectedExceptionData['priority'],
-            $collectedExceptionData['errorMessage'],
+            $collectedExceptionData[self::PRIORITY],
+            $collectedExceptionData[self::ERROR_MESSAGE],
             $extra,
-            '[' . $serverUrl . '] ' . $collectedExceptionData['errorType'] . ' has thrown'
+            '[' . $serverUrl . '] ' . $collectedExceptionData[self::ERROR_TYPE] . ' has thrown'
         );
     }
 }

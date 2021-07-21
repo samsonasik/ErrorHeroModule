@@ -24,7 +24,15 @@ class Mvc extends AbstractListenerAggregate
 {
     use HeroTrait;
 
-    private ?MvcEvent $mvcEvent = null;
+    /**
+     * @var string
+     */
+    private const DISPLAY_SETTINGS = 'display-settings';
+
+    /**
+     * @var string
+     */
+    private const MESSAGE = 'message';
 
     public function __construct(
         private array $errorHeroModuleConfig,
@@ -58,8 +66,11 @@ class Mvc extends AbstractListenerAggregate
         }
 
         if (
-            isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])
-            && isExcludedException($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'], $exception)
+            isset($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['exclude-exceptions'])
+            && isExcludedException(
+                $this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['exclude-exceptions'],
+                $exception
+            )
         ) {
             // rely on original mvc process
             return;
@@ -70,7 +81,7 @@ class Mvc extends AbstractListenerAggregate
             $request = $mvcEvent->getRequest()
         );
 
-        if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
+        if ($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['display_errors']) {
             // rely on original mvc process
             return;
         }
@@ -95,9 +106,9 @@ class Mvc extends AbstractListenerAggregate
             $isXmlHttpRequest = $request->isXmlHttpRequest();
             if (
                 $isXmlHttpRequest &&
-                isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
+                isset($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['ajax'][self::MESSAGE])
             ) {
-                $message     = $this->errorHeroModuleConfig['display-settings']['ajax']['message'];
+                $message     = $this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['ajax'][self::MESSAGE];
                 $contentType = detectMessageContentType($message);
 
                 $response->getHeaders()->addHeaderLine('Content-type', $contentType);
@@ -108,10 +119,10 @@ class Mvc extends AbstractListenerAggregate
             }
 
             $model = $mvcEvent->getViewModel();
-            $model->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
+            $model->setTemplate($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['template']['layout']);
             $model->setVariable(
                 $model->captureTo(),
-                $this->phpRenderer->render($this->errorHeroModuleConfig['display-settings']['template']['view'])
+                $this->phpRenderer->render($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['template']['view'])
             );
 
             $response->setContent($this->phpRenderer->render($model));
@@ -127,7 +138,7 @@ class Mvc extends AbstractListenerAggregate
             'columnWidths' => [150],
         ]);
         $table->setDecorator('ascii');
-        $table->appendRow([$this->errorHeroModuleConfig['display-settings']['console']['message']]);
+        $table->appendRow([$this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['console'][self::MESSAGE]]);
 
         $response->setContent($table->render());
         $response->send();

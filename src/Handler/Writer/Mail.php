@@ -27,6 +27,11 @@ use const PHP_EOL;
 class Mail extends BaseMail
 {
     /**
+     * @var string
+     */
+    private const NAME = 'name';
+
+    /**
      * @throws LogException\InvalidArgumentException
      */
     public function __construct(
@@ -86,7 +91,7 @@ class Mail extends BaseMail
     private function bodyAddPart(MimeMessage $mimeMessage, array $data): MimeMessage
     {
         foreach ($data as $singleData) {
-            if (key($singleData) === 'name' && ! is_array($singleData['name'])) {
+            if (key($singleData) === self::NAME && ! is_array($singleData[self::NAME])) {
                 $mimeMessage = $this->singleBodyAddPart($mimeMessage, $singleData);
                 continue;
             }
@@ -101,7 +106,7 @@ class Mail extends BaseMail
     {
         $mimePart              = new Part(fopen($data['tmp_name'], 'r'));
         $mimePart->type        = $data['type'];
-        $mimePart->filename    = $data['name'];
+        $mimePart->filename    = $data[self::NAME];
         $mimePart->disposition = Mime::DISPOSITION_ATTACHMENT;
         $mimePart->encoding    = Mime::ENCODING_BASE64;
 

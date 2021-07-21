@@ -31,6 +31,11 @@ class Mezzio implements MiddlewareInterface
     private ?ServerRequestInterface $request = null;
 
     /**
+     * @var string
+     */
+    private const DISPLAY_SETTINGS = 'display-settings';
+
+    /**
      * @param mixed[] $errorHeroModuleConfig
      */
     public function __construct(
@@ -66,8 +71,11 @@ class Mezzio implements MiddlewareInterface
     public function exceptionError(Throwable $throwable): Response
     {
         if (
-            isset($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'])
-            && isExcludedException($this->errorHeroModuleConfig['display-settings']['exclude-exceptions'], $throwable)
+            isset($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['exclude-exceptions'])
+            && isExcludedException(
+                $this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['exclude-exceptions'],
+                $throwable
+            )
         ) {
             throw $throwable;
         }
@@ -79,7 +87,7 @@ class Mezzio implements MiddlewareInterface
             Psr7ServerRequest::toLaminas($request)
         );
 
-        if ($this->errorHeroModuleConfig['display-settings']['display_errors']) {
+        if ($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['display_errors']) {
             throw $throwable;
         }
 
@@ -100,14 +108,14 @@ class Mezzio implements MiddlewareInterface
 
         if (
             $isXmlHttpRequest &&
-            isset($this->errorHeroModuleConfig['display-settings']['ajax']['message'])
+            isset($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['ajax']['message'])
         ) {
             return $this->responseByConfigMessage('ajax');
         }
 
         if ($this->templateRenderer instanceof LaminasViewRenderer) {
             $viewModel = new ViewModel();
-            $viewModel->setTemplate($this->errorHeroModuleConfig['display-settings']['template']['layout']);
+            $viewModel->setTemplate($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['template']['layout']);
 
             $rendererLayout = &Closure::bind(
                 static fn&($renderer) => $renderer->layout,
@@ -118,14 +126,14 @@ class Mezzio implements MiddlewareInterface
         }
 
         return new HtmlResponse(
-            $this->templateRenderer->render($this->errorHeroModuleConfig['display-settings']['template']['view']),
+            $this->templateRenderer->render($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['template']['view']),
             500
         );
     }
 
     private function responseByConfigMessage(string $key): Response
     {
-        $message     = $this->errorHeroModuleConfig['display-settings'][$key]['message'];
+        $message     = $this->errorHeroModuleConfig[self::DISPLAY_SETTINGS][$key]['message'];
         $contentType = detectMessageContentType($message);
 
         $response = new Response();
