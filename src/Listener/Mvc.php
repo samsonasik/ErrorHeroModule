@@ -24,6 +24,8 @@ class Mvc extends AbstractListenerAggregate
 {
     use HeroTrait;
 
+    private ?MvcEvent $mvcEvent = null;
+
     /**
      * @var string
      */
