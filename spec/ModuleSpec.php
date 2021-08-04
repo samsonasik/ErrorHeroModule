@@ -17,9 +17,9 @@ use PDO;
 
 describe('Module', function (): void {
 
-    given('module', fn() => new Module());
+    given('module', fn() : Module => new Module());
 
-    given('config', fn() => [
+    given('config', fn() : array => [
         'log' => [
             'ErrorHeroModuleLogger' => [
                 'writers' => [

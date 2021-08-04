@@ -25,14 +25,14 @@ use PDO;
 
 describe('Mvc', function (): void {
 
-    given('logging', fn() => Double::instance([
+    given('logging', fn() : object => Double::instance([
         'extends' => Logging::class,
         'methods' => '__construct'
     ]));
 
-    given('renderer', fn() => Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']));
+    given('renderer', fn() : object => Double::instance(['extends' => PhpRenderer::class, 'methods' => '__construct']));
 
-    given('config', fn() => [
+    given('config', fn() : array => [
         'enable' => true,
         'display-settings' => [
 
@@ -79,7 +79,7 @@ describe('Mvc', function (): void {
         ],
     ]);
 
-    given('listener', fn() => new Mvc(
+    given('listener', fn() : Mvc => new Mvc(
         $this->config,
         $this->logging,
         $this->renderer

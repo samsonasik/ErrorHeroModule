@@ -15,9 +15,9 @@ use RuntimeException;
 
 describe('LoggingFactorySpec', function (): void {
 
-    given('factory', fn() => new LoggingFactory());
+    given('factory', fn() : LoggingFactory => new LoggingFactory());
 
-    given('config', fn() => [
+    given('config', fn() : array => [
         'log' => [
             'ErrorHeroModuleLogger' => [
                 'writers' => [

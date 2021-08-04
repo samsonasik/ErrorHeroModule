@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Transformer;
 
 use Closure;
+use Laminas\Log\Logger;
 use Northwoods\Container\InjectorContainer as AurynInjectorContainer;
 use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;
@@ -19,7 +20,7 @@ class AurynService extends TransformerAbstract implements TransformerInterface
         $logger          = parent::getLoggerInstance($configuration, $dbAdapterConfig);
 
         $injector = &Closure::bind(static fn&($container) => $container->injector, null, $container)($container);
-        $injector->delegate('ErrorHeroModuleLogger', fn() => $logger);
+        $injector->delegate('ErrorHeroModuleLogger', fn(): Logger => $logger);
 
         return $container;
     }

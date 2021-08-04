@@ -25,7 +25,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 describe('Mezzio', function () {
 
-    given('logging', fn() => Double::instance([
+    given('logging', fn() : object => Double::instance([
         'extends' => Logging::class,
         'methods' => '__construct'
     ]));
@@ -85,7 +85,7 @@ describe('Mezzio', function () {
 
     });
 
-    given('config', fn() => [
+    given('config', fn() : array => [
         'enable' => true,
         'display-settings' => [
 
@@ -151,7 +151,7 @@ json
         ],
     ]);
 
-    given('logWritersConfig', fn() => [
+    given('logWritersConfig', fn() : array => [
 
         [
             'name' => 'db',
@@ -208,7 +208,7 @@ json
         );
     });
 
-    given('request', fn() => new ServerRequest(
+    given('request', fn() : ServerRequest => new ServerRequest(
         [],
         [],
         new Uri('http://example.com'),
@@ -221,7 +221,7 @@ json
         '1.2'
     ));
 
-    given('middleware', fn() => new Mezzio(
+    given('middleware', fn() : Mezzio => new Mezzio(
         $this->config,
         $this->logging,
         $this->renderer

@@ -106,7 +106,7 @@ describe('LoggingSpec', function (): void {
         $this->logger->addWriter($this->dbWriter);
     });
 
-    given('logging', fn() => new Logging(
+    given('logging', fn() : Logging => new Logging(
         $this->logger,
         $this->errorHeroModuleLocalConfig,
         $this->logWritersConfig,

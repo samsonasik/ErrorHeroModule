@@ -25,16 +25,16 @@ use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBu
 
 describe('MezzioFactory', function (): void {
 
-    given('factory', fn() => new MezzioFactory());
+    given('factory', fn() : MezzioFactory => new MezzioFactory());
 
-    given('mapCreateContainers', fn() => [
+    given('mapCreateContainers', fn() : array => [
         AuraContainer::class               => (new AuraContainerBuilder())->newInstance(),
         SymfonyContainerBuilder::class     => new SymfonyContainerBuilder(),
         AurynInjectorContainer::class      => new AurynInjectorContainer(new Injector()),
         Psr11PimpleContainer::class        => new Psr11PimpleContainer(new PimpleContainer()),
     ]);
 
-    given('config', fn() => [
+    given('config', fn() : array => [
 
         'db' => [
             'username' => 'root',

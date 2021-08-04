@@ -50,7 +50,7 @@ describe('Db', function (): void {
         ];
     });
 
-    given('writerHandler', fn() => new Db(
+    given('writerHandler', fn() : \ErrorHeroModule\Handler\Writer\Checker\Db => new Db(
         $this->dbWriter,
         $this->configLoggingSettings,
         $this->logWritersConfig

@@ -11,7 +11,7 @@ use Psr\Container\ContainerInterface;
 
 describe('MvcFactory', function (): void {
 
-    given('factory', fn() => new MvcFactory());
+    given('factory', fn() : MvcFactory => new MvcFactory());
 
     describe('__invoke()', function (): void {
 
