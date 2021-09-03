@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Transformer;
 
 use Doctrine\ORM\EntityManager;
-use Laminas\ServiceManager\ServiceManager as LaminasServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;
 
@@ -13,7 +13,7 @@ class Doctrine extends TransformerAbstract implements TransformerInterface
 {
     public static function transform(ContainerInterface $container, array $configuration): ContainerInterface
     {
-        Assert::isInstanceOf($container, LaminasServiceManager::class);
+        Assert::isInstanceOf($container, ServiceManager::class);
 
         $entityManager          = $container->get(EntityManager::class);
         $doctrineDBALConnection = $entityManager->getConnection();

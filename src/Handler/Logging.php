@@ -33,8 +33,11 @@ use const PHP_EOL;
 class Logging
 {
     private array $configLoggingSettings = [];
-    private array $emailReceivers        = [];
+
+    private array $emailReceivers = [];
+
     private string $emailSender;
+
     /**
      * @var string
      */
@@ -203,6 +206,7 @@ class Logging
                     if ($handlerWriterDb->isExists($errorFile, $errorLine, $errorMessage, $url, $errorType)) {
                         return true;
                     }
+
                     break;
                 } catch (RuntimeException $runtimeException) {
                     // use \Laminas\Db\Adapter\Exception\RuntimeException but do here

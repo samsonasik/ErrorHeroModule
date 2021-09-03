@@ -34,6 +34,7 @@ class Json extends BaseJson implements FormatterInterface
         if (! $timestamp && isset($event[self::TIMESTAMP]) && $event[self::TIMESTAMP] instanceof DateTime) {
             $timestamp = $event[self::TIMESTAMP]->format($this->getDateTimeFormat());
         }
+
         $event[self::TIMESTAMP] = $timestamp;
 
         return str_replace(

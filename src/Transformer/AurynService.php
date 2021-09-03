@@ -6,7 +6,7 @@ namespace ErrorHeroModule\Transformer;
 
 use Closure;
 use Laminas\Log\Logger;
-use Northwoods\Container\InjectorContainer as AurynInjectorContainer;
+use Northwoods\Container\InjectorContainer;
 use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;
 
@@ -14,7 +14,7 @@ class AurynService extends TransformerAbstract implements TransformerInterface
 {
     public static function transform(ContainerInterface $container, array $configuration): ContainerInterface
     {
-        Assert::isInstanceOf($container, AurynInjectorContainer::class);
+        Assert::isInstanceOf($container, InjectorContainer::class);
 
         $dbAdapterConfig = parent::getDbAdapterConfig($configuration);
         $logger          = parent::getLoggerInstance($configuration, $dbAdapterConfig);

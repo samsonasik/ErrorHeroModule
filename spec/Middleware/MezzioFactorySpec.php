@@ -16,7 +16,7 @@ use ErrorHeroModule\Spec\Fixture\NotSupportedContainer;
 use Kahlan\Plugin\Double;
 use Laminas\ServiceManager\ServiceManager;
 use Mezzio\Template\TemplateRendererInterface;
-use Northwoods\Container\InjectorContainer as AurynInjectorContainer;
+use Northwoods\Container\InjectorContainer;
 use PDO;
 use Pimple\Container as PimpleContainer;
 use Pimple\Psr11\Container as Psr11PimpleContainer;
@@ -30,7 +30,7 @@ describe('MezzioFactory', function (): void {
     given('mapCreateContainers', fn() : array => [
         AuraContainer::class               => (new AuraContainerBuilder())->newInstance(),
         SymfonyContainerBuilder::class     => new SymfonyContainerBuilder(),
-        AurynInjectorContainer::class      => new AurynInjectorContainer(new Injector()),
+        InjectorContainer::class      => new InjectorContainer(new Injector()),
         Psr11PimpleContainer::class        => new Psr11PimpleContainer(new PimpleContainer()),
     ]);
 
@@ -207,11 +207,13 @@ describe('MezzioFactory', function (): void {
                 if ($container instanceof AuraContainer) {
                     $config = new ArrayObject($config);
                 }
+
                 allow($container)->toReceive('get')->with('config')
                                                 ->andReturn($config);
                 if ($container instanceof AuraContainer) {
                     $config = $config->getArrayCopy();
                 }
+
                 allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
                 $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
@@ -245,11 +247,13 @@ describe('MezzioFactory', function (): void {
                 if ($container instanceof AuraContainer) {
                     $config = new ArrayObject($config);
                 }
+
                 allow($container)->toReceive('get')->with('config')
                                                 ->andReturn($config);
                 if ($container instanceof AuraContainer) {
                     $config = $config->getArrayCopy();
                 }
+
                 allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
                 $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
@@ -276,11 +280,13 @@ describe('MezzioFactory', function (): void {
                 if ($container instanceof AuraContainer) {
                     $config = new ArrayObject($config);
                 }
+
                 allow($container)->toReceive('get')->with('config')
                                                 ->andReturn($config);
                 if ($container instanceof AuraContainer) {
                     $config = $config->getArrayCopy();
                 }
+
                 allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
                 $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
@@ -306,11 +312,13 @@ describe('MezzioFactory', function (): void {
                 if ($container instanceof AuraContainer) {
                     $config = new ArrayObject($config);
                 }
+
                 allow($container)->toReceive('get')->with('config')
                                                 ->andReturn($config);
                 if ($container instanceof AuraContainer) {
                     $config = $config->getArrayCopy();
                 }
+
                 allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
                 $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);

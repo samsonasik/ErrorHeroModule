@@ -13,7 +13,7 @@ use Laminas\Db\Sql\Sql;
 use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Log\Logger;
-use Laminas\Log\Writer\Db as DbWriter;
+use Laminas\Log\Writer\Db;
 use Laminas\Mail\Message;
 use ReflectionProperty;
 
@@ -98,7 +98,7 @@ describe('LoggingSpec', function (): void {
 
         ];
 
-        $this->dbWriter = Double::instance(['extends' => DbWriter::class, 'methods' => '__construct']);
+        $this->dbWriter = Double::instance(['extends' => Db::class, 'methods' => '__construct']);
         $reflectionProperty = new ReflectionProperty($this->dbWriter, 'db');
         $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($this->dbWriter, Double::instance(['implements' => AdapterInterface::class]));

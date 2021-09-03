@@ -15,11 +15,11 @@ use ErrorHeroModule\Transformer\PimpleService;
 use ErrorHeroModule\Transformer\SymfonyService;
 use Laminas\ServiceManager\ServiceManager;
 use Mezzio\Template\TemplateRendererInterface;
-use Northwoods\Container\InjectorContainer as AurynInjectorContainer;
+use Northwoods\Container\InjectorContainer;
 use Pimple\Psr11\Container as Psr11PimpleContainer;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
-use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Webmozart\Assert\Assert;
 
 use function array_key_exists;
@@ -29,13 +29,13 @@ use function sprintf;
 class MezzioFactory
 {
     /**
-     * @var array<class-string, class-string>
+     * @var array<string, class-string<AuraService>|class-string<AurynService>|class-string<PimpleService>|class-string<SymfonyService>>
      */
     private const CONTAINERS_TRANSFORM = [
-        SymfonyContainerBuilder::class => SymfonyService::class,
-        AuraContainer::class           => AuraService::class,
-        AurynInjectorContainer::class  => AurynService::class,
-        Psr11PimpleContainer::class    => PimpleService::class,
+        ContainerBuilder::class     => SymfonyService::class,
+        AuraContainer::class        => AuraService::class,
+        InjectorContainer::class    => AurynService::class,
+        Psr11PimpleContainer::class => PimpleService::class,
     ];
 
     private function createMiddlewareInstance(ContainerInterface $container, array $configuration): Mezzio
