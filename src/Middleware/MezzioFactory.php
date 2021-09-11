@@ -29,7 +29,7 @@ use function sprintf;
 class MezzioFactory
 {
     /**
-     * @var array<string, class-string<AuraService>|class-string<AurynService>|class-string<PimpleService>|class-string<SymfonyService>>
+     * @var array<class-string, class-string>
      */
     private const CONTAINERS_TRANSFORM = [
         ContainerBuilder::class     => SymfonyService::class,
