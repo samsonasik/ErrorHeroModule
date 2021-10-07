@@ -27,8 +27,7 @@ use const E_STRICT;
 
 trait HeroTrait
 {
-    /** @var string */
-    private $result = '';
+    private string $result = '';
 
     /**
      * @param mixed $args
@@ -108,7 +107,7 @@ trait HeroTrait
      */
     public function phpErrorHandler(int $errorType, string $errorMessage, string $errorFile, int $errorLine): void
     {
-        if (! (error_reporting() & $errorType)) {
+        if ((error_reporting() & $errorType) === 0) {
             return;
         }
 
