@@ -18,7 +18,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::CODING_STYLE);
     $containerConfigurator->import(SetList::CODING_STYLE_ADVANCED);
     $containerConfigurator->import(SetList::DEAD_CODE);
-    $containerConfigurator->import(SetList::DEFLUENT);
     $containerConfigurator->import(SetList::NAMING);
     $containerConfigurator->import(SetList::ORDER);
     $containerConfigurator->import(SetList::PRIVATIZATION);
