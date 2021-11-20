@@ -2,7 +2,6 @@
 
 namespace ErrorHeroModule;
 
-use DoctrineModule\ServiceFactory\AbstractDoctrineServiceFactory;
 use ErrorHeroModule\Controller\ErrorPreviewController;
 use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
 use Laminas\Log\LoggerAbstractServiceFactory;
@@ -10,7 +9,6 @@ use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
-use Laminas\Log;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
@@ -58,7 +56,6 @@ return [
     'service_manager' => [
         'abstract_factories' => [
             LoggerAbstractServiceFactory::class,
-            AbstractDoctrineServiceFactory::class,
         ],
         'factories' => [
             Mvc::class    => MvcFactory::class,
