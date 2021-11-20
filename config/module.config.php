@@ -9,7 +9,6 @@ use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
-use Laminas\Log;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [

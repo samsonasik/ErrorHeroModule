@@ -30,10 +30,10 @@ jobs:
         uses: actions/checkout@v2
       - name: Import DB
         run: "mysql -u root -h 127.0.0.1 -e 'create database errorheromodule' && mysql -u root -h 127.0.0.1 errorheromodule < spec/Fixture/data/sql.sql"
-      - name: "Validate composer.json and composer.lock"
+      - name: "Validate composer.json"
         run: "composer validate"
       - name: "Install dependencies"
-        run: "composer install --prefer-dist --ignore-platform-reqs"
+        run: "composer install --ignore-platform-reqs"
       - name: "CS Check"
         run: "composer cs-check"
       - name: "Code analyze"
@@ -41,7 +41,9 @@ jobs:
           bin/phpstan analyse src/ --level=8 -c phpstan.neon
           bin/rector process --dry-run
       - name: "Run test suite"
-        run: "mkdir -p build/logs && bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml"
+        run: |
+          composer dump-autoload -o
+          mkdir -p build/logs && bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
