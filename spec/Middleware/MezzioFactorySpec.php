@@ -164,7 +164,7 @@ describe('MezzioFactory', function (): void {
                 'dbname'   => 'mysqldbname',
                 'host'     => 'mysqlhost',
                 'port'     => '3306',
-                'driverClass' => 'Doctrine\DBAL\Driver\PDO\MySql\Driver'
+                'driverClass' => Driver::class,
             ]);
             allow($connection)->toReceive('getDriver')->andReturn($driver);
 

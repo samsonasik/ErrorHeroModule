@@ -9,3 +9,4 @@
 /kahlan-config.php export-ignore
 /phpcs.xml export-ignore
 /rector.php export-ignore
+/stubs export-ignore
