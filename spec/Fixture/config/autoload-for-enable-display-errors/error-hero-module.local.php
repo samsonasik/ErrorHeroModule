@@ -18,7 +18,7 @@ return [
         'username' => 'root',
         'password' => '',
         'driver' => 'Pdo',
-        'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
+        'dsn' => 'mysql:dbname=errorheromodule;host=localhost',
         'driver_options' => [
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
         ],

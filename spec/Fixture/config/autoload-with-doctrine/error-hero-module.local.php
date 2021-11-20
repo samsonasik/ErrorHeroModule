@@ -13,7 +13,7 @@ return [
                     'user'     => 'root',
                     'password' => '',
                     'dbname'   => 'errorheromodule',
-                    'host'     => '127.0.0.1',
+                    'host'     => 'localhost',
                     'port'     => '3306',
                     'driverOptions' => [
                         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
