@@ -103,7 +103,10 @@
     "autoload-dev": {
         "psr-4": {
             "ErrorHeroModule\\Spec\\": "spec/"
-        }
+        },
+        "classmap": [
+            "stubs"
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
