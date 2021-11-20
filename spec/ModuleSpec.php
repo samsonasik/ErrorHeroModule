@@ -3,7 +3,7 @@
 namespace ErrorHeroModule\Spec;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\PDOMySql\Driver;
+use Doctrine\DBAL\Driver\PDO\MySql\Driver;
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Module;
 use Kahlan\Plugin\Double;

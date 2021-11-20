@@ -1,6 +1,6 @@
 <?php
 
-use Doctrine\DBAL\Driver\PDOMySql\Driver;
+use Doctrine\DBAL\Driver\PDO\MySql\Driver;
 use Laminas\Db\Adapter\AdapterInterface;
 
 return [
@@ -8,7 +8,7 @@ return [
     'doctrine' => [
         'connection' => [
             'orm_default' => [
-                'driverClass' =>Driver::class,
+                'driverClass' => Driver::class,
                 'params' => [
                     'user'     => 'root',
                     'password' => '',

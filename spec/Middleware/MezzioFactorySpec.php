@@ -7,7 +7,7 @@ use Aura\Di\Container as AuraContainer;
 use Aura\Di\ContainerBuilder as AuraContainerBuilder;
 use Auryn\Injector;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\PDOMySql\Driver;
+use Doctrine\DBAL\Driver\PDO\MySql\Driver;
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Mezzio;
@@ -157,15 +157,16 @@ describe('MezzioFactory', function (): void {
 
             $connection    = Double::instance(['extends' => Connection::class, 'methods' => '__construct']);
             $driver = Double::instance(['extends' => Driver::class, 'methods' => '__construct']);
-            allow($driver)->toReceive('getName')->andReturn('pdo_mysql');
 
-            allow($connection)->toReceive('getParams')->andReturn([]);
-            allow($connection)->toReceive('getUsername')->andReturn('root');
-            allow($connection)->toReceive('getPassword')->andReturn('');
+            allow($connection)->toReceive('getParams')->andReturn([
+                'user'     => 'mysqluser',
+                'password' => 'mysqlpassword',
+                'dbname'   => 'mysqldbname',
+                'host'     => 'mysqlhost',
+                'port'     => '3306',
+                'driverClass' => 'Doctrine\DBAL\Driver\PDO\MySql\Driver'
+            ]);
             allow($connection)->toReceive('getDriver')->andReturn($driver);
-            allow($connection)->toReceive('getDatabase')->andReturn('mydb');
-            allow($connection)->toReceive('getHost')->andReturn('localhost');
-            allow($connection)->toReceive('getPort')->andReturn('3306');
 
             allow($entityManager)->toReceive('getConnection')->andReturn($connection);
             allow($container)->toReceive('get')->with(EntityManager::class)->andReturn(
