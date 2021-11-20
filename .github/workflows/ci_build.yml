@@ -41,7 +41,9 @@ jobs:
           bin/phpstan analyse src/ --level=8 -c phpstan.neon
           bin/rector process --dry-run
       - name: "Run test suite"
-        run: "mkdir -p build/logs && bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml"
+        run: |
+          composer dump-autoload -o
+          mkdir -p build/logs && bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
