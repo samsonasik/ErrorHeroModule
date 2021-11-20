@@ -32,8 +32,6 @@ class Doctrine extends TransformerAbstract implements TransformerInterface
         $driverName                = rtrim($fullUnderscoredDriverName, '_driver');
         [, $driverName]            = explode('driver_', $driverName);
 
-        Assert::startsWithLetter($driverName, 'pdo_');
-
         $dbAdapterConfig = [
             'username'       => $params['user'],
             'password'       => $params['password'],
