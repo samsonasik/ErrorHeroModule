@@ -6,7 +6,6 @@ use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
-use Rector\Php56\Rector\FunctionLike\AddDefaultValueForUndefinedVariableRector;
 use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
@@ -37,6 +36,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         CallableThisArrayToAnonymousFunctionRector::class,
         UnSpreadOperatorRector::class,
         FinalizeClassesWithoutChildrenRector::class,
-        AddDefaultValueForUndefinedVariableRector::class,
     ]);
 };

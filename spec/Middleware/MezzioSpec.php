@@ -231,6 +231,7 @@ json
 
         it('returns handle() when not enabled', function (): void {
 
+            $config = [];
             $config['enable'] = false;
             $handler = Double::instance(['implements' => RequestHandlerInterface::class]);
             allow($handler)->toReceive('handle')->with($this->request)->andReturn(new Response());
