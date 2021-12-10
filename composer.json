@@ -61,7 +61,7 @@
         "aura/di": "^3.4 || ^4.0",
         "doctrine/dbal": "^3.0",
         "doctrine/doctrine-orm-module": "^4.1",
-        "kahlan/kahlan": "^5.1.3",
+        "kahlan/kahlan": "dev-moving-to-github-action",
         "laminas/laminas-coding-standard": "^2.1.1",
         "laminas/laminas-form": "^2.16 || ^3.0",
         "laminas/laminas-mvc": "^3.2",
