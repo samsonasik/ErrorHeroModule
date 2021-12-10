@@ -104,8 +104,8 @@
         "psr-4": {
             "ErrorHeroModule\\Spec\\": "spec/"
         },
-        "classmap": [
-            "stubs"
+        "files": [
+            "vendor/doctrine/dbal/src/Driver/PDO/MySQL/Driver.php"
         ]
     },
     "minimum-stability": "dev",
