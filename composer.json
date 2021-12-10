@@ -103,7 +103,10 @@
     "autoload-dev": {
         "psr-4": {
             "ErrorHeroModule\\Spec\\": "spec/"
-        }
+        },
+        "files": [
+            "vendor/doctrine/dbal/src/Driver/PDO/MySQL/Driver.php"
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
