@@ -20,9 +20,21 @@ class Doctrine extends TransformerAbstract implements TransformerInterface
     {
         Assert::isInstanceOf($container, ServiceManager::class);
 
+        /** @var EntityManager $entityManager */
         $entityManager          = $container->get(EntityManager::class);
         $doctrineDBALConnection = $entityManager->getConnection();
 
+        /**
+         * @var array{
+         *          driverClass: string,
+         *          user: string,
+         *          password: string,
+         *          dbname: string,
+         *          host: string,
+         *          port: int|string,
+         *          driverOptions: array|null
+         * } $params
+         */
         $params        = $doctrineDBALConnection->getParams();
         $driverOptions = $params['driverOptions'] ?? [];
 

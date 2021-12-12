@@ -15,7 +15,7 @@ abstract class TransformerAbstract
     private const DB = 'db';
 
     /**
-     * @return mixed[]
+     * @return array{array{name: string, options: array}}
      */
     private static function getWriterConfig(array $configuration): array
     {
