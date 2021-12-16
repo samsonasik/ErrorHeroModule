@@ -11,6 +11,7 @@ use ErrorHeroModule\Transformer\Doctrine;
 use Laminas\ModuleManager\Listener\ConfigListener;
 use Laminas\ModuleManager\ModuleEvent;
 use Laminas\ModuleManager\ModuleManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class Module
 {
@@ -23,12 +24,15 @@ class Module
 
     public function doctrineTransform(ModuleEvent $moduleEvent): void
     {
+        /** @var ServiceManager $container */
         $container        = $moduleEvent->getParam('ServiceManager');
         $hasEntityManager = $container->has(EntityManager::class);
+
         if (! $hasEntityManager) {
             return;
         }
 
+        /** @var array $configuration */
         $configuration = $container->get('config');
         $configuration['db'] ?? Doctrine::transform($container, $configuration);
     }
@@ -37,6 +41,7 @@ class Module
     {
         /** @var ConfigListener $configListener */
         $configListener = $moduleEvent->getConfigListener();
+        /** @var array $configuration */
         $configuration  = $configListener->getMergedConfig(false);
 
         if (! isset($configuration['error-hero-module']['enable-error-preview-page'])) {
