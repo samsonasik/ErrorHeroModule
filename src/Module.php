@@ -42,7 +42,7 @@ class Module
         /** @var ConfigListener $configListener */
         $configListener = $moduleEvent->getConfigListener();
         /** @var array $configuration */
-        $configuration  = $configListener->getMergedConfig(false);
+        $configuration = $configListener->getMergedConfig(false);
 
         if (! isset($configuration['error-hero-module']['enable-error-preview-page'])) {
             return;
