@@ -30,7 +30,7 @@ describe('Mezzio', function () {
         'methods' => '__construct'
     ]));
 
-    given('renderer', function () {
+    given('renderer', function (): LaminasViewRenderer {
 
         $renderer = new PhpRenderer();
         $resolver = new AggregateResolver();
@@ -176,7 +176,7 @@ json
 
     ]);
 
-    given('dbWriter', function () {
+    given('dbWriter', function (): Db {
         $dbAdapter = new Adapter([
             'username' => 'root',
             'password' => '',

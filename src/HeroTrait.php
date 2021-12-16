@@ -36,7 +36,9 @@ trait HeroTrait
     {
         if ($this instanceof Mvc) {
             Assert::count($args, 1);
-            Assert::isInstanceOf($this->mvcEvent = $args[0], MvcEvent::class);
+            Assert::isInstanceOf($args[0], MvcEvent::class);
+
+            $this->mvcEvent = $args[0];
         }
 
         if (! $this->errorHeroModuleConfig['display-settings']['display_errors']) {

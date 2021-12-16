@@ -30,7 +30,7 @@ describe('Integration via ErrorPreviewController For Idempotent Spec', function 
 
     });
 
-    given('tableGateway', function () {
+    given('tableGateway', function (): TableGateway {
 
         $serviceManager = $this->application->getServiceManager();
         $db             = $serviceManager->get(AdapterInterface::class);
