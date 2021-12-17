@@ -40,12 +40,17 @@ class MezzioFactory
 
     private function createMiddlewareInstance(ContainerInterface $container, array $configuration): Mezzio
     {
+        /** @var Logging $logging */
+        $logging = $container->get(Logging::class);
+        /** @var ?TemplateRendererInterface $templateRenderer */
+        $templateRenderer = $container->has(TemplateRendererInterface::class)
+            ? $container->get(TemplateRendererInterface::class)
+            : null;
+
         return new Mezzio(
             $configuration['error-hero-module'],
-            $container->get(Logging::class),
-            $container->has(TemplateRendererInterface::class)
-                ? $container->get(TemplateRendererInterface::class)
-                : null
+            $logging,
+            $templateRenderer
         );
     }
 
@@ -73,6 +78,7 @@ class MezzioFactory
 
     public function __invoke(ContainerInterface $container): Mezzio
     {
+        /** @var array<string, mixed> */
         $configuration = $container->get('config');
 
         if ($container->has(EntityManager::class) && ! isset($configuration['db'])) {
