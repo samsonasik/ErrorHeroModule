@@ -36,7 +36,7 @@ class Mezzio implements MiddlewareInterface
     private const DISPLAY_SETTINGS = 'display-settings';
 
     /**
-     * @param mixed[] $errorHeroModuleConfig
+     * @param array{exclude-exceptions: array, enable: bool, display-settings: array} $errorHeroModuleConfig
      */
     public function __construct(
         private array $errorHeroModuleConfig,
