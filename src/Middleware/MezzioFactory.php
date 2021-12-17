@@ -78,7 +78,7 @@ class MezzioFactory
 
     public function __invoke(ContainerInterface $container): Mezzio
     {
-        /** @var array<string, mixed> */
+        /** @var array<string, mixed> $configuration */
         $configuration = $container->get('config');
 
         if ($container->has(EntityManager::class) && ! isset($configuration['db'])) {
