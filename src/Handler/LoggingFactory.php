@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Handler;
 
+use Laminas\Log\Logger;
 use Laminas\Mail\Message;
 use Laminas\Mail\Transport\TransportInterface;
 use Psr\Container\ContainerInterface;
@@ -19,7 +20,9 @@ class LoggingFactory
      */
     public function __invoke(ContainerInterface $container): Logging
     {
-        $config                = $container->get('config');
+        /** @var array $config */
+        $config = $container->get('config');
+        /** @var Logger $errorHeroModuleLogger */
         $errorHeroModuleLogger = $container->get('ErrorHeroModuleLogger');
 
         $errorHeroModuleLocalConfig = $config['error-hero-module'];
