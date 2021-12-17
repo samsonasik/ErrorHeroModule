@@ -12,9 +12,11 @@ use Laminas\EventManager\EventManagerInterface;
 use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Http\PhpEnvironment\Response;
 use Laminas\Mvc\MvcEvent;
+use Laminas\Mvc\SendResponseListener;
 use Laminas\Stdlib\RequestInterface;
 use Laminas\Text\Table;
 use Laminas\View\Renderer\PhpRenderer;
+use Throwable;
 use Webmozart\Assert\Assert;
 
 use function ErrorHeroModule\detectMessageContentType;
@@ -63,7 +65,7 @@ class Mvc extends AbstractListenerAggregate
     public function exceptionError(MvcEvent $mvcEvent): void
     {
         $exception = $mvcEvent->getParam('exception');
-        if (! $exception) {
+        if (! $exception instanceof Throwable) {
             return;
         }
 
@@ -102,8 +104,10 @@ class Mvc extends AbstractListenerAggregate
             $application    = $mvcEvent->getApplication();
             $eventManager   = $application->getEventManager();
             $serviceLocator = $application->getServiceManager();
-            $serviceLocator->get('SendResponseListener')
-                           ->detach($eventManager);
+
+            /** @var SendResponseListener $sendResponseListener */
+            $sendResponseListener = $serviceLocator->get('SendResponseListener');
+            $sendResponseListener->detach($eventManager);
 
             $isXmlHttpRequest = $request->isXmlHttpRequest();
             if (
