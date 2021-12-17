@@ -78,10 +78,15 @@ class Mail extends BaseMail
         try {
             $this->transport->send($this->mail);
         } catch (Exception $exception) {
+            /** @var string $message */
+            $message = $exception->getMessage();
+            /** @var int $code */
+            $code = $exception->getCode();
+
             trigger_error(
                 "unable to send log entries via email; "
-                . sprintf('message = %s; ', $exception->getMessage())
-                . sprintf('code = %s; ', $exception->getCode())
+                . sprintf('message = %s; ', $message)
+                . sprintf('code = %d; ', $code)
                 . "exception class = " . $exception::class,
                 E_USER_WARNING
             );
