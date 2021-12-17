@@ -38,7 +38,7 @@ jobs:
         run: "composer cs-check"
       - name: "Code analyze"
         run: |
-          bin/phpstan analyse src/ --level=8 -c phpstan.neon
+          bin/phpstan analyse src/ --level=max -c phpstan.neon
           bin/rector process --dry-run
       - name: "Run test suite"
         run: |
