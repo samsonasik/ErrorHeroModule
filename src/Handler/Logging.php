@@ -16,6 +16,7 @@ use Laminas\Log\Logger;
 use Laminas\Log\Writer\Db;
 use Laminas\Mail\Message;
 use Laminas\Mail\Transport\TransportInterface;
+use Laminas\Stdlib\ParametersInterface;
 use Laminas\Stdlib\RequestInterface;
 use RuntimeException;
 use Throwable;
@@ -96,18 +97,27 @@ class Logging
         }
 
         Assert::isInstanceOf($request, HttpRequest::class);
-        $queryData     = $request->getQuery()->toArray();
+
+        /** @var ParametersInterface $query */
+        $query = $request->getQuery();
+        /** @var ParametersInterface $post */
+        $post = $request->getPost();
+        /** @var ParametersInterface $files*/
+        $files = $request->getFiles();
+
+        $queryData     = $query->toArray();
         $requestMethod = $request->getMethod();
-        $bodyData      = $request->getPost()->toArray();
+        $bodyData      = $post->toArray();
         $rawData       = str_replace(PHP_EOL, '', (string) $request->getContent());
         $filesData     = $this->includeFilesToAttachments
-            ? $request->getFiles()->toArray()
+            ? $files->toArray()
             : [];
-        $cookie        = $request->getCookie();
-        $cookieData    = $cookie instanceof Cookie
+
+        $cookie     = $request->getCookie();
+        $cookieData = $cookie instanceof Cookie
             ? $cookie->getArrayCopy()
             : [];
-        $ipAddress     = (new RemoteAddress())->getIpAddress();
+        $ipAddress  = (new RemoteAddress())->getIpAddress();
 
         return [
             'request_method' => $requestMethod,
@@ -121,7 +131,14 @@ class Logging
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *      priority: int,
+     *      errorType: string,
+     *      errorFile: string,
+     *      errorLine: int,
+     *      trace: string,
+     *      errorMessage: string
+     *  }
      */
     private function collectErrorExceptionData(Throwable $throwable): array
     {
@@ -250,8 +267,11 @@ class Logging
     public function handleErrorException(Throwable $throwable, RequestInterface $request): void
     {
         $collectedExceptionData = $this->collectErrorExceptionData($throwable);
-        $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData, $request);
-        $serverUrl              = $extra[self::SERVER_URL];
+        /**
+         * @var array{url: string, server_url: string, mixed} $extra
+         */
+        $extra     = $this->collectErrorExceptionExtraData($collectedExceptionData, $request);
+        $serverUrl = $extra[self::SERVER_URL];
 
         try {
             if (
