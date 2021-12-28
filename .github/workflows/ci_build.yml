@@ -39,9 +39,7 @@ jobs:
       - name: "Code analyze"
         run: |
           bin/phpstan analyse src/ --level=max -c phpstan.neon
-          bin/rector process config --dry-run
-          bin/rector process spec --dry-run
-          bin/rector process src --dry-run
+          bin/rector process --dry-run
       - name: "Run test suite"
         run: |
           composer dump-autoload -o
