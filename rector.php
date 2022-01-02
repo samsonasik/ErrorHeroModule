@@ -23,6 +23,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::TYPE_DECLARATION_STRICT);
 
     $parameters = $containerConfigurator->parameters();
+    $parameters->set(Option::PARALLEL, true);
     $parameters->set(Option::PATHS, [__DIR__ . '/config', __DIR__ . '/src', __DIR__ . '/spec']);
     $parameters->set(Option::AUTO_IMPORT_NAMES, true);
 
