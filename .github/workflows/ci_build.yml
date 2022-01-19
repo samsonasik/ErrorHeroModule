@@ -33,13 +33,15 @@ jobs:
       - name: "Validate composer.json"
         run: "composer validate"
       - name: "Install dependencies"
-        run: "composer install --ignore-platform-reqs"
+        run: |
+          composer install --ignore-platform-reqs
+          composer global require --dev rector/rector:dev-main
       - name: "CS Check"
         run: "composer cs-check"
       - name: "Code analyze"
         run: |
           bin/phpstan analyse src/ --level=max -c phpstan.neon
-          bin/rector process --dry-run
+          rector process --dry-run
       - name: "Run test suite"
         run: |
           composer dump-autoload -o

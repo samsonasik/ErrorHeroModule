@@ -74,7 +74,6 @@
         "phpstan/phpstan": "^1.0",
         "phpstan/phpstan-webmozart-assert": "^1.0",
         "pimple/pimple": "^3.2",
-        "rector/rector": "0.12.10",
         "symfony/dependency-injection": "^5.0"
     },
     "suggest": {
