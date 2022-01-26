@@ -292,8 +292,8 @@ class Logging
                 $collectedExceptionData[self::ERROR_MESSAGE],
                 $extra
             );
-        } catch (RuntimeException $e) {
-            $collectedExceptionData = $this->collectErrorExceptionData($e);
+        } catch (RuntimeException $runtimeException) {
+            $collectedExceptionData = $this->collectErrorExceptionData($runtimeException);
             $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData, $request);
             unset($extra[self::SERVER_URL]);
         }
