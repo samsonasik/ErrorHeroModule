@@ -169,7 +169,7 @@ class Logging
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array{server_url: string, url: mixed, file: mixed, line: mixed, error_type: mixed, trace: mixed, request_data: array<string, mixed>}
      */
     private function collectErrorExceptionExtraData(array $collectedExceptionData, RequestInterface $request): array
     {
