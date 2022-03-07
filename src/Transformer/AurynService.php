@@ -19,7 +19,7 @@ class AurynService extends TransformerAbstract implements TransformerInterface
         $dbAdapterConfig = parent::getDbAdapterConfig($configuration);
         $logger          = parent::getLoggerInstance($configuration, $dbAdapterConfig);
 
-        $injector = &Closure::bind(static fn&($container) => $container->injector, null, $container)($container);
+        $injector = &Closure::bind(static fn &($container) => $container->injector, null, $container)($container);
         $injector->delegate('ErrorHeroModuleLogger', fn(): Logger => $logger);
 
         return $container;

@@ -118,7 +118,7 @@ class Mezzio implements MiddlewareInterface
             $viewModel->setTemplate($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['template']['layout']);
 
             $rendererLayout = &Closure::bind(
-                static fn&($renderer) => $renderer->layout,
+                static fn &($renderer) => $renderer->layout,
                 null,
                 $this->templateRenderer
             )($this->templateRenderer);

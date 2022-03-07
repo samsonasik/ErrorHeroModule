@@ -49,7 +49,7 @@ abstract class TransformerAbstract
     protected static function getLoggerInstance(array $configuration, array $dbConfig): Logger
     {
         $writers = self::getWriterConfig($configuration);
-        foreach ($writers as & $writer) {
+        foreach ($writers as &$writer) {
             if ($writer['name'] === self::DB) {
                 $writer['options'][self::DB] = new Adapter($dbConfig);
                 break;
