@@ -169,7 +169,15 @@ class Logging
     }
 
     /**
-     * @return array{server_url: string, url: string, file: string, line: int, error_type: string, trace: string, request_data: array<string, mixed>}
+     * @return array{
+     *      server_url: string,
+     *      url: string,
+     *      file: string,
+     *      line: int,
+     *      error_type: string,
+     *      trace: string,
+     *      request_data: array<string, mixed>
+     * }
      */
     private function collectErrorExceptionExtraData(array $collectedExceptionData, RequestInterface $request): array
     {
