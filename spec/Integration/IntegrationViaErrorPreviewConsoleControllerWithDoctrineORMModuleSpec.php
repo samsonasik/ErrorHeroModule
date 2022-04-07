@@ -10,7 +10,7 @@ use Laminas\Console\Console;
 use Laminas\Console\Request;
 use Laminas\Mvc\Application;
 
-describe('Integration via ErrorPreviewConsoleController with doctrine', function () {
+describe('Integration via ErrorPreviewConsoleController with doctrine', function (): void {
 
     given('application', function () {
 

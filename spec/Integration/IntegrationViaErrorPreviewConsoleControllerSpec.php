@@ -12,7 +12,7 @@ use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Mvc\Application;
 
-describe('Integration via ErrorPreviewConsoleController', function () {
+describe('Integration via ErrorPreviewConsoleController', function (): void {
 
     given('application', function () {
 

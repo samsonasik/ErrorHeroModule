@@ -9,7 +9,7 @@ use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Mvc\Application;
 
-describe('Integration via ErrorPreviewController with enable send mail with empty receiver', function () {
+describe('Integration via ErrorPreviewController with enable send mail with empty receiver', function (): void {
 
     given('application', function () {
 

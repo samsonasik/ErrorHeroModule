@@ -9,7 +9,7 @@ use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Mvc\Application;
 
-describe('Integration via ErrorPreviewController with enable send mail', function () {
+describe('Integration via ErrorPreviewController with enable send mail', function (): void {
 
     given('application', function () {
 

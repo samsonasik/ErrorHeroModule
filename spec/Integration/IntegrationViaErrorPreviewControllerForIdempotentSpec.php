@@ -8,7 +8,7 @@ use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Mvc\Application;
 
-describe('Integration via ErrorPreviewController For Idempotent Spec', function () {
+describe('Integration via ErrorPreviewController For Idempotent Spec', function (): void {
 
     given('application', function (): Application {
 

@@ -7,7 +7,7 @@ use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Http\PhpEnvironment\Response;
 use Laminas\Mvc\Application;
 
-describe('Integration via ErrorPreviewController for XmlHttpRequest', function () {
+describe('Integration via ErrorPreviewController for XmlHttpRequest', function (): void {
 
     given('application', function (): Application {
 

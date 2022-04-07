@@ -5,7 +5,7 @@ namespace ErrorHeroModule\Spec\Integration;
 use Laminas\Console\Console;
 use Laminas\Mvc\Application;
 
-describe('Integration via ErrorPreviewController', function () {
+describe('Integration via ErrorPreviewController', function (): void {
 
     given('application', function () {
 
