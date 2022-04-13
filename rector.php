@@ -5,29 +5,28 @@ declare(strict_types=1);
 use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
 use Rector\CodingStyle\Rector\ClassConst\RemoveFinalFromConstRector;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
-use Rector\Core\Configuration\Option;
+use Rector\Config\RectorConfig;
 use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(LevelSetList::UP_TO_PHP_80);
-    $containerConfigurator->import(SetList::CODE_QUALITY);
-    $containerConfigurator->import(SetList::CODING_STYLE);
-    $containerConfigurator->import(SetList::DEAD_CODE);
-    $containerConfigurator->import(SetList::NAMING);
-    $containerConfigurator->import(SetList::PRIVATIZATION);
-    $containerConfigurator->import(SetList::PSR_4);
-    $containerConfigurator->import(SetList::TYPE_DECLARATION);
-    $containerConfigurator->import(SetList::TYPE_DECLARATION_STRICT);
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->sets([
+        LevelSetList::UP_TO_PHP_80,
+        SetList::CODE_QUALITY,
+        SetList::CODING_STYLE,
+        SetList::DEAD_CODE,
+        SetList::NAMING,
+        SetList::PRIVATIZATION,
+        SetList::PSR_4,
+        SetList::TYPE_DECLARATION,
+        SetList::TYPE_DECLARATION_STRICT,
+    ]);
 
-    $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::PARALLEL, true);
-    $parameters->set(Option::PATHS, [__DIR__ . '/config', __DIR__ . '/src', __DIR__ . '/spec']);
-    $parameters->set(Option::AUTO_IMPORT_NAMES, true);
-
-    $parameters->set(Option::SKIP, [
+    $rectorConfig->parallel();
+    $rectorConfig->paths([__DIR__ . '/config', __DIR__ . '/src', __DIR__ . '/spec', __DIR__ . '/rector.php']);
+    $rectorConfig->importNames();
+    $rectorConfig->skip([
         __DIR__ . '/src/Controller',
         __DIR__ . '/src/Middleware/Routed/Preview',
         CallableThisArrayToAnonymousFunctionRector::class,

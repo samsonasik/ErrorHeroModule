@@ -18,9 +18,9 @@ function detectMessageContentType(string $message): string
         : (strip_tags($message) === $message ? 'text/plain' : 'text/html');
 }
 
-function isExcludedException(array $excludeExceptionsConfig, Throwable $t): bool
+function isExcludedException(array $excludeExceptionsConfig, Throwable $throwable): bool
 {
-    $exceptionOrErrorClass = $t::class;
+    $exceptionOrErrorClass = $throwable::class;
 
     $isExcluded = false;
     foreach ($excludeExceptionsConfig as $excludeExceptionConfig) {
@@ -32,7 +32,7 @@ function isExcludedException(array $excludeExceptionsConfig, Throwable $t): bool
         if (
             is_array($excludeExceptionConfig)
             && $excludeExceptionConfig[0] === $exceptionOrErrorClass
-            && $excludeExceptionConfig[1] === $t->getMessage()
+            && $excludeExceptionConfig[1] === $throwable->getMessage()
         ) {
             $isExcluded = true;
             break;
