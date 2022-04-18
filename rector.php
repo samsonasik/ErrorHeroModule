@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
-use Rector\CodingStyle\Rector\ClassConst\RemoveFinalFromConstRector;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\Config\RectorConfig;
 use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
@@ -32,6 +31,5 @@ return static function (RectorConfig $rectorConfig): void {
         CallableThisArrayToAnonymousFunctionRector::class,
         UnSpreadOperatorRector::class,
         FinalizeClassesWithoutChildrenRector::class,
-        RemoveFinalFromConstRector::class,
     ]);
 };
