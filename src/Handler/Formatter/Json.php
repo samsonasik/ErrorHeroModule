@@ -18,9 +18,7 @@ use const PHP_EOL;
 
 class Json extends BaseJson implements FormatterInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private const TIMESTAMP = 'timestamp';
 
     /**

@@ -30,9 +30,7 @@ class Mezzio implements MiddlewareInterface
 
     private ?ServerRequestInterface $request = null;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private const DISPLAY_SETTINGS = 'display-settings';
 
     /**

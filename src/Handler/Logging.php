@@ -39,39 +39,25 @@ class Logging
 
     private string $emailSender;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private const PRIORITY = 'priority';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private const ERROR_TYPE = 'errorType';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private const ERROR_FILE = 'errorFile';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private const ERROR_LINE = 'errorLine';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private const TRACE = 'trace';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private const ERROR_MESSAGE = 'errorMessage';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private const SERVER_URL = 'server_url';
 
     public function __construct(

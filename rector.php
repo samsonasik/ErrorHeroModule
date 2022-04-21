@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
+use Rector\CodingStyle\Rector\Property\InlineSimplePropertyAnnotationRector;
 use Rector\Config\RectorConfig;
 use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
 use Rector\Set\ValueObject\LevelSetList;
@@ -21,6 +22,7 @@ return static function (RectorConfig $rectorConfig): void {
         SetList::TYPE_DECLARATION,
         SetList::TYPE_DECLARATION_STRICT,
     ]);
+    $rectorConfig->rule(InlineSimplePropertyAnnotationRector::class);
 
     $rectorConfig->parallel();
     $rectorConfig->paths([__DIR__ . '/config', __DIR__ . '/src', __DIR__ . '/spec', __DIR__ . '/rector.php']);

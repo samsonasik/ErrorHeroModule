@@ -28,14 +28,10 @@ class Mvc extends AbstractListenerAggregate
 
     private ?MvcEvent $mvcEvent = null;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private const DISPLAY_SETTINGS = 'display-settings';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private const MESSAGE = 'message';
 
     public function __construct(

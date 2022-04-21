@@ -26,9 +26,7 @@ use const PHP_EOL;
 
 class Mail extends BaseMail
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private const NAME = 'name';
 
     /**

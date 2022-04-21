@@ -14,19 +14,13 @@ use function strtotime;
 
 class Db
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private const OPTIONS = 'options';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private const COLUMN = 'column';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private const EXTRA = 'extra';
 
     public function __construct(

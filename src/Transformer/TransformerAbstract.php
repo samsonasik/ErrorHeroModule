@@ -9,9 +9,7 @@ use Laminas\Log\Logger;
 
 abstract class TransformerAbstract
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private const DB = 'db';
 
     /**

@@ -28,9 +28,7 @@ use function sprintf;
 
 class MezzioFactory
 {
-    /**
-     * @var array<class-string, class-string>
-     */
+    /** @var array<class-string, class-string> */
     private const CONTAINERS_TRANSFORM = [
         ContainerBuilder::class     => SymfonyService::class,
         AuraContainer::class        => AuraService::class,
