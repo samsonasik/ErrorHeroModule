@@ -18,6 +18,9 @@ function detectMessageContentType(string $message): string
         : (strip_tags($message) === $message ? 'text/plain' : 'text/html');
 }
 
+/**
+ * @param array<int, string|array<int, string>> $excludeExceptionsConfig
+ */
 function isExcludedException(array $excludeExceptionsConfig, Throwable $throwable): bool
 {
     $exceptionOrErrorClass = $throwable::class;
