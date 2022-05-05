@@ -55,9 +55,9 @@ trait HeroTrait
         set_error_handler([$this, 'phpErrorHandler']);
     }
 
-    private static function isUncaught(array $error): bool
+    private static function isUncaught(string $message): bool
     {
-        return str_starts_with($error['message'], 'Uncaught');
+        return str_starts_with($message, 'Uncaught');
     }
 
     public function phpFatalErrorHandler(string $buffer): string
@@ -67,7 +67,7 @@ trait HeroTrait
             return $buffer;
         }
 
-        return self::isUncaught($error) || $this->result === ''
+        return self::isUncaught($error['message']) || $this->result === ''
             ? $buffer
             : $this->result;
     }
@@ -79,7 +79,7 @@ trait HeroTrait
             return;
         }
 
-        if (self::isUncaught($error)) {
+        if (self::isUncaught($error['message'])) {
             return;
         }
 
