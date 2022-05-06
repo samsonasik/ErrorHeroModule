@@ -22,7 +22,7 @@ class Json extends BaseJson implements FormatterInterface
     private const TIMESTAMP = 'timestamp';
 
     /**
-     * @param array $event event data
+     * @param array<string, DateTime> $event event data
      * @return string formatted line to write to the log
      */
     public function format($event): string
