@@ -32,7 +32,7 @@ class Module
             return;
         }
 
-        /** @var array $configuration */
+        /** @var array<string, mixed> $configuration */
         $configuration = $container->get('config');
         $configuration['db'] ?? Doctrine::transform($container, $configuration);
     }
