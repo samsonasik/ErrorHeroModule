@@ -1,6 +1,5 @@
 includes:
 	- vendor/phpstan/phpstan-webmozart-assert/extension.neon
-	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
 parameters:
 	excludePaths:
