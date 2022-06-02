@@ -18,7 +18,7 @@ jobs:
       - name: Setup PHP Action
         uses: shivammathur/setup-php@v2
         with:
-          extensions: intl, mbstring
+          extensions: intl
           php-version: "${{ matrix.php-versions }}"
           coverage: xdebug
       - name: Setup MySQL
