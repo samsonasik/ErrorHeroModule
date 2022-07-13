@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
+use Rector\CodingStyle\Rector\ArrowFunction\StaticArrowFunctionRector;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\Property\InlineSimplePropertyAnnotationRector;
 use Rector\Config\RectorConfig;
@@ -33,5 +34,8 @@ return static function (RectorConfig $rectorConfig): void {
         CallableThisArrayToAnonymousFunctionRector::class,
         UnSpreadOperatorRector::class,
         FinalizeClassesWithoutChildrenRector::class,
+        StaticArrowFunctionRector::class => [
+            __DIR__ . '/spec',
+        ],
     ]);
 };
