@@ -46,7 +46,7 @@ describe('Mezzio', function () {
 
     });
 
-    given('logger', function () {
+    given('logger', function (): Logger {
 
         $dbAdapter = new Adapter([
             'username' => 'root',
