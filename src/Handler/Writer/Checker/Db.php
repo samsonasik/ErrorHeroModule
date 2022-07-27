@@ -66,9 +66,9 @@ class Db
                 $select->order($timestamp . ' DESC');
                 $select->limit(1);
 
-                /** @var ResultSet $result */
-                $result = $tableGateway->selectWith($select);
-                if (! ($current = $result->current())) {
+                /** @var ResultSet $resultSet */
+                $resultSet = $tableGateway->selectWith($select);
+                if (! ($current = $resultSet->current())) {
                     return false;
                 }
 

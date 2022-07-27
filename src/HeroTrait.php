@@ -29,10 +29,7 @@ trait HeroTrait
 {
     private string $result = '';
 
-    /**
-     * @param mixed $args
-     */
-    public function phpError(...$args): void
+    public function phpError(mixed ...$args): void
     {
         if ($this instanceof Mvc) {
             Assert::count($args, 1);

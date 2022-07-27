@@ -39,10 +39,10 @@ class Module
 
     public function errorPreviewPageHandler(ModuleEvent $moduleEvent): void
     {
-        /** @var ConfigListener $configListener */
-        $configListener = $moduleEvent->getConfigListener();
+        /** @var ConfigListener $configMerger */
+        $configMerger = $moduleEvent->getConfigListener();
         /** @var array $configuration */
-        $configuration = $configListener->getMergedConfig(false);
+        $configuration = $configMerger->getMergedConfig(false);
 
         if (! isset($configuration['error-hero-module']['enable-error-preview-page'])) {
             return;
@@ -59,7 +59,7 @@ class Module
             $configuration['console']['router']['routes']['error-preview-console']
         );
 
-        $configListener->setMergedConfig($configuration);
+        $configMerger->setMergedConfig($configuration);
     }
 
     /**
