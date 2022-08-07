@@ -9,13 +9,11 @@ use Aura\Di\Container as AuraContainer;
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Transformer\AuraService;
-use ErrorHeroModule\Transformer\AurynService;
 use ErrorHeroModule\Transformer\Doctrine;
 use ErrorHeroModule\Transformer\PimpleService;
 use ErrorHeroModule\Transformer\SymfonyService;
 use Laminas\ServiceManager\ServiceManager;
 use Mezzio\Template\TemplateRendererInterface;
-use Northwoods\Container\InjectorContainer;
 use Pimple\Psr11\Container as Psr11PimpleContainer;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
@@ -32,7 +30,6 @@ class MezzioFactory
     private const CONTAINERS_TRANSFORM = [
         ContainerBuilder::class     => SymfonyService::class,
         AuraContainer::class        => AuraService::class,
-        InjectorContainer::class    => AurynService::class,
         Psr11PimpleContainer::class => PimpleService::class,
     ];
 

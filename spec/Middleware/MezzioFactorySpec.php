@@ -5,7 +5,6 @@ namespace ErrorHeroModule\Spec\Middleware;
 use ArrayObject;
 use Aura\Di\Container as AuraContainer;
 use Aura\Di\ContainerBuilder as AuraContainerBuilder;
-use Auryn\Injector;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDO\MySql\Driver;
 use Doctrine\ORM\EntityManager;
@@ -16,7 +15,6 @@ use ErrorHeroModule\Spec\Fixture\NotSupportedContainer;
 use Kahlan\Plugin\Double;
 use Laminas\ServiceManager\ServiceManager;
 use Mezzio\Template\TemplateRendererInterface;
-use Northwoods\Container\InjectorContainer;
 use PDO;
 use Pimple\Container as PimpleContainer;
 use Pimple\Psr11\Container as Psr11PimpleContainer;
@@ -30,7 +28,6 @@ describe('MezzioFactory', function (): void {
     given('mapCreateContainers', fn() : array => [
         AuraContainer::class               => (new AuraContainerBuilder())->newInstance(),
         SymfonyContainerBuilder::class     => new SymfonyContainerBuilder(),
-        InjectorContainer::class      => new InjectorContainer(new Injector()),
         Psr11PimpleContainer::class        => new Psr11PimpleContainer(new PimpleContainer()),
     ]);
 
