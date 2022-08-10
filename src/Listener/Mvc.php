@@ -36,8 +36,8 @@ class Mvc extends AbstractListenerAggregate
 
     public function __construct(
         private array $errorHeroModuleConfig,
-        private Logging $logging,
-        private PhpRenderer $phpRenderer
+        private readonly Logging $logging,
+        private readonly PhpRenderer $phpRenderer
     ) {
     }
 

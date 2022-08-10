@@ -8,13 +8,14 @@ use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\Closure\StaticClosureRector;
 use Rector\CodingStyle\Rector\Property\InlineSimplePropertyAnnotationRector;
 use Rector\Config\RectorConfig;
+use Rector\Php81\Rector\Array_\FirstClassCallableRector;
 use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_80,
+        LevelSetList::UP_TO_PHP_81,
         SetList::CODE_QUALITY,
         SetList::CODING_STYLE,
         SetList::DEAD_CODE,
@@ -41,5 +42,6 @@ return static function (RectorConfig $rectorConfig): void {
         StaticClosureRector::class       => [
             __DIR__ . '/spec',
         ],
+        FirstClassCallableRector::class,
     ]);
 };

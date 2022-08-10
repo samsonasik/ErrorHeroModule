@@ -270,7 +270,7 @@ json
                 );
 
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
-                allow($handler)->toReceive('handle')->with($this->request)->andRun(function () {
+                allow($handler)->toReceive('handle')->with($this->request)->andRun(function (): never {
                     throw new Exception('message');
                 });
                 $middleware = new Mezzio($config, $logging, $this->renderer);
@@ -298,7 +298,7 @@ json
                 );
 
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
-                allow($handler)->toReceive('handle')->with($this->request)->andRun(function () {
+                allow($handler)->toReceive('handle')->with($this->request)->andRun(function (): never {
                     throw new Exception('message');
                 });
                 $middleware = new Mezzio($config, $logging, $this->renderer);
@@ -327,7 +327,7 @@ json
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
 
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
-                allow($handler)->toReceive('handle')->with($request)->andRun(function () {
+                allow($handler)->toReceive('handle')->with($request)->andRun(function (): never {
                     throw new Exception('message');
                 });
                 $middleware = new Mezzio($config, $logging, null);
@@ -363,7 +363,7 @@ json
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
 
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
-                allow($handler)->toReceive('handle')->with($request)->andRun(function () {
+                allow($handler)->toReceive('handle')->with($request)->andRun(function (): never {
                     throw new Exception('message');
                 });
                 $middleware = new Mezzio($config, $logging, $this->renderer);
@@ -399,7 +399,7 @@ json
                 $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
 
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
-                allow($handler)->toReceive('handle')->with($request)->andRun(function () {
+                allow($handler)->toReceive('handle')->with($request)->andRun(function (): never {
                     throw new Exception('message');
                 });
                 $middleware = new Mezzio($config, $logging, $this->renderer);
@@ -433,7 +433,7 @@ json
             $request  = $request->withHeader('X-Requested-With', 'XmlHttpRequest');
 
             $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
-            allow($handler)->toReceive('handle')->with($request)->andRun(function () use ($exception) {
+            allow($handler)->toReceive('handle')->with($request)->andRun(function () use ($exception): never {
                 throw $exception;
             });
             $middleware = new Mezzio($config, $logging, $this->renderer);

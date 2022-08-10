@@ -35,7 +35,7 @@ class Mail extends BaseMail
     public function __construct(
         MailMessage $mailMessage,
         TransportInterface $transport,
-        private array $filesData
+        private readonly array $filesData
     ) {
         parent::__construct($mailMessage, $transport);
     }

@@ -37,7 +37,7 @@ class Logging
 
     private array $emailReceivers = [];
 
-    private string $emailSender;
+    private readonly string $emailSender;
 
     /** @var string */
     private const PRIORITY = 'priority';
@@ -61,12 +61,12 @@ class Logging
     private const SERVER_URL = 'server_url';
 
     public function __construct(
-        private Logger $logger,
+        private readonly Logger $logger,
         array $errorHeroModuleLocalConfig,
-        private array $logWritersConfig,
-        private ?Message $message = null,
-        private ?TransportInterface $mailMessageTransport = null,
-        private bool $includeFilesToAttachments = true
+        private readonly array $logWritersConfig,
+        private readonly ?Message $message = null,
+        private readonly ?TransportInterface $mailMessageTransport = null,
+        private readonly bool $includeFilesToAttachments = true
     ) {
         $this->configLoggingSettings = $errorHeroModuleLocalConfig['logging-settings'];
         $this->emailReceivers        = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];

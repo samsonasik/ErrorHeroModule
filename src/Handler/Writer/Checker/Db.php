@@ -24,9 +24,9 @@ class Db
     private const EXTRA = 'extra';
 
     public function __construct(
-        private DbWriter $dbWriter,
-        private array $configLoggingSettings,
-        private array $logWritersConfig
+        private readonly DbWriter $dbWriter,
+        private readonly array $configLoggingSettings,
+        private readonly array $logWritersConfig
     ) {
     }
 
@@ -75,7 +75,7 @@ class Db
                 $first = $current[$timestamp];
                 $last  = date('Y-m-d H:i:s');
 
-                $diff = strtotime($last) - strtotime($first);
+                $diff = strtotime($last) - strtotime((string) $first);
                 if ($diff <= $this->configLoggingSettings['same-error-log-time-range']) {
                     return true;
                 }
