@@ -23,9 +23,7 @@
         "plates",
         "symfony",
         "aura",
-        "auryn",
-        "pimple",
-        "php-di"
+        "pimple"
     ],
     "homepage": "https://github.com/samsonasik/ErrorHeroModule",
     "license": "MIT",
