@@ -12,7 +12,7 @@ use Laminas\Log\Writer\Db as DbWriter;
 use function date;
 use function strtotime;
 
-class Db
+final class Db
 {
     /** @var string */
     private const OPTIONS = 'options';

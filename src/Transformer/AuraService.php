@@ -9,7 +9,7 @@ use Closure;
 use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;
 
-class AuraService extends TransformerAbstract implements TransformerInterface
+final class AuraService extends TransformerAbstract implements TransformerInterface
 {
     public static function transform(ContainerInterface $container, array $configuration): ContainerInterface
     {

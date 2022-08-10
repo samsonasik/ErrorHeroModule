@@ -24,7 +24,7 @@ use Throwable;
 use function ErrorHeroModule\detectMessageContentType;
 use function ErrorHeroModule\isExcludedException;
 
-class Mezzio implements MiddlewareInterface
+final class Mezzio implements MiddlewareInterface
 {
     use HeroTrait;
 

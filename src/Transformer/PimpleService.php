@@ -9,7 +9,7 @@ use Pimple\Psr11\Container;
 use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;
 
-class PimpleService extends TransformerAbstract implements TransformerInterface
+final class PimpleService extends TransformerAbstract implements TransformerInterface
 {
     public static function transform(ContainerInterface $container, array $configuration): ContainerInterface
     {

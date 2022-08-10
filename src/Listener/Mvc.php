@@ -22,7 +22,7 @@ use Webmozart\Assert\Assert;
 use function ErrorHeroModule\detectMessageContentType;
 use function ErrorHeroModule\isExcludedException;
 
-class Mvc extends AbstractListenerAggregate
+final class Mvc extends AbstractListenerAggregate
 {
     use HeroTrait;
 

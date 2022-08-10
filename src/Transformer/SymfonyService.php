@@ -8,7 +8,7 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Webmozart\Assert\Assert;
 
-class SymfonyService extends TransformerAbstract implements TransformerInterface
+final class SymfonyService extends TransformerAbstract implements TransformerInterface
 {
     public static function transform(ContainerInterface $container, array $configuration): ContainerInterface
     {

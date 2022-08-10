@@ -9,7 +9,6 @@ use Rector\CodingStyle\Rector\Closure\StaticClosureRector;
 use Rector\CodingStyle\Rector\Property\InlineSimplePropertyAnnotationRector;
 use Rector\Config\RectorConfig;
 use Rector\Php81\Rector\Array_\FirstClassCallableRector;
-use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
@@ -35,7 +34,6 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__ . '/src/Middleware/Routed/Preview',
         CallableThisArrayToAnonymousFunctionRector::class,
         UnSpreadOperatorRector::class,
-        FinalizeClassesWithoutChildrenRector::class,
         StaticArrowFunctionRector::class => [
             __DIR__ . '/spec',
         ],

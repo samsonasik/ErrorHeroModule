@@ -31,7 +31,7 @@ use function str_replace;
 use const PHP_BINARY;
 use const PHP_EOL;
 
-class Logging
+final class Logging
 {
     private array $configLoggingSettings = [];
 

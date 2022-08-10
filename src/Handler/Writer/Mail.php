@@ -24,7 +24,7 @@ use function trigger_error;
 use const E_USER_WARNING;
 use const PHP_EOL;
 
-class Mail extends BaseMail
+final class Mail extends BaseMail
 {
     /** @var string */
     private const NAME = 'name';

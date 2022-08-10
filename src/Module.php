@@ -13,7 +13,7 @@ use Laminas\ModuleManager\ModuleEvent;
 use Laminas\ModuleManager\ModuleManager;
 use Laminas\ServiceManager\ServiceManager;
 
-class Module
+final class Module
 {
     public function init(ModuleManager $moduleManager): void
     {
