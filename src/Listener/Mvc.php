@@ -9,6 +9,7 @@ use ErrorHeroModule\HeroTrait;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Http\PhpEnvironment\Request;
+use Laminas\Http\PhpEnvironment\Response;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Mvc\SendResponseListener;
 use Laminas\Stdlib\RequestInterface;
@@ -92,6 +93,7 @@ final class Mvc extends AbstractListenerAggregate
         Assert::isInstanceOf($request, Request::class);
 
         $response = $mvcEvent->getResponse();
+        Assert::isInstanceOf($response, Response::class);
         $response->setStatusCode(500);
 
         $application    = $mvcEvent->getApplication();
