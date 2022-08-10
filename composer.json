@@ -76,7 +76,6 @@
         "symfony/dependency-injection": "^5.4.11"
     },
     "suggest": {
-        "laminas/laminas-mvc-console": "^1.1 for laminas-mvc ^3.0 usage to be able to use Console Controller",
         "mezzio/mezzio-laminasviewrenderer": "^2.0 to be able to use laminas-view template engine in mezzio ^3.0",
         "mezzio/mezzio-platesrenderer": "^2.0 to be able to use plates template engine in mezzio ^3.0",
         "mezzio/mezzio-twigrenderer": "^2.0 to be able to use twig template engine in mezzio ^3.0"
