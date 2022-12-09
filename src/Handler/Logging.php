@@ -94,7 +94,7 @@ final class Logging
         $queryData     = $query->toArray();
         $requestMethod = $request->getMethod();
         $bodyData      = $post->toArray();
-        $rawData       = str_replace(PHP_EOL, '', (string) $request->getContent());
+        $rawData       = str_replace(PHP_EOL, '', $request->getContent());
         $filesData     = $this->includeFilesToAttachments
             ? $files->toArray()
             : [];
@@ -179,9 +179,9 @@ final class Logging
             $url .= ' ' . $request->toString();
         } else {
             Assert::isInstanceOf($request, HttpRequest::class);
-            $uri       = $request->getUri();
-            $serverUrl = $uri->getScheme() . '://' . $uri->getHost();
-            $url       = $uri->toString();
+            $http      = $request->getUri();
+            $serverUrl = $http->getScheme() . '://' . $http->getHost();
+            $url       = $http->toString();
         }
 
         return [
