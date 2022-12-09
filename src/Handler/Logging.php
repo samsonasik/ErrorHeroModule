@@ -257,7 +257,7 @@ final class Logging
         }
     }
 
-    public function handleErrorException(Throwable $throwable, ?RequestInterface $request): void
+    public function handleErrorException(Throwable $throwable, ?RequestInterface $request = null): void
     {
         $collectedExceptionData = $this->collectErrorExceptionData($throwable);
         /**
