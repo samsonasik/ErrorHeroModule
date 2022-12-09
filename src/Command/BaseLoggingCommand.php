@@ -23,7 +23,7 @@ abstract class BaseLoggingCommand extends Command
     {
         static $isRun;
 
-        // avoid infinite execution, ref https://3v4l.org/9EXNN
+        // avoid infinite execution, ref https://3v4l.org/EbrCu
         if ($isRun === true) {
             return 0;
         }
