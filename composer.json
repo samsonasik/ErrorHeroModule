@@ -114,6 +114,7 @@
     "prefer-stable": true,
     "scripts": {
         "cs-check": "phpcs",
-        "cs-fix": "phpcbf"
+        "cs-fix": "phpcbf",
+        "phpstan": "phpstan analyse src/ --level=max -c phpstan.neon"
     }
 }
