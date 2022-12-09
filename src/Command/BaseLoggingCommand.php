@@ -26,14 +26,6 @@ abstract class BaseLoggingCommand extends Command
 
     public function run(InputInterface $input, OutputInterface $output): int
     {
-        static $isRun;
-
-        // avoid infinite execution, ref https://3v4l.org/EbrCu
-        if ($isRun === true) {
-            return 0;
-        }
-
-        $isRun = true;
         try {
             return parent::run($input, $output);
         } catch (Throwable $throwable) {
