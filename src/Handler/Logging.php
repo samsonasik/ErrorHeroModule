@@ -8,7 +8,6 @@ use ErrorException;
 use ErrorHeroModule\Handler\Formatter\Json;
 use ErrorHeroModule\Handler\Writer\Mail;
 use ErrorHeroModule\HeroConstant;
-use Laminas\Console\Request as ConsoleRequest;
 use Laminas\Http\Header\Cookie;
 use Laminas\Http\PhpEnvironment\RemoteAddress;
 use Laminas\Http\PhpEnvironment\Request as HttpRequest;
@@ -76,9 +75,9 @@ final class Logging
     /**
      * @return array<string, mixed>
      */
-    private function getRequestData(RequestInterface $request): array
+    private function getRequestData(?RequestInterface $request): array
     {
-        if ($request instanceof ConsoleRequest) {
+        if (! $request instanceof HttpRequest) {
             return [];
         }
 
@@ -165,20 +164,20 @@ final class Logging
      *      request_data: array<string, mixed>
      * }
      */
-    private function collectErrorExceptionExtraData(array $collectedExceptionData, RequestInterface $request): array
+    private function collectErrorExceptionExtraData(array $collectedExceptionData, ?RequestInterface $request): array
     {
-        if ($request instanceof ConsoleRequest) {
+        if (! $request instanceof HttpRequest) {
             $serverUrl = php_uname('n');
-            $url       = $serverUrl . ':' . basename((string) getcwd())
+            // todo: get script name and params from cli
+            $url = $serverUrl . ':' . basename((string) getcwd())
                 . ' ' . get_current_user()
-                . '$ ' . PHP_BINARY . ' ' . $request->getScriptName();
+                . '$ ' . PHP_BINARY . ' '; // . $request->getScriptName();
 
-            $params = $request->getParams()->toArray();
-            unset($params['controller'], $params['action']);
-            $request->getParams()->fromArray($params);
-            $url .= ' ' . $request->toString();
+            //$params = $request->getParams()->toArray();
+            //unset($params['controller'], $params['action']);
+            //$request->getParams()->fromArray($params);
+            //$url .= ' ' . $request->toString();
         } else {
-            Assert::isInstanceOf($request, HttpRequest::class);
             $http      = $request->getUri();
             $serverUrl = $http->getScheme() . '://' . $http->getHost();
             $url       = $http->toString();
@@ -258,7 +257,7 @@ final class Logging
         }
     }
 
-    public function handleErrorException(Throwable $throwable, RequestInterface $request): void
+    public function handleErrorException(Throwable $throwable, ?RequestInterface $request): void
     {
         $collectedExceptionData = $this->collectErrorExceptionData($throwable);
         /**

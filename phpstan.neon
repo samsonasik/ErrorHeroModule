@@ -9,6 +9,7 @@ parameters:
 	checkMissingIterableValueType: false
 	reportUnmatchedIgnoredErrors: false
 	treatPhpDocTypesAsCertain: false
+	checkGenericClassInNonGenericObjectType: false
 	ignoreErrors:
 		- '#function set_error_handler expects (callable(int, string, string, int, array): bool)*#'
 		- '#Invalid type object to throw#'
