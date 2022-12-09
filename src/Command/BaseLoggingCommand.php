@@ -30,7 +30,7 @@ abstract class BaseLoggingCommand extends Command
 
         $isRun = true;
         try {
-            return static::run($input, $output);
+            return parent::run($input, $output);
         } catch (Throwable $throwable) {}
 
         return $this->exceptionError($throwable);
