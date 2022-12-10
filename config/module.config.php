@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule;
 
+use ErrorHeroModule\Command\BaseLoggingCommand;
 use ErrorHeroModule\Controller\ErrorPreviewController;
 use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
 use Laminas\Log\LoggerAbstractServiceFactory;
@@ -62,8 +63,8 @@ return [
             Logging::class => LoggingFactory::class,
         ],
         'initializers' => [
-            function ($instance, $service) {
-                if ($instance instanceof \ErrorHeroModule\Command\BaseLoggingCommand) {
+            static function ($instance, $service) : void {
+                if ($instance instanceof BaseLoggingCommand) {
                     $instance->init(
                         $service->get('config')['error-hero-module'],
                         $service->get('ErrorHeroModuleLogger')

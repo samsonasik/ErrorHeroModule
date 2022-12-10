@@ -2,6 +2,16 @@
 
 namespace ErrorHeroModule;
 
+use App\Exception\MyException;
+use RuntimeException;
+use Error;
+use Laminas\Log\LoggerAbstractServiceFactory;
+use ErrorHeroModule\Middleware\Mezzio;
+use ErrorHeroModule\Middleware\MezzioFactory;
+use ErrorHeroModule\ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction;
+use ErrorHeroModule\Handler\Logging;
+use ErrorHeroModule\Handler\LoggingFactory;
+use ErrorHeroModule\Command\BaseLoggingCommand;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Log;
 use Laminas\ServiceManager\Factory\InvokableFactory;
@@ -64,13 +74,13 @@ return [
             'exclude-exceptions' => [
 
                 // can be an Exception class or class extends Exception class
-                \App\Exception\MyException::class,
+                MyException::class,
 
                 // can be specific exception with specific message
-                [\RuntimeException::class, 'specific exception message'],
+                [RuntimeException::class, 'specific exception message'],
 
                 // or specific Error class with specific message
-                [\Error::class, 'specific error message'],
+                [Error::class, 'specific error message'],
 
             ],
 
@@ -141,17 +151,17 @@ json
 
     'dependencies' => [
         'abstract_factories' => [
-            Log\LoggerAbstractServiceFactory::class,
+            LoggerAbstractServiceFactory::class,
         ],
         'factories' => [
-            Middleware\Mezzio::class => Middleware\MezzioFactory::class,
-            ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction::class => InvokableFactory::class,
+            Mezzio::class => MezzioFactory::class,
+            ErrorPreviewAction::class => InvokableFactory::class,
 
-            Handler\Logging::class => Handler\LoggingFactory::class,
+            Logging::class => LoggingFactory::class,
         ],
         'initializers' => [
-            function ($instance, $service) {
-                if ($instance instanceof \ErrorHeroModule\Command\BaseLoggingCommand) {
+            static function ($instance, $service) : void {
+                if ($instance instanceof BaseLoggingCommand) {
                     $instance->init(
                         $service->get('config')['error-hero-module'],
                         $service->get('ErrorHeroModuleLogger')
@@ -164,7 +174,7 @@ json
     'templates' =>[
         'paths' => [
             'error-hero-module'    => [
-                realpath( dirname(dirname(__DIR__) ) . '/vendor/samsonasik/error-hero-module/view/error-hero-module' ),
+                realpath( dirname(__DIR__, 2) . '/vendor/samsonasik/error-hero-module/view/error-hero-module' ),
             ],
         ],
     ],

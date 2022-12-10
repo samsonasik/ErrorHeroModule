@@ -22,11 +22,12 @@ abstract class BaseLoggingCommand extends Command
     private const DISPLAY_SETTINGS = 'display-settings';
 
     private array $errorHeroModuleConfig;
+
     private Logging $logging;
 
     private ?OutputInterface $output = null;
 
-    public function init(array $errorHeroModuleConfig, Logging $logging)
+    public function init(array $errorHeroModuleConfig, Logging $logging): void
     {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
         $this->logging = $logging;
