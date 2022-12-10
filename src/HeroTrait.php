@@ -7,7 +7,6 @@ namespace ErrorHeroModule;
 use ErrorException;
 use ErrorHeroModule\Listener\Mvc;
 use Laminas\Mvc\MvcEvent;
-use Psr\Http\Message\ServerRequestInterface;
 use Webmozart\Assert\Assert;
 
 use function error_get_last;
@@ -94,9 +93,7 @@ trait HeroTrait
             return;
         }
 
-        // Mezzio project
-        Assert::implementsInterface($this->request, ServerRequestInterface::class);
-
+        // Mezzio project or laminas-cli
         $result       = $this->exceptionError($errorException);
         $this->result = (string) $result->getBody();
     }

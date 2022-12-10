@@ -362,6 +362,7 @@ and use the service in early run, like this `ErrorPreview` command:
 ```php
 namespace App\Command;
 
+use ErrorHeroModule\Command\BaseLoggingCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -369,8 +370,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use function sprintf;
 
-// TODO: Add LoggingCommand to cover execution
-final class ErrorPreview extends LoggingCommand
+final class ErrorPreview extends BaseLoggingCommand
 {
     protected function configure()
     {
@@ -385,6 +385,8 @@ final class ErrorPreview extends LoggingCommand
     }
 }
 ```
+
+and register to your services (the `ErrorPreview` already exists by default), then you can preview:
 
 | Command                                      | Preview For   |
 |----------------------------------------------|---------------|

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Command;
 
 use ErrorHeroModule\Handler\Logging;
+use ErrorHeroModule\HeroTrait;
 use Laminas\Text\Table;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,26 +16,36 @@ use function ErrorHeroModule\isExcludedException;
 
 abstract class BaseLoggingCommand extends Command
 {
+    use HeroTrait;
+
     /** @var string */
     private const DISPLAY_SETTINGS = 'display-settings';
 
-    public function __construct(
-        private array $errorHeroModuleConfig,
-        private readonly Logging $logging
-    ) {
+    private array $errorHeroModuleConfig;
+    private Logging $logging;
+
+    private ?OutputInterface $output = null;
+
+    public function init(array $errorHeroModuleConfig, Logging $logging)
+    {
+        $this->errorHeroModuleConfig = $errorHeroModuleConfig;
+        $this->logging = $logging;
     }
 
     public function run(InputInterface $input, OutputInterface $output): int
     {
+        $this->output = $output;
+
         try {
+            $this->phpError();
             return parent::run($input, $output);
         } catch (Throwable $throwable) {
         }
 
-        return $this->exceptionError($throwable, $output);
+        return $this->exceptionError($throwable);
     }
 
-    private function exceptionError(Throwable $throwable, OutputInterface $output): int
+    private function exceptionError(Throwable $throwable): int
     {
         if (
             isset($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['exclude-exceptions'])
@@ -53,7 +64,7 @@ abstract class BaseLoggingCommand extends Command
         }
 
         // show default view if display_errors setting = 0.
-        return $this->showDefaultConsoleView($output);
+        return $this->showDefaultConsoleView($this->output);
     }
 
     private function showDefaultConsoleView(OutputInterface $output): int

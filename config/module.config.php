@@ -61,6 +61,16 @@ return [
             Mvc::class    => MvcFactory::class,
             Logging::class => LoggingFactory::class,
         ],
+        'initializers' => [
+            function ($instance, $service) {
+                if ($instance instanceof \ErrorHeroModule\Command\BaseLoggingCommand) {
+                    $instance->init(
+                        $service->get('config')['error-hero-module'],
+                        $service->get('ErrorHeroModuleLogger')
+                    );
+                }
+            }
+        ],
     ],
 
     'listeners' => [
