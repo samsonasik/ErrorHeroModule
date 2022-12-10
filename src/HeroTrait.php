@@ -95,7 +95,7 @@ trait HeroTrait
         }
 
         // Mezzio project
-        if ($this instanceof ServerRequestInterface) {
+        if ($this->request instanceof ServerRequestInterface) {
             $result       = $this->exceptionError($errorException);
             $this->result = (string) $result->getBody();
         }
