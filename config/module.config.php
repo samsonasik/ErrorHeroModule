@@ -63,7 +63,7 @@ return [
             Logging::class => LoggingFactory::class,
         ],
         'initializers' => [
-            static function ($instance, $service) : void {
+            static function ($service, $instance) : void {
                 if ($instance instanceof BaseLoggingCommand) {
                     $instance->init(
                         $service->get('config')['error-hero-module'],
