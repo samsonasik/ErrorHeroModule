@@ -67,7 +67,7 @@ return [
                 if ($instance instanceof BaseLoggingCommand) {
                     $instance->init(
                         $service->get('config')['error-hero-module'],
-                        $service->get('ErrorHeroModuleLogger')
+                        $service->get(Logging::class)
                     );
                 }
             }
