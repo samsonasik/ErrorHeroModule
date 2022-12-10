@@ -6,8 +6,8 @@ namespace ErrorHeroModule\Command;
 
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\HeroTrait;
-use Laminas\Text\Table;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
@@ -75,13 +75,15 @@ abstract class BaseLoggingCommand extends Command
 
     private function showDefaultConsoleView(OutputInterface $output): int
     {
-        $table = new Table\Table([
-            'columnWidths' => [150],
-        ]);
-        $table->setDecorator('ascii');
-        $table->appendRow([$this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['console']['message']]);
+        $table = new Table($output);
+        $table->setColumnMaxWidth(0, 147);
+        $table
+            ->setRows([
+                [$this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['console']['message']],
+            ])
+        ;
+        $table->render();
 
-        $output->writeln($table->render());
         return 1;
     }
 }
