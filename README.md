@@ -187,7 +187,7 @@ return [
 
         // default to true, if set to true, then you can see sample:
         // 1. /error-preview page ( ErrorHeroModule\Controller\ErrorPreviewController )
-        // 2. error-preview command (ErrorHeroModule\Controller\ErrorPreviewConsoleController) via
+        // 2. errorheromodule:preview command ( ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand ) via
         //       php public/index.php error-preview
         //
         // for Mezzio ^3.0.0, the disable error-preview page is by unregister 'error-preview' from config/routes

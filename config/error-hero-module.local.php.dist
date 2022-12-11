@@ -46,7 +46,7 @@ return [
 
         // default to true, if set to true, then you can see sample:
         // 1. /error-preview page ( ErrorHeroModule\Controller\ErrorPreviewController )
-        // 2. error-preview command (ErrorHeroModule\Controller\ErrorPreviewConsoleController) via
+        // 2. errorheromodule:preview command ( ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand ) via
         //       php public/index.php error-preview
         //
         // otherwise(false), you can't see them, eg: on production env.
