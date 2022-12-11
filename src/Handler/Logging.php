@@ -24,6 +24,7 @@ use Webmozart\Assert\Assert;
 use function basename;
 use function get_current_user;
 use function getcwd;
+use function implode;
 use function php_uname;
 use function str_replace;
 
@@ -167,14 +168,14 @@ final class Logging
     private function collectErrorExceptionExtraData(array $collectedExceptionData, ?RequestInterface $request): array
     {
         if (! $request instanceof HttpRequest) {
-            $argv = $_SERVER['argv'] ?? [];
+            $argv      = $_SERVER['argv'] ?? [];
             $serverUrl = php_uname('n');
-            $url = $serverUrl . ':' . basename((string) getcwd())
+            $url       = $serverUrl . ':' . basename((string) getcwd())
                 . ' ' . get_current_user()
                 . '$ ' . PHP_BINARY;
 
             $params = implode(' ', $argv);
-            $url .= $params;
+            $url   .= $params;
         } else {
             $http      = $request->getUri();
             $serverUrl = $http->getScheme() . '://' . $http->getHost();
