@@ -366,7 +366,7 @@ then you can see the error-preview console:
 
 You will get the following page if display_errors config is 0:
 
-![error preview in console](https://user-images.githubusercontent.com/459648/206882602-5f2e5ab0-86d6-4694-9a3c-c7b8896596fa.png))
+![error preview in console](https://user-images.githubusercontent.com/459648/206887622-472d820b-f9e8-4d50-84b5-0d6a2e1c5a93.png))
 
 You can use the error handling in your console application, by extends `BaseLoggingCommand`, like below:
 
