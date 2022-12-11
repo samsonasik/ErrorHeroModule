@@ -3,7 +3,6 @@
 namespace ErrorHeroModule\Spec\Integration;
 
 use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
-use Laminas\Console\Request;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
@@ -27,7 +26,6 @@ describe('Integration via ErrorPreviewConsoleController', function (): void {
                 ],
             ],
         ]);
-        $application->getMvcEvent()->setRequest(new Request());
 
         $serviceManager = $application->getServiceManager();
         $db             = $serviceManager->get(AdapterInterface::class);

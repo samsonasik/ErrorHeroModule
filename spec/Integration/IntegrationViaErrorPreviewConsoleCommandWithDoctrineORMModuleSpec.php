@@ -4,10 +4,6 @@ namespace ErrorHeroModule\Spec\Integration;
 
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
-use Laminas\Console\Request;
-use Laminas\Db\Adapter\AdapterInterface;
-use Laminas\Db\ResultSet\ResultSet;
-use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Mvc\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -29,7 +25,6 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
                 ],
             ],
         ]);
-        $application->getMvcEvent()->setRequest(new Request());
 
         $serviceManager = $application->getServiceManager();
         $entityManager  = $serviceManager->get(EntityManager::class);
