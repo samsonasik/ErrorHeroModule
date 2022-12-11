@@ -8,6 +8,7 @@ use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\Closure\StaticClosureRector;
 use Rector\CodingStyle\Rector\Property\InlineSimplePropertyAnnotationRector;
 use Rector\Config\RectorConfig;
+use Rector\DeadCode\Rector\Cast\RecastingRemovalRector;
 use Rector\Php81\Rector\Array_\FirstClassCallableRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
@@ -40,5 +41,8 @@ return static function (RectorConfig $rectorConfig): void {
             __DIR__ . '/spec',
         ],
         FirstClassCallableRector::class,
+        RecastingRemovalRector::class => [
+            __DIR__ . '/src/Handler/Logging.php',
+        ],
     ]);
 };
