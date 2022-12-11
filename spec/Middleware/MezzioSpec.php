@@ -266,7 +266,8 @@ json
                     $config,
                     $this->logWritersConfig,
                     null,
-                    null
+                    null,
+                    true
                 );
 
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
@@ -294,7 +295,8 @@ json
                     $config,
                     $this->logWritersConfig,
                     null,
-                    null
+                    null,
+                    true
                 );
 
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
@@ -320,7 +322,8 @@ json
                     $config,
                     $this->logWritersConfig,
                     null,
-                    null
+                    null,
+                    true
                 );
 
                 $request = $this->request;
@@ -356,7 +359,8 @@ json
                     $config,
                     $this->logWritersConfig,
                     null,
-                    null
+                    null,
+                    true
                 );
 
                 $request  = $this->request;
@@ -392,7 +396,8 @@ json
                     $config,
                     $this->logWritersConfig,
                     null,
-                    null
+                    null,
+                    true
                 );
 
                 $request  = $this->request;
@@ -426,7 +431,8 @@ json
                 $config,
                 $this->logWritersConfig,
                 null,
-                null
+                null,
+                true
             );
 
             $request  = $this->request;
@@ -508,7 +514,8 @@ json
                 $this->config,
                 $this->logWritersConfig,
                 null,
-                null
+                null,
+                true
             );
 
             $errorHeroModuleLocalConfig  = [
@@ -580,7 +587,8 @@ json
                 $this->config,
                 $this->logWritersConfig,
                 null,
-                null
+                null,
+                true
             );
 
             $errorHeroModuleLocalConfig  = [

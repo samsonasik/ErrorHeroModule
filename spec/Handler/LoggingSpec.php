@@ -111,7 +111,8 @@ describe('LoggingSpec', function (): void {
         $this->errorHeroModuleLocalConfig,
         $this->logWritersConfig,
         null,
-        null
+        null,
+        true
     ));
 
     describe('->handleErrorException()', function (): void  {

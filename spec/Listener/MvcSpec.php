@@ -334,7 +334,8 @@ describe('Mvc', function (): void {
                 $this->config,
                 $logWritersConfig,
                 null,
-                null
+                null,
+                true
             );
 
             $errorHeroModuleLocalConfig  = [
