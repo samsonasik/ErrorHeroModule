@@ -3,21 +3,17 @@
 namespace ErrorHeroModule\Spec\Integration;
 
 use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
-use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
-use Kahlan\Plugin\Quit;
-use Kahlan\QuitException;
-use Laminas\Console\Console;
 use Laminas\Console\Request;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Mvc\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use Webmozart\Assert\Assert;
 
 describe('Integration via ErrorPreviewConsoleController', function (): void {
 
     given('application', function () {
+
         $application = Application::init([
             'modules' => [
                 'Laminas\Router',
@@ -39,6 +35,7 @@ describe('Integration via ErrorPreviewConsoleController', function (): void {
         $tableGateway->delete([]);
 
         return $application;
+
     });
 
     describe('error-preview', function(): void {

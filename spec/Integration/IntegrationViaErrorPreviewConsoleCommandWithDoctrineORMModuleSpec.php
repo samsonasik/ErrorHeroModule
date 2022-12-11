@@ -3,18 +3,17 @@
 namespace ErrorHeroModule\Spec\Integration;
 
 use Doctrine\ORM\EntityManager;
-use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
-use Kahlan\Plugin\Quit;
-use Kahlan\QuitException;
-use Laminas\Console\Console;
+use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
 use Laminas\Console\Request;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Mvc\Application;
+use Symfony\Component\Console\Tester\CommandTester;
 
 describe('Integration via ErrorPreviewConsoleController with doctrine', function (): void {
 
     given('application', function () {
-
-        Console::overrideIsConsole(true);
 
         $application = Application::init([
             'modules' => [
@@ -45,23 +44,13 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
 
         it('show error page', function(): void {
 
-            Quit::disable();
+            /** @var ErrorPreviewConsoleCommand $command  */
+            $command = $this->application->getServiceManager()->get(ErrorPreviewConsoleCommand::class);
 
-            $_SERVER['argv'] = [
-                __FILE__,
-                'error-preview',
-                'controller' => ErrorPreviewConsoleController::class,
-                'action' => 'exception',
-            ];
+            $commandTester = new CommandTester($command);
+            $commandTester->execute([]);
 
-            \ob_start();
-            $closure = function (): void {
-                $this->application->run();
-            };
-            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
-            $content = \ob_get_clean();
-
-            expect($content)->toContain('|We have encountered a problem and we can not fulfill your request');
+            expect($commandTester->getDisplay())->toContain('| We have encountered a problem and we can not fulfill your request');
 
         });
 
@@ -71,23 +60,15 @@ describe('Integration via ErrorPreviewConsoleController with doctrine', function
 
         it('show error page', function(): void {
 
-            Quit::disable();
+            /** @var ErrorPreviewConsoleCommand $command  */
+            $command = $this->application->getServiceManager()->get(ErrorPreviewConsoleCommand::class);
 
-            $_SERVER['argv'] = [
-                __FILE__,
-                'error-preview',
-                'controller' => ErrorPreviewConsoleController::class,
-                'action' => 'error',
-            ];
+            $commandTester = new CommandTester($command);
+            $commandTester->execute([
+                'type' => 'error',
+            ]);
 
-            \ob_start();
-            $closure = function (): void {
-                $this->application->run();
-            };
-            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
-            $content = \ob_get_clean();
-
-            expect($content)->toContain('|We have encountered a problem and we can not fulfill your request');
+            expect($commandTester->getDisplay())->toContain('| We have encountered a problem and we can not fulfill your request');
 
         });
     });
