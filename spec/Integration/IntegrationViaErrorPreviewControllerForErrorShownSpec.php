@@ -2,14 +2,11 @@
 
 namespace ErrorHeroModule\Spec\Integration;
 
-use Laminas\Console\Console;
 use Laminas\Mvc\Application;
 
 describe('Integration via ErrorPreviewController for error shown', function (): void {
 
     given('application', function () {
-
-        Console::overrideIsConsole(false);
 
         $application = Application::init([
             'modules' => [

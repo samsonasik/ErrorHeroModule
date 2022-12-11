@@ -2,14 +2,11 @@
 
 namespace ErrorHeroModule\Spec\Integration;
 
-use Laminas\Console\Console;
 use Laminas\Mvc\Application;
 
 describe('Integration via ErrorPreviewController for Cannot connect to DB', function (): void {
 
     given('application', function (): Application {
-
-        Console::overrideIsConsole(false);
 
         return Application::init([
             'modules' => [

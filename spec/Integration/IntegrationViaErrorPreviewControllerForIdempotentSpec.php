@@ -2,7 +2,6 @@
 
 namespace ErrorHeroModule\Spec\Integration;
 
-use Laminas\Console\Console;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
@@ -11,8 +10,6 @@ use Laminas\Mvc\Application;
 describe('Integration via ErrorPreviewController For Idempotent Spec', function (): void {
 
     given('application', function (): Application {
-
-        Console::overrideIsConsole(false);
 
         return Application::init([
             'modules' => [
