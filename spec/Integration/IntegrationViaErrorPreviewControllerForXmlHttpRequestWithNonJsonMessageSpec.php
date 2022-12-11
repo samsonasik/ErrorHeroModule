@@ -8,23 +8,19 @@ use Laminas\Mvc\Application;
 
 describe('Integration via ErrorPreviewController for XmlHttpRequest with non-json message', function (): void {
 
-    given('application', function (): Application {
-
-        return Application::init([
-            'modules' => [
-                'Laminas\Router',
-                'Laminas\Db',
-                'ErrorHeroModule',
+    given('application', fn(): Application => Application::init([
+        'modules' => [
+            'Laminas\Router',
+            'Laminas\Db',
+            'ErrorHeroModule',
+        ],
+        'module_listener_options' => [
+            'config_glob_paths' => [
+                \realpath(__DIR__).'/../Fixture/config/autoload-for-xmlhttprequest-with-non-json-message/error-hero-module.local.php',
+                \realpath(__DIR__).'/../Fixture/config/module.local.php',
             ],
-            'module_listener_options' => [
-                'config_glob_paths' => [
-                    \realpath(__DIR__).'/../Fixture/config/autoload-for-xmlhttprequest-with-non-json-message/error-hero-module.local.php',
-                    \realpath(__DIR__).'/../Fixture/config/module.local.php',
-                ],
-            ],
-        ]);
-
-    });
+        ],
+    ]));
 
     describe('/error-preview', function(): void {
 
