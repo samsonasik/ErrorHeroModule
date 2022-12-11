@@ -14,7 +14,7 @@ use function implode;
 use function rtrim;
 use function strtolower;
 
-class Doctrine extends TransformerAbstract implements TransformerInterface
+final class Doctrine extends TransformerAbstract implements TransformerInterface
 {
     public static function transform(ContainerInterface $container, array $configuration): ContainerInterface
     {

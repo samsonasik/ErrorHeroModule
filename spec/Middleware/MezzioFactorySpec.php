@@ -240,65 +240,65 @@ describe('MezzioFactory', function (): void {
             $config = $this->config;
             unset($config['db']['adapters']);
 
-            foreach ($this->mapCreateContainers as $container) {
+            foreach ($this->mapCreateContainers as $mapCreateContainer) {
                 $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = AdapterInterface::class;
-                if ($container instanceof AuraContainer) {
+                if ($mapCreateContainer instanceof AuraContainer) {
                     $config = new ArrayObject($config);
                 }
 
-                allow($container)->toReceive('get')->with('config')
+                allow($mapCreateContainer)->toReceive('get')->with('config')
                                                 ->andReturn($config);
-                if ($container instanceof AuraContainer) {
+                if ($mapCreateContainer instanceof AuraContainer) {
                     $config = $config->getArrayCopy();
                 }
 
-                allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
+                allow($mapCreateContainer)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
                 $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
-                allow($container)->toReceive('get')->with(Logging::class)
+                allow($mapCreateContainer)->toReceive('get')->with(Logging::class)
                                                 ->andReturn($logging);
 
                 $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
-                allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
+                allow($mapCreateContainer)->toReceive('get')->with(TemplateRendererInterface::class)
                                                 ->andReturn($renderer);
 
-                expect($container->has('ErrorHeroModuleLogger'))->toBeFalsy();
-                $actual = $this->factory($container);
+                expect($mapCreateContainer->has('ErrorHeroModuleLogger'))->toBeFalsy();
+                $actual = $this->factory($mapCreateContainer);
                 expect($actual)->toBeAnInstanceOf(Mezzio::class);
-                expect($container->has('ErrorHeroModuleLogger'))->toBeTruthy();
+                expect($mapCreateContainer->has('ErrorHeroModuleLogger'))->toBeTruthy();
             }
 
         });
 
         it('returns Mezzio Middleware instance with create service first for mapped containers and db name found in adapters', function (): void {
 
-            foreach ($this->mapCreateContainers as $container) {
+            foreach ($this->mapCreateContainers as $mapCreateContainer) {
                 $config = $this->config;
                 $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = 'my-adapter';
-                if ($container instanceof AuraContainer) {
+                if ($mapCreateContainer instanceof AuraContainer) {
                     $config = new ArrayObject($config);
                 }
 
-                allow($container)->toReceive('get')->with('config')
+                allow($mapCreateContainer)->toReceive('get')->with('config')
                                                 ->andReturn($config);
-                if ($container instanceof AuraContainer) {
+                if ($mapCreateContainer instanceof AuraContainer) {
                     $config = $config->getArrayCopy();
                 }
 
-                allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
+                allow($mapCreateContainer)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
                 $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
-                allow($container)->toReceive('get')->with(Logging::class)
+                allow($mapCreateContainer)->toReceive('get')->with(Logging::class)
                                                 ->andReturn($logging);
 
                 $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
-                allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
+                allow($mapCreateContainer)->toReceive('get')->with(TemplateRendererInterface::class)
                                                 ->andReturn($renderer);
 
-                expect($container->has('ErrorHeroModuleLogger'))->toBeFalsy();
-                $actual = $this->factory($container);
+                expect($mapCreateContainer->has('ErrorHeroModuleLogger'))->toBeFalsy();
+                $actual = $this->factory($mapCreateContainer);
                 expect($actual)->toBeAnInstanceOf(Mezzio::class);
-                expect($container->has('ErrorHeroModuleLogger'))->toBeTruthy();
+                expect($mapCreateContainer->has('ErrorHeroModuleLogger'))->toBeTruthy();
             }
 
         });
@@ -306,31 +306,31 @@ describe('MezzioFactory', function (): void {
         it('returns Mezzio Middleware instance with create services first for mapped containers and db name not found in adapters, which means use "Laminas\Db\Adapter\Adapter" name', function (): void {
 
             $config = $this->config;
-            foreach ($this->mapCreateContainers as $container) {
-                if ($container instanceof AuraContainer) {
+            foreach ($this->mapCreateContainers as $mapCreateContainer) {
+                if ($mapCreateContainer instanceof AuraContainer) {
                     $config = new ArrayObject($config);
                 }
 
-                allow($container)->toReceive('get')->with('config')
+                allow($mapCreateContainer)->toReceive('get')->with('config')
                                                 ->andReturn($config);
-                if ($container instanceof AuraContainer) {
+                if ($mapCreateContainer instanceof AuraContainer) {
                     $config = $config->getArrayCopy();
                 }
 
-                allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
+                allow($mapCreateContainer)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
                 $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
-                allow($container)->toReceive('get')->with(Logging::class)
+                allow($mapCreateContainer)->toReceive('get')->with(Logging::class)
                                                 ->andReturn($logging);
 
                 $renderer = Double::instance(['implements' => TemplateRendererInterface::class]);
-                allow($container)->toReceive('get')->with(TemplateRendererInterface::class)
+                allow($mapCreateContainer)->toReceive('get')->with(TemplateRendererInterface::class)
                                                 ->andReturn($renderer);
 
-                expect($container->has('ErrorHeroModuleLogger'))->toBeFalsy();
-                $actual = $this->factory($container);
+                expect($mapCreateContainer->has('ErrorHeroModuleLogger'))->toBeFalsy();
+                $actual = $this->factory($mapCreateContainer);
                 expect($actual)->toBeAnInstanceOf(Mezzio::class);
-                expect($container->has('ErrorHeroModuleLogger'))->toBeTruthy();
+                expect($mapCreateContainer->has('ErrorHeroModuleLogger'))->toBeTruthy();
             }
 
         });

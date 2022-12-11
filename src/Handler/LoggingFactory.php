@@ -12,7 +12,7 @@ use RuntimeException;
 
 use function sprintf;
 
-class LoggingFactory
+final class LoggingFactory
 {
     /**
      * @throws RuntimeException When mail config is enabled

@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.0', '8.1']
+        php-versions: ['8.1']
     steps:
       - name: Setup PHP Action
         uses: shivammathur/setup-php@v2
@@ -38,7 +38,7 @@ jobs:
         run: "composer cs-check"
       - name: "Code analyze"
         run: |
-          bin/phpstan analyse src/ --level=max -c phpstan.neon
+          composer phpstan
           bin/rector process --dry-run
       - name: "Run test suite"
         run: |

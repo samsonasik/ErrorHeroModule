@@ -3,12 +3,14 @@ includes:
 
 parameters:
 	excludePaths:
-		- src/Controller/ErrorPreviewConsoleController.php
+		- src/Command/Preview/ErrorPreviewConsoleCommand.php
 		- src/Controller/ErrorPreviewController.php
 		- src/Middleware/Routed/Preview/ErrorPreviewAction.php
 	checkMissingIterableValueType: false
 	reportUnmatchedIgnoredErrors: false
 	treatPhpDocTypesAsCertain: false
+	checkGenericClassInNonGenericObjectType: false
 	ignoreErrors:
 		- '#function set_error_handler expects (callable(int, string, string, int, array): bool)*#'
 		- '#Invalid type object to throw#'
+		- '#Cannot call method getBody\(\) on int#'

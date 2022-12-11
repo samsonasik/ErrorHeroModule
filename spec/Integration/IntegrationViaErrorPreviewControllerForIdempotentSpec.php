@@ -2,7 +2,6 @@
 
 namespace ErrorHeroModule\Spec\Integration;
 
-use Laminas\Console\Console;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
@@ -10,25 +9,19 @@ use Laminas\Mvc\Application;
 
 describe('Integration via ErrorPreviewController For Idempotent Spec', function (): void {
 
-    given('application', function (): Application {
-
-        Console::overrideIsConsole(false);
-
-        return Application::init([
-            'modules' => [
-                'Laminas\Router',
-                'Laminas\Db',
-                'ErrorHeroModule',
+    given('application', fn(): Application => Application::init([
+        'modules' => [
+            'Laminas\Router',
+            'Laminas\Db',
+            'ErrorHeroModule',
+        ],
+        'module_listener_options' => [
+            'config_glob_paths' => [
+                \realpath(__DIR__).'/../Fixture/config/autoload/error-hero-module.local.php',
+                \realpath(__DIR__).'/../Fixture/config/module.local.php',
             ],
-            'module_listener_options' => [
-                'config_glob_paths' => [
-                    \realpath(__DIR__).'/../Fixture/config/autoload/error-hero-module.local.php',
-                    \realpath(__DIR__).'/../Fixture/config/module.local.php',
-                ],
-            ],
-        ]);
-
-    });
+        ],
+    ]));
 
     given('tableGateway', function (): TableGateway {
 

@@ -16,7 +16,7 @@ use const JSON_UNESCAPED_SLASHES;
 use const JSON_UNESCAPED_UNICODE;
 use const PHP_EOL;
 
-class Json extends BaseJson implements FormatterInterface
+final class Json extends BaseJson implements FormatterInterface
 {
     /** @var string */
     private const TIMESTAMP = 'timestamp';

@@ -20,7 +20,7 @@ use const E_USER_NOTICE;
 use const E_USER_WARNING;
 use const E_WARNING;
 
-class HeroConstant
+final class HeroConstant
 {
     /** @var array<int, string> */
     public const ERROR_TYPE = [

@@ -1,5 +1,6 @@
 <?php
 
+use App\Exception\MyException;
 use Laminas\Db\Adapter\AdapterInterface;
 
 return [
@@ -68,13 +69,13 @@ return [
             'exclude-exceptions' => [
 
                 // can be an Exception class or class extends Exception class
-                \App\Exception\MyException::class,
+                MyException::class,
 
                 // can be specific exception with specific message
-                [\RuntimeException::class, 'specific exception message'],
+                [RuntimeException::class, 'specific exception message'],
 
                 // or specific Error class with specific message
-                [\Error::class, 'specific error message'],
+                [Error::class, 'specific error message'],
 
             ],
 

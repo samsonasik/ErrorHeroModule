@@ -5,7 +5,7 @@ namespace ErrorHeroModule\Spec\Fixture;
 use Psr\Container\ContainerInterface;
 use stdClass;
 
-class NotSupportedContainer implements ContainerInterface
+final class NotSupportedContainer implements ContainerInterface
 {
     public function get($id): stdClass|array
     {

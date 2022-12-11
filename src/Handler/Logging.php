@@ -8,7 +8,6 @@ use ErrorException;
 use ErrorHeroModule\Handler\Formatter\Json;
 use ErrorHeroModule\Handler\Writer\Mail;
 use ErrorHeroModule\HeroConstant;
-use Laminas\Console\Request as ConsoleRequest;
 use Laminas\Http\Header\Cookie;
 use Laminas\Http\PhpEnvironment\RemoteAddress;
 use Laminas\Http\PhpEnvironment\Request as HttpRequest;
@@ -25,19 +24,20 @@ use Webmozart\Assert\Assert;
 use function basename;
 use function get_current_user;
 use function getcwd;
+use function implode;
 use function php_uname;
 use function str_replace;
 
 use const PHP_BINARY;
 use const PHP_EOL;
 
-class Logging
+final class Logging
 {
     private array $configLoggingSettings = [];
 
     private array $emailReceivers = [];
 
-    private string $emailSender;
+    private readonly string $emailSender;
 
     /** @var string */
     private const PRIORITY = 'priority';
@@ -61,12 +61,12 @@ class Logging
     private const SERVER_URL = 'server_url';
 
     public function __construct(
-        private Logger $logger,
+        private readonly Logger $logger,
         array $errorHeroModuleLocalConfig,
-        private array $logWritersConfig,
-        private ?Message $message = null,
-        private ?TransportInterface $mailMessageTransport = null,
-        private bool $includeFilesToAttachments = true
+        private readonly array $logWritersConfig,
+        private readonly ?Message $message = null,
+        private readonly ?TransportInterface $mailMessageTransport = null,
+        private readonly bool $includeFilesToAttachments = true
     ) {
         $this->configLoggingSettings = $errorHeroModuleLocalConfig['logging-settings'];
         $this->emailReceivers        = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
@@ -76,9 +76,9 @@ class Logging
     /**
      * @return array<string, mixed>
      */
-    private function getRequestData(RequestInterface $request): array
+    private function getRequestData(?RequestInterface $request): array
     {
-        if ($request instanceof ConsoleRequest) {
+        if (! $request instanceof HttpRequest) {
             return [];
         }
 
@@ -165,23 +165,21 @@ class Logging
      *      request_data: array<string, mixed>
      * }
      */
-    private function collectErrorExceptionExtraData(array $collectedExceptionData, RequestInterface $request): array
+    private function collectErrorExceptionExtraData(array $collectedExceptionData, ?RequestInterface $request): array
     {
-        if ($request instanceof ConsoleRequest) {
+        if (! $request instanceof HttpRequest) {
+            $argv      = $_SERVER['argv'] ?? [];
             $serverUrl = php_uname('n');
             $url       = $serverUrl . ':' . basename((string) getcwd())
                 . ' ' . get_current_user()
-                . '$ ' . PHP_BINARY . ' ' . $request->getScriptName();
+                . '$ ' . PHP_BINARY;
 
-            $params = $request->getParams()->toArray();
-            unset($params['controller'], $params['action']);
-            $request->getParams()->fromArray($params);
-            $url .= ' ' . $request->toString();
+            $params = implode(' ', $argv);
+            $url   .= $params;
         } else {
-            Assert::isInstanceOf($request, HttpRequest::class);
-            $uri       = $request->getUri();
-            $serverUrl = $uri->getScheme() . '://' . $uri->getHost();
-            $url       = $uri->toString();
+            $http      = $request->getUri();
+            $serverUrl = $http->getScheme() . '://' . $http->getHost();
+            $url       = $http->toString();
         }
 
         return [
@@ -258,7 +256,7 @@ class Logging
         }
     }
 
-    public function handleErrorException(Throwable $throwable, RequestInterface $request): void
+    public function handleErrorException(Throwable $throwable, ?RequestInterface $request = null): void
     {
         $collectedExceptionData = $this->collectErrorExceptionData($throwable);
         /**

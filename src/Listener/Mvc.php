@@ -6,7 +6,6 @@ namespace ErrorHeroModule\Listener;
 
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\HeroTrait;
-use Laminas\Console\Response as ConsoleResponse;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Http\PhpEnvironment\Request;
@@ -14,7 +13,6 @@ use Laminas\Http\PhpEnvironment\Response;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Mvc\SendResponseListener;
 use Laminas\Stdlib\RequestInterface;
-use Laminas\Text\Table;
 use Laminas\View\Renderer\PhpRenderer;
 use Throwable;
 use Webmozart\Assert\Assert;
@@ -22,7 +20,7 @@ use Webmozart\Assert\Assert;
 use function ErrorHeroModule\detectMessageContentType;
 use function ErrorHeroModule\isExcludedException;
 
-class Mvc extends AbstractListenerAggregate
+final class Mvc extends AbstractListenerAggregate
 {
     use HeroTrait;
 
@@ -36,8 +34,8 @@ class Mvc extends AbstractListenerAggregate
 
     public function __construct(
         private array $errorHeroModuleConfig,
-        private Logging $logging,
-        private PhpRenderer $phpRenderer
+        private readonly Logging $logging,
+        private readonly PhpRenderer $phpRenderer
     ) {
     }
 
@@ -92,57 +90,43 @@ class Mvc extends AbstractListenerAggregate
 
     private function showDefaultView(MvcEvent $mvcEvent, RequestInterface $request): void
     {
-        if ($request instanceof Request) {
-            $response = $mvcEvent->getResponse();
-            Assert::isInstanceOf($response, Response::class);
-            $response->setStatusCode(500);
+        Assert::isInstanceOf($request, Request::class);
 
-            $application    = $mvcEvent->getApplication();
-            $eventManager   = $application->getEventManager();
-            $serviceLocator = $application->getServiceManager();
+        $response = $mvcEvent->getResponse();
+        Assert::isInstanceOf($response, Response::class);
+        $response->setStatusCode(500);
 
-            /** @var SendResponseListener $sendResponseListener */
-            $sendResponseListener = $serviceLocator->get('SendResponseListener');
-            $sendResponseListener->detach($eventManager);
+        $application    = $mvcEvent->getApplication();
+        $eventManager   = $application->getEventManager();
+        $serviceLocator = $application->getServiceManager();
 
-            $isXmlHttpRequest = $request->isXmlHttpRequest();
-            if (
-                $isXmlHttpRequest &&
-                isset($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['ajax'][self::MESSAGE])
-            ) {
-                $message     = $this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['ajax'][self::MESSAGE];
-                $contentType = detectMessageContentType($message);
+        /** @var SendResponseListener $sendResponseListener */
+        $sendResponseListener = $serviceLocator->get('SendResponseListener');
+        $sendResponseListener->detach($eventManager);
 
-                $response->getHeaders()->addHeaderLine('Content-type', $contentType);
-                $response->setContent($message);
-                $response->send();
+        $isXmlHttpRequest = $request->isXmlHttpRequest();
+        if (
+            $isXmlHttpRequest &&
+            isset($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['ajax'][self::MESSAGE])
+        ) {
+            $message     = $this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['ajax'][self::MESSAGE];
+            $contentType = detectMessageContentType($message);
 
-                return;
-            }
-
-            $model = $mvcEvent->getViewModel();
-            $model->setTemplate($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['template']['layout']);
-            $model->setVariable(
-                $model->captureTo(),
-                $this->phpRenderer->render($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['template']['view'])
-            );
-
-            $response->setContent($this->phpRenderer->render($model));
+            $response->getHeaders()->addHeaderLine('Content-type', $contentType);
+            $response->setContent($message);
             $response->send();
 
             return;
         }
 
-        $response = new ConsoleResponse();
-        $response->setErrorLevel(-1);
+        $model = $mvcEvent->getViewModel();
+        $model->setTemplate($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['template']['layout']);
+        $model->setVariable(
+            $model->captureTo(),
+            $this->phpRenderer->render($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['template']['view'])
+        );
 
-        $table = new Table\Table([
-            'columnWidths' => [150],
-        ]);
-        $table->setDecorator('ascii');
-        $table->appendRow([$this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['console'][self::MESSAGE]]);
-
-        $response->setContent($table->render());
+        $response->setContent($this->phpRenderer->render($model));
         $response->send();
     }
 }

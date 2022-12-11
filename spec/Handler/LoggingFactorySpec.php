@@ -5,7 +5,6 @@ namespace ErrorHeroModule\Spec\Handler;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
 use Kahlan\Plugin\Double;
-use Laminas\Console\Console;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Log\Logger;
 use Laminas\Mail\Message;
@@ -102,7 +101,6 @@ describe('LoggingFactorySpec', function (): void {
 
         it('instance of Logging on non-console with container does not has "Request" service', function (): void {
 
-            Console::overrideIsConsole(false);
             $config = $this->config;
 
             $container = Double::instance(['implements' => ContainerInterface::class]);
@@ -115,8 +113,6 @@ describe('LoggingFactorySpec', function (): void {
 
             $actual = $this->factory($container);
             expect($actual)->toBeAnInstanceOf(Logging::class);
-
-            Console::overrideIsConsole(true);
 
         });
 

@@ -8,13 +8,14 @@ use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\Closure\StaticClosureRector;
 use Rector\CodingStyle\Rector\Property\InlineSimplePropertyAnnotationRector;
 use Rector\Config\RectorConfig;
-use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
+use Rector\DeadCode\Rector\Cast\RecastingRemovalRector;
+use Rector\Php81\Rector\Array_\FirstClassCallableRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_80,
+        LevelSetList::UP_TO_PHP_81,
         SetList::CODE_QUALITY,
         SetList::CODING_STYLE,
         SetList::DEAD_CODE,
@@ -22,7 +23,6 @@ return static function (RectorConfig $rectorConfig): void {
         SetList::PRIVATIZATION,
         SetList::PSR_4,
         SetList::TYPE_DECLARATION,
-        SetList::TYPE_DECLARATION_STRICT,
     ]);
     $rectorConfig->rule(InlineSimplePropertyAnnotationRector::class);
 
@@ -34,12 +34,15 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__ . '/src/Middleware/Routed/Preview',
         CallableThisArrayToAnonymousFunctionRector::class,
         UnSpreadOperatorRector::class,
-        FinalizeClassesWithoutChildrenRector::class,
         StaticArrowFunctionRector::class => [
             __DIR__ . '/spec',
         ],
         StaticClosureRector::class       => [
             __DIR__ . '/spec',
+        ],
+        FirstClassCallableRector::class,
+        RecastingRemovalRector::class => [
+            __DIR__ . '/src/Handler/Logging.php',
         ],
     ]);
 };

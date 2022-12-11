@@ -24,7 +24,7 @@ use Throwable;
 use function ErrorHeroModule\detectMessageContentType;
 use function ErrorHeroModule\isExcludedException;
 
-class Mezzio implements MiddlewareInterface
+final class Mezzio implements MiddlewareInterface
 {
     use HeroTrait;
 
@@ -38,8 +38,8 @@ class Mezzio implements MiddlewareInterface
      */
     public function __construct(
         private array $errorHeroModuleConfig,
-        private Logging $logging,
-        private ?TemplateRendererInterface $templateRenderer
+        private readonly Logging $logging,
+        private readonly ?TemplateRendererInterface $templateRenderer
     ) {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
     }

@@ -8,7 +8,7 @@ use ErrorHeroModule\Handler\Logging;
 use Laminas\View\Renderer\PhpRenderer;
 use Psr\Container\ContainerInterface;
 
-class MvcFactory
+final class MvcFactory
 {
     public function __invoke(ContainerInterface $container): Mvc
     {

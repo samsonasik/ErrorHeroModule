@@ -7,13 +7,9 @@ ErrorHeroModule
 [![PHPStan](https://img.shields.io/badge/style-level%20max-brightgreen.svg?style=flat-square&label=phpstan)](https://github.com/phpstan/phpstan)
 [![Downloads](https://poser.pugx.org/samsonasik/error-hero-module/downloads)](https://packagist.org/packages/samsonasik/error-hero-module)
 
-> This is README for version ^4.0 which only support Laminas Mvc version 3 and Mezzio version 3 with php ^8.0.
+> This is README for version ^5.0 which only support Laminas Mvc version 3 and Mezzio version 3 with php ^8.1.
 
-> For version ^3.0, you can read at [version 3 readme](https://github.com/samsonasik/ErrorHeroModule/tree/3.x.x) which only support Laminas Mvc version 3 and Mezzio version 3 with php ^7.1.
-
-> For version ^2.0, you can read at [version 2 readme](https://github.com/samsonasik/ErrorHeroModule/tree/2.x.x) which only support ZF3 and ZF Expressive version 3 with php ^7.1.
-
-> For version 1, you can read at [version 1 readme](https://github.com/samsonasik/ErrorHeroModule/tree/1.x.x) which still support ZF2 and ZF Expressive version 1 and 2 with php ^5.6|^7.0 support.
+> For version ^4.0, you can read at [version 4 readme](https://github.com/samsonasik/ErrorHeroModule/tree/4.x.x) which only support Laminas Mvc version 3 and Mezzio version 3 with php ^8.0.
 
 Introduction
 ------------
@@ -351,29 +347,50 @@ You will get the following page if display_errors config is 0:
 
 ![error preview in web](https://cloud.githubusercontent.com/assets/459648/21668589/d4fdadac-d335-11e6-95aa-5a8cfa3f8e4b.png)
 
-> For production env, you can disable error-preview sample page with set `['error-hero-module']['enable-error-preview-page']` to false.
-
 _**Console Access**_
 
-> If you use laminas-mvc v3, you need to have `laminas/laminas-mvc-console` in your vendor, if you don't have, you can install it via command:
+> You can use this module in `laminas-cli`, you can install:
 
 > ```sh
-> composer require laminas/laminas-mvc-console --sort-packages
+> composer require laminas/laminas-cli --sort-packages
 > ```
 
-| Command                                    | Preview For   |
-|--------------------------------------------|---------------|
-| php public/index.php error-preview         | Exception     |
-| php public/index.php error-preview error   | Error         |
-| php public/index.php error-preview warning | PHP E_WARNING |
+then you can see the error-preview console:
+
+| Command                                            | Preview For   |
+|----------------------------------------------------|---------------|
+| vendor/bin/laminas errorheromodule:preview         | Exception     |
+| vendor/bin/laminas errorheromodule:preview error   | Error         |
+| vendor/bin/laminas errorheromodule:preview warning | PHP E_WARNING |
+| vendor/bin/laminas errorheromodule:preview fatal   | PHP Fatal     |
 
 You will get the following page if display_errors config is 0:
 
-![error preview in console](https://cloud.githubusercontent.com/assets/459648/21669141/8e7690f0-d33b-11e6-99c7-eed4f1ab7edb.png)
+![error preview in console](https://user-images.githubusercontent.com/459648/206882602-5f2e5ab0-86d6-4694-9a3c-c7b8896596fa.png))
+
+You can use the error handling in your console application, by extends `BaseLoggingCommand`, like below:
+
+```php
+namespace Application\Command;
+
+use ErrorHeroModule\Command\BaseLoggingCommand;
+use Exception;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+final class HelloWorld extends BaseLoggingCommand
+{
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        throw new Exception('some exception logged to DB');
+    }
+}
+```
+
+and register to your services like in the [documentation](https://docs.laminas.dev/laminas-cli/intro/).
 
 > For production env, you can disable error-preview sample page with set `['error-hero-module']['enable-error-preview-page']` to false.
-
-> For Mezzio, there is no default console implementation, so, if you want to apply it in your console in Mezzio, you may need to custom implementation error handler that utilize `ErrorHeroModule\Handler\Logging` service (see detailed usage at `ErrorHeroModule\Middleware\Mezzio` class)
 
 Contributing
 ------------

@@ -2,8 +2,9 @@
 
 namespace ErrorHeroModule;
 
+use ErrorHeroModule\Command\BaseLoggingCommandInitializer;
+use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
 use ErrorHeroModule\Controller\ErrorPreviewController;
-use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
 use Laminas\Log\LoggerAbstractServiceFactory;
 use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
@@ -16,7 +17,6 @@ return [
     'controllers' => [
         'factories' => [
             ErrorPreviewController::class           => InvokableFactory::class,
-            ErrorPreviewConsoleController::class    => InvokableFactory::class,
         ],
     ],
 
@@ -37,22 +37,6 @@ return [
         ],
     ],
 
-    'console' => [
-        'router' => [
-            'routes' => [
-                'error-preview-console' => [
-                    'options' => [
-                        'route'    => 'error-preview [<action>]',
-                        'defaults' => [
-                            'controller' => ErrorPreviewConsoleController::class,
-                            'action'     => 'exception'
-                        ],
-                    ],
-                ],
-            ],
-        ],
-    ],
-
     'service_manager' => [
         'abstract_factories' => [
             LoggerAbstractServiceFactory::class,
@@ -60,11 +44,21 @@ return [
         'factories' => [
             Mvc::class    => MvcFactory::class,
             Logging::class => LoggingFactory::class,
+            ErrorPreviewConsoleCommand::class => InvokableFactory::class,
+        ],
+        'initializers' => [
+            BaseLoggingCommandInitializer::class,
         ],
     ],
 
     'listeners' => [
         Mvc::class,
+    ],
+
+    'laminas-cli' => [
+        'commands' => [
+            'errorheromodule:preview' => ErrorPreviewConsoleCommand::class,
+        ],
     ],
 
     'view_manager' => [

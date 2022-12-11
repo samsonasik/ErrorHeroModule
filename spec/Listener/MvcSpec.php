@@ -8,10 +8,6 @@ use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
 use Exception;
 use Kahlan\Plugin\Double;
-use Kahlan\Plugin\Quit;
-use Kahlan\QuitException;
-use Laminas\Console\Console;
-use Laminas\Console\Request as ConsoleRequest;
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\EventManager\EventManagerInterface;
@@ -166,38 +162,8 @@ describe('Mvc', function (): void {
 
         });
 
-        it('call logging->handleErrorException() with default console error message if $e->getParam("exception") and display_errors = 0', function (): void {
+        it('call logging->handleErrorException() with default view error if $e->getParam("exception") and display_errors = 0', function (): void {
 
-            Console::overrideIsConsole(true);
-
-            Quit::disable();
-            $exception = new Exception('message');
-
-            $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
-            allow($mvcEvent)->toReceive('getParam')->andReturn($exception);
-            $request = new ConsoleRequest();
-            allow($mvcEvent)->toReceive('getRequest')->andReturn($request);
-            allow($this->logging)->toReceive('handleErrorException')->with($exception, $request);
-
-            $listener =  new Mvc(
-                $this->config,
-                $this->logging,
-                $this->renderer
-            );
-
-            \ob_start();
-            $closure = function () use ($listener, $mvcEvent): void {
-                $listener->exceptionError($mvcEvent);
-            };
-            expect($closure)->toThrow(new QuitException('Exit statement occurred', -1));
-            $content = \ob_get_clean();
-
-            expect($content)->toContain('|We have encountered a problem');
-        });
-
-        it('call logging->handleErrorException() with default view error if $e->getParam("exception") and display_errors = 0 and not a console', function (): void {
-
-            Console::overrideIsConsole(false);
             $exception = new Exception('message');
 
             $mvcEvent = Double::instance(['extends' => MvcEvent::class, 'methods' => '__construct']);
@@ -368,7 +334,8 @@ describe('Mvc', function (): void {
                 $this->config,
                 $logWritersConfig,
                 null,
-                null
+                null,
+                true
             );
 
             $errorHeroModuleLocalConfig  = [

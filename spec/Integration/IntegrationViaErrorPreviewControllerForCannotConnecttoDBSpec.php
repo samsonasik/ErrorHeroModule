@@ -2,30 +2,23 @@
 
 namespace ErrorHeroModule\Spec\Integration;
 
-use Laminas\Console\Console;
 use Laminas\Mvc\Application;
 
 describe('Integration via ErrorPreviewController for Cannot connect to DB', function (): void {
 
-    given('application', function (): Application {
-
-        Console::overrideIsConsole(false);
-
-        return Application::init([
-            'modules' => [
-                'Laminas\Router',
-                'Laminas\Db',
-                'ErrorHeroModule',
+    given('application', fn(): Application => Application::init([
+        'modules' => [
+            'Laminas\Router',
+            'Laminas\Db',
+            'ErrorHeroModule',
+        ],
+        'module_listener_options' => [
+            'config_glob_paths' => [
+                \realpath(__DIR__).'/../Fixture/config/autoload-for-cannot-connect-to-db/error-hero-module.local.php',
+                \realpath(__DIR__).'/../Fixture/config/module.local.php',
             ],
-            'module_listener_options' => [
-                'config_glob_paths' => [
-                    \realpath(__DIR__).'/../Fixture/config/autoload-for-cannot-connect-to-db/error-hero-module.local.php',
-                    \realpath(__DIR__).'/../Fixture/config/module.local.php',
-                ],
-            ],
-        ]);
-
-    });
+        ],
+    ]));
 
     describe('/error-preview', function(): void {
 
