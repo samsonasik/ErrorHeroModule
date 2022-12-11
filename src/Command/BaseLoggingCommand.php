@@ -80,6 +80,10 @@ abstract class BaseLoggingCommand extends Command
 
     private function showDefaultConsoleView(OutputInterface $output = null): int
     {
+        if (! $output instanceof OutputInterface) {
+            return 1;
+        }
+
         $table = new Table($output);
         $table->setColumnMaxWidth(0, 147);
         $table
