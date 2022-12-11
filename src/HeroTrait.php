@@ -98,7 +98,14 @@ trait HeroTrait
         if ($this instanceof ServerRequestInterface) {
             $result       = $this->exceptionError($errorException);
             $this->result = (string) $result->getBody();
+
+            return;
         }
+
+        // laminas-cli
+        ob_start();
+        $result       = $this->exceptionError($errorException);
+        $this->result = (string) ob_get_clean();
     }
 
     /**
