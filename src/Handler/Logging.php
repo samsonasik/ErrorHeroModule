@@ -167,16 +167,14 @@ final class Logging
     private function collectErrorExceptionExtraData(array $collectedExceptionData, ?RequestInterface $request): array
     {
         if (! $request instanceof HttpRequest) {
+            $argv = $_SERVER['argv'];
             $serverUrl = php_uname('n');
-            // todo: get script name and params from cli
             $url = $serverUrl . ':' . basename((string) getcwd())
                 . ' ' . get_current_user()
-                . '$ ' . PHP_BINARY . ' '; // . $request->getScriptName();
+                . '$ ' . PHP_BINARY;
 
-            //$params = $request->getParams()->toArray();
-            //unset($params['controller'], $params['action']);
-            //$request->getParams()->fromArray($params);
-            //$url .= ' ' . $request->toString();
+            $params = implode(' ', $argv);
+            $url .= $params;
         } else {
             $http      = $request->getUri();
             $serverUrl = $http->getScheme() . '://' . $http->getHost();
