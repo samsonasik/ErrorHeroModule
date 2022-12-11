@@ -5,7 +5,6 @@ use Kahlan\Reporter\Coverage;
 use Kahlan\Reporter\Coverage\Driver\Xdebug;
 
 // autoload hack
-file_put_contents('vendor/laminas/laminas-zendframework-bridge/src/autoload.php', '');
 class_alias(Laminas\ServiceManager\AbstractPluginManager::class, Zend\ServiceManager\AbstractPluginManager::class);
 
 Filters::apply($this, 'coverage', function($next) {
