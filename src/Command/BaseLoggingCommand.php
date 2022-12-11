@@ -73,8 +73,17 @@ abstract class BaseLoggingCommand extends Command
         return $this->showDefaultConsoleView($this->output);
     }
 
-    private function showDefaultConsoleView(OutputInterface $output): int
+    private function showDefaultConsoleView(OutputInterface $output = null): int
     {
+        /**
+         * A fatal error, eg: stdClass@anonymous cannot implement stdClass - it is not an interface
+         *
+         * may doesn't has output object set yet when configure() called, and error happen in execute()
+         */
+        if (! $output instanceof OutputInterface) {
+            die;
+        }
+
         $table = new Table($output);
         $table->setColumnMaxWidth(0, 147);
         $table
