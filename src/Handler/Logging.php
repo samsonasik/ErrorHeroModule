@@ -8,6 +8,7 @@ use ErrorException;
 use ErrorHeroModule\Handler\Formatter\Json;
 use ErrorHeroModule\Handler\Writer\Mail;
 use ErrorHeroModule\HeroConstant;
+use Laminas\Diactoros\Stream;
 use Laminas\Http\Header\Cookie;
 use Laminas\Http\PhpEnvironment\RemoteAddress;
 use Laminas\Http\PhpEnvironment\Request as HttpRequest;
@@ -90,10 +91,16 @@ final class Logging
         /** @var ParametersInterface $files*/
         $files = $request->getFiles();
 
+        $content = $request->getContent();
+
+        if ($content instanceof Stream) {
+            $content = (string) $content;
+        }
+
         $queryData     = $query->toArray();
         $requestMethod = $request->getMethod();
         $bodyData      = $post->toArray();
-        $rawData       = str_replace(PHP_EOL, '', $request->getContent());
+        $rawData       = str_replace(PHP_EOL, '', $content);
         $filesData     = $this->includeFilesToAttachments
             ? $files->toArray()
             : [];
