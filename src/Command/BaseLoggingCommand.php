@@ -35,7 +35,7 @@ abstract class BaseLoggingCommand extends Command
     public function init(array $errorHeroModuleConfig, Logging $logging): void
     {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
-        $this->logging = $logging;
+        $this->logging               = $logging;
     }
 
     public function run(InputInterface $input, OutputInterface $output): int
@@ -80,8 +80,7 @@ abstract class BaseLoggingCommand extends Command
         $table
             ->setRows([
                 [$this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['console']['message']],
-            ])
-        ;
+            ]);
         $table->render();
 
         return 1;
