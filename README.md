@@ -357,20 +357,31 @@ _**Console Access**_
 > composer require laminas/laminas-cli --sort-packages
 > ```
 
-and use the service in early run, like this `ErrorPreview` command:
+then you can see the error-preview console:
+
+| Command                                            | Preview For   |
+|----------------------------------------------------|---------------|
+| vendor/bin/laminas errorheromodule:preview         | Exception     |
+| vendor/bin/laminas errorheromodule:preview error   | Error         |
+| vendor/bin/laminas errorheromodule:preview warning | PHP E_WARNING |
+| vendor/bin/laminas errorheromodule:preview fatal   | PHP Fatal     |
+
+You will get the following page if display_errors config is 0:
+
+![error preview in console](https://user-images.githubusercontent.com/459648/206882602-5f2e5ab0-86d6-4694-9a3c-c7b8896596fa.png))
+
+You can use the error handling in your console application, by extends `BaseLoggingCommand`, like below:
 
 ```php
-namespace App\Command;
+namespace Application\Command;
 
 use ErrorHeroModule\Command\BaseLoggingCommand;
-use Symfony\Component\Console\Command\Command;
+use Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use function sprintf;
-
-final class ErrorPreview extends BaseLoggingCommand
+final class HelloWorld extends BaseLoggingCommand
 {
     protected function configure()
     {
@@ -378,28 +389,14 @@ final class ErrorPreview extends BaseLoggingCommand
             ->addArgument('message', InputArgument::REQUIRED, 'Greeting Message');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $message = $input->getArgument('message');
-        $output->writeln(sprintf('<info>Hello to world: %s<info>! ', $message));
+        throw new Exception('some exception logged to DB');
     }
 }
 ```
 
-and register to your services (the `ErrorPreview` already exists by default), then you can preview:
-
-| Command                                      | Preview For   |
-|----------------------------------------------|---------------|
-| vendor/bin/laminas app:error-preview         | Exception     |
-| vendor/bin/laminas app:error-preview error   | Error         |
-| vendor/bin/laminas app:error-preview warning | PHP E_WARNING |
-
-You will get the following page if display_errors config is 0:
-
-// TODO: update screenshot
-![error preview in console](https://cloud.githubusercontent.com/assets/459648/21669141/8e7690f0-d33b-11e6-99c7-eed4f1ab7edb.png)
-
-> For production env, you can disable error-preview sample page with set `['error-hero-module']['enable-error-preview-page']` to false.
+and register to your services like in the [documentation](https://docs.laminas.dev/laminas-cli/intro/).
 
 Contributing
 ------------
