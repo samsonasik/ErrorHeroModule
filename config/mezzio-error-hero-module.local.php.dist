@@ -5,7 +5,7 @@ namespace ErrorHeroModule;
 use App\Exception\MyException;
 use RuntimeException;
 use Error;
-use Laminas\Log\LoggerAbstractServiceFactory;
+use ErrorHeroModule\Command\BaseLoggingCommandInitializer;
 use ErrorHeroModule\Middleware\Mezzio;
 use ErrorHeroModule\Middleware\MezzioFactory;
 use ErrorHeroModule\ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction;
@@ -14,6 +14,7 @@ use ErrorHeroModule\Handler\LoggingFactory;
 use ErrorHeroModule\Command\BaseLoggingCommand;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Log;
+use Laminas\Log\LoggerAbstractServiceFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
@@ -160,14 +161,7 @@ json
             Logging::class => LoggingFactory::class,
         ],
         'initializers' => [
-            static function ($service, $instance) : void {
-                if ($instance instanceof BaseLoggingCommand) {
-                    $instance->init(
-                        $service->get('config')['error-hero-module'],
-                        $service->get(Logging::class)
-                    );
-                }
-            }
+            BaseLoggingCommandInitializer::class,
         ],
     ],
 

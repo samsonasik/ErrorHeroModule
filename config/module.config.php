@@ -2,7 +2,7 @@
 
 namespace ErrorHeroModule;
 
-use ErrorHeroModule\Command\BaseLoggingCommand;
+use ErrorHeroModule\Command\BaseLoggingCommandInitializer;
 use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
 use ErrorHeroModule\Controller\ErrorPreviewController;
 use Laminas\Log\LoggerAbstractServiceFactory;
@@ -47,14 +47,7 @@ return [
             ErrorPreviewConsoleCommand::class => InvokableFactory::class,
         ],
         'initializers' => [
-            static function ($service, $instance) : void {
-                if ($instance instanceof BaseLoggingCommand) {
-                    $instance->init(
-                        $service->get('config')['error-hero-module'],
-                        $service->get(Logging::class)
-                    );
-                }
-            }
+            BaseLoggingCommandInitializer::class,
         ],
     ],
 
