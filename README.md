@@ -347,8 +347,6 @@ You will get the following page if display_errors config is 0:
 
 ![error preview in web](https://cloud.githubusercontent.com/assets/459648/21668589/d4fdadac-d335-11e6-95aa-5a8cfa3f8e4b.png)
 
-> For production env, you can disable error-preview sample page with set `['error-hero-module']['enable-error-preview-page']` to false.
-
 _**Console Access**_
 
 > You can use this module in `laminas-cli`, you can install:
@@ -391,6 +389,8 @@ final class HelloWorld extends BaseLoggingCommand
 ```
 
 and register to your services like in the [documentation](https://docs.laminas.dev/laminas-cli/intro/).
+
+> For production env, you can disable error-preview sample page with set `['error-hero-module']['enable-error-preview-page']` to false.
 
 Contributing
 ------------
