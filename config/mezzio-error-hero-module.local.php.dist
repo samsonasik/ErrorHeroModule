@@ -12,6 +12,7 @@ use ErrorHeroModule\ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
 use ErrorHeroModule\Command\BaseLoggingCommand;
+use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Log;
 use Laminas\Log\LoggerAbstractServiceFactory;
@@ -159,9 +160,17 @@ json
             ErrorPreviewAction::class => InvokableFactory::class,
 
             Logging::class => LoggingFactory::class,
+
+            ErrorPreviewConsoleCommand::class => InvokableFactory::class,
         ],
         'initializers' => [
             BaseLoggingCommandInitializer::class,
+        ],
+    ],
+
+    'laminas-cli' => [
+        'commands' => [
+            'errorheromodule:preview' => ErrorPreviewConsoleCommand::class,
         ],
     ],
 
