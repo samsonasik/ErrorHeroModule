@@ -22,7 +22,7 @@ describe('Integration via ErrorPreviewConsoleCommand', function (): void {
             ],
             'module_listener_options' => [
                 'config_glob_paths' => [
-                    \realpath(__DIR__).'/../Fixture/config/autoload-for-specific-error-and-exception/error-hero-module.local.php',
+                    \realpath(__DIR__).'/../Fixture/config/autoload-for-enable-display-errors/error-hero-module.local.php',
                     \realpath(__DIR__).'/../Fixture/config/module.local.php',
                 ],
             ],

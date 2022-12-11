@@ -7,7 +7,7 @@ use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
 use Laminas\Mvc\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-describe('Integration via ErrorPreviewConsoleController with doctrine', function (): void {
+describe('Integration via ErrorPreviewConsoleCommand with doctrine', function (): void {
 
     given('application', function () {
 

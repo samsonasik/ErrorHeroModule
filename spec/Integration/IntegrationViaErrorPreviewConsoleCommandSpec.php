@@ -9,7 +9,7 @@ use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Mvc\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-describe('Integration via ErrorPreviewConsoleController', function (): void {
+describe('Integration via ErrorPreviewConsoleCommand', function (): void {
 
     given('application', function () {
 
