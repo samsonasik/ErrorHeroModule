@@ -29,7 +29,7 @@ abstract class BaseLoggingCommand extends Command
     private ?OutputInterface $output = null;
 
     /**
-     * Called after __construct(), as service extends this base class may use depedendency injection
+     * MUST BE CALLED after __construct(), as service extends this base class may use depedendency injection
      *
      * With `Laminas\ServiceManager`, you don't need to do anything \m/, there is `initializers` config already for it.
      */
