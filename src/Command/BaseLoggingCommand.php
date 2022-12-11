@@ -36,6 +36,11 @@ abstract class BaseLoggingCommand extends Command
     {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
         $this->logging = $logging;
+
+        /**
+         * Handle overlap Fatal Error too early
+         */
+        $this->phpError();
     }
 
     public function run(InputInterface $input, OutputInterface $output): int
