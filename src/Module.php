@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ErrorHeroModule;
 
 use Doctrine\ORM\EntityManager;
+use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
 use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
 use ErrorHeroModule\Controller\ErrorPreviewController;
 use ErrorHeroModule\Transformer\Doctrine;
@@ -54,9 +55,9 @@ final class Module
 
         unset(
             $configuration['controllers']['factories'][ErrorPreviewController::class],
-            $configuration['controllers']['factories'][ErrorPreviewConsoleController::class],
+            $configuration['service_manager']['factories'][ErrorPreviewConsoleCommand::class],
             $configuration['router']['routes']['error-preview'],
-            $configuration['console']['router']['routes']['error-preview-console']
+            $configuration['laminas-cli']['commands']['errorheromodule:preview']
         );
 
         $configMerger->setMergedConfig($configuration);
