@@ -17,13 +17,11 @@ final class BaseLoggingCommandInitializer implements InitializerInterface
         }
 
         /** @var array $config */
-        $config = $container->get('config');
-
+        $config                = $container->get('config');
         $errorHeroModuleConfig = $config['error-hero-module'];
 
         /** @var Logging $logging */
         $logging = $container->get(Logging::class);
-
         $instance->init($errorHeroModuleConfig, $logging);
     }
 }
