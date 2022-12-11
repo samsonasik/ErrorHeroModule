@@ -105,6 +105,7 @@ trait HeroTrait
 
         // Mezzio project
         Assert::implementsInterface($this->request, ServerRequestInterface::class);
+
         $result       = $this->exceptionError($errorException);
         $this->result = (string) $result->getBody();
     }
