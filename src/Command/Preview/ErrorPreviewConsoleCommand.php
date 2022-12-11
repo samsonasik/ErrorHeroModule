@@ -16,7 +16,7 @@ class ErrorPreviewConsoleCommand extends BaseLoggingCommand
     protected function configure()
     {
         $this
-            ->addArgument('type', InputArgument::OPTIONAL, 'Type of preview: exception, error, warning');
+            ->addArgument('type', InputArgument::OPTIONAL, 'Type of preview: exception, error, warning, fatal');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -34,6 +34,11 @@ class ErrorPreviewConsoleCommand extends BaseLoggingCommand
         if ($type === 'warning') {
             $array = [];
             $array[1]; // E_WARNING
+        }
+
+        if ($type === 'fatal') {
+            $y = new class implements \stdClass {
+            };
         }
     }
 }
