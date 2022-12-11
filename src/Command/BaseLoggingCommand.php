@@ -36,11 +36,6 @@ abstract class BaseLoggingCommand extends Command
     {
         $this->errorHeroModuleConfig = $errorHeroModuleConfig;
         $this->logging = $logging;
-
-        /**
-         * Handle overlap Fatal Error too early
-         */
-        $this->phpError();
     }
 
     public function run(InputInterface $input, OutputInterface $output): int
@@ -78,12 +73,8 @@ abstract class BaseLoggingCommand extends Command
         return $this->showDefaultConsoleView($this->output);
     }
 
-    private function showDefaultConsoleView(OutputInterface $output = null): int
+    private function showDefaultConsoleView(OutputInterface $output): int
     {
-        if (! $output instanceof OutputInterface) {
-            return 1;
-        }
-
         $table = new Table($output);
         $table->setColumnMaxWidth(0, 147);
         $table
