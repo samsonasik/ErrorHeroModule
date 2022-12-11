@@ -1,4 +1,3 @@
-
 <?php
 
 declare(strict_types=1);
@@ -6,6 +5,7 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Command;
 
 use ErrorHeroModule\Handler\Logging;
+use Laminas\ServiceManager\Initializer\InitializerInterface;
 use Psr\Container\ContainerInterface;
 
 class BaseLoggingCommandInitializer implements InitializerInterface
