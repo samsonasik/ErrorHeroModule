@@ -383,12 +383,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class HelloWorld extends BaseLoggingCommand
 {
-    protected function configure()
-    {
-        $this
-            ->addArgument('message', InputArgument::REQUIRED, 'Greeting Message');
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         throw new Exception('some exception logged to DB');
