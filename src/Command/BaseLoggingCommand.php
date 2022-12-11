@@ -11,6 +11,7 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
+use Webmozart\Assert\Assert;
 
 use function ErrorHeroModule\isExcludedException;
 
@@ -70,6 +71,7 @@ abstract class BaseLoggingCommand extends Command
         }
 
         // show default view if display_errors setting = 0.
+        Assert::isInstanceOf($this->output, OutputInterface::class);
         return $this->showDefaultConsoleView($this->output);
     }
 

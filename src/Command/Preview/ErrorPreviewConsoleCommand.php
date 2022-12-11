@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ErrorPreviewConsoleCommand extends BaseLoggingCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument('type', InputArgument::OPTIONAL, 'Type of preview: exception, error, warning, fatal');
