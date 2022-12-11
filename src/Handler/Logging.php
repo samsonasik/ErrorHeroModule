@@ -167,7 +167,7 @@ final class Logging
     private function collectErrorExceptionExtraData(array $collectedExceptionData, ?RequestInterface $request): array
     {
         if (! $request instanceof HttpRequest) {
-            $argv = $_SERVER['argv'];
+            $argv = $_SERVER['argv'] ?? [];
             $serverUrl = php_uname('n');
             $url = $serverUrl . ':' . basename((string) getcwd())
                 . ' ' . get_current_user()
