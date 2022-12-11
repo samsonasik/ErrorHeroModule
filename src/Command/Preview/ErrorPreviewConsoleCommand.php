@@ -7,6 +7,7 @@ namespace ErrorHeroModule\Command\Preview;
 use Error;
 use ErrorHeroModule\Command\BaseLoggingCommand;
 use Exception;
+use stdClass;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -37,7 +38,7 @@ class ErrorPreviewConsoleCommand extends BaseLoggingCommand
         }
 
         if ($type === 'fatal') {
-            $y = new class implements \stdClass {
+            $y = new class implements stdClass {
             };
         }
     }

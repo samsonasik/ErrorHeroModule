@@ -85,7 +85,7 @@ trait HeroTrait
         // laminas-cli
         if (! $this instanceof Mvc && ! isset($this->request)) {
             ob_start();
-            $result       = $this->exceptionError($errorException);
+            $this->exceptionError($errorException);
             $this->result = (string) ob_get_clean();
 
             return;

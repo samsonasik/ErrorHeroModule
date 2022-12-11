@@ -6,7 +6,6 @@ namespace ErrorHeroModule;
 
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
-use ErrorHeroModule\Controller\ErrorPreviewConsoleController;
 use ErrorHeroModule\Controller\ErrorPreviewController;
 use ErrorHeroModule\Transformer\Doctrine;
 use Laminas\ModuleManager\Listener\ConfigListener;
