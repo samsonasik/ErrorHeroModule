@@ -82,6 +82,15 @@ trait HeroTrait
 
         $errorException = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
 
+        // laminas-cli
+        if (! $this instanceof Mvc && ! isset($this->request)) {
+            ob_start();
+            $result       = $this->exceptionError($errorException);
+            $this->result = (string) ob_get_clean();
+
+            return;
+        }
+
         // Laminas Mvc project
         if ($this instanceof Mvc) {
             Assert::isInstanceOf($this->mvcEvent, MvcEvent::class);
@@ -95,17 +104,9 @@ trait HeroTrait
         }
 
         // Mezzio project
-        if ($this->request instanceof ServerRequestInterface) {
-            $result       = $this->exceptionError($errorException);
-            $this->result = (string) $result->getBody();
-
-            return;
-        }
-
-        // laminas-cli
-        ob_start();
+        Assert::implementsInterface($this->request, ServerRequestInterface::class);
         $result       = $this->exceptionError($errorException);
-        $this->result = (string) ob_get_clean();
+        $this->result = (string) $result->getBody();
     }
 
     /**
