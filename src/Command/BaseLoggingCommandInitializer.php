@@ -8,17 +8,22 @@ use ErrorHeroModule\Handler\Logging;
 use Laminas\ServiceManager\Initializer\InitializerInterface;
 use Psr\Container\ContainerInterface;
 
-class BaseLoggingCommandInitializer implements InitializerInterface
+final class BaseLoggingCommandInitializer implements InitializerInterface
 {
-    public function __invoke(ContainerInterface $container, $instance)
+    public function __invoke(ContainerInterface $container, mixed $instance): void
     {
         if (! $instance instanceof BaseLoggingCommand) {
             return;
         }
 
-        $instance->init(
-            $container->get('config')['error-hero-module'],
-            $container->get(Logging::class)
-        );
+        /** @var array $config */
+        $config = $container->get('config');
+
+        $errorHeroModuleConfig = $config['error-hero-module'];
+
+        /** @var Logging $logging */
+        $logging = $container->get(Logging::class);
+
+        $instance->init($errorHeroModuleConfig, $logging);
     }
 }

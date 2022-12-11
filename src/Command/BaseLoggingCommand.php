@@ -31,7 +31,7 @@ abstract class BaseLoggingCommand extends Command
     /**
      * Called after __construct(), as service extends this base class may use depedendency injection
      *
-     * When using `Laminas\ServiceManager`, you don't need to do anything \m/, there is `initializers` config already for it.
+     * With `Laminas\ServiceManager`, you don't need to do anything \m/, there is `initializers` config already for it.
      */
     public function init(array $errorHeroModuleConfig, Logging $logging): void
     {
