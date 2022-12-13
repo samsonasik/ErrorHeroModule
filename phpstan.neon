@@ -13,6 +13,5 @@ parameters:
 	ignoreErrors:
 		- '#function set_error_handler expects (callable(int, string, string, int, array): bool)*#'
 		- '#Invalid type object to throw#'
-		- '#Cannot call method getBody\(\) on int#'
 		- '#Access to an undefined property ErrorHeroModule\\Command\\BaseLoggingCommand\:\:\$request#'
 		- '#Instanceof between \*NEVER\* and ErrorHeroModule\\Listener\\Mvc will always evaluate to false#'
