@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace ErrorHeroModule;
 
 use ErrorException;
+use ErrorHeroModule\Command\BaseLoggingCommand;
 use ErrorHeroModule\Listener\Mvc;
+use ErrorHeroModule\Middleware\Mezzio;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Laminas\Mvc\MvcEvent;
@@ -85,7 +87,7 @@ trait HeroTrait
         $errorException = new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
 
         // laminas-cli
-        if (! $this instanceof Mvc && ! isset($this->request)) {
+        if ($this instanceof BaseLoggingCommand) {
             ob_start();
             $this->exceptionError($errorException);
             $this->result = (string) ob_get_clean();
