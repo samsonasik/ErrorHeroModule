@@ -26,7 +26,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(InlineSimplePropertyAnnotationRector::class);
 
     $rectorConfig->parallel();
-    $rectorConfig->paths([__DIR__ . '/config', __DIR__ . '/src', __DIR__ . '/spec', __DIR__ . '/rector.php']);
+    $rectorConfig->paths([__DIR__ . '/config', __DIR__ . '/src', __DIR__ . '/spec', __FILE__]);
     $rectorConfig->importNames();
     $rectorConfig->skip([
         __DIR__ . '/src/Controller',
