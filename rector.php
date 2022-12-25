@@ -30,6 +30,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->importNames();
     $rectorConfig->skip([
         __DIR__ . '/src/Controller',
+        __DIR__ . '/src/Command/Preview',
         __DIR__ . '/src/Middleware/Routed/Preview',
         CallableThisArrayToAnonymousFunctionRector::class,
         UnSpreadOperatorRector::class,
