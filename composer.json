@@ -44,6 +44,7 @@
         "laminas/laminas-psr7bridge": "^1.8",
         "laminas/laminas-uri": "^2.10",
         "psr/container": "^1.1.2 || 2.0",
+        "samsonasik/array-lookup": "^1.0",
         "seld/jsonlint": "^1.9",
         "webmozart/assert": "^1.11"
     },
