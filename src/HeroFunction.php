@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule;
 
+use ArrayLookup\AtLeast;
 use Seld\JsonLint\JsonParser;
 use Throwable;
 
@@ -24,23 +25,17 @@ function detectMessageContentType(string $message): string
 function isExcludedException(array $excludeExceptionsConfig, Throwable $throwable): bool
 {
     $exceptionOrErrorClass = $throwable::class;
+    $message               = $throwable->getMessage();
 
-    $isExcluded = false;
-    foreach ($excludeExceptionsConfig as $excludeExceptionConfig) {
-        if ($exceptionOrErrorClass === $excludeExceptionConfig) {
-            $isExcluded = true;
-            break;
+    $filter = static function (string|array $excludeExceptionConfig) use ($exceptionOrErrorClass, $message): bool {
+        if ($excludeExceptionConfig === $exceptionOrErrorClass) {
+            return true;
         }
 
-        if (
-            is_array($excludeExceptionConfig)
+        return is_array($excludeExceptionConfig)
             && $excludeExceptionConfig[0] === $exceptionOrErrorClass
-            && $excludeExceptionConfig[1] === $throwable->getMessage()
-        ) {
-            $isExcluded = true;
-            break;
-        }
-    }
+            && $excludeExceptionConfig[1] === $message;
+    };
 
-    return $isExcluded;
+    return AtLeast::once($excludeExceptionsConfig, $filter);
 }
