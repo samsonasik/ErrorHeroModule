@@ -27,7 +27,10 @@ function isExcludedException(array $excludeExceptionsConfig, Throwable $throwabl
     $exceptionOrErrorClass = $throwable::class;
     $message               = $throwable->getMessage();
 
-    $filter = static function (string|array $excludeExceptionConfig) use ($exceptionOrErrorClass, $message): bool {
+    /**
+     * @param string|array<int, string> $excludeExceptionConfig
+     */
+    $filter = static function (mixed $excludeExceptionConfig) use ($exceptionOrErrorClass, $message): bool {
         if ($excludeExceptionConfig === $exceptionOrErrorClass) {
             return true;
         }
