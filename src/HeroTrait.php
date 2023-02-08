@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule;
 
+use ArrayLookup\AtLeast;
 use ErrorException;
 use ErrorHeroModule\Command\BaseLoggingCommand;
 use ErrorHeroModule\Listener\Mvc;
@@ -123,18 +124,16 @@ trait HeroTrait
             return;
         }
 
-        foreach ($this->errorHeroModuleConfig['display-settings']['exclude-php-errors'] as $excludePhpError) {
-            if ($errorType === $excludePhpError) {
-                return;
-            }
-
-            if (
+        $filter = static fn (mixed $excludePhpError): bool =>
+            $errorType === $excludePhpError ||
+            (
                 is_array($excludePhpError)
                 && $excludePhpError[0] === $errorType
                 && $excludePhpError[1] === $errorMessage
-            ) {
-                return;
-            }
+            );
+
+        if (AtLeast::once($this->errorHeroModuleConfig['display-settings']['exclude-php-errors'], $filter)) {
+            return;
         }
 
         throw new ErrorException($errorMessage, 0, $errorType, $errorFile, $errorLine);
