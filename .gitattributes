@@ -3,6 +3,7 @@
 /.gitignore export-ignore
 /.travis.yml export-ignore
 /phpstan.neon export-ignore
+/phpstan-baseline.neon export-ignore
 /spec/ export-ignore
 /CONTRIBUTING.md export-ignore
 /kahlan-config.php export-ignore
