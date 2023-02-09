@@ -8,6 +8,7 @@ use ArrayLookup\AtLeast;
 use ErrorException;
 use ErrorHeroModule\Command\BaseLoggingCommand;
 use ErrorHeroModule\Listener\Mvc;
+use ErrorHeroModule\Middleware\Mezzio;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Laminas\Mvc\MvcEvent;
@@ -106,6 +107,8 @@ trait HeroTrait
 
             return;
         }
+
+        Assert::isInstanceOf($this, Mezzio::class);
 
         // Mezzio project
         Assert::implementsInterface($this->request, ServerRequestInterface::class);
