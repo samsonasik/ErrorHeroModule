@@ -97,6 +97,7 @@ trait HeroTrait
 
         // Laminas Mvc project
         if ($this instanceof Mvc) {
+            Assert::propertyExists($this, 'mvcEvent');
             Assert::isInstanceOf($this->mvcEvent, MvcEvent::class);
 
             ob_start();
@@ -108,6 +109,7 @@ trait HeroTrait
         }
 
         // Mezzio project
+        Assert::propertyExists($this, 'request');
         Assert::implementsInterface($this->request, ServerRequestInterface::class);
 
         /** @var Response|HtmlResponse $result */

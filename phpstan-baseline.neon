@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Access to an undefined property ErrorHeroModule\\\\Command\\\\BaseLoggingCommand\\:\\:\\$request\\.$#"
-			count: 1
-			path: src/Command/BaseLoggingCommand.php
-
-		-
 			message: "#^Access to private property \\$this\\(ErrorHeroModule\\\\Command\\\\BaseLoggingCommand\\)&ErrorHeroModule\\\\Listener\\\\Mvc\\:\\:\\$mvcEvent\\.$#"
 			count: 4
 			path: src/Command/BaseLoggingCommand.php
@@ -24,11 +19,6 @@ parameters:
 			message: "#^Invalid type object to throw\\.$#"
 			count: 1
 			path: src/Handler/Logging.php
-
-		-
-			message: "#^Access to an undefined property ErrorHeroModule\\\\Listener\\\\Mvc\\:\\:\\$request\\.$#"
-			count: 1
-			path: src/Listener/Mvc.php
 
 		-
 			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, array\\{\\$this\\(ErrorHeroModule\\\\Listener\\\\Mvc\\), 'phpErrorHandler'\\} given\\.$#"
