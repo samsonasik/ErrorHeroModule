@@ -1,22 +1,12 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Access to an undefined property ErrorHeroModule\\\\Command\\\\BaseLoggingCommand\\:\\:\\$request\\.$#"
+			message: "#^Instanceof between \\*NEVER\\* and ErrorHeroModule\\\\Listener\\\\Mvc will always evaluate to false\\.$#"
 			count: 1
-			path: src/Command/BaseLoggingCommand.php
-
-		-
-			message: "#^Access to private property \\$this\\(ErrorHeroModule\\\\Command\\\\BaseLoggingCommand\\)&ErrorHeroModule\\\\Listener\\\\Mvc\\:\\:\\$mvcEvent\\.$#"
-			count: 4
 			path: src/Command/BaseLoggingCommand.php
 
 		-
 			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, array\\{\\$this\\(ErrorHeroModule\\\\Command\\\\BaseLoggingCommand\\), 'phpErrorHandler'\\} given\\.$#"
-			count: 1
-			path: src/Command/BaseLoggingCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$throwable of method ErrorHeroModule\\\\Command\\\\BaseLoggingCommand\\:\\:exceptionError\\(\\) expects Throwable, Laminas\\\\Mvc\\\\MvcEvent given\\.$#"
 			count: 1
 			path: src/Command/BaseLoggingCommand.php
 
@@ -26,36 +16,11 @@ parameters:
 			path: src/Handler/Logging.php
 
 		-
-			message: "#^Access to an undefined property ErrorHeroModule\\\\Listener\\\\Mvc\\:\\:\\$request\\.$#"
-			count: 1
-			path: src/Listener/Mvc.php
-
-		-
 			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, array\\{\\$this\\(ErrorHeroModule\\\\Listener\\\\Mvc\\), 'phpErrorHandler'\\} given\\.$#"
 			count: 1
 			path: src/Listener/Mvc.php
 
 		-
-			message: "#^Parameter \\#1 \\$mvcEvent of method ErrorHeroModule\\\\Listener\\\\Mvc\\:\\:exceptionError\\(\\) expects Laminas\\\\Mvc\\\\MvcEvent, ErrorException given\\.$#"
-			count: 2
-			path: src/Listener/Mvc.php
-
-		-
-			message: "#^Result of method ErrorHeroModule\\\\Listener\\\\Mvc\\:\\:exceptionError\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: src/Listener/Mvc.php
-
-		-
-			message: "#^Access to private property \\$this\\(ErrorHeroModule\\\\Middleware\\\\Mezzio\\)&ErrorHeroModule\\\\Listener\\\\Mvc\\:\\:\\$mvcEvent\\.$#"
-			count: 4
-			path: src/Middleware/Mezzio.php
-
-		-
 			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, array\\{\\$this\\(ErrorHeroModule\\\\Middleware\\\\Mezzio\\), 'phpErrorHandler'\\} given\\.$#"
-			count: 1
-			path: src/Middleware/Mezzio.php
-
-		-
-			message: "#^Parameter \\#1 \\$throwable of method ErrorHeroModule\\\\Middleware\\\\Mezzio\\:\\:exceptionError\\(\\) expects Throwable, Laminas\\\\Mvc\\\\MvcEvent given\\.$#"
 			count: 1
 			path: src/Middleware/Mezzio.php
