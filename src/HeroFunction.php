@@ -6,6 +6,7 @@ namespace ErrorHeroModule;
 
 use ArrayLookup\AtLeast;
 use Seld\JsonLint\JsonParser;
+use Seld\JsonLint\ParsingException;
 use Throwable;
 
 use function is_array;
@@ -14,9 +15,9 @@ use function strip_tags;
 function detectMessageContentType(string $message): string
 {
     $jsonParser = new JsonParser();
-    return $jsonParser->lint($message) === null
-        ? 'application/problem+json'
-        : (strip_tags($message) === $message ? 'text/plain' : 'text/html');
+    return $jsonParser->lint($message) instanceof ParsingException
+        ? (strip_tags($message) === $message ? 'text/plain' : 'text/html')
+        : 'application/problem+json';
 }
 
 /**

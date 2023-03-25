@@ -95,7 +95,7 @@ final class Mezzio implements MiddlewareInterface
 
     private function showDefaultView(): Response|HtmlResponse
     {
-        if ($this->templateRenderer === null) {
+        if (! $this->templateRenderer instanceof TemplateRendererInterface) {
             return $this->responseByConfigMessage('no_template');
         }
 
