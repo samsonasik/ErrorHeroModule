@@ -14,7 +14,6 @@ use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Log\Logger;
 use Laminas\Log\Writer\Db;
-use Laminas\Mail\Message;
 use ReflectionProperty;
 
 describe('LoggingSpec', function (): void {
