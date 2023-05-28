@@ -59,7 +59,7 @@
     "require-dev": {
         "aura/di": "^3.4 || ^4.2.1",
         "doctrine/dbal": "^3.5.1",
-        "doctrine/doctrine-orm-module": "^4.2.1",
+        "doctrine/doctrine-orm-module": "^4.2.1 || ^5.0",
         "kahlan/kahlan": "^5.2.2",
         "laminas/laminas-cli": "^1.7",
         "laminas/laminas-coding-standard": "^2.4",
