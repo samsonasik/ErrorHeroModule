@@ -33,7 +33,7 @@ final class Mvc extends AbstractListenerAggregate
     private const MESSAGE = 'message';
 
     public function __construct(
-        private array $errorHeroModuleConfig,
+        private readonly array $errorHeroModuleConfig,
         private readonly Logging $logging,
         private readonly PhpRenderer $phpRenderer
     ) {
