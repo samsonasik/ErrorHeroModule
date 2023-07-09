@@ -7,6 +7,7 @@ use Rector\CodingStyle\Rector\ArrowFunction\StaticArrowFunctionRector;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\Closure\StaticClosureRector;
 use Rector\Config\RectorConfig;
+use Rector\Php80\Rector\Catch_\RemoveUnusedVariableInCatchRector;
 use Rector\Php81\Rector\Array_\FirstClassCallableRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
@@ -39,5 +40,6 @@ return static function (RectorConfig $rectorConfig): void {
             __DIR__ . '/spec',
         ],
         FirstClassCallableRector::class,
+        RemoveUnusedVariableInCatchRector::class,
     ]);
 };
