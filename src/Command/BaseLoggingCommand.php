@@ -11,7 +11,6 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
-use Webmozart\Assert\Assert;
 
 use function ErrorHeroModule\isExcludedException;
 
@@ -26,8 +25,6 @@ abstract class BaseLoggingCommand extends Command
 
     private Logging $logging;
 
-    private ?OutputInterface $output = null;
-
     /**
      * MUST BE CALLED after __construct(), as service extends this base class may use depedendency injection
      *
@@ -41,18 +38,16 @@ abstract class BaseLoggingCommand extends Command
 
     public function run(InputInterface $input, OutputInterface $output): int
     {
-        $this->output = $output;
-
         try {
             $this->phpError();
             return parent::run($input, $output);
         } catch (Throwable $throwable) {
         }
 
-        return $this->exceptionError($throwable);
+        return $this->exceptionError($throwable, $output);
     }
 
-    private function exceptionError(Throwable $throwable): int
+    private function exceptionError(Throwable $throwable, OutputInterface $output): int
     {
         if (
             isset($this->errorHeroModuleConfig[self::DISPLAY_SETTINGS]['exclude-exceptions'])
@@ -71,8 +66,7 @@ abstract class BaseLoggingCommand extends Command
         }
 
         // show default view if display_errors setting = 0.
-        Assert::isInstanceOf($this->output, OutputInterface::class);
-        return $this->showDefaultConsoleView($this->output);
+        return $this->showDefaultConsoleView($output);
     }
 
     private function showDefaultConsoleView(OutputInterface $output): int
