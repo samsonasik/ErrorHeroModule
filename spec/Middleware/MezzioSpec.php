@@ -23,7 +23,7 @@ use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-describe('Mezzio', function () {
+describe('Mezzio', function (): void {
 
     given('logging', fn() : object => Double::instance([
         'extends' => Logging::class,
@@ -227,7 +227,7 @@ json
         $this->renderer
     ));
 
-    describe('->process()', function () {
+    describe('->process()', function (): void {
 
         it('returns handle() when not enabled', function (): void {
 
@@ -254,9 +254,9 @@ json
 
         });
 
-        context('error', function () {
+        context('error', function (): void {
 
-            it('non-xmlhttprequest: returns error page on display_errors = 0', function () {
+            it('non-xmlhttprequest: returns error page on display_errors = 0', function (): void {
 
                 $config = $this->config;
                 $config['display-settings']['display_errors'] = 0;
@@ -285,7 +285,7 @@ json
 
             });
 
-            it('non-xmlhttprequest: shows error on display_errors = 1', function () {
+            it('non-xmlhttprequest: shows error on display_errors = 1', function (): void {
 
                 $config = $this->config;
                 $config['display-settings']['display_errors'] = 1;
@@ -312,7 +312,7 @@ json
 
             });
 
-            it('passed renderer is null returns error message on display_errors = 0', function () {
+            it('passed renderer is null returns error message on display_errors = 0', function (): void {
 
                 $config = $this->config;
                 $config['display-settings']['display_errors'] = 0;
@@ -349,7 +349,7 @@ json
 
             });
 
-            it('xmlhttprequest: returns error page on display_errors = 0', function () {
+            it('xmlhttprequest: returns error page on display_errors = 0', function (): void {
 
                 $config = $this->config;
                 $config['display-settings']['display_errors'] = 0;
@@ -386,7 +386,7 @@ json
 
             });
 
-            it('xmlhttprequest: shows error on display_errors = 1', function () {
+            it('xmlhttprequest: shows error on display_errors = 1', function (): void {
 
                 $config = $this->config;
                 $config['display-settings']['display_errors'] = 1;
@@ -418,7 +418,7 @@ json
 
         });
 
-        it('do not call logging->handleErrorException() if $e->getParam("exception") and has excluded exception match', function () {
+        it('do not call logging->handleErrorException() if $e->getParam("exception") and has excluded exception match', function (): void {
 
             $config = $this->config;
             $config['display-settings']['exclude-exceptions'] = [

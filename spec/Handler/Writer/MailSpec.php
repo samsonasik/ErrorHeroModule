@@ -10,7 +10,7 @@ use Laminas\Mail\Transport\TransportInterface;
 use ReflectionProperty;
 use Throwable;
 
-describe('Mail', function () {
+describe('Mail', function (): void {
 
    beforeAll(function (): void {
         $this->mailMessage   = Double::instance(['extends' => Message::class]);
@@ -31,7 +31,7 @@ describe('Mail', function () {
         );
    });
 
-   describe('->shutdown', function () {
+   describe('->shutdown', function (): void {
 
         it('bring multiple collection upload, then transport->send()', function (): void {
 
@@ -108,7 +108,7 @@ describe('Mail', function () {
 
         });
 
-         it('transport->send() trigger error', function () {
+         it('transport->send() trigger error', function (): void {
 
             $r = new ReflectionProperty($this->writer, 'eventsToMail');
             $r->setAccessible(true);
