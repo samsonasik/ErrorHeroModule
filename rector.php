@@ -19,6 +19,7 @@ return static function (RectorConfig $rectorConfig): void {
         SetList::NAMING,
         SetList::PRIVATIZATION,
         SetList::TYPE_DECLARATION,
+        SetList::STRICT_BOOLEANS,
     ]);
 
     $rectorConfig->parallel();

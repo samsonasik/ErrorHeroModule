@@ -227,7 +227,7 @@ final class Logging
                 } catch (RuntimeException $runtimeException) {
                     // use \Laminas\Db\Adapter\Exception\RuntimeException but do here
                     // to avoid too much deep trace from Laminas\Db classes
-                    throw new ${! ${''} = $runtimeException::class}($runtimeException->getMessage());
+                    throw new ${(${''} = $runtimeException::class) === ''}($runtimeException->getMessage());
                 }
             }
         }
@@ -237,11 +237,11 @@ final class Logging
 
     private function sendMail(int $priority, string $errorMessage, array $extra, string $subject): void
     {
-        if (! $this->message || ! $this->mailMessageTransport) {
+        if (! $this->message instanceof Message || ! $this->mailMessageTransport instanceof TransportInterface) {
             return;
         }
 
-        if (! $this->emailReceivers) {
+        if ($this->emailReceivers === []) {
             return;
         }
 
