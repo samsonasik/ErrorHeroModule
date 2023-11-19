@@ -237,11 +237,11 @@ final class Logging
 
     private function sendMail(int $priority, string $errorMessage, array $extra, string $subject): void
     {
-        if (! $this->message || ! $this->mailMessageTransport) {
+        if (! $this->message instanceof Message || ! $this->mailMessageTransport instanceof TransportInterface) {
             return;
         }
 
-        if (! $this->emailReceivers) {
+        if ($this->emailReceivers === []) {
             return;
         }
 
