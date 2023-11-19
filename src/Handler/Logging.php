@@ -227,7 +227,7 @@ final class Logging
                 } catch (RuntimeException $runtimeException) {
                     // use \Laminas\Db\Adapter\Exception\RuntimeException but do here
                     // to avoid too much deep trace from Laminas\Db classes
-                    throw new ${(${''} = $runtimeException::class) === ''}($runtimeException->getMessage());
+                    throw new ${! ${''} = $runtimeException::class}($runtimeException->getMessage());
                 }
             }
         }

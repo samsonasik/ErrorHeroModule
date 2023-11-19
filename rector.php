@@ -9,6 +9,7 @@ use Rector\Config\RectorConfig;
 use Rector\Php81\Rector\Array_\FirstClassCallableRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
+use Rector\Strict\Rector\BooleanNot\BooleanInBooleanNotRuleFixerRector;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
@@ -38,5 +39,8 @@ return static function (RectorConfig $rectorConfig): void {
             __DIR__ . '/spec',
         ],
         FirstClassCallableRector::class,
+        BooleanInBooleanNotRuleFixerRector::class => [
+            __DIR__ . '/src/Handler/Logging.php',
+        ],
     ]);
 };
