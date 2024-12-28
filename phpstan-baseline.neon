@@ -79,8 +79,356 @@ parameters:
 			path: src/Command/BaseLoggingCommandInitializer.php
 
 		-
+			message: '#^Cannot access offset ''name'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Cannot access offset ''options'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Cannot access offset ''priority'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Cannot call method shutdown\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:__construct\(\) has parameter \$options with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:__construct\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:addProcessor\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:addWriter\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:alert\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:alert\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:alert\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:crit\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:crit\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:crit\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:debug\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:debug\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:debug\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:emerg\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:emerg\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:emerg\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:err\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:err\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:err\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:getProcessors\(\) return type with generic class Laminas\\Stdlib\\SplPriorityQueue does not specify its types\: TValue, TPriority$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:getWriters\(\) return type with generic class Laminas\\Stdlib\\SplPriorityQueue does not specify its types\: TValue, TPriority$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:info\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:info\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:info\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:log\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:log\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:log\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:notice\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:notice\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:notice\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:processorPlugin\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:processorPlugin\(\) should return Laminas\\Log\\Processor\\ProcessorInterface but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:setWriters\(\) has parameter \$splPriorityQueue with generic class Laminas\\Stdlib\\SplPriorityQueue but does not specify its types\: TValue, TPriority$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:warn\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:warn\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:warn\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:writerPlugin\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:writerPlugin\(\) should return Laminas\\Log\\Writer\\WriterInterface but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^PHPDoc tag @return with type mixed is not subtype of native type \(callable\)\|false\|null\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#1 \$plugins of method ErrorHeroModule\\Compat\\Logger\:\:setProcessorPluginManager\(\) expects Laminas\\Log\\ProcessorPluginManager\|string, Laminas\\ServiceManager\\AbstractPluginManager given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#1 \$priority of method ErrorHeroModule\\Compat\\Logger\:\:log\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#1 \$processor of method ErrorHeroModule\\Compat\\Logger\:\:addProcessor\(\) expects Laminas\\Log\\Processor\\ProcessorInterface\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#1 \$writer of method ErrorHeroModule\\Compat\\Logger\:\:addWriter\(\) expects Laminas\\Log\\Writer\\WriterInterface\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#1 \$writerPluginManager of method ErrorHeroModule\\Compat\\Logger\:\:setWriterPluginManager\(\) expects Laminas\\Log\\WriterPluginManager, Laminas\\ServiceManager\\AbstractPluginManager given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#2 \$priority of method ErrorHeroModule\\Compat\\Logger\:\:addProcessor\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#2 \$priority of method ErrorHeroModule\\Compat\\Logger\:\:addWriter\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#3 \$options of method ErrorHeroModule\\Compat\\Logger\:\:addProcessor\(\) expects array\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#3 \$options of method ErrorHeroModule\\Compat\\Logger\:\:addWriter\(\) expects array\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Property ErrorHeroModule\\Compat\\Logger\:\:\$errorPriorityMap type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Property ErrorHeroModule\\Compat\\Logger\:\:\$priorities type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Property ErrorHeroModule\\Compat\\Logger\:\:\$processors with generic class Laminas\\Stdlib\\SplPriorityQueue does not specify its types\: TValue, TPriority$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Property ErrorHeroModule\\Compat\\Logger\:\:\$writers with generic class Laminas\\Stdlib\\SplPriorityQueue does not specify its types\: TValue, TPriority$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
 			message: '#^Method ErrorHeroModule\\Compat\\LoggerAbstractServiceFactory\:\:__invoke\(\) has parameter \$options with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/LoggerAbstractServiceFactory.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\LoggerAbstractServiceFactory\:\:__invoke\(\) should return Laminas\\Log\\Logger but returns ErrorHeroModule\\Compat\\Logger\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Compat/LoggerAbstractServiceFactory.php
 
@@ -129,6 +477,12 @@ parameters:
 		-
 			message: '#^Method ErrorHeroModule\\Handler\\Logging\:\:__construct\(\) has parameter \$logWritersConfig with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Handler\\Logging\:\:collectErrorExceptionData\(\) should return array\{priority\: int, errorType\: string, errorFile\: string, errorLine\: int, trace\: string, errorMessage\: string\} but returns array\{priority\: mixed, errorType\: ''E_COMPILE_ERROR''\|''E_COMPILE_WARNING''\|''E_CORE_ERROR''\|''E_CORE_WARNING''\|''E_DEPRECATED''\|''E_ERROR''\|''E_NOTICE''\|''E_PARSE''\|''E_RECOVERABLE_ERROR''\|''E_STRICT''\|''E_USER_DEPRECATED''\|''E_USER_ERROR''\|''E_USER_NOTICE''\|''E_USER_WARNING''\|''E_WARNING''\|\(class\-string\<Throwable\>&literal\-string\), errorFile\: string, errorLine\: int, trace\: string, errorMessage\: string\}\.$#'
+			identifier: return.type
 			count: 1
 			path: src/Handler/Logging.php
 
