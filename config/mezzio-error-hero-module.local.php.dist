@@ -152,9 +152,6 @@ json
     ],
 
     'dependencies' => [
-        'abstract_factories' => [
-            LoggerAbstractServiceFactory::class,
-        ],
         'factories' => [
             Mezzio::class => MezzioFactory::class,
             ErrorPreviewAction::class => InvokableFactory::class,

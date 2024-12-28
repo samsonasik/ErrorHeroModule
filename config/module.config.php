@@ -5,7 +5,6 @@ namespace ErrorHeroModule;
 use ErrorHeroModule\Command\BaseLoggingCommandInitializer;
 use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
 use ErrorHeroModule\Controller\ErrorPreviewController;
-use Laminas\Log\LoggerAbstractServiceFactory;
 use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
 use ErrorHeroModule\Handler\Logging;
@@ -38,9 +37,6 @@ return [
     ],
 
     'service_manager' => [
-        'abstract_factories' => [
-            LoggerAbstractServiceFactory::class,
-        ],
         'factories' => [
             Mvc::class    => MvcFactory::class,
             Logging::class => LoggingFactory::class,
