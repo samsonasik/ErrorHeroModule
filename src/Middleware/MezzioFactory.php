@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Middleware;
 
 use ArrayObject;
-use Aura\Di\Container as AuraContainer;
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Handler\Logging;
-use ErrorHeroModule\Transformer\AuraService;
 use ErrorHeroModule\Transformer\Doctrine;
 use ErrorHeroModule\Transformer\PimpleService;
 use ErrorHeroModule\Transformer\SymfonyService;
@@ -29,7 +27,6 @@ final class MezzioFactory
     /** @var array<string, string> */
     private const CONTAINERS_TRANSFORM = [
         ContainerBuilder::class     => SymfonyService::class,
-        AuraContainer::class        => AuraService::class,
         Psr11PimpleContainer::class => PimpleService::class,
     ];
 

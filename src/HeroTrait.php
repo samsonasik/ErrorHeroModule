@@ -27,7 +27,6 @@ use function set_error_handler;
 use function str_starts_with;
 
 use const E_ALL;
-use const E_STRICT;
 
 trait HeroTrait
 {
@@ -43,7 +42,7 @@ trait HeroTrait
         }
 
         if (! $this->errorHeroModuleConfig['display-settings']['display_errors']) {
-            error_reporting(E_ALL | E_STRICT);
+            error_reporting(E_ALL | 2048);
             ini_set('display_errors', '0');
         }
 

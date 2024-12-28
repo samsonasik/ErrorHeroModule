@@ -1,26 +1,1189 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Instanceof between \\*NEVER\\* and ErrorHeroModule\\\\Listener\\\\Mvc will always evaluate to false\\.$#"
+			message: '#^Cannot access offset ''console'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Command/BaseLoggingCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, array\\{\\$this\\(ErrorHeroModule\\\\Command\\\\BaseLoggingCommand\\), 'phpErrorHandler'\\} given\\.$#"
+			message: '#^Cannot access offset ''display_errors'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Command/BaseLoggingCommand.php
+
+		-
+			message: '#^Cannot access offset ''exclude\-exceptions'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Command/BaseLoggingCommand.php
 
 		-
-			message: "#^Invalid type object to throw\\.$#"
+			message: '#^Cannot access offset ''exclude\-php\-errors'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Command/BaseLoggingCommand.php
+
+		-
+			message: '#^Cannot access offset ''message'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Command/BaseLoggingCommand.php
+
+		-
+			message: '#^Instanceof between \*NEVER\* and ErrorHeroModule\\Listener\\Mvc will always evaluate to false\.$#'
+			identifier: instanceof.alwaysFalse
+			count: 1
+			path: src/Command/BaseLoggingCommand.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Command\\BaseLoggingCommand\:\:init\(\) has parameter \$errorHeroModuleConfig with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Command/BaseLoggingCommand.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function set_error_handler expects \(callable\(int, string, string, int\)\: bool\)\|null, array\{\$this\(ErrorHeroModule\\Command\\BaseLoggingCommand\), ''phpErrorHandler''\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Command/BaseLoggingCommand.php
+
+		-
+			message: '#^Parameter \#1 \$data of static method ArrayLookup\\AtLeast\:\:once\(\) expects iterable\<int\|string, mixed\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Command/BaseLoggingCommand.php
+
+		-
+			message: '#^Parameter \#1 \$excludeExceptionsConfig of function ErrorHeroModule\\isExcludedException expects array\<int, array\<int, string\>\|string\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Command/BaseLoggingCommand.php
+
+		-
+			message: '#^Property ErrorHeroModule\\Command\\BaseLoggingCommand\:\:\$errorHeroModuleConfig type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Command/BaseLoggingCommand.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$config has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Command/BaseLoggingCommandInitializer.php
+
+		-
+			message: '#^Parameter \#1 \$errorHeroModuleConfig of method ErrorHeroModule\\Command\\BaseLoggingCommand\:\:init\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Command/BaseLoggingCommandInitializer.php
+
+		-
+			message: '#^Cannot access offset ''name'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Cannot access offset ''options'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Cannot access offset ''priority'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Cannot call method shutdown\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:__construct\(\) has parameter \$options with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:__construct\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:addProcessor\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:addWriter\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:alert\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:alert\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:alert\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:crit\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:crit\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:crit\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:debug\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:debug\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:debug\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:emerg\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:emerg\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:emerg\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:err\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:err\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:err\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:getProcessors\(\) return type with generic class Laminas\\Stdlib\\SplPriorityQueue does not specify its types\: TValue, TPriority$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:getWriters\(\) return type with generic class Laminas\\Stdlib\\SplPriorityQueue does not specify its types\: TValue, TPriority$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:info\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:info\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:info\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:log\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:log\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:log\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:notice\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:notice\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:notice\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:processorPlugin\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:processorPlugin\(\) should return Laminas\\Log\\Processor\\ProcessorInterface but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:setWriters\(\) has parameter \$splPriorityQueue with generic class Laminas\\Stdlib\\SplPriorityQueue but does not specify its types\: TValue, TPriority$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:warn\(\) has parameter \$extra with no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:warn\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:warn\(\) has parameter \$extra with no value type specified in iterable type array\|Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:writerPlugin\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\Logger\:\:writerPlugin\(\) should return Laminas\\Log\\Writer\\WriterInterface but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^PHPDoc tag @return with type mixed is not subtype of native type \(callable\)\|false\|null\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#1 \$plugins of method ErrorHeroModule\\Compat\\Logger\:\:setProcessorPluginManager\(\) expects Laminas\\Log\\ProcessorPluginManager\|string, Laminas\\ServiceManager\\AbstractPluginManager given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#1 \$priority of method ErrorHeroModule\\Compat\\Logger\:\:log\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#1 \$processor of method ErrorHeroModule\\Compat\\Logger\:\:addProcessor\(\) expects Laminas\\Log\\Processor\\ProcessorInterface\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#1 \$writer of method ErrorHeroModule\\Compat\\Logger\:\:addWriter\(\) expects Laminas\\Log\\Writer\\WriterInterface\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#1 \$writerPluginManager of method ErrorHeroModule\\Compat\\Logger\:\:setWriterPluginManager\(\) expects Laminas\\Log\\WriterPluginManager, Laminas\\ServiceManager\\AbstractPluginManager given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#2 \$priority of method ErrorHeroModule\\Compat\\Logger\:\:addProcessor\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#2 \$priority of method ErrorHeroModule\\Compat\\Logger\:\:addWriter\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#3 \$options of method ErrorHeroModule\\Compat\\Logger\:\:addProcessor\(\) expects array\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Parameter \#3 \$options of method ErrorHeroModule\\Compat\\Logger\:\:addWriter\(\) expects array\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Property ErrorHeroModule\\Compat\\Logger\:\:\$errorPriorityMap type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Property ErrorHeroModule\\Compat\\Logger\:\:\$priorities type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Property ErrorHeroModule\\Compat\\Logger\:\:\$processors with generic class Laminas\\Stdlib\\SplPriorityQueue does not specify its types\: TValue, TPriority$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Property ErrorHeroModule\\Compat\\Logger\:\:\$writers with generic class Laminas\\Stdlib\\SplPriorityQueue does not specify its types\: TValue, TPriority$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Compat/Logger.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\LoggerAbstractServiceFactory\:\:__invoke\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Compat/LoggerAbstractServiceFactory.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Compat\\LoggerAbstractServiceFactory\:\:__invoke\(\) should return Laminas\\Log\\Logger but returns ErrorHeroModule\\Compat\\Logger\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Compat/LoggerAbstractServiceFactory.php
+
+		-
+			message: '#^Parameter \#1 \$config of method Laminas\\Log\\LoggerServiceFactory\:\:processConfig\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Compat/LoggerAbstractServiceFactory.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:isInstanceOf\(\) with Laminas\\Http\\PhpEnvironment\\Request and ''Laminas\\\\Http\\\\PhpEnvironment\\\\Request'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
 			count: 1
 			path: src/Handler/Logging.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, array\\{\\$this\\(ErrorHeroModule\\\\Listener\\\\Mvc\\), 'phpErrorHandler'\\} given\\.$#"
+			message: '#^Cannot access offset ''email\-from'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Cannot access offset ''email\-to\-send'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Cannot access offset ''files_data'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Invalid type object to throw\.$#'
+			identifier: throw.notThrowable
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Handler\\Logging\:\:__construct\(\) has parameter \$errorHeroModuleLocalConfig with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Handler\\Logging\:\:__construct\(\) has parameter \$logWritersConfig with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Handler\\Logging\:\:collectErrorExceptionData\(\) should return array\{priority\: int, errorType\: string, errorFile\: string, errorLine\: int, trace\: string, errorMessage\: string\} but returns array\{priority\: mixed, errorType\: ''E_COMPILE_ERROR''\|''E_COMPILE_WARNING''\|''E_CORE_ERROR''\|''E_CORE_WARNING''\|''E_DEPRECATED''\|''E_ERROR''\|''E_NOTICE''\|''E_PARSE''\|''E_RECOVERABLE_ERROR''\|''E_STRICT''\|''E_USER_DEPRECATED''\|''E_USER_ERROR''\|''E_USER_NOTICE''\|''E_USER_WARNING''\|''E_WARNING''\|\(class\-string\<Throwable\>&literal\-string\), errorFile\: string, errorLine\: int, trace\: string, errorMessage\: string\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Handler\\Logging\:\:collectErrorExceptionExtraData\(\) has parameter \$collectedExceptionData with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Handler\\Logging\:\:collectErrorExceptionExtraData\(\) should return array\{server_url\: string, url\: string, file\: string, line\: int, error_type\: string, trace\: string, request_data\: array\<string, mixed\>\} but returns array\{server_url\: string, url\: string, file\: mixed, line\: mixed, error_type\: mixed, trace\: mixed, request_data\: array\<string, mixed\>\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Handler\\Logging\:\:sendMail\(\) has parameter \$extra with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$files contains generic interface Laminas\\Stdlib\\ParametersInterface but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$files has no value type specified in iterable type Laminas\\Stdlib\\ParametersInterface\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$post contains generic interface Laminas\\Stdlib\\ParametersInterface but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$post has no value type specified in iterable type Laminas\\Stdlib\\ParametersInterface\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$query contains generic interface Laminas\\Stdlib\\ParametersInterface but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$query has no value type specified in iterable type Laminas\\Stdlib\\ParametersInterface\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Parameter \#1 \$emailOrAddressList of method Laminas\\Mail\\Message\:\:setTo\(\) expects array\|Laminas\\Mail\\Address\\AddressInterface\|string\|Traversable, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Parameter \#2 \$array of function implode expects array\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Parameter \#3 \$filesData of class ErrorHeroModule\\Handler\\Writer\\Mail constructor expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Property ErrorHeroModule\\Handler\\Logging\:\:\$configLoggingSettings \(array\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Property ErrorHeroModule\\Handler\\Logging\:\:\$configLoggingSettings type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Property ErrorHeroModule\\Handler\\Logging\:\:\$emailReceivers \(array\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Property ErrorHeroModule\\Handler\\Logging\:\:\$emailReceivers type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Property ErrorHeroModule\\Handler\\Logging\:\:\$emailSender \(string\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Handler/Logging.php
+
+		-
+			message: '#^Cannot access offset ''ErrorHeroModuleLogger'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/LoggingFactory.php
+
+		-
+			message: '#^Cannot access offset ''email\-notification\-settings'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/LoggingFactory.php
+
+		-
+			message: '#^Cannot access offset ''enable'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/LoggingFactory.php
+
+		-
+			message: '#^Cannot access offset ''include\-files\-to\-attachments'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/LoggingFactory.php
+
+		-
+			message: '#^Cannot access offset ''mail\-message'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/LoggingFactory.php
+
+		-
+			message: '#^Cannot access offset ''mail\-transport'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/LoggingFactory.php
+
+		-
+			message: '#^Cannot access offset ''writers'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/LoggingFactory.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$config has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/LoggingFactory.php
+
+		-
+			message: '#^Parameter \#1 \$id of method Psr\\Container\\ContainerInterface\:\:get\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Handler/LoggingFactory.php
+
+		-
+			message: '#^Parameter \#2 \$errorHeroModuleLocalConfig of class ErrorHeroModule\\Handler\\Logging constructor expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/LoggingFactory.php
+
+		-
+			message: '#^Parameter \#3 \$logWritersConfig of class ErrorHeroModule\\Handler\\Logging constructor expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/LoggingFactory.php
+
+		-
+			message: '#^Parameter \#6 \$includeFilesToAttachments of class ErrorHeroModule\\Handler\\Logging constructor expects bool, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/LoggingFactory.php
+
+		-
+			message: '#^Binary operation "\." between mixed and '' DESC'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Cannot access offset ''column'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 6
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Cannot access offset ''error_type'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Cannot access offset ''extra'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 4
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Cannot access offset ''file'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Cannot access offset ''line'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Cannot access offset ''message'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Cannot access offset ''name'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Cannot access offset ''options'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 7
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Cannot access offset ''table'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Cannot access offset ''timestamp'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Cannot access offset ''url'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Cannot access property \$db on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Handler\\Writer\\Checker\\Db\:\:__construct\(\) has parameter \$configLoggingSettings with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Handler\\Writer\\Checker\\Db\:\:__construct\(\) has parameter \$logWritersConfig with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Parameter \#1 \$table of class Laminas\\Db\\TableGateway\\TableGateway constructor expects array\|Laminas\\Db\\Sql\\TableIdentifier\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Parameter \#2 \$adapter of class Laminas\\Db\\TableGateway\\TableGateway constructor expects Laminas\\Db\\Adapter\\AdapterInterface, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Cannot access offset ''name'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Handler/Writer/Mail.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Handler\\Writer\\Mail\:\:__construct\(\) has parameter \$filesData with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/Writer/Mail.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Handler\\Writer\\Mail\:\:bodyAddPart\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/Writer/Mail.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Handler\\Writer\\Mail\:\:singleBodyAddPart\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Handler/Writer/Mail.php
+
+		-
+			message: '#^Parameter \#1 \$array of function key expects array\|object, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/Writer/Mail.php
+
+		-
+			message: '#^Parameter \#1 \$filename of function fopen expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/Writer/Mail.php
+
+		-
+			message: '#^Parameter \#2 \$data of method ErrorHeroModule\\Handler\\Writer\\Mail\:\:bodyAddPart\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/Writer/Mail.php
+
+		-
+			message: '#^Parameter \#2 \$data of method ErrorHeroModule\\Handler\\Writer\\Mail\:\:singleBodyAddPart\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Handler/Writer/Mail.php
+
+		-
+			message: '#^Property Laminas\\Mime\\Part\:\:\$filename \(string\|null\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Handler/Writer/Mail.php
+
+		-
+			message: '#^Property Laminas\\Mime\\Part\:\:\$type \(string\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Handler/Writer/Mail.php
+
+		-
+			message: '#^Cannot access offset ''ajax'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Listener/Mvc.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, array\\{\\$this\\(ErrorHeroModule\\\\Middleware\\\\Mezzio\\), 'phpErrorHandler'\\} given\\.$#"
+			message: '#^Cannot access offset ''display_errors'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Listener/Mvc.php
+
+		-
+			message: '#^Cannot access offset ''exclude\-exceptions'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Listener/Mvc.php
+
+		-
+			message: '#^Cannot access offset ''exclude\-php\-errors'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Listener/Mvc.php
+
+		-
+			message: '#^Cannot access offset ''layout'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Listener/Mvc.php
+
+		-
+			message: '#^Cannot access offset ''message'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Listener/Mvc.php
+
+		-
+			message: '#^Cannot access offset ''template'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Listener/Mvc.php
+
+		-
+			message: '#^Cannot access offset ''view'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Listener/Mvc.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Listener\\Mvc\:\:__construct\(\) has parameter \$errorHeroModuleConfig with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Listener/Mvc.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function set_error_handler expects \(callable\(int, string, string, int\)\: bool\)\|null, array\{\$this\(ErrorHeroModule\\Listener\\Mvc\), ''phpErrorHandler''\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Listener/Mvc.php
+
+		-
+			message: '#^Parameter \#1 \$data of static method ArrayLookup\\AtLeast\:\:once\(\) expects iterable\<int\|string, mixed\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Listener/Mvc.php
+
+		-
+			message: '#^Parameter \#1 \$excludeExceptionsConfig of function ErrorHeroModule\\isExcludedException expects array\<int, array\<int, string\>\|string\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Listener/Mvc.php
+
+		-
+			message: '#^Parameter \#1 \$message of function ErrorHeroModule\\detectMessageContentType expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Listener/Mvc.php
+
+		-
+			message: '#^Parameter \#1 \$nameOrModel of method Laminas\\View\\Renderer\\PhpRenderer\:\:render\(\) expects Laminas\\View\\Model\\ModelInterface\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Listener/Mvc.php
+
+		-
+			message: '#^Parameter \#1 \$template of method Laminas\\View\\Model\\ModelInterface\:\:setTemplate\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Listener/Mvc.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$config has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Listener/MvcFactory.php
+
+		-
+			message: '#^Parameter \#1 \$errorHeroModuleConfig of class ErrorHeroModule\\Listener\\Mvc constructor expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Listener/MvcFactory.php
+
+		-
+			message: '#^Cannot access offset ''layout'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/Middleware/Mezzio.php
+
+		-
+			message: '#^Cannot access offset ''message'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Middleware/Mezzio.php
+
+		-
+			message: '#^Cannot access offset ''view'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Middleware/Mezzio.php
+
+		-
+			message: '#^Cannot access property \$layout on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Middleware/Mezzio.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Middleware\\Mezzio\:\:__construct\(\) has parameter \$errorHeroModuleConfig with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 2
+			path: src/Middleware/Mezzio.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function set_error_handler expects \(callable\(int, string, string, int\)\: bool\)\|null, array\{\$this\(ErrorHeroModule\\Middleware\\Mezzio\), ''phpErrorHandler''\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Middleware/Mezzio.php
+
+		-
+			message: '#^Parameter \#1 \$data of static method ArrayLookup\\AtLeast\:\:once\(\) expects iterable\<int\|string, mixed\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Middleware/Mezzio.php
+
+		-
+			message: '#^Parameter \#1 \$excludeExceptionsConfig of function ErrorHeroModule\\isExcludedException expects array\<int, array\<int, string\>\|string\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Middleware/Mezzio.php
+
+		-
+			message: '#^Parameter \#1 \$message of function ErrorHeroModule\\detectMessageContentType expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Middleware/Mezzio.php
+
+		-
+			message: '#^Parameter \#1 \$name of method Mezzio\\Template\\TemplateRendererInterface\:\:render\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Middleware/Mezzio.php
+
+		-
+			message: '#^Parameter \#1 \$string of method Psr\\Http\\Message\\StreamInterface\:\:write\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Middleware/Mezzio.php
+
+		-
+			message: '#^Parameter \#1 \$template of method Laminas\\View\\Model\\ViewModel\:\:setTemplate\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Middleware/Mezzio.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Middleware\\MezzioFactory\:\:createMiddlewareInstance\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Middleware/MezzioFactory.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Middleware\\MezzioFactory\:\:verifyConfig\(\) has parameter \$configuration with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Middleware/MezzioFactory.php
+
+		-
+			message: '#^Parameter \#1 \$errorHeroModuleConfig of class ErrorHeroModule\\Middleware\\Mezzio constructor expects array\{exclude\-exceptions\: array, enable\: bool, display\-settings\: array\}, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Middleware/MezzioFactory.php
+
+		-
+			message: '#^Cannot access offset ''ErrorHeroModule\\\\Command\\\\Preview\\\\ErrorPreviewConsoleCommand'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Module.php
+
+		-
+			message: '#^Cannot access offset ''ErrorHeroModule\\\\Controller\\\\ErrorPreviewController'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Module.php
+
+		-
+			message: '#^Cannot access offset ''commands'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Module.php
+
+		-
+			message: '#^Cannot access offset ''enable\-error\-preview\-page'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Module.php
+
+		-
+			message: '#^Cannot access offset ''error\-preview'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Module.php
+
+		-
+			message: '#^Cannot access offset ''errorheromodule\:preview'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Module.php
+
+		-
+			message: '#^Cannot access offset ''factories'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Module.php
+
+		-
+			message: '#^Cannot access offset ''routes'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Module.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Module\:\:getConfig\(\) should return array\<mixed\> but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Module.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$configuration has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Module.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Transformer\\Doctrine\:\:transform\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Transformer/Doctrine.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$params has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Transformer/Doctrine.php
+
+		-
+			message: '#^Cannot access offset ''ErrorHeroModuleLogger'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Transformer/PimpleService.php
+
+		-
+			message: '#^Cannot access property \$pimple on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Transformer/PimpleService.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Transformer\\PimpleService\:\:transform\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Transformer/PimpleService.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Transformer\\SymfonyService\:\:transform\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Transformer/SymfonyService.php
+
+		-
+			message: '#^Cannot access offset ''ErrorHeroModuleLogger'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Transformer/TransformerAbstract.php
+
+		-
+			message: '#^Cannot access offset ''adapters'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Transformer/TransformerAbstract.php
+
+		-
+			message: '#^Cannot access offset ''writers'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Transformer/TransformerAbstract.php
+
+		-
+			message: '#^Cannot access offset mixed on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Transformer/TransformerAbstract.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Transformer\\TransformerAbstract\:\:getDbAdapterConfig\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Transformer/TransformerAbstract.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Transformer\\TransformerAbstract\:\:getDbAdapterConfig\(\) should return array\<mixed\> but returns mixed\.$#'
+			identifier: return.type
+			count: 2
+			path: src/Transformer/TransformerAbstract.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Transformer\\TransformerAbstract\:\:getLoggerInstance\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Transformer/TransformerAbstract.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Transformer\\TransformerAbstract\:\:getLoggerInstance\(\) has parameter \$dbConfig with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Transformer/TransformerAbstract.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Transformer\\TransformerAbstract\:\:getWriterConfig\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Transformer/TransformerAbstract.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Transformer\\TransformerAbstract\:\:getWriterConfig\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Transformer/TransformerAbstract.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Transformer\\TransformerAbstract\:\:getWriterConfig\(\) should return array\{array\{name\: string, options\: array\}\} but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Transformer/TransformerAbstract.php
+
+		-
+			message: '#^Method ErrorHeroModule\\Transformer\\TransformerInterface\:\:transform\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Transformer/TransformerInterface.php

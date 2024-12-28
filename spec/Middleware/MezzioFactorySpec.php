@@ -2,9 +2,6 @@
 
 namespace ErrorHeroModule\Spec\Middleware;
 
-use ArrayObject;
-use Aura\Di\Container as AuraContainer;
-use Aura\Di\ContainerBuilder as AuraContainerBuilder;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDO\MySql\Driver;
 use Doctrine\ORM\EntityManager;
@@ -26,7 +23,6 @@ describe('MezzioFactory', function (): void {
     given('factory', fn() : MezzioFactory => new MezzioFactory());
 
     given('mapCreateContainers', fn() : array => [
-        AuraContainer::class               => (new AuraContainerBuilder())->newInstance(),
         SymfonyContainerBuilder::class     => new SymfonyContainerBuilder(),
         Psr11PimpleContainer::class        => new Psr11PimpleContainer(new PimpleContainer()),
     ]);
@@ -202,15 +198,9 @@ describe('MezzioFactory', function (): void {
 
             $config = [];
             foreach ($this->mapCreateContainers as $containerClass => $container) {
-                if ($container instanceof AuraContainer) {
-                    $config = new ArrayObject($config);
-                }
 
                 allow($container)->toReceive('get')->with('config')
                                                 ->andReturn($config);
-                if ($container instanceof AuraContainer) {
-                    $config = $config->getArrayCopy();
-                }
 
                 allow($container)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
@@ -242,16 +232,9 @@ describe('MezzioFactory', function (): void {
 
             foreach ($this->mapCreateContainers as $mapCreateContainer) {
                 $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = AdapterInterface::class;
-                if ($mapCreateContainer instanceof AuraContainer) {
-                    $config = new ArrayObject($config);
-                }
 
                 allow($mapCreateContainer)->toReceive('get')->with('config')
                                                 ->andReturn($config);
-                if ($mapCreateContainer instanceof AuraContainer) {
-                    $config = $config->getArrayCopy();
-                }
-
                 allow($mapCreateContainer)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
                 $logging = Double::instance(['extends' => Logging::class, 'methods' => '__construct']);
@@ -275,15 +258,9 @@ describe('MezzioFactory', function (): void {
             foreach ($this->mapCreateContainers as $mapCreateContainer) {
                 $config = $this->config;
                 $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = 'my-adapter';
-                if ($mapCreateContainer instanceof AuraContainer) {
-                    $config = new ArrayObject($config);
-                }
 
                 allow($mapCreateContainer)->toReceive('get')->with('config')
                                                 ->andReturn($config);
-                if ($mapCreateContainer instanceof AuraContainer) {
-                    $config = $config->getArrayCopy();
-                }
 
                 allow($mapCreateContainer)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 
@@ -307,15 +284,9 @@ describe('MezzioFactory', function (): void {
 
             $config = $this->config;
             foreach ($this->mapCreateContainers as $mapCreateContainer) {
-                if ($mapCreateContainer instanceof AuraContainer) {
-                    $config = new ArrayObject($config);
-                }
 
                 allow($mapCreateContainer)->toReceive('get')->with('config')
                                                 ->andReturn($config);
-                if ($mapCreateContainer instanceof AuraContainer) {
-                    $config = $config->getArrayCopy();
-                }
 
                 allow($mapCreateContainer)->toReceive('has')->with(EntityManager::class)->andReturn(false);
 

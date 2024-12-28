@@ -3,6 +3,7 @@
 namespace ErrorHeroModule\Spec\Handler;
 
 use ErrorException;
+use ErrorHeroModule\Compat\Logger;
 use ErrorHeroModule\Handler\Logging;
 use Exception;
 use Kahlan\Plugin\Double;
@@ -12,7 +13,6 @@ use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Sql;
 use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Http\PhpEnvironment\Request;
-use Laminas\Log\Logger;
 use Laminas\Log\Writer\Db;
 use ReflectionProperty;
 

@@ -7,7 +7,7 @@ use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
 use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
-use Laminas\Log\LoggerAbstractServiceFactory;
+use ErrorHeroModule\Compat\LoggerAbstractServiceFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [

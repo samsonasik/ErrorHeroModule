@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ErrorHeroModule\Transformer;
 
+use ErrorHeroModule\Compat\Logger;
 use Laminas\Db\Adapter\Adapter;
-use Laminas\Log\Logger;
 
 abstract class TransformerAbstract
 {

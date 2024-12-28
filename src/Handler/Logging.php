@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Handler;
 
 use ErrorException;
+use ErrorHeroModule\Compat\Logger;
 use ErrorHeroModule\Handler\Formatter\Json;
 use ErrorHeroModule\Handler\Writer\Mail;
 use ErrorHeroModule\HeroConstant;
@@ -12,7 +13,6 @@ use Laminas\Diactoros\Stream;
 use Laminas\Http\Header\Cookie;
 use Laminas\Http\PhpEnvironment\RemoteAddress;
 use Laminas\Http\PhpEnvironment\Request as HttpRequest;
-use Laminas\Log\Logger;
 use Laminas\Log\Writer\Db;
 use Laminas\Mail\Message;
 use Laminas\Mail\Transport\TransportInterface;
