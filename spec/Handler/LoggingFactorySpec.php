@@ -2,11 +2,11 @@
 
 namespace ErrorHeroModule\Spec\Handler;
 
+use ErrorHeroModule\Compat\Logger;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
 use Kahlan\Plugin\Double;
 use Laminas\Db\Adapter\AdapterInterface;
-use Laminas\Log\Logger;
 use Laminas\Mail\Message;
 use Laminas\Mail\Transport\TransportInterface;
 use Psr\Container\ContainerInterface;
