@@ -121,12 +121,6 @@ parameters:
 			path: src/Handler/Logging.php
 
 		-
-			message: '#^Method ErrorHeroModule\\Handler\\Logging\:\:collectErrorExceptionData\(\) should return array\{priority\: int, errorType\: string, errorFile\: string, errorLine\: int, trace\: string, errorMessage\: string\} but returns array\{priority\: mixed, errorType\: ''E_COMPILE_ERROR''\|''E_COMPILE_WARNING''\|''E_CORE_ERROR''\|''E_CORE_WARNING''\|''E_DEPRECATED''\|''E_ERROR''\|''E_NOTICE''\|''E_PARSE''\|''E_RECOVERABLE_ERROR''\|''E_STRICT''\|''E_USER_DEPRECATED''\|''E_USER_ERROR''\|''E_USER_NOTICE''\|''E_USER_WARNING''\|''E_WARNING''\|\(class\-string\<Throwable\>&literal\-string\), errorFile\: string, errorLine\: int, trace\: string, errorMessage\: string\}\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Handler/Logging.php
-
-		-
 			message: '#^Method ErrorHeroModule\\Handler\\Logging\:\:collectErrorExceptionExtraData\(\) has parameter \$collectedExceptionData with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -231,7 +225,7 @@ parameters:
 		-
 			message: '#^Cannot access offset ''ErrorHeroModuleLogger'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
+			count: 2
 			path: src/Handler/LoggingFactory.php
 
 		-
@@ -280,6 +274,12 @@ parameters:
 			message: '#^Parameter \#1 \$id of method Psr\\Container\\ContainerInterface\:\:get\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 2
+			path: src/Handler/LoggingFactory.php
+
+		-
+			message: '#^Parameter \#1 \$options of class ErrorHeroModule\\Compat\\Logger constructor expects array\|Traversable\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
 			path: src/Handler/LoggingFactory.php
 
 		-
