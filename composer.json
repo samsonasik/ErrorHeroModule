@@ -22,7 +22,6 @@
         "twig",
         "plates",
         "symfony",
-        "aura",
         "pimple"
     ],
     "homepage": "https://github.com/samsonasik/ErrorHeroModule",
@@ -57,7 +56,6 @@
         "laminas/laminas-mvc-console": "*"
     },
     "require-dev": {
-        "aura/di": "^3.4 || ^4.2.1",
         "doctrine/dbal": "^3.9.3",
         "doctrine/doctrine-orm-module": "^4.2.1 || ^5.3",
         "kahlan/kahlan": "^5.2.8",

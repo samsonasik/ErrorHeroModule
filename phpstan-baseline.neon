@@ -1081,18 +1081,6 @@ parameters:
 			path: src/Module.php
 
 		-
-			message: '#^Cannot access property \$locked on mixed\.$#'
-			identifier: property.nonObject
-			count: 1
-			path: src/Transformer/AuraService.php
-
-		-
-			message: '#^Method ErrorHeroModule\\Transformer\\AuraService\:\:transform\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Transformer/AuraService.php
-
-		-
 			message: '#^Method ErrorHeroModule\\Transformer\\Doctrine\:\:transform\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
