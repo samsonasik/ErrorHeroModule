@@ -79,22 +79,16 @@ parameters:
 			path: src/Command/BaseLoggingCommandInitializer.php
 
 		-
-			message: '#^Cannot access offset ''log'' on mixed\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: src/Compat/LoggerServiceFactory.php
-
-		-
-			message: '#^Method ErrorHeroModule\\Compat\\LoggerServiceFactory\:\:__invoke\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			message: '#^Method ErrorHeroModule\\Compat\\LoggerAbstractServiceFactory\:\:__invoke\(\) has parameter \$options with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
-			path: src/Compat/LoggerServiceFactory.php
+			path: src/Compat/LoggerAbstractServiceFactory.php
 
 		-
 			message: '#^Parameter \#1 \$config of method Laminas\\Log\\LoggerServiceFactory\:\:processConfig\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
-			path: src/Compat/LoggerServiceFactory.php
+			path: src/Compat/LoggerAbstractServiceFactory.php
 
 		-
 			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:isInstanceOf\(\) with Laminas\\Http\\PhpEnvironment\\Request and ''Laminas\\\\Http\\\\PhpEnvironment\\\\Request'' will always evaluate to true\.$#'
