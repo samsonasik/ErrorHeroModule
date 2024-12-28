@@ -57,6 +57,8 @@ use const E_WARNING;
 
 /**
  * Logging messages with a stack of backends
+ *
+ * @override \Laminas\Logger to support php 8.4
  */
 class Logger implements LoggerInterface
 {
