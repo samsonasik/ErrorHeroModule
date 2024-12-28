@@ -7,7 +7,9 @@ ErrorHeroModule
 [![PHPStan](https://img.shields.io/badge/style-level%20max-brightgreen.svg?style=flat-square&label=phpstan)](https://github.com/phpstan/phpstan)
 [![Downloads](https://poser.pugx.org/samsonasik/error-hero-module/downloads)](https://packagist.org/packages/samsonasik/error-hero-module)
 
-> This is README for version ^5.0 which only support Laminas Mvc version 3 and Mezzio version 3 with php ^8.1.
+> This is README for version ^6.0 which only support Laminas Mvc version 3 and Mezzio version 3 with php ^8.2.
+
+> For version ^5.0, you can read at [version 5 readme](https://github.com/samsonasik/ErrorHeroModule/tree/5.x.x) which only support Laminas Mvc version 3 and Mezzio version 3 with php ^8.1.
 
 > For version ^4.0, you can read at [version 4 readme](https://github.com/samsonasik/ErrorHeroModule/tree/4.x.x) which only support Laminas Mvc version 3 and Mezzio version 3 with php ^8.0.
 

@@ -12,7 +12,7 @@ use Laminas\Log\Writer\Db as DbWriter;
 use function date;
 use function strtotime;
 
-final class Db
+final readonly class Db
 {
     /** @var string */
     private const OPTIONS = 'options';
@@ -24,9 +24,9 @@ final class Db
     private const EXTRA = 'extra';
 
     public function __construct(
-        private readonly DbWriter $dbWriter,
-        private readonly array $configLoggingSettings,
-        private readonly array $logWritersConfig
+        private DbWriter $dbWriter,
+        private array $configLoggingSettings,
+        private array $logWritersConfig
     ) {
     }
 
