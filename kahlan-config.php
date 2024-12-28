@@ -27,6 +27,10 @@ Filters::apply($this, 'coverage', function($next): void {
 
             // mezzio preview page
             'src/Middleware/Routed/Preview/ErrorPreviewAction.php',
+
+            // compatible code
+            'src/Compat/Logger.php',
+            'src/Compat/LoggerAbstractServiceFactory.php'
         ],
         'colors'    => ! $this->commandLine()->get('no-colors')
     ]);
