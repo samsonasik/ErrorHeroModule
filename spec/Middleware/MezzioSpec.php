@@ -237,8 +237,8 @@ json
             allow($handler)->toReceive('handle')->with($this->request)->andReturn(new Response());
             $middleware = new Mezzio($config, $this->logging, $this->renderer);
 
-            $actual = $middleware->process($this->request, $handler);
-            expect($actual)->toBeAnInstanceOf(ResponseInterface::class);
+            $response = $middleware->process($this->request, $handler);
+            expect($response)->toBeAnInstanceOf(ResponseInterface::class);
 
         });
 
@@ -276,10 +276,10 @@ json
                 });
                 $middleware = new Mezzio($config, $logging, $this->renderer);
 
-                $actual = $middleware->process($this->request, $handler);
-                expect($actual)->toBeAnInstanceOf(Response::class);
+                $response = $middleware->process($this->request, $handler);
+                expect($response)->toBeAnInstanceOf(Response::class);
 
-                $content = $actual->getBody()->__toString();
+                $content = $response->getBody()->__toString();
                 expect($content)->toContain('<title>Error');
                 expect($content)->toContain('<p>We have encountered a problem and we can not fulfill your request');
 
@@ -335,9 +335,9 @@ json
                 });
                 $middleware = new Mezzio($config, $logging, null);
 
-                $actual = $middleware->process($request, $handler);
-                expect($actual)->toBeAnInstanceOf(Response::class);
-                expect($actual->getBody()->__toString())->toBe(<<<json
+                $response = $middleware->process($request, $handler);
+                expect($response)->toBeAnInstanceOf(Response::class);
+                expect($response->getBody()->__toString())->toBe(<<<json
 {
     "type": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html",
     "title": "Internal Server Error",
@@ -372,9 +372,9 @@ json
                 });
                 $middleware = new Mezzio($config, $logging, $this->renderer);
 
-                $actual = $middleware->process($request, $handler);
-                expect($actual)->toBeAnInstanceOf(Response::class);
-                expect($actual->getBody()->__toString())->toBe(<<<json
+                $response = $middleware->process($request, $handler);
+                expect($response)->toBeAnInstanceOf(Response::class);
+                expect($response->getBody()->__toString())->toBe(<<<json
 {
     "type": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html",
     "title": "Internal Server Error",
