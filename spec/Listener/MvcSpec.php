@@ -4,6 +4,7 @@ namespace ErrorHeroModule\Spec\Listener;
 
 use Closure;
 use ErrorException;
+use ErrorHeroModule\Compat\Logger;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
 use Exception;
@@ -12,7 +13,6 @@ use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Http\PhpEnvironment\Request;
-use Laminas\Log\Logger;
 use Laminas\Log\Writer\Db;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Uri\Uri;

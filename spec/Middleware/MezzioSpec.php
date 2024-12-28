@@ -4,6 +4,7 @@ namespace ErrorHeroModule\Spec\Middleware;
 
 use Closure;
 use ErrorException;
+use ErrorHeroModule\Compat\Logger;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Middleware\Mezzio;
 use Exception;
@@ -13,7 +14,6 @@ use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\Uri;
-use Laminas\Log\Logger;
 use Laminas\Log\Writer\Db;
 use Laminas\View\Renderer\PhpRenderer;
 use Laminas\View\Resolver\AggregateResolver;
