@@ -7,6 +7,7 @@ use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
 use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
+use Laminas\Log\LoggerAbstractServiceFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
@@ -33,6 +34,9 @@ return [
     ],
 
     'service_manager' => [
+        'abstract_factories' => [
+            LoggerAbstractServiceFactory::class,
+        ],
         'factories' => [
             Mvc::class => MvcFactory::class,
             Logging::class => LoggingFactory::class,
