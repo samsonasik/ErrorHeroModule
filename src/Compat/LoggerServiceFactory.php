@@ -10,7 +10,7 @@ class LoggerServiceFactory extends \Laminas\Log\LoggerServiceFactory
 {
     /**
      * @param string $requestedName
-     * @param null|array $options
+     * @param null|array<mixed> $options
      * @return Logger
      */
     public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
