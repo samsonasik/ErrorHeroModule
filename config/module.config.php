@@ -4,8 +4,8 @@ namespace ErrorHeroModule;
 
 use ErrorHeroModule\Command\BaseLoggingCommandInitializer;
 use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
+use ErrorHeroModule\Compat\LoggerAbstractServiceFactory;
 use ErrorHeroModule\Controller\ErrorPreviewController;
-use Laminas\Log\LoggerAbstractServiceFactory;
 use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
 use ErrorHeroModule\Handler\Logging;
