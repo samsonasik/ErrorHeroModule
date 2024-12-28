@@ -17,7 +17,8 @@ return RectorConfig::configure()
         typeDeclarations: true,
         strictBooleans: true
     )
-    ->withPaths([__DIR__ . '/config', __DIR__ . '/src', __DIR__ . '/spec', __FILE__])
+    ->withPaths([__DIR__ . '/config', __DIR__ . '/src', __DIR__ . '/spec'])
+    ->withRootFiles()
     ->withImportNames(removeUnusedImports: true)
     ->withSkip([
         __DIR__ . '/src/Controller',
