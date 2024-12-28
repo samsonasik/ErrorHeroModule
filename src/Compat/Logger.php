@@ -431,10 +431,8 @@ class Logger implements LoggerInterface
 
     /**
      * Get processors
-     *
-     * @return SplPriorityQueue
      */
-    public function getProcessors()
+    public function getProcessors(): SplPriorityQueue
     {
         return $this->processors;
     }
