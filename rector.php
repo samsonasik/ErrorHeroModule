@@ -8,7 +8,15 @@ use Rector\Strict\Rector\BooleanNot\BooleanInBooleanNotRuleFixerRector;
 
 return RectorConfig::configure()
     ->withPhpSets()
-    ->withPreparedSets(codeQuality: true, codingStyle: true, deadCode: true, naming: true, privatization: true, typeDeclarations: true, strictBooleans: true)
+    ->withPreparedSets(
+        codeQuality: true,
+        codingStyle: true,
+        deadCode: true,
+        naming: true,
+        privatization: true,
+        typeDeclarations: true,
+        strictBooleans: true
+    )
     ->withPaths([__DIR__ . '/config', __DIR__ . '/src', __DIR__ . '/spec', __FILE__])
     ->withImportNames(removeUnusedImports: true)
     ->withSkip([
