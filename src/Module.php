@@ -6,6 +6,7 @@ namespace ErrorHeroModule;
 
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
+use ErrorHeroModule\Compat\Logger;
 use ErrorHeroModule\Controller\ErrorPreviewController;
 use ErrorHeroModule\Transformer\Doctrine;
 use Laminas\ModuleManager\Listener\ConfigListener;
@@ -19,6 +20,7 @@ final class Module
     {
         $eventManager = $moduleManager->getEventManager();
         $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'doctrineTransform']);
+        $eventManager->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'setupCompatibleLogger'], 100);
         $eventManager->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'errorPreviewPageHandler'], 101);
     }
 
@@ -35,6 +37,15 @@ final class Module
         /** @var array<string, mixed> $configuration */
         $configuration = $container->get('config');
         $configuration['db'] ?? Doctrine::transform($container, $configuration);
+    }
+
+    public function setupCompatibleLogger(ModuleEvent $moduleEvent): void
+    {
+        /** @var ServiceManager $container */
+        $container     = $moduleEvent->getParam('ServiceManager');
+        $configuration = $container->get('config');
+
+        $container->setService('ErrorHeroModuleLogger', new Logger($configuration['log']['ErrorHeroModuleLogger']));
     }
 
     public function errorPreviewPageHandler(ModuleEvent $moduleEvent): void

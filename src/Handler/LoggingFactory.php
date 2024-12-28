@@ -23,7 +23,7 @@ final class LoggingFactory
         /** @var array $config */
         $config = $container->get('config');
         /** @var Logger $errorHeroModuleLogger */
-        $errorHeroModuleLogger = new Logger($config['log']['ErrorHeroModuleLogger']);
+        $errorHeroModuleLogger = $container->get('ErrorHeroModuleLogger');
 
         $errorHeroModuleLocalConfig = $config['error-hero-module'];
         $logWritersConfig           = $config['log']['ErrorHeroModuleLogger']['writers'];
