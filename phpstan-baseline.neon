@@ -225,7 +225,7 @@ parameters:
 		-
 			message: '#^Cannot access offset ''ErrorHeroModuleLogger'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 2
+			count: 1
 			path: src/Handler/LoggingFactory.php
 
 		-
@@ -274,12 +274,6 @@ parameters:
 			message: '#^Parameter \#1 \$id of method Psr\\Container\\ContainerInterface\:\:get\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 2
-			path: src/Handler/LoggingFactory.php
-
-		-
-			message: '#^Parameter \#1 \$options of class ErrorHeroModule\\Compat\\Logger constructor expects array\|Traversable\|null, mixed given\.$#'
-			identifier: argument.type
-			count: 1
 			path: src/Handler/LoggingFactory.php
 
 		-
@@ -661,6 +655,12 @@ parameters:
 			path: src/Middleware/MezzioFactory.php
 
 		-
+			message: '#^Cannot access offset ''ErrorHeroModuleLogger'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Module.php
+
+		-
 			message: '#^Cannot access offset ''ErrorHeroModule\\\\Command\\\\Preview\\\\ErrorPreviewConsoleCommand'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -703,6 +703,12 @@ parameters:
 			path: src/Module.php
 
 		-
+			message: '#^Cannot access offset ''log'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Module.php
+
+		-
 			message: '#^Cannot access offset ''routes'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -717,6 +723,12 @@ parameters:
 		-
 			message: '#^PHPDoc tag @var for variable \$configuration has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
+			count: 1
+			path: src/Module.php
+
+		-
+			message: '#^Parameter \#1 \$options of class ErrorHeroModule\\Compat\\Logger constructor expects array\|Traversable\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Module.php
 
