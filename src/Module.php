@@ -20,7 +20,7 @@ final class Module
     {
         $eventManager = $moduleManager->getEventManager();
         $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'doctrineTransform']);
-        $eventManager->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'setupCompatibleLogger'], 100);
+        $eventManager->attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'setupCompatibleLogger']);
         $eventManager->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'errorPreviewPageHandler'], 101);
     }
 
