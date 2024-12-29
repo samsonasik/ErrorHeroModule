@@ -50,9 +50,9 @@
     "conflict": {
         "doctrine/dbal": "<3.0",
         "doctrine/doctrine-orm-module": "<4.1",
-        "laminas/laminas-mvc": "<3.2 >=4.0",
+        "laminas/laminas-mvc": "<3.8",
         "laminas/laminas-servicemanager": "<3.10",
-        "mezzio/mezzio": "<3.3 >=4.0",
+        "mezzio/mezzio": "<3.20.1",
         "laminas/laminas-mvc-console": "*"
     },
     "require-dev": {
