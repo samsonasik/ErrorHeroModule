@@ -36,12 +36,8 @@ final class Mezzio implements MiddlewareInterface
     /**
      * @param array{exclude-exceptions: array, enable: bool, display-settings: array} $errorHeroModuleConfig
      */
-    public function __construct(
-        private array $errorHeroModuleConfig,
-        private readonly Logging $logging,
-        private readonly ?TemplateRendererInterface $templateRenderer
-    ) {
-        $this->errorHeroModuleConfig = $errorHeroModuleConfig;
+    public function __construct(private array $errorHeroModuleConfig, private readonly Logging $logging, private readonly ?TemplateRendererInterface $templateRenderer)
+    {
     }
 
     public function process(
