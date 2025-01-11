@@ -41,7 +41,6 @@ final class Mezzio implements MiddlewareInterface
         private readonly Logging $logging,
         private readonly ?TemplateRendererInterface $templateRenderer
     ) {
-        $this->errorHeroModuleConfig = $errorHeroModuleConfig;
     }
 
     public function process(
