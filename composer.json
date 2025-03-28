@@ -40,7 +40,7 @@
         "laminas/laminas-psr7bridge": "^1.12",
         "laminas/laminas-uri": "^2.13",
         "psr/container": "^1.1.2 || 2.0",
-        "psr/log": "^2.0",
+        "psr/log": "^1.1 || ^2.0",
         "samsonasik/array-lookup": "^2.0",
         "seld/jsonlint": "^1.11",
         "webmozart/assert": "^1.11"
@@ -58,7 +58,7 @@
         "doctrine/doctrine-orm-module": "^4.2.1 || ^5.3 || ^6.0",
         "kahlan/kahlan": "^5.2.8",
         "laminas/laminas-cli": "^1.11",
-        "laminas/laminas-coding-standard": "^2.5",
+        "laminas/laminas-coding-standard": "^3.0",
         "laminas/laminas-form": "^2.16 || ^3.21",
         "laminas/laminas-mvc": "^3.8",
         "laminas/laminas-servicemanager": "^3.23 || ^4.0",
