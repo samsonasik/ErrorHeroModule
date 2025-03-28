@@ -5,19 +5,14 @@ declare(strict_types=1);
 namespace ErrorHeroModule\Handler;
 
 use ErrorException;
-use ErrorHeroModule\Compat\Logger;
-use ErrorHeroModule\Handler\Formatter\Json;
-use ErrorHeroModule\Handler\Writer\Mail;
 use ErrorHeroModule\HeroConstant;
 use Laminas\Diactoros\Stream;
 use Laminas\Http\Header\Cookie;
 use Laminas\Http\PhpEnvironment\RemoteAddress;
 use Laminas\Http\PhpEnvironment\Request as HttpRequest;
-use Laminas\Log\Writer\Db;
-use Laminas\Mail\Message;
-use Laminas\Mail\Transport\TransportInterface;
 use Laminas\Stdlib\ParametersInterface;
 use Laminas\Stdlib\RequestInterface;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Throwable;
 use Webmozart\Assert\Assert;
@@ -29,16 +24,69 @@ use function implode;
 use function php_uname;
 use function str_replace;
 
+use const E_COMPILE_ERROR;
+use const E_COMPILE_WARNING;
+use const E_CORE_ERROR;
+use const E_CORE_WARNING;
+use const E_DEPRECATED;
+use const E_ERROR;
+use const E_NOTICE;
+use const E_PARSE;
+use const E_RECOVERABLE_ERROR;
+use const E_USER_DEPRECATED;
+use const E_USER_ERROR;
+use const E_USER_NOTICE;
+use const E_USER_WARNING;
+use const E_WARNING;
 use const PHP_BINARY;
 use const PHP_EOL;
 
 final class Logging
 {
-    private array $configLoggingSettings = [];
+    /**
+     * @link http://tools.ietf.org/html/rfc3164
+     *
+     * @const int defined from the BSD Syslog message severities
+     */
+    public const EMERGENCY = 0;
 
-    private array $emailReceivers = [];
+    public const ALERT = 1;
 
-    private readonly string $emailSender;
+    public const CRITICAL = 2;
+
+    public const ERROR = 3;
+
+    public const WARNING = 4;
+
+    public const NOTICE = 5;
+
+    public const INFO = 6;
+
+    public const DEBUG = 7;
+
+    /**
+     * Map native PHP errors to priority
+     *
+     * @var array
+     */
+    public static $errorPriorityMap = [
+        E_NOTICE            => self::NOTICE,
+        E_USER_NOTICE       => self::NOTICE,
+        E_WARNING           => self::WARNING,
+        E_CORE_WARNING      => self::WARNING,
+        E_USER_WARNING      => self::WARNING,
+        E_ERROR             => self::ERROR,
+        E_USER_ERROR        => self::ERROR,
+        E_CORE_ERROR        => self::ERROR,
+        E_RECOVERABLE_ERROR => self::ERROR,
+        E_PARSE             => self::ERROR,
+        E_COMPILE_ERROR     => self::ERROR,
+        E_COMPILE_WARNING   => self::ERROR,
+        // E_STRICT is deprecated in php 8.4
+        2048              => self::DEBUG,
+        E_DEPRECATED      => self::DEBUG,
+        E_USER_DEPRECATED => self::DEBUG,
+    ];
 
     /** @var string */
     private const PRIORITY = 'priority';
@@ -62,16 +110,9 @@ final class Logging
     private const SERVER_URL = 'server_url';
 
     public function __construct(
-        private readonly Logger $logger,
-        array $errorHeroModuleLocalConfig,
-        private readonly array $logWritersConfig,
-        private readonly ?Message $message = null,
-        private readonly ?TransportInterface $mailMessageTransport = null,
+        private readonly LoggerInterface $logger,
         private readonly bool $includeFilesToAttachments = true
     ) {
-        $this->configLoggingSettings = $errorHeroModuleLocalConfig['logging-settings'];
-        $this->emailReceivers        = $errorHeroModuleLocalConfig['email-notification-settings']['email-to-send'];
-        $this->emailSender           = $errorHeroModuleLocalConfig['email-notification-settings']['email-from'];
     }
 
     /**
@@ -137,12 +178,12 @@ final class Logging
     {
         if (
             $throwable instanceof ErrorException
-            && isset(Logger::$errorPriorityMap[$severity = $throwable->getSeverity()])
+            && isset(self::$errorPriorityMap[$severity = $throwable->getSeverity()])
         ) {
-            $priority  = Logger::$errorPriorityMap[$severity];
+            $priority  = self::$errorPriorityMap[$severity];
             $errorType = HeroConstant::ERROR_TYPE[$severity];
         } else {
-            $priority  = Logger::ERR;
+            $priority  = self::ERROR;
             $errorType = $throwable::class;
         }
 
@@ -200,91 +241,15 @@ final class Logging
         ];
     }
 
-    /**
-     * @throws RuntimeException When cannot connect to DB in the first place.
-     */
-    private function isExists(
-        string $errorFile,
-        int $errorLine,
-        string $errorMessage,
-        string $url,
-        string $errorType
-    ): bool {
-        $writers = $this->logger->getWriters()->toArray();
-        foreach ($writers as $writer) {
-            if ($writer instanceof Db) {
-                try {
-                    $handlerWriterDb = new Writer\Checker\Db(
-                        $writer,
-                        $this->configLoggingSettings,
-                        $this->logWritersConfig
-                    );
-                    if ($handlerWriterDb->isExists($errorFile, $errorLine, $errorMessage, $url, $errorType)) {
-                        return true;
-                    }
-
-                    break;
-                } catch (RuntimeException $runtimeException) {
-                    // use \Laminas\Db\Adapter\Exception\RuntimeException but do here
-                    // to avoid too much deep trace from Laminas\Db classes
-                    throw new ${! ${''} = $runtimeException::class}($runtimeException->getMessage());
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private function sendMail(int $priority, string $errorMessage, array $extra, string $subject): void
-    {
-        if (! $this->message instanceof Message || ! $this->mailMessageTransport instanceof TransportInterface) {
-            return;
-        }
-
-        if ($this->emailReceivers === []) {
-            return;
-        }
-
-        $this->message->setFrom($this->emailSender);
-        $this->message->setSubject($subject);
-
-        $filesData = $extra['request_data']['files_data'] ?? [];
-        foreach ($this->emailReceivers as $emailReceiver) {
-            $this->message->setTo($emailReceiver);
-            $writer = new Mail(
-                $this->message,
-                $this->mailMessageTransport,
-                $filesData
-            );
-            $writer->setFormatter(new Json());
-
-            (new Logger())->addWriter($writer)
-                          ->log($priority, $errorMessage, $extra);
-        }
-    }
-
     public function handleErrorException(Throwable $throwable, ?RequestInterface $request = null): void
     {
         $collectedExceptionData = $this->collectErrorExceptionData($throwable);
         /**
          * @var array{url: string, server_url: string, mixed} $extra
          */
-        $extra     = $this->collectErrorExceptionExtraData($collectedExceptionData, $request);
-        $serverUrl = $extra[self::SERVER_URL];
+        $extra = $this->collectErrorExceptionExtraData($collectedExceptionData, $request);
 
         try {
-            if (
-                $this->isExists(
-                    $collectedExceptionData[self::ERROR_FILE],
-                    $collectedExceptionData[self::ERROR_LINE],
-                    $collectedExceptionData[self::ERROR_MESSAGE],
-                    $extra['url'],
-                    $collectedExceptionData[self::ERROR_TYPE]
-                )
-            ) {
-                return;
-            }
-
             unset($extra[self::SERVER_URL]);
             $this->logger->log(
                 $collectedExceptionData[self::PRIORITY],
@@ -296,12 +261,5 @@ final class Logging
             $extra                  = $this->collectErrorExceptionExtraData($collectedExceptionData, $request);
             unset($extra[self::SERVER_URL]);
         }
-
-        $this->sendMail(
-            $collectedExceptionData[self::PRIORITY],
-            $collectedExceptionData[self::ERROR_MESSAGE],
-            $extra,
-            '[' . $serverUrl . '] ' . $collectedExceptionData[self::ERROR_TYPE] . ' has thrown'
-        );
     }
 }

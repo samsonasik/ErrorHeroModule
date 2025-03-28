@@ -4,13 +4,14 @@ namespace ErrorHeroModule;
 
 use ErrorHeroModule\Command\BaseLoggingCommandInitializer;
 use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
-use ErrorHeroModule\Compat\LoggerAbstractServiceFactory;
 use ErrorHeroModule\Controller\ErrorPreviewController;
 use ErrorHeroModule\Listener\Mvc;
 use ErrorHeroModule\Listener\MvcFactory;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
 use Laminas\ServiceManager\Factory\InvokableFactory;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 return [
 
@@ -39,12 +40,12 @@ return [
 
     'service_manager' => [
         'abstract_factories' => [
-            LoggerAbstractServiceFactory::class,
         ],
         'factories' => [
             Mvc::class    => MvcFactory::class,
             Logging::class => LoggingFactory::class,
             ErrorPreviewConsoleCommand::class => InvokableFactory::class,
+            'ErrorHeroModuleLogger' => fn (): LoggerInterface => new \Monolog\Logger('error-hero-module'),
         ],
         'initializers' => [
             BaseLoggingCommandInitializer::class,

@@ -3,58 +3,19 @@
 namespace ErrorHeroModule;
 
 use App\Exception\MyException;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Error;
 use ErrorHeroModule\Command\BaseLoggingCommandInitializer;
-use ErrorHeroModule\Compat\LoggerAbstractServiceFactory;
 use ErrorHeroModule\Middleware\Mezzio;
 use ErrorHeroModule\Middleware\MezzioFactory;
 use ErrorHeroModule\ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
-use ErrorHeroModule\Command\BaseLoggingCommand;
 use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
-use Laminas\Db\Adapter\AdapterInterface;
-use Laminas\Log;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
-
-    'log' => [
-        'ErrorHeroModuleLogger' => [
-            'writers' => [
-
-                [
-                    'name' => 'db',
-                    'options' => [
-                        'db'     => AdapterInterface::class,
-                        'table'  => 'log',
-                        'column' => [
-                            'timestamp' => 'date',
-                            'priority'  => 'type',
-                            'message'   => 'event',
-                            'extra'     => [
-                                'url'  => 'url',
-                                'file' => 'file',
-                                'line' => 'line',
-                                'error_type' => 'error_type',
-                                'trace'      => 'trace',
-                                'request_data' => 'request_data',
-                            ],
-                        ],
-                        'formatter' => [
-                            'name' => 'db',
-                            'options' => [
-                                'dateTimeFormat' => 'Y-m-d H:i:s',
-                            ],
-                        ],
-                    ],
-                ],
-
-            ],
-        ],
-    ],
-
     'error-hero-module' => [
         // it's for the enable/disable the logger functionality
         'enable' => true,
@@ -96,6 +57,11 @@ return [
                 'view'   => 'error-hero-module::error-default'
             ],
 
+            // if enable and display_errors = 0, and on console env, the console will bring message for laminas-mvc
+            'console' => [
+                'message' => 'We have encountered a problem and we can not fulfill your request. An error report has been generated and sent to the support team and someone will attend to this problem urgently. Please try again later. Thank you for your patience.',
+            ],
+
             // for Mezzio, when container doesn't has \Mezzio\Template\TemplateRendererInterface service
             // if enable, and display_errors = 0, then show a message under no_template config
             'no_template' => [
@@ -132,11 +98,8 @@ json
             // set to true to activate email notification on log error
             'enable' => false,
 
-            // Laminas\Mail\Message instance registered at service manager
-            'mail-message'   => 'YourMailMessageService',
-
-            // Laminas\Mail\Transport\TransportInterface instance registered at service manager
-            'mail-transport' => 'YourMailTransportService',
+            // DSN for mailer
+            'mail-dsn' => 'smtp://localhost:25',
 
             // email sender
             'email-from'    => 'Sender Name <sender@host.com>',
@@ -152,9 +115,6 @@ json
     ],
 
     'dependencies' => [
-        'abstract_factories' => [
-            LoggerAbstractServiceFactory::class,
-        ],
         'factories' => [
             Mezzio::class => MezzioFactory::class,
             ErrorPreviewAction::class => InvokableFactory::class,
@@ -162,6 +122,8 @@ json
             Logging::class => LoggingFactory::class,
 
             ErrorPreviewConsoleCommand::class => InvokableFactory::class,
+
+            'ErrorHeroModuleLogger' => fn (): LoggerInterface => new \Monolog\Logger('error-hero-module'),
         ],
         'initializers' => [
             BaseLoggingCommandInitializer::class,
