@@ -35,14 +35,12 @@
         }
     ],
     "require": {
-        "php": "^8.2",
-        "laminas/laminas-db": "^2.20.0",
-        "laminas/laminas-diactoros": "^2.26",
-        "laminas/laminas-log": "^2.17.1",
-        "laminas/laminas-mail": "^2.25.1",
-        "laminas/laminas-psr7bridge": "^1.11",
+        "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+        "laminas/laminas-diactoros": "^2.26 || ^3.5.0",
+        "laminas/laminas-psr7bridge": "^1.12",
         "laminas/laminas-uri": "^2.13",
         "psr/container": "^1.1.2 || 2.0",
+        "psr/log": "^2.0",
         "samsonasik/array-lookup": "^2.0",
         "seld/jsonlint": "^1.11",
         "webmozart/assert": "^1.11"
@@ -57,26 +55,30 @@
     },
     "require-dev": {
         "doctrine/dbal": "^3.9.3",
-        "doctrine/doctrine-orm-module": "^4.2.1 || ^5.3",
+        "doctrine/doctrine-orm-module": "^4.2.1 || ^5.3 || ^6.0",
         "kahlan/kahlan": "^5.2.8",
         "laminas/laminas-cli": "^1.11",
         "laminas/laminas-coding-standard": "^2.5",
         "laminas/laminas-form": "^2.16 || ^3.21",
         "laminas/laminas-mvc": "^3.8",
-        "laminas/laminas-servicemanager": "^3.23",
+        "laminas/laminas-servicemanager": "^3.23 || ^4.0",
         "mezzio/mezzio": "^3.20.1",
         "mezzio/mezzio-laminasviewrenderer": "^2.16",
+        "monolog/monolog": "^3.9",
         "php-coveralls/php-coveralls": "^2.7.0",
         "phpstan/phpstan": "^2.0.4",
         "phpstan/phpstan-webmozart-assert": "^2.0",
         "pimple/pimple": "^3.5",
         "rector/rector": "dev-main",
-        "symfony/dependency-injection": "^5.4.48"
+        "symfony/dependency-injection": "^5.4.48",
+        "symfony/mailer": "^7.2"
     },
     "suggest": {
         "mezzio/mezzio-laminasviewrenderer": "^2.0 to be able to use laminas-view template engine in mezzio ^3.0",
         "mezzio/mezzio-platesrenderer": "^2.0 to be able to use plates template engine in mezzio ^3.0",
-        "mezzio/mezzio-twigrenderer": "^2.0 to be able to use twig template engine in mezzio ^3.0"
+        "mezzio/mezzio-twigrenderer": "^2.0 to be able to use twig template engine in mezzio ^3.0",
+        "monolog/monolog": "Sends your logs to files, sockets, inboxes, databases and various web services",
+        "symfony/mailer": "Symfony's Mailer & Mime components form a powerful system for creating and sending emails"
     },
     "config": {
         "bin-dir": "bin",
