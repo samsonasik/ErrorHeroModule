@@ -1,44 +1,8 @@
 <?php
 
 use App\Exception\MyException;
-use Laminas\Db\Adapter\AdapterInterface;
 
 return [
-
-    'log' => [
-        'ErrorHeroModuleLogger' => [
-            'writers' => [
-
-                [
-                    'name' => 'db',
-                    'options' => [
-                        'db'     => AdapterInterface::class,
-                        'table'  => 'log',
-                        'column' => [
-                            'timestamp' => 'date',
-                            'priority'  => 'type',
-                            'message'   => 'event',
-                            'extra'     => [
-                                'url'  => 'url',
-                                'file' => 'file',
-                                'line' => 'line',
-                                'error_type' => 'error_type',
-                                'trace'      => 'trace',
-                                'request_data' => 'request_data',
-                            ],
-                        ],
-                        'formatter' => [
-                            'name' => 'db',
-                            'options' => [
-                                'dateTimeFormat' => 'Y-m-d H:i:s',
-                            ],
-                        ],
-                    ],
-                ],
-
-            ],
-        ],
-    ],
 
     'error-hero-module' => [
         // it's for the enable/disable the logger functionality
@@ -116,11 +80,8 @@ json
             // set to true to activate email notification on log error
             'enable' => false,
 
-            // Laminas\Mail\Message instance registered at service manager
-            'mail-message'   => 'YourMailMessageService',
-
-            // Laminas\Mail\Transport\TransportInterface instance registered at service manager
-            'mail-transport' => 'YourMailTransportService',
+            // DSN for mailer
+            'mail-dsn' => 'smtp://localhost:25',
 
             // email sender
             'email-from'    => 'Sender Name <sender@host.com>',
