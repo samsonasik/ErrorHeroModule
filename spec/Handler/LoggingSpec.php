@@ -3,23 +3,17 @@
 namespace ErrorHeroModule\Spec\Handler;
 
 use ErrorException;
-use ErrorHeroModule\Compat\Logger;
 use ErrorHeroModule\Handler\Logging;
 use Exception;
 use Kahlan\Plugin\Double;
-use Laminas\Db\Adapter\AdapterInterface;
-use Laminas\Db\ResultSet\ResultSet;
-use Laminas\Db\Sql\Select;
-use Laminas\Db\Sql\Sql;
-use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Http\PhpEnvironment\Request;
-use Laminas\Log\Writer\Db;
+use Psr\Log\LoggerInterface;
 use ReflectionProperty;
 
 describe('LoggingSpec', function (): void {
 
     beforeAll(function (): void {
-        $this->logger  = Double::instance(['extends' => Logger::class]);
+        $this->logger  = Double::instance(['extends' => LoggerInterface::class]);
         $this->request = new Request();
         $this->request->setUri('http://www.example.com');
 
@@ -54,11 +48,8 @@ describe('LoggingSpec', function (): void {
                 // set to true to activate email notification on log error
                 'enable' => false,
 
-                // Laminas\Mail\Message instance registered at service manager
-                'mail-message'   => 'YourMailMessageService',
-
-                // Laminas\Mail\Transport\TransportInterface instance registered at service manager
-                'mail-transport' => 'YourMailTransportService',
+                // DSN for mailer
+                'mail-dsn' => 'smtp://localhost:25',
 
                 // email sender
                 'email-from'    => 'Sender Name <sender@host.com>',
@@ -72,106 +63,25 @@ describe('LoggingSpec', function (): void {
                 ],
             ],
         ];
-        $this->logWritersConfig = [
-
-            [
-                'name' => 'db',
-                'options' => [
-                    'db'     => AdapterInterface::class,
-                    'table'  => 'log',
-                    'column' => [
-                        'timestamp' => 'date',
-                        'priority'  => 'type',
-                        'message'   => 'event',
-                        'extra'     => [
-                            'url'  => 'url',
-                            'file' => 'file',
-                            'line' => 'line',
-                            'error_type' => 'error_type',
-                            'trace'      => 'trace',
-                            'request_data' => 'request_data',
-                        ],
-                    ],
-                ],
-            ],
-
-        ];
-
-        $this->dbWriter = Double::instance(['extends' => Db::class, 'methods' => '__construct']);
-        $reflectionProperty = new ReflectionProperty($this->dbWriter, 'db');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($this->dbWriter, Double::instance(['implements' => AdapterInterface::class]));
-
-        $this->logger->addWriter($this->dbWriter);
     });
 
     given('logging', fn() : Logging => new Logging(
         $this->logger,
-        $this->errorHeroModuleLocalConfig,
-        $this->logWritersConfig,
-        null,
-        null,
         true
     ));
 
     describe('->handleErrorException()', function (): void  {
 
         it('not log if exists', function (): void  {
-
-            $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
-            allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
-
-            $select = Double::instance(['extends' => Select::class, 'methods' => '__construct']);
-            allow($select)->toReceive('where');
-            allow($select)->toReceive('order');
-            allow($select)->toReceive('limit');
-            allow($sql)->toReceive('select')->andReturn($select);
-
-            $resultSet = Double::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
-
-            allow($resultSet)->toReceive('count')->andReturn(1);
-            allow($resultSet)->toReceive('current')->andReturn(
-                [
-                    'date' => \date('Y-m-d H:i:s'),
-                ]
-            );
-            allow(TableGateway::class)->toReceive('selectWith')->with($select)->andReturn($resultSet);
-
-            expect($this->logger)->not->toReceive('log');
-
             $exception = new Exception();
             $this->logging->handleErrorException($exception, $this->request);
 
         });
 
         it('not log if exists and exception instanceof ErrorException', function (): void  {
-
-            $sql = Double::instance(['extends' => Sql::class, 'methods' => '__construct']);
-            allow(TableGateway::class)->toReceive('getSql')->andReturn($sql);
-
-            $select = Double::instance(['extends' => Select::class, 'methods' => '__construct']);
-            allow($select)->toReceive('where');
-            allow($select)->toReceive('order');
-            allow($select)->toReceive('limit');
-            allow($sql)->toReceive('select')->andReturn($select);
-
-            $resultSet = Double::instance(['extends' => ResultSet::class, 'methods' => '__construct']);
-
-            allow($resultSet)->toReceive('current')->andReturn(
-                [
-                    'date' => \date('Y-m-d H:i:s'),
-                ]
-            );
-            allow($resultSet)->toReceive('count')->andReturn(1);
-            allow(TableGateway::class)->toReceive('selectWith')->with($select)->andReturn($resultSet);
-
-            expect($this->logger)->not->toReceive('log');
-
             $exception = new ErrorException();
             $this->logging->handleErrorException($exception, $this->request);
 
         });
-
     });
-
 });

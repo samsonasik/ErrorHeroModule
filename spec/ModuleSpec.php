@@ -7,7 +7,6 @@ use Doctrine\DBAL\Driver\PDO\MySql\Driver;
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Module;
 use Kahlan\Plugin\Double;
-use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\ModuleManager\Listener\ConfigListener;
 use Laminas\ModuleManager\ModuleEvent;
@@ -20,34 +19,7 @@ describe('Module', function (): void {
     given('module', fn() : Module => new Module());
 
     given('config', fn() : array => [
-        'log' => [
-            'ErrorHeroModuleLogger' => [
-                'writers' => [
 
-                    [
-                        'name' => 'db',
-                        'options' => [
-                            'db'     => AdapterInterface::class,
-                            'table'  => 'error_log',
-                            'column' => [
-                                'timestamp' => 'date',
-                                'priority'  => 'type',
-                                'message'   => 'event',
-                                'extra'     => [
-                                    'url'  => 'url',
-                                    'file' => 'file',
-                                    'line' => 'line',
-                                    'error_type' => 'error_type',
-                                    'trace'      => 'trace',
-                                    'request_data' => 'request_data',
-                                ],
-                            ],
-                        ],
-                    ],
-
-                ],
-            ],
-        ],
     ]);
 
     describe('->getConfig()', function (): void {

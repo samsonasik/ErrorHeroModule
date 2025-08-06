@@ -22,6 +22,7 @@ use Mezzio\LaminasView\LaminasViewRenderer;
 use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Log\LoggerInterface;
 
 describe('Mezzio', function (): void {
 
@@ -46,43 +47,8 @@ describe('Mezzio', function (): void {
 
     });
 
-    given('logger', function (): Logger {
-
-        $dbAdapter = new Adapter([
-            'username' => 'root',
-            'password' => '',
-            'driver' => 'Pdo',
-            'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
-            'driver_options' => [
-                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
-            ],
-        ]);
-
-        $writer = new Db(
-            [
-                'db' => $dbAdapter,
-                'table' => 'log',
-                'column' => [
-                    'timestamp' => 'date',
-                    'priority'  => 'type',
-                    'message'   => 'event',
-                    'extra'     => [
-                        'url'  => 'url',
-                        'file' => 'file',
-                        'line' => 'line',
-                        'error_type' => 'error_type',
-                        'trace'      => 'trace',
-                        'request_data' => 'request_data',
-                    ],
-                ],
-            ]
-        );
-
-        $logger = new Logger();
-        $logger->addWriter($writer);
-
-        return $logger;
-
+    given('logger', function (): LoggerInterface {
+        return new \Monolog\Logger('error-hero-module');
     });
 
     given('config', fn() : array => [
@@ -135,11 +101,8 @@ json
             // set to true to activate email notification on log error
             'enable' => false,
 
-            // Laminas\Mail\Message instance registered at service manager
-            'mail-message'   => 'YourMailMessageService',
-
-            // Laminas\Mail\Transport\TransportInterface instance registered at service manager
-            'mail-transport' => 'YourMailTransportService',
+            // DSN for mailer
+            'mail-dsn' => 'smtp://localhost:25',
 
             // email sender
             'email-from'    => 'Sender Name <sender@host.com>',
@@ -150,63 +113,6 @@ json
             ],
         ],
     ]);
-
-    given('logWritersConfig', fn() : array => [
-
-        [
-            'name' => 'db',
-            'options' => [
-                'db'     => AdapterInterface::class,
-                'table'  => 'log',
-                'column' => [
-                    'timestamp' => 'date',
-                    'priority'  => 'type',
-                    'message'   => 'event',
-                    'extra'     => [
-                        'url'  => 'url',
-                        'file' => 'file',
-                        'line' => 'line',
-                        'error_type' => 'error_type',
-                        'trace'      => 'trace',
-                        'request_data' => 'request_data',
-                    ],
-                ],
-            ],
-        ],
-
-    ]);
-
-    given('dbWriter', function (): Db {
-        $dbAdapter = new Adapter([
-            'username' => 'root',
-            'password' => '',
-            'driver' => 'Pdo',
-            'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
-            'driver_options' => [
-                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
-            ],
-        ]);
-
-        return new Db(
-            [
-                'db' => $dbAdapter,
-                'table' => 'log',
-                'column' => [
-                    'timestamp' => 'date',
-                    'priority'  => 'type',
-                    'message'   => 'event',
-                    'extra'     => [
-                        'url'  => 'url',
-                        'file' => 'file',
-                        'line' => 'line',
-                        'error_type' => 'error_type',
-                        'trace'      => 'trace',
-                        'request_data' => 'request_data',
-                    ],
-                ],
-            ]
-        );
-    });
 
     given('request', fn() : ServerRequest => new ServerRequest(
         [],
@@ -263,10 +169,6 @@ json
 
                 $logging = new Logging(
                     $this->logger,
-                    $config,
-                    $this->logWritersConfig,
-                    null,
-                    null,
                     true
                 );
 
@@ -292,10 +194,6 @@ json
 
                 $logging = new Logging(
                     $this->logger,
-                    $config,
-                    $this->logWritersConfig,
-                    null,
-                    null,
                     true
                 );
 
@@ -319,10 +217,6 @@ json
 
                 $logging = new Logging(
                     $this->logger,
-                    $config,
-                    $this->logWritersConfig,
-                    null,
-                    null,
                     true
                 );
 
@@ -356,10 +250,6 @@ json
 
                 $logging = new Logging(
                     $this->logger,
-                    $config,
-                    $this->logWritersConfig,
-                    null,
-                    null,
                     true
                 );
 
@@ -393,10 +283,6 @@ json
 
                 $logging = new Logging(
                     $this->logger,
-                    $config,
-                    $this->logWritersConfig,
-                    null,
-                    null,
                     true
                 );
 
@@ -428,10 +314,6 @@ json
 
             $logging = new Logging(
                 $this->logger,
-                $config,
-                $this->logWritersConfig,
-                null,
-                null,
                 true
             );
 
@@ -506,15 +388,10 @@ json
                 'line' => 2
             ]);
 
-            $logger = new Logger();
-            $logger->addWriter($this->dbWriter);
+            $logger = new \Monolog\Logger('error-hero-module');
 
             $logging = new Logging(
                 $logger,
-                $this->config,
-                $this->logWritersConfig,
-                null,
-                null,
                 true
             );
 
@@ -539,8 +416,7 @@ json
                 ],
                 'email-notification-settings' => [
                     'enable' => false,
-                    'mail-message'   => 'YourMailMessageService',
-                    'mail-transport' => 'YourMailTransportService',
+                    'mail-dsn' => 'smtp://localhost:25',
                     'email-from'    => 'Sender Name <sender@host.com>',
                     'email-to-send' => [
                         'developer1@foo.com',
@@ -579,15 +455,10 @@ json
                 'line' => 2
             ]);
 
-            $logger = new Logger();
-            $logger->addWriter($this->dbWriter);
+            $logger = new \Monolog\Logger('error-hero-module');
 
             $logging = new Logging(
                 $logger,
-                $this->config,
-                $this->logWritersConfig,
-                null,
-                null,
                 true
             );
 
@@ -612,8 +483,7 @@ json
                 ],
                 'email-notification-settings' => [
                     'enable' => false,
-                    'mail-message'   => 'YourMailMessageService',
-                    'mail-transport' => 'YourMailTransportService',
+                    'mail-dsn' => 'smtp://localhost:25',
                     'email-from'    => 'Sender Name <sender@host.com>',
                     'email-to-send' => [
                         'developer1@foo.com',

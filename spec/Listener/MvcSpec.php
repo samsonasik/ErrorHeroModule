@@ -4,16 +4,12 @@ namespace ErrorHeroModule\Spec\Listener;
 
 use Closure;
 use ErrorException;
-use ErrorHeroModule\Compat\Logger;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Listener\Mvc;
 use Exception;
 use Kahlan\Plugin\Double;
-use Laminas\Db\Adapter\Adapter;
-use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Http\PhpEnvironment\Request;
-use Laminas\Log\Writer\Db;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Uri\Uri;
 use Laminas\View\Renderer\PhpRenderer;
@@ -59,11 +55,8 @@ describe('Mvc', function (): void {
             // set to true to activate email notification on log error
             'enable' => false,
 
-            // Laminas\Mail\Message instance registered at service manager
-            'mail-message'   => 'YourMailMessageService',
-
-            // Laminas\Mail\Transport\TransportInterface instance registered at service manager
-            'mail-transport' => 'YourMailTransportService',
+            // DSN for mailer
+            'mail-dsn' => 'smtp://localhost:25',
 
             // email sender
             'email-from'    => 'Sender Name <sender@host.com>',
@@ -271,70 +264,10 @@ describe('Mvc', function (): void {
                 'line' => 2
             ]);
 
-            $dbAdapter = new Adapter([
-                'username' => 'root',
-                'password' => '',
-                'driver' => 'Pdo',
-                'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
-                'driver_options' => [
-                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
-                ],
-            ]);
-
-            $writer = new Db(
-                [
-                    'db' => $dbAdapter,
-                    'table' => 'log',
-                    'column' => [
-                        'timestamp' => 'date',
-                        'priority'  => 'type',
-                        'message'   => 'event',
-                        'extra'     => [
-                            'url'  => 'url',
-                            'file' => 'file',
-                            'line' => 'line',
-                            'error_type' => 'error_type',
-                            'trace'      => 'trace',
-                            'request_data' => 'request_data',
-                        ],
-                    ],
-                ]
-            );
-
             $logger = new Logger();
-            $logger->addWriter($writer);
-
-            $logWritersConfig = [
-
-                [
-                    'name' => 'db',
-                    'options' => [
-                        'db'     => AdapterInterface::class,
-                        'table'  => 'log',
-                        'column' => [
-                            'timestamp' => 'date',
-                            'priority'  => 'type',
-                            'message'   => 'event',
-                            'extra'     => [
-                                'url'  => 'url',
-                                'file' => 'file',
-                                'line' => 'line',
-                                'error_type' => 'error_type',
-                                'trace'      => 'trace',
-                                'request_data' => 'request_data',
-                            ],
-                        ],
-                    ],
-                ],
-
-            ];
 
             $logging = new Logging(
                 $logger,
-                $this->config,
-                $logWritersConfig,
-                null,
-                null,
                 true
             );
 

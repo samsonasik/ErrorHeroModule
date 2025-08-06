@@ -76,11 +76,8 @@ describe('MezzioFactory', function (): void {
                 // set to true to activate email notification on log error
                 'enable' => false,
 
-                // Laminas\Mail\Message instance registered at service manager
-                'mail-message'   => 'YourMailMessageService',
-
-                // Laminas\Mail\Transport\TransportInterface instance registered at service manager
-                'mail-transport' => 'YourMailTransportService',
+                // DSN for mailer
+                'mail-dsn' => 'smtp://localhost:25',
 
                 // email sender
                 'email-from'    => 'Sender Name <sender@host.com>',
