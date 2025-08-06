@@ -2,14 +2,11 @@
 
 namespace ErrorHeroModule\Spec\Handler;
 
-use ErrorHeroModule\Compat\Logger;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
 use Kahlan\Plugin\Double;
-use Laminas\Db\Adapter\AdapterInterface;
-use Laminas\Mail\Message;
-use Laminas\Mail\Transport\TransportInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 describe('LoggingFactorySpec', function (): void {
@@ -17,34 +14,6 @@ describe('LoggingFactorySpec', function (): void {
     given('factory', fn() : LoggingFactory => new LoggingFactory());
 
     given('config', fn() : array => [
-        'log' => [
-            'ErrorHeroModuleLogger' => [
-                'writers' => [
-
-                    [
-                        'name' => 'db',
-                        'options' => [
-                            'db'     => AdapterInterface::class,
-                            'table'  => 'log',
-                            'column' => [
-                                'timestamp' => 'date',
-                                'priority'  => 'type',
-                                'message'   => 'event',
-                                'extra'     => [
-                                    'url'  => 'url',
-                                    'file' => 'file',
-                                    'line' => 'line',
-                                    'error_type' => 'error_type',
-                                    'trace'      => 'trace',
-                                    'request_data' => 'request_data',
-                                ],
-                            ],
-                        ],
-                    ],
-
-                ],
-            ],
-        ],
 
         'error-hero-module' => [
             'enable' => true,
@@ -77,11 +46,7 @@ describe('LoggingFactorySpec', function (): void {
                 // set to true to activate email notification on log error
                 'enable' => false,
 
-                // Laminas\Mail\Message instance registered at service manager
-                'mail-message'   => 'MailMessageService',
-
-                // Laminas\Mail\Transport\TransportInterface instance registered at service manager
-                'mail-transport' => 'MailTransportService',
+                'mail-dsn' => 'smtp://localhost:25',
 
                 // email sender
                 'email-from'    => 'Sender Name <sender@host.com>',
@@ -107,7 +72,7 @@ describe('LoggingFactorySpec', function (): void {
             allow($container)->toReceive('get')->with('config')
                                                 ->andReturn($config);
 
-            $logger = Double::instance(['extends' => Logger::class]);
+            $logger = Double::instance(['extends' => LoggerInterface::class]);
             allow($container)->toReceive('get')->with('ErrorHeroModuleLogger')
                                                 ->andReturn($logger);
 
@@ -124,7 +89,7 @@ describe('LoggingFactorySpec', function (): void {
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
-            $logger = Double::instance(['extends' => Logger::class]);
+            $logger = Double::instance(['extends' => LoggerInterface::class]);
             allow($container)->toReceive('get')->with('ErrorHeroModuleLogger')
                                                ->andReturn($logger);
 
@@ -142,7 +107,7 @@ describe('LoggingFactorySpec', function (): void {
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
-            $logger = Double::instance(['extends' => Logger::class]);
+            $logger = Double::instance(['extends' => LoggerInterface::class]);
             allow($container)->toReceive('get')->with('ErrorHeroModuleLogger')
                                                ->andReturn($logger);
 
@@ -163,12 +128,9 @@ describe('LoggingFactorySpec', function (): void {
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
-            $logger = Double::instance(['extends' => Logger::class]);
+            $logger = Double::instance(['extends' => LoggerInterface::class]);
             allow($container)->toReceive('get')->with('ErrorHeroModuleLogger')
                                                ->andReturn($logger);
-
-            allow($container)->toReceive('get')->with('MailMessageService')
-                                               ->andReturn(new Message());
 
             $closure = function () use ($container): void {
                 $this->factory($container);
@@ -187,15 +149,9 @@ describe('LoggingFactorySpec', function (): void {
             allow($container)->toReceive('get')->with('config')
                                                ->andReturn($config);
 
-            $logger = Double::instance(['extends' => Logger::class]);
+            $logger = Double::instance(['extends' => LoggerInterface::class]);
             allow($container)->toReceive('get')->with('ErrorHeroModuleLogger')
                                                ->andReturn($logger);
-
-            allow($container)->toReceive('get')->with('MailMessageService')
-                                               ->andReturn(new Message());
-
-            allow($container)->toReceive('get')->with('MailTransportService')
-                                               ->andReturn(Double::instance(['implements' => TransportInterface::class]));
 
             $actual = $this->factory($container);
             expect($actual)->toBeAnInstanceOf(Logging::class);

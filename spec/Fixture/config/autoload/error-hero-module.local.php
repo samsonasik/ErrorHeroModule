@@ -3,7 +3,7 @@
 namespace ErrorHeroModule\Spec\Fixture\config\autoload;
 
 use PDO;
-use Laminas\Db\Adapter\AdapterInterface;
+
 return [
 
     'db' => [
@@ -13,41 +13,6 @@ return [
         'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
         'driver_options' => [
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
-        ],
-    ],
-
-    'log' => [
-        'ErrorHeroModuleLogger' => [
-            'writers' => [
-
-                [
-                    'name' => 'db',
-                    'options' => [
-                        'db'     => AdapterInterface::class,
-                        'table'  => 'log',
-                        'column' => [
-                            'timestamp' => 'date',
-                            'priority'  => 'type',
-                            'message'   => 'event',
-                            'extra'     => [
-                                'url'  => 'url',
-                                'file' => 'file',
-                                'line' => 'line',
-                                'error_type' => 'error_type',
-                                'trace'      => 'trace',
-                                'request_data' => 'request_data',
-                            ],
-                        ],
-                        'formatter' => [
-                            'name' => 'db',
-                            'options' => [
-                                'dateTimeFormat' => 'Y-m-d H:i:s',
-                            ],
-                        ],
-                    ],
-                ],
-
-            ],
         ],
     ],
 
@@ -82,11 +47,8 @@ return [
             // set to true to activate email notification on log error
             'enable' => false,
 
-            // Laminas\Mail\Message instance registered at service manager
-            'mail-message'   => 'YourMailMessageService',
-
-            // Laminas\Mail\Transport\TransportInterface instance registered at service manager
-            'mail-transport' => 'YourMailTransportService',
+            // DSN for mailer
+            'mail-dsn' => 'smtp://localhost:25',
 
             // email sender
             'email-from'    => 'Sender Name <sender@host.com>',

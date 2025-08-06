@@ -29,27 +29,6 @@ describe('MezzioFactory', function (): void {
 
     given('config', fn() : array => [
 
-        'db' => [
-            'username' => 'root',
-            'password' => '',
-            'driver'   => 'pdo_mysql',
-            'dsn'      => 'mysql:host=localhost;dbname=errorheromodule',
-            'driver_options' => [
-                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
-            ],
-            'adapters' => [
-                'my-adapter' => [
-                    'driver' => 'pdo_mysql',
-                    'dsn' => 'mysql:host=localhost;dbname=errorheromodule',
-                    'username' => 'root',
-                    'password' => '',
-                    'driver_options' => [
-                        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
-                    ],
-                ],
-            ],
-        ],
-
         'error-hero-module' => [
             'enable' => true,
             'display-settings' => [
@@ -76,11 +55,8 @@ describe('MezzioFactory', function (): void {
                 // set to true to activate email notification on log error
                 'enable' => false,
 
-                // Laminas\Mail\Message instance registered at service manager
-                'mail-message'   => 'YourMailMessageService',
-
-                // Laminas\Mail\Transport\TransportInterface instance registered at service manager
-                'mail-transport' => 'YourMailTransportService',
+                // DSN for mailer
+                'mail-dsn' => 'smtp://localhost:25',
 
                 // email sender
                 'email-from'    => 'Sender Name <sender@host.com>',
@@ -88,35 +64,6 @@ describe('MezzioFactory', function (): void {
                 'email-to-send' => [
                     'developer1@foo.com',
                     'developer2@foo.com',
-                ],
-            ],
-        ],
-
-        'log' => [
-            'ErrorHeroModuleLogger' => [
-                'writers' => [
-
-                    [
-                        'name' => 'db',
-                        'options' => [
-                            'db'     => AdapterInterface::class,
-                            'table'  => 'error_log',
-                            'column' => [
-                                'timestamp' => 'date',
-                                'priority'  => 'type',
-                                'message'   => 'event',
-                                'extra'     => [
-                                    'url'  => 'url',
-                                    'file' => 'file',
-                                    'line' => 'line',
-                                    'error_type' => 'error_type',
-                                    'trace'      => 'trace',
-                                    'request_data' => 'request_data',
-                                ],
-                            ],
-                        ],
-                    ],
-
                 ],
             ],
         ],
@@ -231,7 +178,6 @@ describe('MezzioFactory', function (): void {
             unset($config['db']['adapters']);
 
             foreach ($this->mapCreateContainers as $mapCreateContainer) {
-                $config['log']['ErrorHeroModuleLogger']['writers'][0]['options']['db'] = AdapterInterface::class;
 
                 allow($mapCreateContainer)->toReceive('get')->with('config')
                                                 ->andReturn($config);

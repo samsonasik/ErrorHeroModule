@@ -3,9 +3,6 @@
 namespace ErrorHeroModule\Spec\Integration;
 
 use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
-use Laminas\Db\Adapter\AdapterInterface;
-use Laminas\Db\ResultSet\ResultSet;
-use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Mvc\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Throwable;
@@ -17,7 +14,6 @@ describe('Integration via ErrorPreviewConsoleCommand', function (): void {
         $application = Application::init([
             'modules' => [
                 'Laminas\Router',
-                'Laminas\Db',
                 'ErrorHeroModule',
             ],
             'module_listener_options' => [
@@ -27,11 +23,6 @@ describe('Integration via ErrorPreviewConsoleCommand', function (): void {
                 ],
             ],
         ]);
-
-        $serviceManager = $application->getServiceManager();
-        $db             = $serviceManager->get(AdapterInterface::class);
-        $tableGateway   = new TableGateway('log', $db, null, new ResultSet());
-        $tableGateway->delete([]);
 
         return $application;
 
