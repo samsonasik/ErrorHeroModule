@@ -63,7 +63,6 @@ describe('Mail', function (): void {
             );
 
             $r = new ReflectionProperty($this->writer, 'eventsToMail');
-            $r->setAccessible(true);
             $r->setValue($writer, ["timestamp" => "2017-02-25T02:08:46+07:00"]);
 
             allow($this->transport)->toReceive('send');
@@ -97,7 +96,6 @@ describe('Mail', function (): void {
             );
 
             $r = new ReflectionProperty($this->writer, 'eventsToMail');
-            $r->setAccessible(true);
             $r->setValue($writer, ["timestamp" => "2017-02-25T02:08:46+07:00"]);
 
             allow($this->transport)->toReceive('send');
@@ -111,7 +109,6 @@ describe('Mail', function (): void {
          it('transport->send() trigger error', function (): void {
 
             $r = new ReflectionProperty($this->writer, 'eventsToMail');
-            $r->setAccessible(true);
             $r->setValue($this->writer, ["timestamp" => "2017-02-25T02:08:46+07:00"]);
 
             allow($this->transport)->toReceive('send')->andRun(function (): never { throw new Exception('root'); });

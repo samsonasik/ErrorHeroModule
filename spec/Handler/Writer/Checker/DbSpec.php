@@ -18,7 +18,6 @@ describe('Db', function (): void {
 
         $this->dbWriter = Double::instance(['extends' => DbWriter::class, 'methods' => '__construct']);
         $reflectionProperty = new ReflectionProperty($this->dbWriter, 'db');
-        $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($this->dbWriter, Double::instance(['implements' => AdapterInterface::class, 'methods' => '__construct']));
 
         $this->configLoggingSettings =  [

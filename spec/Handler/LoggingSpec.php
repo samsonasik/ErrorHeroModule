@@ -99,7 +99,6 @@ describe('LoggingSpec', function (): void {
 
         $this->dbWriter = Double::instance(['extends' => Db::class, 'methods' => '__construct']);
         $reflectionProperty = new ReflectionProperty($this->dbWriter, 'db');
-        $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($this->dbWriter, Double::instance(['implements' => AdapterInterface::class]));
 
         $this->logger->addWriter($this->dbWriter);
