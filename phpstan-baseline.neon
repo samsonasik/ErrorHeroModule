@@ -49,7 +49,7 @@ parameters:
 			path: src/Command/BaseLoggingCommand.php
 
 		-
-			message: '#^Parameter \#1 \$data of static method ArrayLookup\\AtLeast\:\:once\(\) expects iterable\<int\|string, mixed\>, mixed given\.$#'
+			message: '#^Parameter \#1 \$data of static method ArrayLookup\\AtLeast\:\:once\(\) expects array\<int\|string, mixed\>\|Traversable\<int\|string, mixed\>, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Command/BaseLoggingCommand.php
@@ -547,7 +547,7 @@ parameters:
 			path: src/Handler/Logging.php
 
 		-
-			message: '#^Parameter \#2 \$array of function implode expects array\|null, mixed given\.$#'
+			message: '#^Parameter \#2 \$array of function implode expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Handler/Logging.php
@@ -769,6 +769,18 @@ parameters:
 			path: src/Handler/Writer/Checker/Db.php
 
 		-
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: array.invalidKey
+			count: 5
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 1
+			path: src/Handler/Writer/Checker/Db.php
+
+		-
 			message: '#^Cannot access offset ''name'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -889,7 +901,7 @@ parameters:
 			path: src/Listener/Mvc.php
 
 		-
-			message: '#^Parameter \#1 \$data of static method ArrayLookup\\AtLeast\:\:once\(\) expects iterable\<int\|string, mixed\>, mixed given\.$#'
+			message: '#^Parameter \#1 \$data of static method ArrayLookup\\AtLeast\:\:once\(\) expects array\<int\|string, mixed\>\|Traversable\<int\|string, mixed\>, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Listener/Mvc.php
@@ -967,7 +979,7 @@ parameters:
 			path: src/Middleware/Mezzio.php
 
 		-
-			message: '#^Parameter \#1 \$data of static method ArrayLookup\\AtLeast\:\:once\(\) expects iterable\<int\|string, mixed\>, mixed given\.$#'
+			message: '#^Parameter \#1 \$data of static method ArrayLookup\\AtLeast\:\:once\(\) expects array\<int\|string, mixed\>\|Traversable\<int\|string, mixed\>, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Middleware/Mezzio.php
