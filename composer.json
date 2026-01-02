@@ -60,7 +60,7 @@
         "doctrine/doctrine-orm-module": "^4.2.1 || ^5.3",
         "kahlan/kahlan": "^5.2.8",
         "laminas/laminas-cli": "^1.11",
-        "laminas/laminas-coding-standard": "^2.5",
+        "laminas/laminas-coding-standard": "^3.0",
         "laminas/laminas-form": "^2.16 || ^3.21",
         "laminas/laminas-mvc": "^3.8",
         "laminas/laminas-servicemanager": "^3.23",
