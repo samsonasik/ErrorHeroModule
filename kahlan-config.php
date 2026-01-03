@@ -1,8 +1,12 @@
 <?php
 
+use Laminas\ServiceManager\AbstractPluginManager;
 use Kahlan\Filter\Filters;
 use Kahlan\Reporter\Coverage;
 use Kahlan\Reporter\Coverage\Driver\Xdebug;
+
+// autoload hack
+class_alias(AbstractPluginManager::class, Zend\ServiceManager\AbstractPluginManager::class);
 
 Filters::apply($this, 'coverage', function($next): void {
     if (! extension_loaded('xdebug')) {
