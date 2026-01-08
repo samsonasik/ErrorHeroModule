@@ -327,7 +327,7 @@ json
                 );
 
                 $request = $this->request;
-                $request  = $request->withHeader('X-Requested-With', 'XMLHttpRequest');
+                $request  = $request->withHeader('X-Requested-With', rand(0, 1) ? 'XMLHttpRequest' : 'XmlHttpRequest');
 
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($request)->andRun(function (): never {
@@ -401,7 +401,7 @@ json
                 );
 
                 $request  = $this->request;
-                $request  = $request->withHeader('X-Requested-With', 'XMLHttpRequest');
+                $request  = $request->withHeader('X-Requested-With', rand(0, 1) ? 'XMLHttpRequest' : 'XmlHttpRequest');
 
                 $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
                 allow($handler)->toReceive('handle')->with($request)->andRun(function (): never {
@@ -436,7 +436,7 @@ json
             );
 
             $request  = $this->request;
-            $request  = $request->withHeader('X-Requested-With', 'XMLHttpRequest');
+            $request  = $request->withHeader('X-Requested-With', rand(0, 1) ? 'XMLHttpRequest' : 'XmlHttpRequest');
 
             $handler  = Double::instance(['implements' => RequestHandlerInterface::class]);
             allow($handler)->toReceive('handle')->with($request)->andRun(function () use ($exception): never {
