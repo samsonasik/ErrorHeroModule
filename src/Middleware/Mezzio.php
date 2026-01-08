@@ -23,6 +23,7 @@ use Throwable;
 
 use function ErrorHeroModule\detectMessageContentType;
 use function ErrorHeroModule\isExcludedException;
+use function strcasecmp;
 
 final class Mezzio implements MiddlewareInterface
 {
