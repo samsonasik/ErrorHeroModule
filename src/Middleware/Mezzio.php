@@ -23,6 +23,7 @@ use Throwable;
 
 use function ErrorHeroModule\detectMessageContentType;
 use function ErrorHeroModule\isExcludedException;
+use function strcasecmp;
 
 final class Mezzio implements MiddlewareInterface
 {
@@ -101,7 +102,7 @@ final class Mezzio implements MiddlewareInterface
         /** @var  ServerRequestInterface $request */
         $request          = $this->request;
         $isXmlHttpRequest = $request->hasHeader('X-Requested-With')
-            && $request->getHeaderLine('X-Requested-With') === 'XmlHttpRequest';
+            && strcasecmp($request->getHeaderLine('X-Requested-With'), 'XMLHttpRequest') === 0;
 
         if (
             $isXmlHttpRequest &&
