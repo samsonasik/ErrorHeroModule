@@ -8,12 +8,13 @@ on:
 
 jobs:
   build:
-    name: PHP ${{ matrix.php-versions }}
+    name: PHP ${{ matrix.php-versions }} (${{ matrix.deps }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         php-versions: ['8.2', '8.3', '8.4']
+        deps: ['prefer-latest', 'prefer-lowest']
     steps:
       - name: Setup PHP Action
         uses: shivammathur/setup-php@v2
@@ -32,8 +33,13 @@ jobs:
         run: "mysql -u root -h 127.0.0.1 -e 'create database errorheromodule' && mysql -u root -h 127.0.0.1 errorheromodule < spec/Fixture/data/sql.sql"
       - name: "Validate composer.json"
         run: "composer validate"
-      - name: "Install dependencies"
-        run: "composer install --ignore-platform-reqs"
+      - name: "Install dependencies (${{ matrix.deps }})"
+        run: |
+          if [ "${{ matrix.deps }}" = "prefer-lowest" ]; then
+            composer update --prefer-lowest --prefer-stable --no-interaction --no-progress --ignore-platform-reqs
+          else
+            composer install --no-interaction --no-progress --ignore-platform-reqs
+          fi
       - name: "CS Check"
         run: "composer cs-check"
       - name: "Code analyze"
@@ -51,5 +57,4 @@ jobs:
           file: ./build/logs/clover.xml
           flags: tests
           name: codecov-umbrella
-          yml: ./codecov.yml
           fail_ci_if_error: true
