@@ -51,10 +51,11 @@ jobs:
           composer dump-autoload -o
           mkdir -p build/logs && bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build/logs/clover.xml
           flags: tests
           name: codecov-umbrella
+          codecov_yml_path: ./codecov.yml
           fail_ci_if_error: true
