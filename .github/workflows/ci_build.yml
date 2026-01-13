@@ -37,7 +37,7 @@ jobs:
         run: |
           if [ "${{ matrix.deps }}" = "prefer-lowest" ]; then
             composer install --no-interaction --no-progress --ignore-platform-reqs
-            composer update webmozart/assert:^1.11
+            composer update webmozart/assert:^1.11 --ignore-platform-reqs
           else
             composer install --no-interaction --no-progress --ignore-platform-reqs
           fi
