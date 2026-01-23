@@ -64,7 +64,6 @@ You can use 'db' (with _Laminas\Db_) config or 'doctrine' (with _DoctrineORMModu
 ```php
 <?php
 // config/autoload/local.php
-
 return [
     'db' => [
         'username' => 'mysqluser',
@@ -84,7 +83,6 @@ return [
 ```php
 <?php
 // config/autoload/local.php
-
 return [
     'doctrine' => [
         'connection' => [
