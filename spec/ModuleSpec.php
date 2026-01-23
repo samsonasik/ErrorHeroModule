@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Spec;
 
+use Pdo\Mysql;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDO\MySql\Driver;
 use Doctrine\ORM\EntityManager;
@@ -159,9 +160,13 @@ describe('Module', function (): void {
             $driver = Double::instance(['extends' => Driver::class, 'methods' => '__construct']);
             allow($driver)->toReceive('getName')->andReturn('pdo_mysql');
 
+            $pdoMysqlInitCommandAttr = defined(Mysql::class . '::ATTR_INIT_COMMAND')
+                ? Mysql::ATTR_INIT_COMMAND
+                : PDO::MYSQL_ATTR_INIT_COMMAND;
+
             allow($connection)->toReceive('getParams')->andReturn([
                 'driverOptions' => [
-                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
+                    $pdoMysqlInitCommandAttr => "SET NAMES 'UTF8'",
                 ],
             ]);
             allow($connection)->toReceive('getUsername')->andReturn('root');

@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Spec\Middleware;
 
+use Pdo\Mysql;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDO\MySql\Driver;
 use Doctrine\ORM\EntityManager;
@@ -27,7 +28,13 @@ describe('MezzioFactory', function (): void {
         Psr11PimpleContainer::class        => new Psr11PimpleContainer(new PimpleContainer()),
     ]);
 
-    given('config', fn() : array => [
+    given('config', function () : array {
+
+        $pdoMysqlInitCommandAttr = defined(Mysql::class . '::ATTR_INIT_COMMAND')
+            ? Mysql::ATTR_INIT_COMMAND
+            : PDO::MYSQL_ATTR_INIT_COMMAND;
+
+        return [
 
         'db' => [
             'username' => 'root',
@@ -35,7 +42,7 @@ describe('MezzioFactory', function (): void {
             'driver'   => 'pdo_mysql',
             'dsn'      => 'mysql:host=localhost;dbname=errorheromodule',
             'driver_options' => [
-                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
+                $pdoMysqlInitCommandAttr => "SET NAMES 'UTF8'",
             ],
             'adapters' => [
                 'my-adapter' => [
@@ -44,7 +51,7 @@ describe('MezzioFactory', function (): void {
                     'username' => 'root',
                     'password' => '',
                     'driver_options' => [
-                        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
+                        $pdoMysqlInitCommandAttr => "SET NAMES 'UTF8'",
                     ],
                 ],
             ],
@@ -121,7 +128,8 @@ describe('MezzioFactory', function (): void {
             ],
         ],
 
-    ]);
+        ];
+    });
 
     describe('__invoke()', function (): void {
 

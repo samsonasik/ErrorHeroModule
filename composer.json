@@ -58,7 +58,7 @@
     "require-dev": {
         "doctrine/dbal": "^3.9.3",
         "doctrine/doctrine-orm-module": "^4.2.1 || ^5.3",
-        "kahlan/kahlan": "^5.2.8",
+        "kahlan/kahlan": "^6.1",
         "laminas/laminas-cli": "^1.11",
         "laminas/laminas-coding-standard": "^3.0",
         "laminas/laminas-form": "^2.16 || ^3.21",
