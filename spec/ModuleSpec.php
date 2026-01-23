@@ -159,9 +159,13 @@ describe('Module', function (): void {
             $driver = Double::instance(['extends' => Driver::class, 'methods' => '__construct']);
             allow($driver)->toReceive('getName')->andReturn('pdo_mysql');
 
+            $pdoMysqlInitCommandAttr = defined('Pdo\\Mysql::ATTR_INIT_COMMAND')
+                ? \Pdo\Mysql::ATTR_INIT_COMMAND
+                : PDO::MYSQL_ATTR_INIT_COMMAND;
+
             allow($connection)->toReceive('getParams')->andReturn([
                 'driverOptions' => [
-                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
+                    $pdoMysqlInitCommandAttr => "SET NAMES 'UTF8'",
                 ],
             ]);
             allow($connection)->toReceive('getUsername')->andReturn('root');

@@ -3,6 +3,10 @@
 use Doctrine\DBAL\Driver\PDO\MySql\Driver;
 use Laminas\Db\Adapter\AdapterInterface;
 
+$pdoMysqlInitCommandAttr = defined('Pdo\\Mysql::ATTR_INIT_COMMAND')
+    ? \Pdo\Mysql::ATTR_INIT_COMMAND
+    : \PDO::MYSQL_ATTR_INIT_COMMAND;
+
 return [
 
     'doctrine' => [
@@ -16,7 +20,7 @@ return [
                     'host'     => '127.0.0.1',
                     'port'     => '3306',
                     'driverOptions' => [
-                        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
+                        $pdoMysqlInitCommandAttr => "SET NAMES 'UTF8'",
                     ],
                 ],
             ],

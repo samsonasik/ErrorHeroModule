@@ -4,6 +4,10 @@ namespace ErrorHeroModule\Spec\Fixture\config\autoload;
 
 use PDO;
 use Laminas\Db\Adapter\AdapterInterface;
+
+$pdoMysqlInitCommandAttr = defined('Pdo\\Mysql::ATTR_INIT_COMMAND')
+    ? \Pdo\Mysql::ATTR_INIT_COMMAND
+    : PDO::MYSQL_ATTR_INIT_COMMAND;
 return [
 
     'db' => [
@@ -12,7 +16,7 @@ return [
         'driver' => 'Pdo',
         'dsn' => 'mysql:dbname=errorheromodule;host=127.0.0.1',
         'driver_options' => [
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'",
+            $pdoMysqlInitCommandAttr => "SET NAMES 'UTF8'",
         ],
     ],
 
