@@ -20,7 +20,7 @@ jobs:
         with:
           extensions: intl
           php-version: "${{ matrix.php-versions }}"
-          coverage: xdebug
+          coverage: ${{ matrix.php-versions == '8.4' && 'xdebug' || 'none' }}
       - name: Setup MySQL
         uses: shogo82148/actions-setup-mysql@v1
         with:
@@ -40,11 +40,20 @@ jobs:
         run: |
           composer phpstan
           bin/rector process --dry-run
-      - name: "Run test suite"
+      - name: "Run test suite (no coverage)"
+        if: matrix.php-versions != '8.4'
+        run: |
+          composer dump-autoload -o
+          bin/kahlan
+
+      - name: "Run test suite (with coverage)"
+        if: matrix.php-versions == '8.4'
         run: |
           composer dump-autoload -o
           mkdir -p build/logs && bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml
+
       - name: Upload coverage to Codecov
+        if: matrix.php-versions == '8.4'
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
