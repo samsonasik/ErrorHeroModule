@@ -2,11 +2,12 @@
 
 namespace ErrorHeroModule\Spec\Fixture\config\autoload;
 
+use Pdo\Mysql;
 use PDO;
 use Laminas\Db\Adapter\AdapterInterface;
 
-$pdoMysqlInitCommandAttr = defined('Pdo\\Mysql::ATTR_INIT_COMMAND')
-    ? \Pdo\Mysql::ATTR_INIT_COMMAND
+$pdoMysqlInitCommandAttr = defined(Mysql::class . '::ATTR_INIT_COMMAND')
+    ? Mysql::ATTR_INIT_COMMAND
     : PDO::MYSQL_ATTR_INIT_COMMAND;
 return [
 

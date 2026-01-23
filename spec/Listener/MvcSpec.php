@@ -2,6 +2,7 @@
 
 namespace ErrorHeroModule\Spec\Listener;
 
+use Pdo\Mysql;
 use Closure;
 use ErrorException;
 use ErrorHeroModule\Compat\Logger;
@@ -271,8 +272,8 @@ describe('Mvc', function (): void {
                 'line' => 2
             ]);
 
-            $pdoMysqlInitCommandAttr = defined('Pdo\\Mysql::ATTR_INIT_COMMAND')
-                ? \Pdo\Mysql::ATTR_INIT_COMMAND
+            $pdoMysqlInitCommandAttr = defined(Mysql::class . '::ATTR_INIT_COMMAND')
+                ? Mysql::ATTR_INIT_COMMAND
                 : PDO::MYSQL_ATTR_INIT_COMMAND;
 
             $dbAdapter = new Adapter([

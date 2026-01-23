@@ -65,10 +65,6 @@ You can use 'db' (with _Laminas\Db_) config or 'doctrine' (with _DoctrineORMModu
 <?php
 // config/autoload/local.php
 
-$pdoMysqlInitCommandAttr = defined('Pdo\\Mysql::ATTR_INIT_COMMAND')
-    ? constant('Pdo\\Mysql::ATTR_INIT_COMMAND')
-    : \PDO::MYSQL_ATTR_INIT_COMMAND;
-
 return [
     'db' => [
         'username' => 'mysqluser',
@@ -77,7 +73,7 @@ return [
         'database' => 'mysqldbname',
         'host'     => 'mysqlhost',
         'driver_options' => [
-            $pdoMysqlInitCommandAttr => 'SET NAMES \'UTF8\'',
+            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
         ],
     ],
 ];
@@ -88,10 +84,6 @@ return [
 ```php
 <?php
 // config/autoload/local.php
-
-$pdoMysqlInitCommandAttr = defined('Pdo\\Mysql::ATTR_INIT_COMMAND')
-    ? constant('Pdo\\Mysql::ATTR_INIT_COMMAND')
-    : \PDO::MYSQL_ATTR_INIT_COMMAND;
 
 return [
     'doctrine' => [
@@ -105,7 +97,7 @@ return [
                     'host'     => 'mysqlhost',
                     'port'     => '3306',
                     'driverOptions' => [
-                        $pdoMysqlInitCommandAttr => 'SET NAMES \'UTF8\'',
+                        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
                     ],
                 ],
             ],

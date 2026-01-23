@@ -257,8 +257,6 @@ class Logger implements LoggerInterface
 
     /**
      * Shutdown all writers
-     *
-     * @return void
      */
     public function __destruct()
     {
