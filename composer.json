@@ -72,7 +72,8 @@
         "pimple/pimple": "^3.6.1",
         "rector/rector": "dev-main",
         "symfony/console": "^6.4.32",
-        "symfony/dependency-injection": "^5.4.48"
+        "symfony/dependency-injection": "^5.4.48",
+        "symfony/string": "^7.4.4"
     },
     "suggest": {
         "mezzio/mezzio-laminasviewrenderer": "^2.0 to be able to use laminas-view template engine in mezzio ^3.0",
