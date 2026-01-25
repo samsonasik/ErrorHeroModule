@@ -58,6 +58,7 @@
     "require-dev": {
         "doctrine/dbal": "^3.10.4",
         "doctrine/doctrine-orm-module": "^6.3.0",
+        "guzzlehttp/promises": "^2.3",
         "kahlan/kahlan": "^6.1",
         "laminas/laminas-cli": "^1.13",
         "laminas/laminas-coding-standard": "^3.1",
