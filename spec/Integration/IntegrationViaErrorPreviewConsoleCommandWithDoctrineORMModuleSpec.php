@@ -4,6 +4,7 @@ namespace ErrorHeroModule\Spec\Integration;
 
 use Doctrine\ORM\EntityManager;
 use ErrorHeroModule\Command\Preview\ErrorPreviewConsoleCommand;
+use ErrorHeroModule\Spec\Fixture\LaminasCacheModule;
 use Laminas\Mvc\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -14,6 +15,7 @@ describe('Integration via ErrorPreviewConsoleCommand with doctrine', function ()
         $application = Application::init([
             'modules' => [
                 'Laminas\Router',
+                LaminasCacheModule::class,
                 'DoctrineModule',
                 'DoctrineORMModule',
                 'ErrorHeroModule',
