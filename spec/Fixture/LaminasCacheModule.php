@@ -14,14 +14,14 @@ final class LaminasCacheModule
     /** @return array<string, mixed> */
     public function getConfig(): array
     {
-        $provider = new LaminasCacheConfigProvider();
+        $configProvider = new LaminasCacheConfigProvider();
 
         // laminas-cache exposes its ServiceManager wiring under the `dependencies` key.
         // Laminas MVC consumes `service_manager`, so we map it here.
         //
         // Also include the installed adapter packages' delegators so the AdapterPluginManager
         // knows how to create the configured adapters (e.g. Memory, Filesystem).
-        $serviceManagerConfig = $provider->getDependencyConfig();
+        $serviceManagerConfig = $configProvider->getDependencyConfig();
         $serviceManagerConfig['delegators'][AdapterPluginManager::class] ??= [];
         $serviceManagerConfig['delegators'][AdapterPluginManager::class] = array_values(array_unique(array_merge(
             $serviceManagerConfig['delegators'][AdapterPluginManager::class],
