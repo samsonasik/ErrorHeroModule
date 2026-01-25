@@ -7,6 +7,7 @@ namespace ErrorHeroModule\Handler\Formatter;
 use DateTime;
 use Laminas\Log\Formatter\FormatterInterface;
 use Laminas\Log\Formatter\Json as BaseJson;
+use Override;
 
 use function json_encode;
 use function str_replace;
@@ -18,13 +19,13 @@ use const PHP_EOL;
 
 final class Json extends BaseJson implements FormatterInterface
 {
-    /** @var string */
-    private const TIMESTAMP = 'timestamp';
+    private const string TIMESTAMP = 'timestamp';
 
     /**
      * @param array<string, DateTime> $event event data
      * @return string formatted line to write to the log
      */
+    #[Override]
     public function format($event): string
     {
         static $timestamp;

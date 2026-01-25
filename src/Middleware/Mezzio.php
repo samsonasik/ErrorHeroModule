@@ -31,8 +31,7 @@ final class Mezzio implements MiddlewareInterface
 
     private ?ServerRequestInterface $request = null;
 
-    /** @var string */
-    private const DISPLAY_SETTINGS = 'display-settings';
+    private const string DISPLAY_SETTINGS = 'display-settings';
 
     /**
      * @param array{exclude-exceptions: array, enable: bool, display-settings: array} $errorHeroModuleConfig

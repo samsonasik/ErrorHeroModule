@@ -40,26 +40,19 @@ final class Logging
 
     private readonly string $emailSender;
 
-    /** @var string */
-    private const PRIORITY = 'priority';
+    private const string PRIORITY = 'priority';
 
-    /** @var string */
-    private const ERROR_TYPE = 'errorType';
+    private const string ERROR_TYPE = 'errorType';
 
-    /** @var string */
-    private const ERROR_FILE = 'errorFile';
+    private const string ERROR_FILE = 'errorFile';
 
-    /** @var string */
-    private const ERROR_LINE = 'errorLine';
+    private const string ERROR_LINE = 'errorLine';
 
-    /** @var string */
-    private const TRACE = 'trace';
+    private const string TRACE = 'trace';
 
-    /** @var string */
-    private const ERROR_MESSAGE = 'errorMessage';
+    private const string ERROR_MESSAGE = 'errorMessage';
 
-    /** @var string */
-    private const SERVER_URL = 'server_url';
+    private const string SERVER_URL = 'server_url';
 
     public function __construct(
         private readonly Logger $logger,

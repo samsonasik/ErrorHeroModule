@@ -22,7 +22,7 @@ use const E_WARNING;
 final class HeroConstant
 {
     /** @var array<int, string> */
-    public const ERROR_TYPE = [
+    public const array ERROR_TYPE = [
         E_ERROR           => 'E_ERROR',
         E_WARNING         => 'E_WARNING',
         E_PARSE           => 'E_PARSE',
