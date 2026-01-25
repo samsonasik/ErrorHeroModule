@@ -8,12 +8,13 @@ on:
 
 jobs:
   build:
-    name: PHP ${{ matrix.php-versions }}
+    name: PHP ${{ matrix.php-versions }} (${{ matrix.dependency-versions }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         php-versions: ['8.3', '8.4', '8.5']
+        dependency-versions: ['lowest', 'latest']
     steps:
       - name: Setup PHP Action
         uses: shivammathur/setup-php@v2
@@ -27,13 +28,18 @@ jobs:
           mysql-version: '8.0'
       - run: mysql -uroot -h127.0.0.1 -e 'SELECT version()'
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Import DB
         run: "mysql -u root -h 127.0.0.1 -e 'create database errorheromodule' && mysql -u root -h 127.0.0.1 errorheromodule < spec/Fixture/data/sql.sql"
       - name: "Validate composer.json"
         run: "composer validate"
-      - name: "Install dependencies"
-        run: "composer install --ignore-platform-reqs"
+      - name: "Install dependencies (${{ matrix.dependency-versions }})"
+        run: |
+          if [ "${{ matrix.dependency-versions }}" = "lowest" ]; then
+            composer update --prefer-lowest --prefer-stable --no-interaction --no-progress --ignore-platform-reqs
+          else
+            composer update --no-interaction --no-progress --ignore-platform-reqs
+          fi
       - name: "CS Check"
         run: "composer cs-check"
       - name: "Code analyze"
@@ -41,19 +47,19 @@ jobs:
           composer phpstan
           bin/rector process --dry-run
       - name: "Run test suite (no coverage)"
-        if: matrix.php-versions != '8.4'
+        if: matrix.php-versions != '8.4' || matrix.dependency-versions != 'latest'
         run: |
           composer dump-autoload -o
           bin/kahlan
 
       - name: "Run test suite (with coverage)"
-        if: matrix.php-versions == '8.4'
+        if: matrix.php-versions == '8.4' && matrix.dependency-versions == 'latest'
         run: |
           composer dump-autoload -o
           mkdir -p build/logs && bin/kahlan --coverage=4 --reporter=verbose --clover=build/logs/clover.xml
 
       - name: Upload coverage to Codecov
-        if: matrix.php-versions == '8.4'
+        if: matrix.php-versions == '8.4' && matrix.dependency-versions == 'latest'
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
