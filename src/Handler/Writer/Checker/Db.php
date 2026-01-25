@@ -14,14 +14,11 @@ use function strtotime;
 
 final readonly class Db
 {
-    /** @var string */
-    private const OPTIONS = 'options';
+    private const string OPTIONS = 'options';
 
-    /** @var string */
-    private const COLUMN = 'column';
+    private const string COLUMN = 'column';
 
-    /** @var string */
-    private const EXTRA = 'extra';
+    private const string EXTRA = 'extra';
 
     public function __construct(
         private DbWriter $dbWriter,

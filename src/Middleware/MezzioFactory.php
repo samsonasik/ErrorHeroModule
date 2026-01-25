@@ -25,7 +25,7 @@ use function sprintf;
 final class MezzioFactory
 {
     /** @var array<string, string> */
-    private const CONTAINERS_TRANSFORM = [
+    private const array CONTAINERS_TRANSFORM = [
         ContainerBuilder::class     => SymfonyService::class,
         Psr11PimpleContainer::class => PimpleService::class,
     ];

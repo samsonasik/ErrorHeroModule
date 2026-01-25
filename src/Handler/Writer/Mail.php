@@ -13,6 +13,7 @@ use Laminas\Mail\Transport\TransportInterface;
 use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Mime;
 use Laminas\Mime\Part;
+use Override;
 
 use function fopen;
 use function implode;
@@ -26,8 +27,7 @@ use const PHP_EOL;
 
 final class Mail extends BaseMail
 {
-    /** @var string */
-    private const NAME = 'name';
+    private const string NAME = 'name';
 
     /**
      * @throws LogException\InvalidArgumentException
@@ -45,6 +45,7 @@ final class Mail extends BaseMail
      *
      * Override with apply attachment whenever there is $_FILES data
      */
+    #[Override]
     public function shutdown(): void
     {
         // Always provide events to mail as plaintext.

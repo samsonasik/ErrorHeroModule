@@ -9,8 +9,7 @@ use Laminas\Db\Adapter\Adapter;
 
 abstract class TransformerAbstract
 {
-    /** @var string */
-    private const DB = 'db';
+    private const string DB = 'db';
 
     /**
      * @return array{array{name: string, options: array}}

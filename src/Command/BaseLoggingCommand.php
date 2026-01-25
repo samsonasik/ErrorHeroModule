@@ -6,6 +6,7 @@ namespace ErrorHeroModule\Command;
 
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\HeroTrait;
+use Override;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,8 +19,7 @@ abstract class BaseLoggingCommand extends Command
 {
     use HeroTrait;
 
-    /** @var string */
-    private const DISPLAY_SETTINGS = 'display-settings';
+    private const string DISPLAY_SETTINGS = 'display-settings';
 
     private array $errorHeroModuleConfig;
 
@@ -36,6 +36,7 @@ abstract class BaseLoggingCommand extends Command
         $this->logging               = $logging;
     }
 
+    #[Override]
     public function run(InputInterface $input, OutputInterface $output): int
     {
         try {

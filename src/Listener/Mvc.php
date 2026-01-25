@@ -26,11 +26,9 @@ final class Mvc extends AbstractListenerAggregate
 
     private ?MvcEvent $mvcEvent = null;
 
-    /** @var string */
-    private const DISPLAY_SETTINGS = 'display-settings';
+    private const string DISPLAY_SETTINGS = 'display-settings';
 
-    /** @var string */
-    private const MESSAGE = 'message';
+    private const string MESSAGE = 'message';
 
     public function __construct(
         private readonly array $errorHeroModuleConfig,
