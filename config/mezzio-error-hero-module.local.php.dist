@@ -9,7 +9,7 @@ use ErrorHeroModule\Command\BaseLoggingCommandInitializer;
 use ErrorHeroModule\Compat\LoggerAbstractServiceFactory;
 use ErrorHeroModule\Middleware\Mezzio;
 use ErrorHeroModule\Middleware\MezzioFactory;
-use ErrorHeroModule\ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction;
+use ErrorHeroModule\Middleware\Routed\Preview\ErrorPreviewAction;
 use ErrorHeroModule\Handler\Logging;
 use ErrorHeroModule\Handler\LoggingFactory;
 use ErrorHeroModule\Command\BaseLoggingCommand;
