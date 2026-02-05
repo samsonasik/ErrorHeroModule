@@ -130,7 +130,21 @@ describe('Module', function (): void {
             $driver = Double::instance(['extends' => Driver::class, 'methods' => '__construct']);
             allow($driver)->toReceive('getName')->andReturn('pdo_mysql');
 
-            allow($connection)->toReceive('getParams')->andReturn([]);
+            $pdoMysqlInitCommandAttr = defined(Mysql::class . '::ATTR_INIT_COMMAND')
+                ? Mysql::ATTR_INIT_COMMAND
+                : PDO::MYSQL_ATTR_INIT_COMMAND;
+
+            allow($connection)->toReceive('getParams')->andReturn([
+                'user'     => 'mysqluser',
+                'password' => 'mysqlpassword',
+                'dbname'   => 'mysqldbname',
+                'host'     => 'mysqlhost',
+                'port'     => '3306',
+                'driverOptions' => [
+                    $pdoMysqlInitCommandAttr => "SET NAMES 'UTF8'",
+                ],
+                'driverClass' => Driver::class,
+            ]);
             allow($connection)->toReceive('getUsername')->andReturn('root');
             allow($connection)->toReceive('getPassword')->andReturn('');
             allow($connection)->toReceive('getDriver')->andReturn($driver);
@@ -165,9 +179,15 @@ describe('Module', function (): void {
                 : PDO::MYSQL_ATTR_INIT_COMMAND;
 
             allow($connection)->toReceive('getParams')->andReturn([
+                'user'     => 'mysqluser',
+                'password' => 'mysqlpassword',
+                'dbname'   => 'mysqldbname',
+                'host'     => 'mysqlhost',
+                'port'     => '3306',
                 'driverOptions' => [
                     $pdoMysqlInitCommandAttr => "SET NAMES 'UTF8'",
                 ],
+                'driverClass' => Driver::class,
             ]);
             allow($connection)->toReceive('getUsername')->andReturn('root');
             allow($connection)->toReceive('getPassword')->andReturn('');
