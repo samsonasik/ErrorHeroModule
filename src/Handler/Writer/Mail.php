@@ -77,7 +77,6 @@ final class Mail extends BaseMail
         try {
             $this->transport->send($this->mail);
         } catch (Exception $exception) {
-            /** @var string $message */
             $message = $exception->getMessage();
             /** @var int $code */
             $code = $exception->getCode();
