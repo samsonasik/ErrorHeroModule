@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ErrorHeroModule\Spec\Fixture\config\autoload;
 
 use Pdo\Mysql;

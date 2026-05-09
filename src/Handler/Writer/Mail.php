@@ -25,6 +25,9 @@ use function trigger_error;
 use const E_USER_WARNING;
 use const PHP_EOL;
 
+/**
+ * @property-read array<string> $eventsToMail
+ */
 final class Mail extends BaseMail
 {
     private const string NAME = 'name';

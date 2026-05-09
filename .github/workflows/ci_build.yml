@@ -44,6 +44,7 @@ jobs:
         run: "composer cs-check"
       - name: "Code analyze"
         run: |
+          bin/structarmed analyze
           composer phpstan
           bin/rector process --dry-run
       - name: "Run test suite (no coverage)"
