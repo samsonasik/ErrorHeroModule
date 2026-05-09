@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Pdo\Mysql;
 use Doctrine\DBAL\Driver\PDO\MySql\Driver;
 use Laminas\Db\Adapter\AdapterInterface;
