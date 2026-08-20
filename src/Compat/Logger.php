@@ -465,7 +465,9 @@ class Logger implements LoggerInterface
             throw new InvalidArgumentException(
                 '$extra must be an array or implement Traversable'
             );
-        } elseif ($extra instanceof Traversable) {
+        }
+
+        if ($extra instanceof Traversable) {
             $extra = ArrayUtils::iteratorToArray($extra);
         }
 

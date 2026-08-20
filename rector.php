@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\DeadCode\Rector\Property\RemoveDefaultValueFromAssignedPropertyRector;
 use Rector\Php81\Rector\Array_\ArrayToFirstClassCallableRector;
 
 return RectorConfig::configure()
@@ -23,4 +24,7 @@ return RectorConfig::configure()
         __DIR__ . '/src/Command/Preview',
         __DIR__ . '/src/Middleware/Routed/Preview',
         ArrayToFirstClassCallableRector::class,
+        RemoveDefaultValueFromAssignedPropertyRector::class => [
+            __DIR__ . '/src/Handler/Logging.php',
+        ],
     ]);
