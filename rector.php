@@ -24,7 +24,6 @@ return RectorConfig::configure()
         __DIR__ . '/src/Command/Preview',
         __DIR__ . '/src/Middleware/Routed/Preview',
         ArrayToFirstClassCallableRector::class,
-
         RemoveDefaultValueFromAssignedPropertyRector::class => [
             __DIR__ . '/src/Handler/Logging.php',
         ],
