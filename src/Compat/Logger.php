@@ -18,6 +18,7 @@ use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\ArrayUtils;
 use Laminas\Stdlib\SplPriorityQueue;
+use Throwable;
 use Traversable;
 
 use function array_reverse;
@@ -718,7 +719,7 @@ class Logger implements LoggerInterface
                     'extra'    => $extra,
                 ];
                 $exception     = $exception->getPrevious();
-            } while ($exception);
+            } while ($exception instanceof Throwable);
 
             foreach (array_reverse($logMessages) as $logMessage) {
                 $logger->log($logMessage['priority'], $logMessage['message'], $logMessage['extra']);
